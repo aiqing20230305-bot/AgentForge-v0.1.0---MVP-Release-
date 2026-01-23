@@ -34,7 +34,11 @@ export default function ItemTooltip({ item, showSlot }: ItemTooltipProps) {
               color: CATEGORY_COLORS[item.category]
             }}
           >
-            {CATEGORY_ICONS[item.category]} {item.category}
+            {(() => {
+              const Icon = CATEGORY_ICONS[item.category]
+              return <Icon size={12} className="inline mr-1" />
+            })()}
+            {item.category}
           </span>
           <span
             className="text-xs capitalize"

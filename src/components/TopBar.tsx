@@ -1,5 +1,7 @@
 import { useBuildStore } from '../stores/buildStore'
 import TokenBudgetBar from './TokenBudgetBar'
+import SaveAgentModal from './SaveAgentModal'
+import { useState } from 'react'
 
 export default function TopBar() {
   const {
@@ -10,6 +12,8 @@ export default function TopBar() {
     exportToClaudeDir,
     isLoading
   } = useBuildStore()
+
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
 
   return (
     <div className="h-12 flex items-center justify-between px-4 bg-gradient-to-r from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a] border-b-2 border-[#4a4a4a] shadow-lg">
@@ -65,7 +69,7 @@ export default function TopBar() {
             </button>
             <div className="h-px bg-[#3a3a3a] my-1" />
             <button
-              onClick={() => exportToClaudeDir()}
+              onClick={() => setIsSaveModalOpen(true)}
               className="w-full px-4 py-2 text-left text-sm text-green-400 hover:bg-[#2a2a2a] flex items-center gap-2"
             >
               <span>🤖</span> Save to .claude/
@@ -82,6 +86,12 @@ export default function TopBar() {
           <span className="text-amber-100">⚙️</span>
         </button>
       </div>
+
+      <SaveAgentModal
+        isOpen={isSaveModalOpen}
+        onClose={() => setIsSaveModalOpen(false)}
+        onSave={(filename) => exportToClaudeDir(filename)}
+      />
     </div>
   )
 }

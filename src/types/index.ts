@@ -156,33 +156,52 @@ export const CATEGORY_COLORS: Record<Category, string> = {
   tools: '#55a3ff'
 }
 
-// Category icons (using emoji for simplicity)
-export const CATEGORY_ICONS: Record<Category, string> = {
-  roles: '👤',
-  skills: '⚡',
-  behaviors: '🎭',
-  personalities: '💫',
-  constraints: '🚫',
-  contexts: '📍',
-  formats: '📋',
-  tools: '🔧'
+// Category icons
+import {
+  User,
+  Zap,
+  Drama,
+  Sparkles,
+  Ban,
+  MapPin,
+  Clipboard,
+  Wrench,
+  Crown,
+  Shield,
+  Hand,
+  Footprints,
+  Circle,
+  Sword,
+  Hammer
+} from 'lucide-react'
+
+// Category icons
+export const CATEGORY_ICONS: Record<Category, any> = {
+  roles: User,
+  skills: Zap,
+  behaviors: Drama,
+  personalities: Sparkles,
+  constraints: Ban,
+  contexts: MapPin,
+  formats: Clipboard,
+  tools: Wrench
 }
 
 // Slot icons
-export const SLOT_ICONS: Record<SlotType, string> = {
-  HEAD: '👑',
-  CHEST_1: '🛡️',
-  CHEST_2: '🛡️',
-  HANDS_1: '🖐️',
-  HANDS_2: '🖐️',
-  HANDS_3: '🖐️',
-  LEGS_1: '🦵',
-  LEGS_2: '🦵',
-  FEET: '👢',
-  RING1: '💍',
-  RING2: '💍',
-  WEAPON: '⚔️',
-  OFFHAND: '🛠️'
+export const SLOT_ICONS: Record<SlotType, any> = {
+  HEAD: Crown,
+  CHEST_1: Shield,
+  CHEST_2: Shield,
+  HANDS_1: Hand,
+  HANDS_2: Hand,
+  HANDS_3: Hand,
+  LEGS_1: Footprints, // Legs/Feet logic
+  LEGS_2: Footprints,
+  FEET: Footprints,
+  RING1: Circle,
+  RING2: Circle,
+  WEAPON: Sword,
+  OFFHAND: Hammer
 }
 
 export interface DragItem {

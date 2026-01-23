@@ -63,7 +63,10 @@ export default function InventoryItem({ item }: InventoryItemProps) {
             className="text-2xl"
             style={{ color: CATEGORY_COLORS[item.category] }}
           >
-            {CATEGORY_ICONS[item.category]}
+            {(() => {
+              const Icon = CATEGORY_ICONS[item.category]
+              return <Icon size={24} />
+            })()}
           </span>
         </div>
       </div>
@@ -91,7 +94,10 @@ export default function InventoryItem({ item }: InventoryItemProps) {
             {/* Category */}
             <div className="flex items-center gap-1 mb-2">
               <span style={{ color: CATEGORY_COLORS[item.category] }}>
-                {CATEGORY_ICONS[item.category]}
+                {(() => {
+                  const Icon = CATEGORY_ICONS[item.category]
+                  return <Icon size={14} />
+                })()}
               </span>
               <span
                 className="text-xs capitalize"

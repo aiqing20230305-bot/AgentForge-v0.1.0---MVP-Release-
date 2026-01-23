@@ -62,7 +62,7 @@ interface BuildState {
 
   exportToFile: () => Promise<string | null>
   exportToClipboard: () => Promise<void>
-  exportToClaudeDir: () => Promise<boolean>
+  exportToClaudeDir: (filename: string) => Promise<boolean>
 }
 
 const DEFAULT_SETTINGS: Settings = {
@@ -390,15 +390,38 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     await navigator.clipboard.writeText(get().generatedMarkdown)
   },
 
-  exportToClaudeDir: async () => {
-    const { generatedMarkdown } = get()
-    if (!generatedMarkdown) {
-      get().regenerateMarkdown()
+  exportToClaudeDir: async (filename: string) => {
+    const { equippedSlots } = get()
+    const items: AgentItem[] = []
+
+    // Collect items in a logical order
+    const slotOrder: SlotType[] = [
+      'HEAD', 'CHEST_1', 'CHEST_2', 'WEAPON',
+      'HANDS_1', 'HANDS_2', 'HANDS_3',
+      'RING1', 'RING2',
+      'LEGS_1', 'LEGS_2',
+      'FEET', 'OFFHAND'
+    ]
+
+    for (const slotType of slotOrder) {
+      const item = equippedSlots[slotType]
+      if (item) {
+        items.push(item)
+      }
     }
 
-    const homeDir = await window.electronAPI.getHomeDir()
-    const claudePath = `${homeDir}/.claude/agents.md`
+    // Use filename as agent name (minus extension)
+    const agentName = filename.replace(/\.md$/, '')
+    const markdown = generateMarkdown(items, agentName)
 
-    return window.electronAPI.writeFile(claudePath, get().generatedMarkdown)
+    // Update state to reflect what was saved
+    set({ generatedMarkdown: markdown })
+
+    const homeDir = await window.electronAPI.getHomeDir()
+    // Ensure filename ends with .md
+    const safeFilename = filename.endsWith('.md') ? filename : `${filename}.md`
+    const claudePath = `${homeDir}/.claude/agents/${safeFilename}`
+
+    return window.electronAPI.writeFile(claudePath, markdown)
   }
 }))

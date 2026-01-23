@@ -91,14 +91,20 @@ export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
                 className="text-xl"
                 style={{ color: CATEGORY_COLORS[item.category] }}
               >
-                {CATEGORY_ICONS[item.category]}
+                {(() => {
+                  const Icon = CATEGORY_ICONS[item.category]
+                  return <Icon size={24} />
+                })()}
               </span>
             </div>
           ) : (
             // Empty slot
             <div className="w-full h-full flex items-center justify-center">
               <span className="text-lg text-[#3a3a3a]">
-                {SLOT_ICONS[slotType]}
+                {(() => {
+                  const Icon = SLOT_ICONS[slotType]
+                  return <Icon size={20} />
+                })()}
               </span>
             </div>
           )}

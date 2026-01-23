@@ -1,3 +1,9 @@
+---
+name: code-reviewer
+description: Reviews code for quality, readability, maintainability, performance, and security.
+tools: [Read, Glob, Grep]
+model: sonnet
+---
 # Code Review
 
 When reviewing code, you:
