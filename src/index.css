@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #0a0a0f;
+  color: #e5e5e5;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #12121a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a3a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a4a6a;
+}
+
+/* Selection */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #fff;
+}
+
+/* Drag and drop styles */
+.dragging {
+  opacity: 0.5;
+  transform: scale(1.05);
+}
+
+.drag-over {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: #00d4ff !important;
+}
+
+/* Rarity glow animations */
+@keyframes legendaryGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 128, 0, 0.4), inset 0 0 10px rgba(255, 128, 0, 0.1); }
+  50% { box-shadow: 0 0 20px rgba(255, 128, 0, 0.6), inset 0 0 15px rgba(255, 128, 0, 0.2); }
+}
+
+@keyframes epicGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(163, 53, 238, 0.4), inset 0 0 8px rgba(163, 53, 238, 0.1); }
+  50% { box-shadow: 0 0 15px rgba(163, 53, 238, 0.5), inset 0 0 12px rgba(163, 53, 238, 0.15); }
+}
+
+.rarity-legendary {
+  animation: legendaryGlow 2s ease-in-out infinite;
+}
+
+.rarity-epic {
+  animation: epicGlow 2.5s ease-in-out infinite;
+}
+
+/* Slot highlight */
+.slot-highlight {
+  position: relative;
+}
+
+.slot-highlight::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: absolute;
+  z-index: 1000;
+  max-width: 300px;
+  padding: 12px;
+  background: linear-gradient(135deg, #1a1a24 0%, #12121a 100%);
+  border: 1px solid #4a4a6a;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* Humanoid silhouette */
+.humanoid-silhouette {
+  background: radial-gradient(ellipse at center, rgba(30, 30, 50, 0.5) 0%, transparent 70%);
+}
+
+/* Token budget bar gradient */
+.budget-bar-gradient {
+  background: linear-gradient(90deg,
+    #22c55e 0%,
+    #22c55e 50%,
+    #f59e0b 75%,
+    #ef4444 100%
+  );
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(26, 26, 36, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(74, 74, 106, 0.3);
+}
+
+/* Panel styles */
+.panel {
+  background: linear-gradient(180deg, #12121a 0%, #0a0a0f 100%);
+  border: 1px solid #2a2a3a;
+}
+
+/* Button base */
+.btn {
+  @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+}
+
+.btn-primary {
+  @apply bg-accent-purple hover:bg-purple-600 text-white shadow-glow-purple;
+}
+
+.btn-secondary {
+  @apply bg-bg-tertiary hover:bg-border-dark text-text-primary border border-border-dark;
+}
+
+/* Category colors */
+.category-roles { color: #ff6b6b; }
+.category-skills { color: #4ecdc4; }
+.category-behaviors { color: #45b7d1; }
+.category-personalities { color: #f9ca24; }
+.category-constraints { color: #eb4d4b; }
+.category-contexts { color: #6c5ce7; }
+.category-formats { color: #a29bfe; }
+.category-tools { color: #55a3ff; }
