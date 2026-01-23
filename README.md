@@ -1,18 +1,21 @@
-# Agent Builder
+# World of Claudecraft ⚔️🤖
 
-A visual "agents.md builder" with WoW-style equipment UI. Drag and drop markdown files into equipment slots to build a combined agent configuration.
+**Gamified Agent Builder.** Agent Builder with RPG loadout.
 
-## Features
+Instead of writing md files, equip your agent like an RPG character. Drag and drop equipment into slots to build a combined agent configuration.
 
-- **Visual Equipment UI**: WoW-inspired character equipment interface
-- **Drag & Drop**: Drag items from inventory to equipment slots
-- **Token Budget**: Track token usage with budget limits
-- **Category System**: Items categorized as roles, skills, behaviors, etc.
-- **Rarity System**: Items colored by token count (common → legendary)
-- **Loadouts**: Save and load different equipment configurations
-- **Export**: Save to file, clipboard, or directly to ~/.claude/agents.md
+![World of Claudecraft]![alt text](image.png)
 
-## Getting Started
+## ✨ Features
+
+- **🛡️ Visual Equipment UI**: WoW-inspired character equipment interface
+- **🐉 Drag & Drop**: Drag items from inventory to equipment slots
+- **💰 Token Budget**: Track token usage with budget limits and rarity colors
+- **📜 Category System**: Items categorized as roles, skills, behaviors, etc.
+- **💾 Loadouts**: Save and load different equipment configurations
+- **🚀 Export**: Save directly to `~/.claude/agents.md` or clipboard
+
+## 🎮 Getting Started
 
 ```bash
 # Install dependencies
@@ -22,41 +25,24 @@ npm install
 npm run dev
 ```
 
-## Slot Configuration
+## ⚔️ Slot Configuration
+
+Each slot represents a different aspect of your agent's personality and capabilities:
 
 | Slot | Category | Description |
 |------|----------|-------------|
-| HEAD | roles | Primary role/persona |
-| CHEST | behaviors | Behavioral patterns |
-| HANDS | skills | Abilities and skills |
-| LEGS | constraints | Rules and limitations |
-| FEET | formats | Output formatting |
-| RING 1 | personalities | Communication style |
-| RING 2 | contexts | Situational context |
-| WEAPON | any | Wildcard slot |
-| OFFHAND | tools | Tool integrations |
+| **HEAD** | `roles` | Primary role & persona |
+| **CHEST** | `behaviors` | Core behavioral patterns |
+| **HANDS** | `skills` | Abilities & specific skills |
+| **LEGS** | `constraints` | Rules & operational boundaries |
+| **FEET** | `formats` | Output formatting rules |
+| **RINGS** | `personalities`/`contexts` | Communication style & Context |
+| **OFFHAND** | `tools` | Tool integrations (MCP, scripts) |
 
-## Rarity Thresholds
+## 🛠️ Tech Stack
 
-| Tokens | Rarity | Color |
-|--------|--------|-------|
-| 0-50 | Common | Gray |
-| 51-100 | Uncommon | Green |
-| 101-200 | Rare | Blue |
-| 201-400 | Epic | Purple |
-| 401+ | Legendary | Orange |
-
-## Sample Components
-
-Check the `sample-components/` folder for example agent component files.
-
-## Tech Stack
-
-- Electron
-- React 18 + TypeScript
-- Vite
-- Tailwind CSS
-- Zustand (state management)
-- react-dnd (drag and drop)
-- gpt-tokenizer (token counting)
-- electron-store (persistence)
+- **Electron** & **React 18**
+- **TypeScript** & **Vite**
+- **Tailwind CSS** for styling
+- **Zustand** for state management
+- **react-dnd** for drag-and-drop interactions
