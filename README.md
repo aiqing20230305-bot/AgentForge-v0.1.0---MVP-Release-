@@ -13,7 +13,7 @@ Instead of writing md files, equip your Claude agent like an RPG character. Drag
 - **💰 Token Budget**: Track token usage with budget limits and rarity colors
 - **📜 Category System**: Items categorized as roles, skills, behaviors, etc.
 - **💾 Loadouts**: Save and load different equipment configurations
-- **🚀 Export**: Save directly to `~/.claude/agents.md` or clipboard
+- **🚀 Export**: Save directly to `~/.claude/agents/your-agent-name.md` or clipboard
 
 ## 🎮 Getting Started
 
