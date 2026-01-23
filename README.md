@@ -2,9 +2,9 @@
 
 **Gamified Agent Builder.** Agent Builder with RPG loadout.
 
-Instead of writing md files, equip your agent like an RPG character. Drag and drop equipment into slots to build a combined agent configuration.
+Instead of writing md files, equip your Claude agent like an RPG character. Drag and drop equipment into slots to build a combined agent configuration.
 
-![World of Claudecraft]![alt text](image.png)
+![World of Claudecraft](image.png)
 
 ## ✨ Features
 
