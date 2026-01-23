@@ -25,6 +25,12 @@ npm install
 npm run dev
 ```
 
+### 📂 Using Sample items
+To play with our samples:
+1. Click the **Gear Icon** (Settings) in the UI.
+2. Select the `sample-components` directory.
+3. The inventory will populate with the sample items.
+
 ## ⚔️ Slot Configuration
 
 Each slot represents a different aspect of your agent's personality and capabilities:
