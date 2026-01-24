@@ -4,7 +4,7 @@
 
 Instead of writing md files, equip your Claude agent like an RPG character. Drag and drop equipment into slots to build a combined agent configuration.
 
-![World of Claudecraft](image.png)
+![World of Claudecraft](main.png)
 
 ## ✨ Features
 
@@ -44,6 +44,22 @@ Each slot represents a different aspect of your agent's personality and capabili
 | **FEET** | `formats` | Output formatting rules |
 | **RINGS** | `personalities`/`contexts` | Communication style & Context |
 | **OFFHAND** | `tools` | Tool integrations (MCP, scripts) |
+
+
+## 📤 Exporting Agents
+
+1. **Initiate Export**: Click the **Export** button in the preview panel and select "Save to Claude".
+   
+   ![Export Menu](image-1.png)
+
+2. **Name Your Agent**: Enter a unique name for your agent configuration.
+   
+   ![Agent Naming Modal](image-2.png)
+
+3. **Activate in Claude**: Execute the `/agent` command in Claude to see and use your new agent.
+   
+   ![Claude Agent Integration](image-3.png)
+
 
 ## 🛠️ Tech Stack
 

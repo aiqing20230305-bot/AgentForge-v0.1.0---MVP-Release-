@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useDrop } from 'react-dnd'
 import { useBuildStore } from '../stores/buildStore'
 import {
@@ -10,6 +12,7 @@ import {
   type SlotType,
   type DragItem
 } from '../types'
+import { formatTokens } from '../utils/tokenizer'
 
 interface EquipmentSlotProps {
   slotType: SlotType
@@ -17,6 +20,8 @@ interface EquipmentSlotProps {
 
 export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
   const { equippedSlots, equipItem, unequipItem, canEquipItem, draggingItem } = useBuildStore()
+  const [showTooltip, setShowTooltip] = useState(false)
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 })
   const item = equippedSlots[slotType]
   const config = SLOT_CONFIG[slotType]
 
@@ -57,6 +62,12 @@ export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
     <div
       ref={drop}
       onContextMenu={handleRightClick}
+      onMouseEnter={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        setTooltipPos({ x: rect.right + 8, y: rect.top })
+        setShowTooltip(true)
+      }}
+      onMouseLeave={() => setShowTooltip(false)}
       className={`
         relative w-12 h-12 cursor-pointer transition-all duration-150
         ${getRarityGlow()}
@@ -125,16 +136,70 @@ export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
         </div>
       )}
 
-      {/* Item name tooltip on hover when equipped */}
-      {item && (
-        <div className="absolute left-full ml-2 top-0 opacity-0 hover:opacity-100 transition-opacity pointer-events-none z-50">
+      {/* Rich tooltip for equipped item */}
+      {showTooltip && item && !draggingItem && createPortal(
+        <div
+          className="fixed z-[9999] pointer-events-none"
+          style={{ left: tooltipPos.x, top: tooltipPos.y }}
+        >
           <div
-            className="px-2 py-1 rounded text-xs whitespace-nowrap bg-black/95 border"
-            style={{ borderColor: RARITY_COLORS[item.rarity], color: RARITY_COLORS[item.rarity] }}
+            className="w-64 p-3 rounded bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-2 shadow-xl"
+            style={{ borderColor: RARITY_COLORS[item.rarity] }}
           >
-            {item.name}
+            {/* Item name */}
+            <h3
+              className="font-bold text-sm mb-1"
+              style={{ color: RARITY_COLORS[item.rarity] }}
+            >
+              {item.name}
+            </h3>
+
+            {/* Category */}
+            <div className="flex items-center gap-1 mb-2">
+              <span style={{ color: CATEGORY_COLORS[item.category] }}>
+                {(() => {
+                  const Icon = CATEGORY_ICONS[item.category]
+                  return <Icon size={14} />
+                })()}
+              </span>
+              <span
+                className="text-xs capitalize"
+                style={{ color: CATEGORY_COLORS[item.category] }}
+              >
+                {item.category}
+              </span>
+            </div>
+
+            {/* Divider */}
+            <div className="h-px bg-[#3a3a3a] my-2" />
+
+            {/* Content preview */}
+            <p className="text-[11px] text-amber-100/70 leading-relaxed line-clamp-4">
+              {item.content.slice(0, 150)}{item.content.length > 150 ? '...' : ''}
+            </p>
+
+            {/* Divider */}
+            <div className="h-px bg-[#3a3a3a] my-2" />
+
+            {/* Stats */}
+            <div className="flex justify-between text-[10px]">
+              <span className="text-amber-100/50">Tokens</span>
+              <span className="text-amber-400">{formatTokens(item.tokens)}</span>
+            </div>
+            <div className="flex justify-between text-[10px]">
+              <span className="text-amber-100/50">Rarity</span>
+              <span style={{ color: RARITY_COLORS[item.rarity] }} className="capitalize">
+                {item.rarity}
+              </span>
+            </div>
+
+            {/* Unequip hint */}
+            <div className="mt-2 text-[10px] text-zinc-500 text-center italic">
+              Right-click to unequip
+            </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   )

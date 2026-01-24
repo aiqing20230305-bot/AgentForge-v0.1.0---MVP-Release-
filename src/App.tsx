@@ -28,7 +28,7 @@ function App() {
 
         <div className="flex-1 flex min-h-0">
           {/* Character Equipment Panel */}
-          <div className="w-[280px] flex-shrink-0 border-r-2 border-[#4a4a4a] overflow-y-auto">
+          <div className="w-[380px] flex-shrink-0 border-r-2 border-[#4a4a4a] overflow-y-auto">
             <CharacterPanel />
           </div>
 

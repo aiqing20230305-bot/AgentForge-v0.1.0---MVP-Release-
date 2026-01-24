@@ -3,6 +3,15 @@ import { SLOT_CONFIG } from '../types'
 import EquipmentSlot from './EquipmentSlot'
 import LoadoutPanel from './LoadoutPanel'
 
+
+import headLayer from '../assets/character/head_layer.png'
+import chestLayer from '../assets/character/chest_layer.png'
+import handsLayer from '../assets/character/hands_layer.png'
+import legsLayer from '../assets/character/legs_layer.png'
+import feetLayer from '../assets/character/feet_layer.png'
+import weaponLayer from '../assets/character/weapon_layer.png'
+import offhandLayer from '../assets/character/offhand_layer.png'
+
 export default function CharacterPanel() {
   const { equippedSlots, clearAllSlots, getTotalTokens } = useBuildStore()
 
@@ -36,25 +45,90 @@ export default function CharacterPanel() {
 
       {/* WoW-style character frame */}
       <div className="flex-1 relative p-2">
-        <div className="h-full rounded-lg border-2 border-[#4a4a4a] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] shadow-[inset_0_0_30px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="h-full rounded-lg border-2 border-[#4a4a4a] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] shadow-[inset_0_0_30px_rgba(0,0,0,0.5)] overflow-hidden relative group">
 
-          {/* Character silhouette background */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
-            <div className="w-32 h-64 relative">
-              {/* Head */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-b from-amber-900/50 to-amber-950/50 border border-amber-800/30" />
-              {/* Body */}
-              <div className="absolute top-12 left-1/2 -translate-x-1/2 w-16 h-24 rounded-lg bg-gradient-to-b from-amber-900/40 to-amber-950/40 border border-amber-800/20" />
+          {/* Character Paper Doll System */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div className="relative w-full h-full max-w-[360px] max-h-[600px]">
+
+              {/* Layers - Z-Index Ordered */}
+
+              {/* Feet */}
+              {equippedSlots.FEET && (
+                <img
+                  src={feetLayer}
+                  alt="Feet"
+                  className="absolute top-[68%] left-1/2 -translate-x-1/2 w-[42%] h-auto object-contain z-10 filter drop-shadow-lg"
+                />
+              )}
+
               {/* Legs */}
-              <div className="absolute top-36 left-1/2 -translate-x-1/2 flex gap-2">
-                <div className="w-6 h-20 rounded bg-gradient-to-b from-amber-900/30 to-amber-950/30 border border-amber-800/20" />
-                <div className="w-6 h-20 rounded bg-gradient-to-b from-amber-900/30 to-amber-950/30 border border-amber-800/20" />
-              </div>
+              {(equippedSlots.LEGS_1 || equippedSlots.LEGS_2) && (
+                <img
+                  src={legsLayer}
+                  alt="Legs"
+                  className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[56%] h-auto object-contain z-20 filter drop-shadow-lg"
+                />
+              )}
+
+              {/* Chest */}
+              {(equippedSlots.CHEST_1 || equippedSlots.CHEST_2) && (
+                <img
+                  src={chestLayer}
+                  alt="Chest"
+                  className="absolute top-[12%] left-1/2 -translate-x-1/2 w-[55%] h-auto object-contain z-30 filter drop-shadow-lg"
+                />
+              )}
+
+              {/* Hands (Gauntlets) - Left */}
+              {(equippedSlots.HANDS_1 || equippedSlots.HANDS_2 || equippedSlots.HANDS_3) && (
+                <img
+                  src={handsLayer}
+                  alt="Left Hand"
+                  className="absolute top-[25%] left-[12%] w-[28%] h-auto object-contain z-40 filter drop-shadow-lg"
+                />
+              )}
+
+              {/* Hands (Gauntlets) - Right (Mirrored) */}
+              {(equippedSlots.HANDS_1 || equippedSlots.HANDS_2 || equippedSlots.HANDS_3) && (
+                <img
+                  src={handsLayer}
+                  alt="Right Hand"
+                  className="absolute top-[25%] right-[12%] w-[28%] h-auto object-contain z-40 filter drop-shadow-lg scale-x-[-1]"
+                />
+              )}
+
+              {/* Head */}
+              {equippedSlots.HEAD && (
+                <img
+                  src={headLayer}
+                  alt="Head"
+                  className="absolute top-[0%] left-1/2 -translate-x-1/2 w-[28%] h-auto object-contain z-50 filter drop-shadow-lg"
+                />
+              )}
+
+              {/* Main Hand / Weapon */}
+              {equippedSlots.WEAPON && (
+                <img
+                  src={weaponLayer}
+                  alt="Weapon"
+                  className="absolute bottom-[10%] left-[7%] w-[35%] h-auto object-contain z-50 filter drop-shadow-xl -rotate-12 origin-bottom"
+                />
+              )}
+
+              {/* Off Hand */}
+              {equippedSlots.OFFHAND && (
+                <img
+                  src={offhandLayer}
+                  alt="Offhand"
+                  className="absolute bottom-[8%] right-[1%] w-[40%] h-auto object-contain z-50 filter drop-shadow-xl"
+                />
+              )}
             </div>
           </div>
 
-          {/* Equipment slots - WoW layout */}
-          <div className="relative h-full p-3">
+          {/* Equipment slots - WoW layout (Overlay) */}
+          <div className="relative h-full p-3 z-50">
             {/* Left column */}
             <div className="absolute left-2 top-2 flex flex-col gap-1">
               <EquipmentSlot slotType="HEAD" />
