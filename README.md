@@ -1,8 +1,8 @@
 # World of Claudecraft ⚔️🤖
 
-**Gamified Agent Builder.** Agent Builder with RPG loadout.
+**Build AI Agents with an RPG Loadout System.**
 
-Instead of writing md files, equip your Claude agent like an RPG character. Drag and drop equipment into slots to build a combined agent configuration.
+Stop managing Markdown files. World of Claudecraft lets you construct powerful Claude agent configurations using a familiar RPG equipment interface. Drag and drop Roles, Skills, and Behaviors to craft the perfect build.
 
 ![World of Claudecraft](main.png)
 
