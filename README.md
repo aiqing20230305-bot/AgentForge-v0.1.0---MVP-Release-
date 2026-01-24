@@ -10,7 +10,7 @@ Instead of writing md files, equip your Claude agent like an RPG character. Drag
 
 - **🛡️ Visual Equipment UI**: WoW-inspired character equipment interface
 - **🐉 Drag & Drop**: Drag items from inventory to equipment slots
-- **💰 Token Budget**: Track token usage with budget limits and rarity colors
+- **💰 Token Budget**: Track token usage with build-wide budget limits and rarity colors based on token count
 - **📜 Category System**: Items categorized as roles, skills, behaviors, etc.
 - **💾 Loadouts**: Save and load different equipment configurations
 - **🚀 Export**: Save directly to `~/.claude/agents/your-agent-name.md` or clipboard
