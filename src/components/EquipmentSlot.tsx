@@ -64,7 +64,22 @@ export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
       onContextMenu={handleRightClick}
       onMouseEnter={(e) => {
         const rect = e.currentTarget.getBoundingClientRect()
-        setTooltipPos({ x: rect.right + 8, y: rect.top })
+        const tooltipWidth = 260
+
+        let x = rect.right + 8
+
+        // Check if it fits on the right
+        if (x + tooltipWidth > window.innerWidth) {
+          x = rect.left - tooltipWidth - 8
+        }
+
+        // Clamp to window bounds
+        if (x < 8) x = 8
+        if (x + tooltipWidth > window.innerWidth) {
+          x = window.innerWidth - tooltipWidth - 8
+        }
+
+        setTooltipPos({ x, y: rect.top })
         setShowTooltip(true)
       }}
       onMouseLeave={() => setShowTooltip(false)}

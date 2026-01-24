@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom'
 import { useDrag } from 'react-dnd'
 import { useEffect, useState } from 'react'
 import type { AgentItem } from '../types'
@@ -12,6 +13,7 @@ interface InventoryItemProps {
 export default function InventoryItem({ item }: InventoryItemProps) {
   const { setDraggingItem } = useBuildStore()
   const [showTooltip, setShowTooltip] = useState(false)
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 })
 
   const [{ isDragging }, drag] = useDrag({
     type: DRAG_TYPE,
@@ -44,7 +46,26 @@ export default function InventoryItem({ item }: InventoryItemProps) {
   return (
     <div
       ref={drag}
-      onMouseEnter={() => setShowTooltip(true)}
+      onMouseEnter={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        const tooltipWidth = 260
+
+        let x = rect.right + 8
+
+        // Check if it fits on the right
+        if (x + tooltipWidth > window.innerWidth) {
+          x = rect.left - tooltipWidth - 8
+        }
+
+        // Clamp to window bounds
+        if (x < 8) x = 8
+        if (x + tooltipWidth > window.innerWidth) {
+          x = window.innerWidth - tooltipWidth - 8
+        }
+
+        setTooltipPos({ x, y: rect.top })
+        setShowTooltip(true)
+      }}
       onMouseLeave={() => setShowTooltip(false)}
       className={`
         relative aspect-square cursor-grab transition-all duration-150
@@ -77,8 +98,11 @@ export default function InventoryItem({ item }: InventoryItemProps) {
       </div>
 
       {/* WoW-style tooltip */}
-      {showTooltip && !isDragging && (
-        <div className="absolute z-[100] left-full ml-2 top-0 pointer-events-none">
+      {showTooltip && !isDragging && createPortal(
+        <div
+          className="fixed z-[9999] pointer-events-none"
+          style={{ left: tooltipPos.x, top: tooltipPos.y }}
+        >
           <div
             className="w-64 p-3 rounded bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-2 shadow-xl"
             style={{ borderColor: RARITY_COLORS[item.rarity] }}
@@ -135,7 +159,8 @@ export default function InventoryItem({ item }: InventoryItemProps) {
               Drag to equip
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   )
