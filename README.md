@@ -1,8 +1,34 @@
-# World of Claudecraft ⚔️🤖
+# AgentForge ⚔️
 
-**Build AI Agents with an RPG Loadout System.**
+<div align="center">
 
-Stop managing Markdown files. World of Claudecraft lets you construct powerful Claude agent configurations using a familiar RPG equipment interface. Drag and drop Roles, Skills, and Behaviors to craft the perfect build.
+**Forge your AI agents like legendary heroes**
+
+像锻造传奇英雄一样打造你的 AI Agent
+
+---
+
+🎮 **RPG Equipment System** · 📋 **Task Management** · 🔍 **Auto-Discovery** · 🎨 **Cyberpunk UI**
+
+[English](#english) | [中文](#中文)
+
+</div>
+
+---
+
+## English
+
+AgentForge is a visual RPG-style builder for Claude AI agents. Equip your agents with skills, behaviors, and constraints like assembling legendary heroes. Manage tasks, track progress, and auto-discover local OpenClaw instances - all in a sleek cyberpunk interface.
+
+**No config needed** - Start with 8 demo agents and 35 sample tasks out of the box!
+
+---
+
+## 中文
+
+AgentForge 是面向 Claude AI Agent 的 RPG 风格可视化构建工具。像组装传奇英雄一样为 Agent 装备技能、行为和约束。管理任务、追踪进度、自动发现本地 OpenClaw 实例——一切都在赛博朋克风格的界面中完成。
+
+**开箱即用** - 内置 8 个示例 Agent 和 35 个示例任务！
 
 ![World of Claudecraft](main.png)
 

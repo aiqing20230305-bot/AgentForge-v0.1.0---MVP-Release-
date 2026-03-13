@@ -14,6 +14,7 @@ function createWindow() {
     minWidth: 1200,
     minHeight: 700,
     backgroundColor: '#0a0a0f',
+    title: 'AgentForge - AI Agent Builder',
     titleBarStyle: 'hiddenInset',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
