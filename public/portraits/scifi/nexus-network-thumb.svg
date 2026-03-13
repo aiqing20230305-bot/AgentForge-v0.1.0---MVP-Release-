@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1600">
+  <defs>
+    <linearGradient id="grad6" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1600" fill="url(#grad6)"/>
+  <text x="450" y="700" font-size="200" text-anchor="middle" fill="white" opacity="0.9">🤖</text>
+  <text x="450" y="900" font-size="48" text-anchor="middle" fill="white" font-family="Arial" font-weight="bold">Nexus</text>
+  <text x="450" y="950" font-size="32" text-anchor="middle" fill="white" opacity="0.7" font-family="Arial">科幻主题</text>
+  <text x="450" y="1500" font-size="24" text-anchor="middle" fill="white" opacity="0.5" font-family="monospace">9:16 占位图</text>
+</svg>

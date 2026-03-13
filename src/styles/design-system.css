@@ -1,0 +1,228 @@
+/*
+ * 未来科技视觉设计系统
+ * 设计理念：优雅、克制、呼吸感
+ * 配色方案：深空蓝 + 电光蓝 + 幽灵紫
+ */
+
+:root {
+  /* 主色系 - 深空蓝 */
+  --color-deep-space: #0a0e27;
+  --color-space-darker: #050811;
+  --color-space-lighter: #141b3d;
+
+  /* 强调色 - 电光蓝 */
+  --color-electric-blue: #00d4ff;
+  --color-electric-blue-dim: #0088cc;
+  --color-electric-glow: rgba(0, 212, 255, 0.6);
+
+  /* 次强调色 - 幽灵紫 */
+  --color-ghost-purple: #a78bfa;
+  --color-ghost-purple-dim: #7c3aed;
+  --color-ghost-glow: rgba(167, 139, 250, 0.4);
+
+  /* 状态色 */
+  --color-success: #10d9a0;
+  --color-warning: #fbbf24;
+  --color-danger: #ff4466;
+
+  /* 文字色 */
+  --color-text-primary: #e0f2ff;
+  --color-text-secondary: #94a3b8;
+  --color-text-dim: #64748b;
+}
+
+/* 主背景 - 深空渐变 */
+.space-background {
+  background: radial-gradient(ellipse at top, var(--color-deep-space), var(--color-space-darker));
+}
+
+/* 卡片样式 - 实体玻璃 */
+.glass-card {
+  background: linear-gradient(135deg,
+    rgba(20, 27, 61, 0.7) 0%,
+    rgba(10, 14, 39, 0.85) 100%
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 212, 255, 0.4);
+  box-shadow:
+    0 0 30px rgba(0, 212, 255, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 霓虹文字 */
+.neon-text {
+  color: var(--color-electric-blue);
+  text-shadow: 0 0 10px var(--color-electric-glow);
+}
+
+.neon-text-purple {
+  color: var(--color-ghost-purple);
+  text-shadow: 0 0 10px var(--color-ghost-glow);
+}
+
+/* 呼吸光效 - 克制版 */
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.6;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.1);
+  }
+}
+
+.breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* 能量线条 */
+.energy-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.energy-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0, 212, 255, 0.4),
+    transparent
+  );
+  animation: energy-flow 3s ease-in-out infinite;
+}
+
+@keyframes energy-flow {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* 扫描效果 - 精简版 */
+.scan-effect {
+  position: relative;
+}
+
+.scan-effect::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    transparent 0%,
+    rgba(0, 212, 255, 0.03) 50%,
+    transparent 100%
+  );
+  background-size: 100% 200%;
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 200%;
+  }
+}
+
+/* 点击反馈 */
+.click-feedback {
+  position: relative;
+  overflow: hidden;
+}
+
+.click-feedback:active {
+  transform: scale(0.98);
+}
+
+/* 精简涟漪 */
+@keyframes simple-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.simple-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.6), transparent 70%);
+  transform: scale(0);
+  animation: simple-ripple 0.6s ease-out;
+  pointer-events: none;
+}
+
+/* HUD角标 - 精简版 */
+.corner-accent {
+  position: relative;
+}
+
+.corner-accent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid var(--color-electric-blue);
+  border-left: 2px solid var(--color-electric-blue);
+  opacity: 0.4;
+}
+
+.corner-accent::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--color-electric-blue);
+  border-right: 2px solid var(--color-electric-blue);
+  opacity: 0.4;
+}
+
+/* 统一的悬停效果 */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* 边框呼吸 */
+@keyframes border-breathe {
+  0%, 100% {
+    border-color: rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+  }
+  50% {
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+  }
+}
+
+.border-breathe {
+  animation: border-breathe 4s ease-in-out infinite;
+}

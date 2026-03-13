@@ -30,7 +30,7 @@ export function useFileScanner(): UseScannerReturn {
     try {
       const files: FileInfo[] = await window.electronAPI.scanDirectory(dirPath)
 
-      const agentItems: AgentItem[] = files.map((file) => {
+      const agentItems: AgentItem[] = files.map(file => {
         const tokens = countTokens(file.content)
         return {
           id: file.path,

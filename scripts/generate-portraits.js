@@ -1,0 +1,102 @@
+#!/usr/bin/env node
+/**
+ * 批量生成形象库图片
+ * - 30张三国主题 9:16竖版图片
+ * - 30张科幻主题 9:16竖版图片（用于视频缩略图）
+ */
+
+const fs = require('fs');
+const path = require('path');
+const https = require('https');
+
+// 三国人物配置
+const THREE_KINGDOMS_CHARACTERS = [
+  { file: 'guanyu.jpg', name: '关羽', prompt: 'Guan Yu, legendary Chinese warrior from Three Kingdoms era, red face, long black beard, green robe armor, majestic presence, portrait, 9:16 vertical format, cinematic lighting, highly detailed' },
+  { file: 'zhangfei.jpg', name: '张飞', prompt: 'Zhang Fei, fierce Chinese warrior from Three Kingdoms, dark face, intense eyes, black armor, powerful build, portrait, 9:16 vertical format, dramatic lighting' },
+  { file: 'zhaoyun.jpg', name: '赵云', prompt: 'Zhao Yun, elegant Chinese warrior from Three Kingdoms, silver armor, white cloak, handsome face, heroic pose, portrait, 9:16 vertical format, epic lighting' },
+  { file: 'machao.jpg', name: '马超', prompt: 'Ma Chao, young Chinese warrior from Three Kingdoms, white armor, silver spear, noble face, portrait, 9:16 vertical format, bright lighting' },
+  { file: 'huangzhong.jpg', name: '黄忠', prompt: 'Huang Zhong, veteran Chinese archer from Three Kingdoms, wise face, bow and arrow, brown armor, portrait, 9:16 vertical format, warm lighting' },
+  { file: 'zhugeliang.jpg', name: '诸葛亮', prompt: 'Zhuge Liang, wise strategist from Three Kingdoms, white feather fan, blue robe, scholarly appearance, portrait, 9:16 vertical format, soft lighting' },
+  { file: 'pangtong.jpg', name: '庞统', prompt: 'Pang Tong, intelligent strategist from Three Kingdoms, unique facial features, scholarly robe, wise expression, portrait, 9:16 vertical format' },
+  { file: 'fazheng.jpg', name: '法正', prompt: 'Fa Zheng, cunning advisor from Three Kingdoms, sharp eyes, dark robe, intelligent look, portrait, 9:16 vertical format' },
+  { file: 'caocao.jpg', name: '曹操', prompt: 'Cao Cao, ambitious warlord from Three Kingdoms, black armor, crown, commanding presence, portrait, 9:16 vertical format, dramatic lighting' },
+  { file: 'simayi.jpg', name: '司马懿', prompt: 'Sima Yi, calculating strategist from Three Kingdoms, dark robes, piercing gaze, mysterious aura, portrait, 9:16 vertical format' },
+  { file: 'guojia.jpg', name: '郭嘉', prompt: 'Guo Jia, brilliant strategist from Three Kingdoms, young face, white robe, confident smile, portrait, 9:16 vertical format' },
+  { file: 'dianwei.jpg', name: '典韦', prompt: 'Dian Wei, muscular bodyguard from Three Kingdoms, heavy armor, dual axes, fierce expression, portrait, 9:16 vertical format' },
+  { file: 'xuchu.jpg', name: '许褚', prompt: 'Xu Chu, powerful warrior from Three Kingdoms, tiger-like features, heavy armor, intimidating, portrait, 9:16 vertical format' },
+  { file: 'zhangliao.jpg', name: '张辽', prompt: 'Zhang Liao, skilled general from Three Kingdoms, blue-green armor, sword, noble bearing, portrait, 9:16 vertical format' },
+  { file: 'xiahoudun.jpg', name: '夏侯惇', prompt: 'Xiahou Dun, one-eyed general from Three Kingdoms, eye patch, red armor, brave expression, portrait, 9:16 vertical format' },
+  { file: 'sunquan.jpg', name: '孙权', prompt: 'Sun Quan, young emperor from Three Kingdoms, purple robes, crown, purple eyes, regal pose, portrait, 9:16 vertical format' },
+  { file: 'zhouyu.jpg', name: '周瑜', prompt: 'Zhou Yu, handsome strategist from Three Kingdoms, elegant face, white armor, feather fan, portrait, 9:16 vertical format' },
+  { file: 'luxun.jpg', name: '陆逊', prompt: 'Lu Xun, young general from Three Kingdoms, scholarly warrior, green robes, calm expression, portrait, 9:16 vertical format' },
+  { file: 'ganning.jpg', name: '甘宁', prompt: 'Gan Ning, pirate warrior from Three Kingdoms, bells on armor, fierce look, blue robes, portrait, 9:16 vertical format' },
+  { file: 'taishici.jpg', name: '太史慈', prompt: 'Taishi Ci, archer warrior from Three Kingdoms, bow, yellow armor, determined face, portrait, 9:16 vertical format' },
+  { file: 'diaochan.jpg', name: '貂蝉', prompt: 'Diao Chan, beautiful woman from Three Kingdoms, elegant dress, dancing pose, graceful, portrait, 9:16 vertical format, soft lighting' },
+  { file: 'daqiao.jpg', name: '大乔', prompt: 'Da Qiao, elegant lady from Three Kingdoms, beautiful face, pink robes, gentle smile, portrait, 9:16 vertical format' },
+  { file: 'xiaoqiao.jpg', name: '小乔', prompt: 'Xiao Qiao, lovely young woman from Three Kingdoms, green dress, innocent look, portrait, 9:16 vertical format' },
+  { file: 'sunshangxiang.jpg', name: '孙尚香', prompt: 'Sun Shangxiang, warrior princess from Three Kingdoms, armor and dress, bow, confident, portrait, 9:16 vertical format' },
+  { file: 'lvbu.jpg', name: '吕布', prompt: 'Lu Bu, legendary warrior from Three Kingdoms, red hare horse motif, golden crown, fierce, portrait, 9:16 vertical format' },
+  { file: 'dongzhuo.jpg', name: '董卓', prompt: 'Dong Zhuo, tyrannical warlord from Three Kingdoms, heavy build, luxurious robes, menacing, portrait, 9:16 vertical format' },
+  { file: 'yuanshao.jpg', name: '袁绍', prompt: 'Yuan Shao, proud nobleman from Three Kingdoms, ornate robes, crown, haughty expression, portrait, 9:16 vertical format' },
+  { file: 'liubei.jpg', name: '刘备', prompt: 'Liu Bei, benevolent emperor from Three Kingdoms, yellow robes, kind face, imperial crown, portrait, 9:16 vertical format' },
+  { file: 'jiangwei.jpg', name: '姜维', prompt: 'Jiang Wei, loyal general from Three Kingdoms, silver armor, spear, determined look, portrait, 9:16 vertical format' },
+  { file: 'weiyan.jpg', name: '魏延', prompt: 'Wei Yan, rebellious general from Three Kingdoms, black armor, fierce eyes, battle-worn, portrait, 9:16 vertical format' }
+];
+
+// 科幻角色配置
+const SCIFI_CHARACTERS = [
+  { file: 'atlas-warrior.jpg', name: 'Atlas战神', prompt: 'Futuristic warrior robot Atlas, massive build, battle armor, glowing blue eyes, sci-fi, 9:16 vertical format, cinematic' },
+  { file: 'titan-giant.jpg', name: 'Titan巨神', prompt: 'Giant mech robot Titan, towering presence, heavy weapons, red accents, sci-fi, 9:16 vertical format, epic scale' },
+  { file: 'sentinel-guard.jpg', name: 'Sentinel哨兵', prompt: 'Defensive robot Sentinel, sleek design, shield systems, green lights, sci-fi, 9:16 vertical format, protective stance' },
+  { file: 'striker-assault.jpg', name: 'Striker突击者', prompt: 'Combat robot Striker, aggressive design, weapon arrays, orange highlights, sci-fi, 9:16 vertical format, action pose' },
+  { file: 'phantom-stealth.jpg', name: 'Phantom幽灵', prompt: 'Stealth robot Phantom, sleek black body, cloaking effect, purple glow, sci-fi, 9:16 vertical format, mysterious' },
+  { file: 'oracle-ai.jpg', name: 'Oracle预言者', prompt: 'AI entity Oracle, holographic form, floating data streams, cyan lights, sci-fi, 9:16 vertical format, ethereal' },
+  { file: 'nexus-network.jpg', name: 'Nexus网络', prompt: 'Network AI Nexus, connected nodes, data visualization, blue matrix, sci-fi, 9:16 vertical format, digital' },
+  { file: 'cortex-brain.jpg', name: 'Cortex大脑', prompt: 'Brain AI Cortex, neural network design, glowing synapses, white and gold, sci-fi, 9:16 vertical format' },
+  { file: 'cipher-code.jpg', name: 'Cipher密码', prompt: 'Hacker AI Cipher, code streams, green matrix style, hooded figure, sci-fi, 9:16 vertical format, cyber' },
+  { file: 'matrix-core.jpg', name: 'Matrix矩阵', prompt: 'Core AI Matrix, geometric patterns, red and black, central hub, sci-fi, 9:16 vertical format, abstract' },
+  { file: 'medic-robot.jpg', name: 'Medic医疗兵', prompt: 'Medical robot Medic, white and red colors, cross symbol, caring design, sci-fi, 9:16 vertical format, helpful' },
+  { file: 'engineer-bot.jpg', name: 'Engineer工程师', prompt: 'Engineer robot, yellow construction theme, tool arms, friendly, sci-fi, 9:16 vertical format, industrial' },
+  { file: 'scout-drone.jpg', name: 'Scout侦察兵', prompt: 'Scout drone robot, sleek aerodynamic, sensors, fast design, sci-fi, 9:16 vertical format, agile' },
+  { file: 'carrier-transport.jpg', name: 'Carrier运输者', prompt: 'Transport robot Carrier, cargo design, heavy duty, gray and orange, sci-fi, 9:16 vertical format, utilitarian' },
+  { file: 'reaper-destroyer.jpg', name: 'Reaper收割者', prompt: 'Destroyer robot Reaper, menacing design, dark colors, weapons, sci-fi, 9:16 vertical format, threatening' },
+  { file: 'neon-hacker.jpg', name: 'Neon霓虹', prompt: 'Cyberpunk hacker Neon, neon lights, pink and blue, urban tech, 9:16 vertical format, night city' },
+  { file: 'chrome-cyborg.jpg', name: 'Chrome镀铬', prompt: 'Chrome cyborg warrior, reflective metal body, cyberpunk style, 9:16 vertical format, shiny' },
+  { file: 'ghost-shell.jpg', name: 'Ghost幽灵壳', prompt: 'Female cyborg Ghost in the Shell style, white hair, cybernetic body, 9:16 vertical format, anime inspired' },
+  { file: 'blade-runner.jpg', name: 'Blade刀锋', prompt: 'Blade Runner detective, trench coat, cyberpunk city, rain, 9:16 vertical format, noir style' },
+  { file: 'pulse-tech.jpg', name: 'Pulse脉冲', prompt: 'Tech specialist Pulse, electronic equipment, blue circuits, cyberpunk, 9:16 vertical format, technical' },
+  { file: 'nova-soldier.jpg', name: 'Nova新星', prompt: 'Female space soldier Nova, power armor, starlight effects, 9:16 vertical format, heroic' },
+  { file: 'vanguard-elite.jpg', name: 'Vanguard先锋', prompt: 'Elite soldier Vanguard, advanced armor, military tech, 9:16 vertical format, tactical' },
+  { file: 'spectre-ops.jpg', name: 'Spectre幽魂', prompt: 'Special ops agent Spectre, black tactical suit, stealth gear, 9:16 vertical format, covert' },
+  { file: 'aurora-pilot.jpg', name: 'Aurora极光', prompt: 'Female pilot Aurora, flight suit, holographic displays, 9:16 vertical format, aviator' },
+  { file: 'apex-hunter.jpg', name: 'Apex顶点', prompt: 'Elite hunter Apex, predator design, hunting gear, 9:16 vertical format, aggressive' },
+  { file: 'zephyr-alien.jpg', name: 'Zephyr微风', prompt: 'Alien being Zephyr, ethereal appearance, flowing energy, 9:16 vertical format, otherworldly' },
+  { file: 'xenon-being.jpg', name: 'Xenon氙灯', prompt: 'Alien entity Xenon, bioluminescent, strange anatomy, 9:16 vertical format, exotic' },
+  { file: 'void-entity.jpg', name: 'Void虚空', prompt: 'Void entity, dark matter form, cosmic horror, 9:16 vertical format, mysterious' },
+  { file: 'aether-spirit.jpg', name: 'Aether以太', prompt: 'Energy being Aether, pure light form, ethereal beauty, 9:16 vertical format, radiant' },
+  { file: 'quantum-being.jpg', name: 'Quantum量子', prompt: 'Quantum entity, particle effects, reality warping, 9:16 vertical format, abstract physics' }
+];
+
+console.log('🎨 形象生成脚本');
+console.log('\n📋 生成计划:');
+console.log(`   三国图片: ${THREE_KINGDOMS_CHARACTERS.length} 张`);
+console.log(`   科幻图片: ${SCIFI_CHARACTERS.length} 张`);
+console.log(`   总计: ${THREE_KINGDOMS_CHARACTERS.length + SCIFI_CHARACTERS.length} 张\n`);
+
+// 生成提示词文件
+const promptsFile = path.join(__dirname, '../public/portraits/generation-prompts.json');
+fs.writeFileSync(promptsFile, JSON.stringify({
+  threeKingdoms: THREE_KINGDOMS_CHARACTERS,
+  scifi: SCIFI_CHARACTERS
+}, null, 2));
+
+console.log('✅ 已生成 Prompt 配置文件: generation-prompts.json');
+console.log('\n📝 下一步操作:');
+console.log('   1. 使用 Midjourney/DALL-E/Stable Diffusion 生成图片');
+console.log('   2. 使用 Runway/Pika 生成视频');
+console.log('   3. 或运行 node scripts/generate-with-api.js 自动生成\n');
+
+console.log('💡 推荐工作流:');
+console.log('   - Midjourney: 复制 prompt 到 Discord，使用 --ar 9:16 参数');
+console.log('   - DALL-E 3: 使用 1024x1792 尺寸（9:16比例）');
+console.log('   - Stable Diffusion: 使用 768x1344 或 576x1024 分辨率\n');

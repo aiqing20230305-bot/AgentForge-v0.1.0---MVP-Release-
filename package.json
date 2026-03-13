@@ -8,7 +8,8 @@
     "build": "tsc && vite build && electron-builder",
     "preview": "vite preview",
     "electron:dev": "concurrently \"vite\" \"electron .\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate-agents": "node scripts/generate-agent-images.js"
   },
   "dependencies": {
     "electron-store": "^8.1.0",
@@ -24,15 +25,16 @@
     "tar": "^7.5.6"
   },
   "devDependencies": {
-    "@types/node": "^20.14.0",
+    "@types/node": "^20.19.37",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.0",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.1.0",
-    "electron": "^40.0.0",
+    "electron": "^41.0.2",
     "electron-builder": "^26.4.0",
     "postcss": "^8.5.0",
+    "prettier": "^3.8.1",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.7.0",
     "vite": "^6.2.0",

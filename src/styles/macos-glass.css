@@ -1,0 +1,190 @@
+/*
+ * macOS 玻璃态设计系统
+ * 参考：macOS Sequoia 清理助手风格
+ * 特点：深紫渐变、毛玻璃、彩色卡片、温暖优雅
+ */
+
+/* 深紫渐变背景 */
+.macos-background {
+  background: linear-gradient(135deg,
+    #4c1d95 0%,     /* 深紫 */
+    #5b21b6 25%,    /* 紫色 */
+    #6d28d9 50%,    /* 亮紫 */
+    #7c3aed 75%,    /* 紫罗兰 */
+    #8b5cf6 100%    /* 淡紫 */
+  );
+}
+
+/* 毛玻璃卡片 - macOS 风格 */
+.glass-card-macos {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+}
+
+.glass-card-macos:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* 彩色渐变卡片组 */
+.card-gradient-green {
+  background: linear-gradient(135deg,
+    rgba(16, 185, 129, 0.3) 0%,
+    rgba(5, 150, 105, 0.2) 100%
+  );
+}
+
+.card-gradient-blue {
+  background: linear-gradient(135deg,
+    rgba(59, 130, 246, 0.3) 0%,
+    rgba(37, 99, 235, 0.2) 100%
+  );
+}
+
+.card-gradient-purple {
+  background: linear-gradient(135deg,
+    rgba(168, 85, 247, 0.3) 0%,
+    rgba(126, 34, 206, 0.2) 100%
+  );
+}
+
+.card-gradient-pink {
+  background: linear-gradient(135deg,
+    rgba(236, 72, 153, 0.3) 0%,
+    rgba(219, 39, 119, 0.2) 100%
+  );
+}
+
+.card-gradient-orange {
+  background: linear-gradient(135deg,
+    rgba(249, 115, 22, 0.3) 0%,
+    rgba(234, 88, 12, 0.2) 100%
+  );
+}
+
+.card-gradient-cyan {
+  background: linear-gradient(135deg,
+    rgba(6, 182, 212, 0.3) 0%,
+    rgba(8, 145, 178, 0.2) 100%
+  );
+}
+
+/* 柔和呼吸动画 */
+@keyframes soft-breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+.soft-breathe {
+  animation: soft-breathe 4s ease-in-out infinite;
+}
+
+/* 柔和悬停提升 */
+.soft-hover {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.soft-hover:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* 柔和阴影 */
+.soft-shadow {
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.soft-shadow:hover {
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+/* macOS 按钮风格 */
+.macos-button {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.macos-button:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+.macos-button:active {
+  transform: scale(0.98);
+}
+
+/* 进度条 - macOS 风格 */
+.progress-bar-macos {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-macos .progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* 移除刺眼的发光 */
+.subtle-glow {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+}
+
+/* 文字柔和发光 */
+.text-glow-soft {
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+}

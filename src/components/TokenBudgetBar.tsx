@@ -18,12 +18,16 @@ export default function TokenBudgetBar() {
     <div className="w-full">
       {/* Label */}
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[10px] text-amber-100/60 uppercase tracking-wider">Token Budget</span>
-        <span className={`text-xs font-bold ${
-          status === 'danger' ? 'text-red-400' :
-          status === 'warning' ? 'text-yellow-400' :
-          'text-green-400'
-        }`}>
+        <span className="text-[10px] text-amber-100/60 uppercase tracking-wider">Token 预算</span>
+        <span
+          className={`text-xs font-bold ${
+            status === 'danger'
+              ? 'text-red-400'
+              : status === 'warning'
+                ? 'text-yellow-400'
+                : 'text-green-400'
+          }`}
+        >
           {formatTokens(currentTokens)} / {formatTokens(maxTokens)}
         </span>
       </div>
@@ -41,9 +45,7 @@ export default function TokenBudgetBar() {
 
       {/* Warning text */}
       {status === 'danger' && (
-        <div className="mt-1 text-[10px] text-red-400 text-center animate-pulse">
-          ⚠️ Over budget!
-        </div>
+        <div className="mt-1 text-[10px] text-red-400 text-center animate-pulse">⚠️ 超出预算！</div>
       )}
     </div>
   )

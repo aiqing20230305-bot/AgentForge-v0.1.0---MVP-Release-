@@ -9,21 +9,14 @@ interface ItemTooltipProps {
 
 export default function ItemTooltip({ item, showSlot }: ItemTooltipProps) {
   // Truncate content for preview
-  const previewContent = item.content.length > 200
-    ? item.content.slice(0, 200) + '...'
-    : item.content
+  const previewContent =
+    item.content.length > 200 ? item.content.slice(0, 200) + '...' : item.content
 
   return (
-    <div
-      className="tooltip w-72 text-sm"
-      style={{ borderColor: RARITY_COLORS[item.rarity] }}
-    >
+    <div className="tooltip w-72 text-sm" style={{ borderColor: RARITY_COLORS[item.rarity] }}>
       {/* Header */}
       <div className="mb-2">
-        <h3
-          className="font-semibold text-base"
-          style={{ color: RARITY_COLORS[item.rarity] }}
-        >
+        <h3 className="font-semibold text-base" style={{ color: RARITY_COLORS[item.rarity] }}>
           {item.name}
         </h3>
         <div className="flex items-center gap-2 mt-1">
@@ -40,10 +33,7 @@ export default function ItemTooltip({ item, showSlot }: ItemTooltipProps) {
             })()}
             {item.category}
           </span>
-          <span
-            className="text-xs capitalize"
-            style={{ color: RARITY_COLORS[item.rarity] }}
-          >
+          <span className="text-xs capitalize" style={{ color: RARITY_COLORS[item.rarity] }}>
             {item.rarity}
           </span>
         </div>
@@ -74,9 +64,7 @@ export default function ItemTooltip({ item, showSlot }: ItemTooltipProps) {
       )}
 
       {/* Path */}
-      <div className="mt-2 text-[10px] text-text-muted truncate">
-        {item.path}
-      </div>
+      <div className="mt-2 text-[10px] text-text-muted truncate">{item.path}</div>
     </div>
   )
 }

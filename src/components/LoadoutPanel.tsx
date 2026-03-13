@@ -2,14 +2,8 @@ import { useState } from 'react'
 import { useBuildStore } from '../stores/buildStore'
 
 export default function LoadoutPanel() {
-  const {
-    loadouts,
-    activeLoadoutId,
-    saveLoadout,
-    loadLoadout,
-    deleteLoadout,
-    equippedSlots
-  } = useBuildStore()
+  const { loadouts, activeLoadoutId, saveLoadout, loadLoadout, deleteLoadout, equippedSlots } =
+    useBuildStore()
 
   const [isCreating, setIsCreating] = useState(false)
   const [newName, setNewName] = useState('')
@@ -47,13 +41,15 @@ export default function LoadoutPanel() {
         className="w-full px-3 py-2 flex items-center justify-between hover:bg-[#2a2a2a] transition-colors"
       >
         <div className="flex items-center gap-2">
-          <span className={`text-amber-100/60 transition-transform ${expanded ? 'rotate-90' : ''}`}>▶</span>
-          <span className="text-xs font-bold text-amber-100 uppercase tracking-wider">Loadouts</span>
+          <span className={`text-amber-100/60 transition-transform ${expanded ? 'rotate-90' : ''}`}>
+            ▶
+          </span>
+          <span className="text-xs font-bold text-amber-100 uppercase tracking-wider">
+            Loadouts
+          </span>
           <span className="text-[10px] text-amber-100/40">({loadouts.length})</span>
         </div>
-        {saveMessage && (
-          <span className="text-[10px] text-green-400">{saveMessage}</span>
-        )}
+        {saveMessage && <span className="text-[10px] text-green-400">{saveMessage}</span>}
       </button>
 
       {expanded && (
@@ -74,11 +70,11 @@ export default function LoadoutPanel() {
               <input
                 type="text"
                 value={newName}
-                onChange={(e) => setNewName(e.target.value)}
+                onChange={e => setNewName(e.target.value)}
                 placeholder="Name..."
                 className="flex-1 px-2 py-1 bg-[#0a0a0a] border border-[#3a3a3a] rounded text-amber-100 placeholder-amber-100/30 text-[10px] focus:outline-none focus:border-amber-600"
                 autoFocus
-                onKeyDown={(e) => {
+                onKeyDown={e => {
                   if (e.key === 'Enter') handleSave()
                   if (e.key === 'Escape') setIsCreating(false)
                 }}
@@ -106,7 +102,7 @@ export default function LoadoutPanel() {
             </p>
           ) : (
             <div className="space-y-1 max-h-28 overflow-y-auto">
-              {loadouts.map((loadout) => {
+              {loadouts.map(loadout => {
                 const itemCount = Object.values(loadout.slots).filter(Boolean).length
                 const isActive = activeLoadoutId === loadout.id
 
@@ -116,9 +112,10 @@ export default function LoadoutPanel() {
                     onClick={() => handleLoad(loadout.id)}
                     className={`
                       flex items-center justify-between px-2 py-1.5 rounded cursor-pointer transition-colors group
-                      ${isActive
-                        ? 'bg-amber-700/30 border border-amber-600/50'
-                        : 'bg-[#1a1a1a] border border-[#3a3a3a] hover:bg-[#2a2a2a]'
+                      ${
+                        isActive
+                          ? 'bg-amber-700/30 border border-amber-600/50'
+                          : 'bg-[#1a1a1a] border border-[#3a3a3a] hover:bg-[#2a2a2a]'
                       }
                     `}
                   >
@@ -128,7 +125,7 @@ export default function LoadoutPanel() {
                       <span className="text-[9px] text-amber-100/40">{itemCount} items</span>
                     </div>
                     <button
-                      onClick={(e) => handleDelete(e, loadout.id)}
+                      onClick={e => handleDelete(e, loadout.id)}
                       className="text-amber-100/30 hover:text-red-400 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       ✕

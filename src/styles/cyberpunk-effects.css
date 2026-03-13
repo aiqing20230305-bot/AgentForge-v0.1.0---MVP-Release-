@@ -1,0 +1,280 @@
+/* 赛博朋克 + 宇宙飞船 HUD 效果 */
+
+/* 星空背景动画 */
+@keyframes starfield {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+/* 扫描线效果 */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* 脉冲效果 */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.8;
+    filter: brightness(1.2);
+  }
+}
+
+/* 全息闪烁 */
+@keyframes hologram-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+  75% {
+    opacity: 0.98;
+  }
+}
+
+/* 数据流动画 */
+@keyframes data-flow {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* 点击涟漪效果 */
+@keyframes click-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* HUD边框动画 */
+@keyframes hud-border {
+  0%, 100% {
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  }
+  50% {
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+  }
+}
+
+/* 网格背景 */
+.grid-background {
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid-move 20s linear infinite;
+}
+
+@keyframes grid-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+/* 悬停光晕 */
+.hover-glow {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: inherit;
+  background: radial-gradient(circle at center, rgba(0, 255, 255, 0.3), transparent 70%);
+  z-index: -1;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* 扫描线覆盖层 */
+.scanlines {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    transparent 0%,
+    rgba(0, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    transparent 0%,
+    rgba(0, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  height: 100px;
+  animation: scanline 6s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.3;
+}
+
+/* 全息效果 */
+.hologram {
+  position: relative;
+  animation: hologram-flicker 0.1s infinite;
+}
+
+.hologram::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  animation: data-flow 3s linear infinite;
+  pointer-events: none;
+}
+
+/* 点击涟漪容器 */
+.ripple-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.6), transparent);
+  transform: scale(0);
+  animation: click-ripple 0.6s ease-out;
+  pointer-events: none;
+}
+
+/* HUD 角标 */
+.hud-corners {
+  position: relative;
+}
+
+.hud-corners::before,
+.hud-corners::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 255, 255, 0.6);
+}
+
+.hud-corners::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.hud-corners::after {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+/* 数据条纹 */
+.data-stripe {
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0, 255, 255, 0.05) 10px,
+    rgba(0, 255, 255, 0.05) 20px
+  );
+}
+
+/* 能量环效果 */
+@keyframes energy-ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.energy-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(0, 255, 255, 0.8);
+  border-radius: inherit;
+  animation: energy-ring 2s ease-out infinite;
+}
+
+/* 文字故障效果 */
+@keyframes glitch {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(0, 255, 255, 0.8),
+      0 0 20px rgba(0, 255, 255, 0.4);
+  }
+  25% {
+    text-shadow:
+      -2px 0 10px rgba(255, 0, 255, 0.8),
+      2px 0 20px rgba(0, 255, 255, 0.4);
+  }
+  75% {
+    text-shadow:
+      2px 0 10px rgba(0, 255, 255, 0.8),
+      -2px 0 20px rgba(255, 0, 255, 0.4);
+  }
+}
+
+.glitch-text:hover {
+  animation: glitch 0.3s infinite;
+}
+
+/* 粒子轨迹 */
+@keyframes particle-trail {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) scale(0);
+    opacity: 0;
+  }
+}

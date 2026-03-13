@@ -39,6 +39,16 @@ body {
   background: #4a4a6a;
 }
 
+/* 隐藏滚动条但保留滚动功能 */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
 /* Selection */
 ::selection {
   background: rgba(139, 92, 246, 0.3);

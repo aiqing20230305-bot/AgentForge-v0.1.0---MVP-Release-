@@ -18,7 +18,7 @@ export default function InventoryItem({ item }: InventoryItemProps) {
   const [{ isDragging }, drag] = useDrag({
     type: DRAG_TYPE,
     item: { type: DRAG_TYPE, item },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isDragging: monitor.isDragging()
     })
   })
@@ -35,18 +35,23 @@ export default function InventoryItem({ item }: InventoryItemProps) {
   // WoW-style slot glow based on rarity
   const getRarityGlow = () => {
     switch (item.rarity) {
-      case 'legendary': return 'shadow-[0_0_8px_#ff8000,inset_0_0_6px_rgba(255,128,0,0.2)]'
-      case 'epic': return 'shadow-[0_0_6px_#a335ee,inset_0_0_5px_rgba(163,53,238,0.2)]'
-      case 'rare': return 'shadow-[0_0_5px_#0070dd,inset_0_0_4px_rgba(0,112,221,0.15)]'
-      case 'uncommon': return 'shadow-[0_0_4px_#1eff00,inset_0_0_3px_rgba(30,255,0,0.1)]'
-      default: return ''
+      case 'legendary':
+        return 'shadow-[0_0_8px_#ff8000,inset_0_0_6px_rgba(255,128,0,0.2)]'
+      case 'epic':
+        return 'shadow-[0_0_6px_#a335ee,inset_0_0_5px_rgba(163,53,238,0.2)]'
+      case 'rare':
+        return 'shadow-[0_0_5px_#0070dd,inset_0_0_4px_rgba(0,112,221,0.15)]'
+      case 'uncommon':
+        return 'shadow-[0_0_4px_#1eff00,inset_0_0_3px_rgba(30,255,0,0.1)]'
+      default:
+        return ''
     }
   }
 
   return (
     <div
       ref={drag}
-      onMouseEnter={(e) => {
+      onMouseEnter={e => {
         const rect = e.currentTarget.getBoundingClientRect()
         const tooltipWidth = 260
 
@@ -80,10 +85,7 @@ export default function InventoryItem({ item }: InventoryItemProps) {
       >
         {/* Inner slot */}
         <div className="absolute inset-0.5 rounded-sm bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)] flex items-center justify-center">
-          <span
-            className="text-2xl"
-            style={{ color: CATEGORY_COLORS[item.category] }}
-          >
+          <span className="text-2xl" style={{ color: CATEGORY_COLORS[item.category] }}>
             {(() => {
               const Icon = CATEGORY_ICONS[item.category]
               return <Icon size={24} />
@@ -98,70 +100,68 @@ export default function InventoryItem({ item }: InventoryItemProps) {
       </div>
 
       {/* WoW-style tooltip */}
-      {showTooltip && !isDragging && createPortal(
-        <div
-          className="fixed z-[9999] pointer-events-none"
-          style={{ left: tooltipPos.x, top: tooltipPos.y }}
-        >
+      {showTooltip &&
+        !isDragging &&
+        createPortal(
           <div
-            className="w-64 p-3 rounded bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-2 shadow-xl"
-            style={{ borderColor: RARITY_COLORS[item.rarity] }}
+            className="fixed z-[9999] pointer-events-none"
+            style={{ left: tooltipPos.x, top: tooltipPos.y }}
           >
-            {/* Item name */}
-            <h3
-              className="font-bold text-sm mb-1"
-              style={{ color: RARITY_COLORS[item.rarity] }}
+            <div
+              className="w-64 p-3 rounded bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-2 shadow-xl"
+              style={{ borderColor: RARITY_COLORS[item.rarity] }}
             >
-              {item.name}
-            </h3>
+              {/* Item name */}
+              <h3 className="font-bold text-sm mb-1" style={{ color: RARITY_COLORS[item.rarity] }}>
+                {item.name}
+              </h3>
 
-            {/* Category */}
-            <div className="flex items-center gap-1 mb-2">
-              <span style={{ color: CATEGORY_COLORS[item.category] }}>
-                {(() => {
-                  const Icon = CATEGORY_ICONS[item.category]
-                  return <Icon size={14} />
-                })()}
-              </span>
-              <span
-                className="text-xs capitalize"
-                style={{ color: CATEGORY_COLORS[item.category] }}
-              >
-                {item.category}
-              </span>
+              {/* Category */}
+              <div className="flex items-center gap-1 mb-2">
+                <span style={{ color: CATEGORY_COLORS[item.category] }}>
+                  {(() => {
+                    const Icon = CATEGORY_ICONS[item.category]
+                    return <Icon size={14} />
+                  })()}
+                </span>
+                <span
+                  className="text-xs capitalize"
+                  style={{ color: CATEGORY_COLORS[item.category] }}
+                >
+                  {item.category}
+                </span>
+              </div>
+
+              {/* Divider */}
+              <div className="h-px bg-[#3a3a3a] my-2" />
+
+              {/* Content preview */}
+              <p className="text-[11px] text-amber-100/70 leading-relaxed line-clamp-4">
+                {item.content.slice(0, 150)}
+                {item.content.length > 150 ? '...' : ''}
+              </p>
+
+              {/* Divider */}
+              <div className="h-px bg-[#3a3a3a] my-2" />
+
+              {/* Stats */}
+              <div className="flex justify-between text-[10px]">
+                <span className="text-amber-100/50">Tokens</span>
+                <span className="text-amber-400">{item.tokens}</span>
+              </div>
+              <div className="flex justify-between text-[10px]">
+                <span className="text-amber-100/50">Rarity</span>
+                <span style={{ color: RARITY_COLORS[item.rarity] }} className="capitalize">
+                  {item.rarity}
+                </span>
+              </div>
+
+              {/* Equip text */}
+              <div className="mt-2 text-[10px] text-green-400 text-center">Drag to equip</div>
             </div>
-
-            {/* Divider */}
-            <div className="h-px bg-[#3a3a3a] my-2" />
-
-            {/* Content preview */}
-            <p className="text-[11px] text-amber-100/70 leading-relaxed line-clamp-4">
-              {item.content.slice(0, 150)}{item.content.length > 150 ? '...' : ''}
-            </p>
-
-            {/* Divider */}
-            <div className="h-px bg-[#3a3a3a] my-2" />
-
-            {/* Stats */}
-            <div className="flex justify-between text-[10px]">
-              <span className="text-amber-100/50">Tokens</span>
-              <span className="text-amber-400">{item.tokens}</span>
-            </div>
-            <div className="flex justify-between text-[10px]">
-              <span className="text-amber-100/50">Rarity</span>
-              <span style={{ color: RARITY_COLORS[item.rarity] }} className="capitalize">
-                {item.rarity}
-              </span>
-            </div>
-
-            {/* Equip text */}
-            <div className="mt-2 text-[10px] text-green-400 text-center">
-              Drag to equip
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   )
 }

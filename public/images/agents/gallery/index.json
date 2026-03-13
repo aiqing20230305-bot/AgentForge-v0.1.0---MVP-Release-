@@ -1,0 +1,202 @@
+{
+  "ATLAS": {
+    "name": "ATLAS",
+    "title": "团队统帅",
+    "images": {
+      "male": {
+        "realistic": {
+          "path": "/images/agents/gallery/atlas_male_realistic.png",
+          "style": "写实风格",
+          "gender": "男性"
+        },
+        "anime": {
+          "path": "/images/agents/gallery/atlas_male_anime.png",
+          "style": "动漫风格",
+          "gender": "男性"
+        },
+        "cyberpunk": {
+          "path": "/images/agents/gallery/atlas_male_cyberpunk.png",
+          "style": "赛博朋克",
+          "gender": "男性"
+        },
+        "fantasy": {
+          "path": "/images/agents/gallery/atlas_male_fantasy.png",
+          "style": "奇幻风格",
+          "gender": "男性"
+        }
+      },
+      "female": {
+        "realistic": {
+          "path": "/images/agents/gallery/atlas_female_realistic.png",
+          "style": "写实风格",
+          "gender": "女性"
+        },
+        "anime": {
+          "path": "/images/agents/gallery/atlas_female_anime.png",
+          "style": "动漫风格",
+          "gender": "女性"
+        },
+        "cyberpunk": {
+          "path": "/images/agents/gallery/atlas_female_cyberpunk.png",
+          "style": "赛博朋克",
+          "gender": "女性"
+        },
+        "fantasy": {
+          "path": "/images/agents/gallery/atlas_female_fantasy.png",
+          "style": "奇幻风格",
+          "gender": "女性"
+        }
+      }
+    }
+  },
+  "CLIP": {
+    "name": "CLIP",
+    "title": "技术大师",
+    "images": {
+      "male": {
+        "realistic": {
+          "path": "/images/agents/gallery/clip_male_realistic.png",
+          "style": "写实风格",
+          "gender": "男性"
+        },
+        "anime": {
+          "path": "/images/agents/gallery/clip_male_anime.png",
+          "style": "动漫风格",
+          "gender": "男性"
+        },
+        "cyberpunk": {
+          "path": "/images/agents/gallery/clip_male_cyberpunk.png",
+          "style": "赛博朋克",
+          "gender": "男性"
+        },
+        "fantasy": {
+          "path": "/images/agents/gallery/clip_male_fantasy.png",
+          "style": "奇幻风格",
+          "gender": "男性"
+        }
+      },
+      "female": {
+        "realistic": {
+          "path": "/images/agents/gallery/clip_female_realistic.png",
+          "style": "写实风格",
+          "gender": "女性"
+        },
+        "anime": {
+          "path": "/images/agents/gallery/clip_female_anime.png",
+          "style": "动漫风格",
+          "gender": "女性"
+        },
+        "cyberpunk": {
+          "path": "/images/agents/gallery/clip_female_cyberpunk.png",
+          "style": "赛博朋克",
+          "gender": "女性"
+        },
+        "fantasy": {
+          "path": "/images/agents/gallery/clip_female_fantasy.png",
+          "style": "奇幻风格",
+          "gender": "女性"
+        }
+      }
+    }
+  },
+  "ORACLE": {
+    "name": "ORACLE",
+    "title": "智慧贤者",
+    "images": {
+      "male": {
+        "realistic": {
+          "path": "/images/agents/gallery/oracle_male_realistic.png",
+          "style": "写实风格",
+          "gender": "男性"
+        },
+        "anime": {
+          "path": "/images/agents/gallery/oracle_male_anime.png",
+          "style": "动漫风格",
+          "gender": "男性"
+        },
+        "cyberpunk": {
+          "path": "/images/agents/gallery/oracle_male_cyberpunk.png",
+          "style": "赛博朋克",
+          "gender": "男性"
+        },
+        "fantasy": {
+          "path": "/images/agents/gallery/oracle_male_fantasy.png",
+          "style": "奇幻风格",
+          "gender": "男性"
+        }
+      },
+      "female": {
+        "realistic": {
+          "path": "/images/agents/gallery/oracle_female_realistic.png",
+          "style": "写实风格",
+          "gender": "女性"
+        },
+        "anime": {
+          "path": "/images/agents/gallery/oracle_female_anime.png",
+          "style": "动漫风格",
+          "gender": "女性"
+        },
+        "cyberpunk": {
+          "path": "/images/agents/gallery/oracle_female_cyberpunk.png",
+          "style": "赛博朋克",
+          "gender": "女性"
+        },
+        "fantasy": {
+          "path": "/images/agents/gallery/oracle_female_fantasy.png",
+          "style": "奇幻风格",
+          "gender": "女性"
+        }
+      }
+    }
+  },
+  "SENTINEL": {
+    "name": "SENTINEL",
+    "title": "守护战士",
+    "images": {
+      "male": {
+        "realistic": {
+          "path": "/images/agents/gallery/sentinel_male_realistic.png",
+          "style": "写实风格",
+          "gender": "男性"
+        },
+        "anime": {
+          "path": "/images/agents/gallery/sentinel_male_anime.png",
+          "style": "动漫风格",
+          "gender": "男性"
+        },
+        "cyberpunk": {
+          "path": "/images/agents/gallery/sentinel_male_cyberpunk.png",
+          "style": "赛博朋克",
+          "gender": "男性"
+        },
+        "fantasy": {
+          "path": "/images/agents/gallery/sentinel_male_fantasy.png",
+          "style": "奇幻风格",
+          "gender": "男性"
+        }
+      },
+      "female": {
+        "realistic": {
+          "path": "/images/agents/gallery/sentinel_female_realistic.png",
+          "style": "写实风格",
+          "gender": "女性"
+        },
+        "anime": {
+          "path": "/images/agents/gallery/sentinel_female_anime.png",
+          "style": "动漫风格",
+          "gender": "女性"
+        },
+        "cyberpunk": {
+          "path": "/images/agents/gallery/sentinel_female_cyberpunk.png",
+          "style": "赛博朋克",
+          "gender": "女性"
+        },
+        "fantasy": {
+          "path": "/images/agents/gallery/sentinel_female_fantasy.png",
+          "style": "奇幻风格",
+          "gender": "女性"
+        }
+      }
+    }
+  }
+}

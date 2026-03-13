@@ -19,6 +19,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
+      webSecurity: false, // 允许跨域请求到 localhost OpenClaw Gateway
     },
   })
 

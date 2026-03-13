@@ -3,7 +3,6 @@ import { SLOT_CONFIG } from '../types'
 import EquipmentSlot from './EquipmentSlot'
 import LoadoutPanel from './LoadoutPanel'
 
-
 import headLayer from '../assets/character/head_layer.png'
 import chestLayer from '../assets/character/chest_layer.png'
 import handsLayer from '../assets/character/hands_layer.png'
@@ -25,9 +24,7 @@ export default function CharacterPanel() {
         <div className="flex items-center gap-2">
           <span className="text-amber-500 text-lg">⚔️</span>
           <div>
-            <h2 className="text-sm font-bold text-amber-100 uppercase tracking-wider">
-              Character
-            </h2>
+            <h2 className="text-sm font-bold text-amber-100 uppercase tracking-wider">Character</h2>
             <p className="text-[10px] text-amber-100/60">
               {equippedCount}/{totalSlots} equipped • {getTotalTokens()} tokens
             </p>
@@ -46,11 +43,9 @@ export default function CharacterPanel() {
       {/* WoW-style character frame */}
       <div className="flex-1 relative p-2">
         <div className="h-full rounded-lg border-2 border-[#4a4a4a] bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] shadow-[inset_0_0_30px_rgba(0,0,0,0.5)] overflow-hidden relative group">
-
           {/* Character Paper Doll System */}
           <div className="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity duration-300 pointer-events-none">
             <div className="relative w-full h-full max-w-[360px] max-h-[600px]">
-
               {/* Layers - Z-Index Ordered */}
 
               {/* Feet */}

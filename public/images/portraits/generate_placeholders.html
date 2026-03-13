@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>生成形象占位图</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+    .item { text-align: center; padding: 10px; border: 1px solid #ccc; }
+    img { width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <h1>Agent 形象占位图生成器</h1>
+  <p>这些是临时占位图，用于开发测试。后续可以替换为AI生成的真实形象。</p>
+
+  <div class="preview" id="preview"></div>
+
+  <script>
+    const portraits = [
+      // 男性 - 写实风格
+      { id: 'male_realistic_1', name: '商务精英', icon: '👔', bg: '#1e3a8a' },
+      { id: 'male_realistic_2', name: '科技极客', icon: '💻', bg: '#0891b2' },
+      { id: 'male_realistic_3', name: '战术指挥', icon: '⚔️', bg: '#991b1b' },
+
+      // 女性 - 写实风格
+      { id: 'female_realistic_1', name: '职场女性', icon: '👩‍💼', bg: '#7c3aed' },
+      { id: 'female_realistic_2', name: '科研学者', icon: '👩‍🔬', bg: '#0e7490' },
+      { id: 'female_realistic_3', name: '安全专家', icon: '🛡️', bg: '#be123c' },
+
+      // 男性 - 动漫风格
+      { id: 'male_anime_1', name: '热血少年', icon: '⚡', bg: '#ea580c' },
+      { id: 'male_anime_2', name: '冷静智者', icon: '🧊', bg: '#0284c7' },
+      { id: 'male_anime_3', name: '神秘黑客', icon: '🌐', bg: '#4c1d95' },
+
+      // 女性 - 动漫风格
+      { id: 'female_anime_1', name: '元气少女', icon: '🌸', bg: '#ec4899' },
+      { id: 'female_anime_2', name: '冰山女王', icon: '❄️', bg: '#06b6d4' },
+      { id: 'female_anime_3', name: '机械师', icon: '⚙️', bg: '#78716c' },
+
+      // 赛博朋克风格
+      { id: 'cyber_male_1', name: '赛博战士', icon: '🤖', bg: '#6366f1' },
+      { id: 'cyber_female_1', name: '网络游侠', icon: '🌐', bg: '#8b5cf6' },
+      { id: 'cyber_neutral_1', name: 'AI实体', icon: '🔮', bg: '#3b82f6' },
+
+      // 奇幻风格
+      { id: 'fantasy_male_1', name: '魔法师', icon: '🧙', bg: '#7c3aed' },
+      { id: 'fantasy_female_1', name: '精灵游侠', icon: '🏹', bg: '#10b981' },
+      { id: 'fantasy_neutral_1', name: '神秘预言家', icon: '🔮', bg: '#8b5cf6' },
+    ]
+
+    const preview = document.getElementById('preview')
+
+    portraits.forEach(p => {
+      // 生成SVG
+      const svg = `
+        <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="grad_${p.id}" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:${p.bg};stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect width="400" height="400" fill="url(#grad_${p.id})"/>
+          <text x="200" y="200" font-size="120" text-anchor="middle" dy=".3em">${p.icon}</text>
+          <text x="200" y="320" font-size="24" fill="white" text-anchor="middle" font-family="Arial">${p.name}</text>
+        </svg>
+      `
+
+      // 创建下载链接
+      const blob = new Blob([svg], {type: 'image/svg+xml'})
+      const url = URL.createObjectURL(blob)
+
+      // 创建预览
+      const div = document.createElement('div')
+      div.className = 'item'
+      div.innerHTML = `
+        <img src="${url}" alt="${p.name}"/>
+        <p>${p.name}</p>
+        <a href="${url}" download="${p.id}.svg">下载 SVG</a>
+      `
+      preview.appendChild(div)
+
+      // 自动转换为PNG并下载（需要手动点击）
+      const img = new Image()
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        canvas.width = 400
+        canvas.height = 400
+        const ctx = canvas.getContext('2d')
+        ctx.drawImage(img, 0, 0)
+        canvas.toBlob(blob => {
+          const pngUrl = URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.href = pngUrl
+          a.download = `${p.id}.png`
+          // 自动下载（某些浏览器可能会阻止）
+          // a.click()
+        })
+      }
+      img.src = url
+    })
+  </script>
+</body>
+</html>

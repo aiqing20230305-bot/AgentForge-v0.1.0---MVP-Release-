@@ -25,13 +25,17 @@ export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
   const item = equippedSlots[slotType]
   const config = SLOT_CONFIG[slotType]
 
-  const [{ isOver, canDrop }, drop] = useDrop<DragItem, void, { isOver: boolean; canDrop: boolean }>({
+  const [{ isOver, canDrop }, drop] = useDrop<
+    DragItem,
+    void,
+    { isOver: boolean; canDrop: boolean }
+  >({
     accept: DRAG_TYPE,
-    canDrop: (dragItem) => canEquipItem(slotType, dragItem.item),
-    drop: (dragItem) => {
+    canDrop: dragItem => canEquipItem(slotType, dragItem.item),
+    drop: dragItem => {
       equipItem(slotType, dragItem.item)
     },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop()
     })
@@ -44,17 +48,23 @@ export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
     }
   }
 
-  const isCompatibleWithDragging = draggingItem && config.acceptedCategories.includes(draggingItem.category)
+  const isCompatibleWithDragging =
+    draggingItem && config.acceptedCategories.includes(draggingItem.category)
 
   // WoW-style slot appearance
   const getRarityGlow = () => {
     if (!item) return ''
     switch (item.rarity) {
-      case 'legendary': return 'shadow-[0_0_10px_#ff8000,inset_0_0_10px_rgba(255,128,0,0.3)]'
-      case 'epic': return 'shadow-[0_0_8px_#a335ee,inset_0_0_8px_rgba(163,53,238,0.3)]'
-      case 'rare': return 'shadow-[0_0_6px_#0070dd,inset_0_0_6px_rgba(0,112,221,0.2)]'
-      case 'uncommon': return 'shadow-[0_0_4px_#1eff00,inset_0_0_4px_rgba(30,255,0,0.2)]'
-      default: return ''
+      case 'legendary':
+        return 'shadow-[0_0_10px_#ff8000,inset_0_0_10px_rgba(255,128,0,0.3)]'
+      case 'epic':
+        return 'shadow-[0_0_8px_#a335ee,inset_0_0_8px_rgba(163,53,238,0.3)]'
+      case 'rare':
+        return 'shadow-[0_0_6px_#0070dd,inset_0_0_6px_rgba(0,112,221,0.2)]'
+      case 'uncommon':
+        return 'shadow-[0_0_4px_#1eff00,inset_0_0_4px_rgba(30,255,0,0.2)]'
+      default:
+        return ''
     }
   }
 
@@ -62,7 +72,7 @@ export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
     <div
       ref={drop}
       onContextMenu={handleRightClick}
-      onMouseEnter={(e) => {
+      onMouseEnter={e => {
         const rect = e.currentTarget.getBoundingClientRect()
         const tooltipWidth = 260
 
@@ -95,15 +105,16 @@ export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
           absolute inset-0 rounded-sm
           bg-gradient-to-br from-[#3a3a3a] via-[#2a2a2a] to-[#1a1a1a]
           border-2 transition-colors duration-150
-          ${item
-            ? `border-[${RARITY_COLORS[item.rarity]}]`
-            : isOver && canDrop
-              ? 'border-green-500'
-              : isOver && !canDrop
-                ? 'border-red-500'
-                : isCompatibleWithDragging
-                  ? 'border-green-500/70 animate-pulse'
-                  : 'border-[#4a4a4a]'
+          ${
+            item
+              ? `border-[${RARITY_COLORS[item.rarity]}]`
+              : isOver && canDrop
+                ? 'border-green-500'
+                : isOver && !canDrop
+                  ? 'border-red-500'
+                  : isCompatibleWithDragging
+                    ? 'border-green-500/70 animate-pulse'
+                    : 'border-[#4a4a4a]'
           }
         `}
         style={item ? { borderColor: RARITY_COLORS[item.rarity] } : undefined}
@@ -113,10 +124,7 @@ export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
           {item ? (
             // Equipped item
             <div className="w-full h-full flex items-center justify-center">
-              <span
-                className="text-xl"
-                style={{ color: CATEGORY_COLORS[item.category] }}
-              >
+              <span className="text-xl" style={{ color: CATEGORY_COLORS[item.category] }}>
                 {(() => {
                   const Icon = CATEGORY_ICONS[item.category]
                   return <Icon size={24} />
@@ -152,70 +160,71 @@ export default function EquipmentSlot({ slotType }: EquipmentSlotProps) {
       )}
 
       {/* Rich tooltip for equipped item */}
-      {showTooltip && item && !draggingItem && createPortal(
-        <div
-          className="fixed z-[9999] pointer-events-none"
-          style={{ left: tooltipPos.x, top: tooltipPos.y }}
-        >
+      {showTooltip &&
+        item &&
+        !draggingItem &&
+        createPortal(
           <div
-            className="w-64 p-3 rounded bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-2 shadow-xl"
-            style={{ borderColor: RARITY_COLORS[item.rarity] }}
+            className="fixed z-[9999] pointer-events-none"
+            style={{ left: tooltipPos.x, top: tooltipPos.y }}
           >
-            {/* Item name */}
-            <h3
-              className="font-bold text-sm mb-1"
-              style={{ color: RARITY_COLORS[item.rarity] }}
+            <div
+              className="w-64 p-3 rounded bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-2 shadow-xl"
+              style={{ borderColor: RARITY_COLORS[item.rarity] }}
             >
-              {item.name}
-            </h3>
+              {/* Item name */}
+              <h3 className="font-bold text-sm mb-1" style={{ color: RARITY_COLORS[item.rarity] }}>
+                {item.name}
+              </h3>
 
-            {/* Category */}
-            <div className="flex items-center gap-1 mb-2">
-              <span style={{ color: CATEGORY_COLORS[item.category] }}>
-                {(() => {
-                  const Icon = CATEGORY_ICONS[item.category]
-                  return <Icon size={14} />
-                })()}
-              </span>
-              <span
-                className="text-xs capitalize"
-                style={{ color: CATEGORY_COLORS[item.category] }}
-              >
-                {item.category}
-              </span>
+              {/* Category */}
+              <div className="flex items-center gap-1 mb-2">
+                <span style={{ color: CATEGORY_COLORS[item.category] }}>
+                  {(() => {
+                    const Icon = CATEGORY_ICONS[item.category]
+                    return <Icon size={14} />
+                  })()}
+                </span>
+                <span
+                  className="text-xs capitalize"
+                  style={{ color: CATEGORY_COLORS[item.category] }}
+                >
+                  {item.category}
+                </span>
+              </div>
+
+              {/* Divider */}
+              <div className="h-px bg-[#3a3a3a] my-2" />
+
+              {/* Content preview */}
+              <p className="text-[11px] text-amber-100/70 leading-relaxed line-clamp-4">
+                {item.content.slice(0, 150)}
+                {item.content.length > 150 ? '...' : ''}
+              </p>
+
+              {/* Divider */}
+              <div className="h-px bg-[#3a3a3a] my-2" />
+
+              {/* Stats */}
+              <div className="flex justify-between text-[10px]">
+                <span className="text-amber-100/50">Tokens</span>
+                <span className="text-amber-400">{formatTokens(item.tokens)}</span>
+              </div>
+              <div className="flex justify-between text-[10px]">
+                <span className="text-amber-100/50">Rarity</span>
+                <span style={{ color: RARITY_COLORS[item.rarity] }} className="capitalize">
+                  {item.rarity}
+                </span>
+              </div>
+
+              {/* Unequip hint */}
+              <div className="mt-2 text-[10px] text-zinc-500 text-center italic">
+                Right-click to unequip
+              </div>
             </div>
-
-            {/* Divider */}
-            <div className="h-px bg-[#3a3a3a] my-2" />
-
-            {/* Content preview */}
-            <p className="text-[11px] text-amber-100/70 leading-relaxed line-clamp-4">
-              {item.content.slice(0, 150)}{item.content.length > 150 ? '...' : ''}
-            </p>
-
-            {/* Divider */}
-            <div className="h-px bg-[#3a3a3a] my-2" />
-
-            {/* Stats */}
-            <div className="flex justify-between text-[10px]">
-              <span className="text-amber-100/50">Tokens</span>
-              <span className="text-amber-400">{formatTokens(item.tokens)}</span>
-            </div>
-            <div className="flex justify-between text-[10px]">
-              <span className="text-amber-100/50">Rarity</span>
-              <span style={{ color: RARITY_COLORS[item.rarity] }} className="capitalize">
-                {item.rarity}
-              </span>
-            </div>
-
-            {/* Unequip hint */}
-            <div className="mt-2 text-[10px] text-zinc-500 text-center italic">
-              Right-click to unequip
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   )
 }

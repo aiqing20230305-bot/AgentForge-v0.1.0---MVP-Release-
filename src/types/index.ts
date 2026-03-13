@@ -58,7 +58,10 @@ export interface Settings {
 }
 
 // Slot configuration with accepted categories
-export const SLOT_CONFIG: Record<SlotType, { label: string; acceptedCategories: Category[]; position: { x: number; y: number } }> = {
+export const SLOT_CONFIG: Record<
+  SlotType,
+  { label: string; acceptedCategories: Category[]; position: { x: number; y: number } }
+> = {
   HEAD: {
     label: 'Head',
     acceptedCategories: ['roles'],
@@ -116,7 +119,16 @@ export const SLOT_CONFIG: Record<SlotType, { label: string; acceptedCategories: 
   },
   WEAPON: {
     label: 'Weapon',
-    acceptedCategories: ['roles', 'skills', 'behaviors', 'personalities', 'constraints', 'contexts', 'formats', 'tools'],
+    acceptedCategories: [
+      'roles',
+      'skills',
+      'behaviors',
+      'personalities',
+      'constraints',
+      'contexts',
+      'formats',
+      'tools'
+    ],
     position: { x: 95, y: 55 }
   },
   OFFHAND: {

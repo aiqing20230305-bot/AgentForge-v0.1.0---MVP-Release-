@@ -14,6 +14,10 @@ Stop managing Markdown files. World of Claudecraft lets you construct powerful C
 - **📜 Category System**: Items categorized as roles, skills, behaviors, etc.
 - **💾 Loadouts**: Save and load different equipment configurations
 - **🚀 Export**: Save directly to `~/.claude/agents/your-agent-name.md` or clipboard
+- **👥 Agent Management**: View and manage multiple AI agents with task tracking
+- **📋 Task System**: Assign and monitor tasks for each agent with status tracking
+- **🔌 OpenClaw Integration**: Optional connection to live agent systems (falls back to demo mode)
+- **🎯 Out-of-the-Box**: Works immediately with 8 demo agents and 35 sample tasks
 
 ## 🎮 Getting Started
 
@@ -25,11 +29,26 @@ npm install
 npm run dev
 ```
 
+**🎉 First Launch Experience:**
+- No configuration required! The app starts with:
+  - **8 demo agents** (ATLAS, CLIP, ORACLE, SENTINEL, NEXUS, ECHO, NOVA, AEGIS)
+  - **35 sample tasks** across different agents
+  - Full agent and task management interface
+- Status indicator shows **🟡 Demo Mode** (or **🟢 OpenClaw Connected** if connected)
+
 ### 📂 Using Sample items
 To play with our samples:
 1. Click the **Gear Icon** (Settings) in the UI.
 2. Select the `sample-components` directory.
 3. The inventory will populate with the sample items.
+
+### 👥 Agent & Task Management
+- Click on any agent avatar to view their details and assigned tasks
+- Use the task management panel to:
+  - View tasks filtered by agent
+  - Change task status (pending → in progress → completed)
+  - Create new tasks for agents
+  - Track completion statistics
 
 ## ⚔️ Slot Configuration
 

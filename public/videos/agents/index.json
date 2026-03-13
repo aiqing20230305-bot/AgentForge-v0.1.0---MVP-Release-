@@ -1,0 +1,14 @@
+{
+  "ATLAS": {
+    "path": "/videos/agents/atlas.mp4",
+    "sourceImage": "atlas_male_realistic.png"
+  },
+  "CLIP": {
+    "path": "/videos/agents/clip.mp4",
+    "sourceImage": "clip_male_anime.png"
+  },
+  "SENTINEL": {
+    "path": "/videos/agents/sentinel.mp4",
+    "sourceImage": "sentinel_male_realistic.png"
+  }
+}

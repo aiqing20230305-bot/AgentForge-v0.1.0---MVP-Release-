@@ -3,6 +3,11 @@ import type { AgentItem, Category, SlotType, Loadout, Settings } from '../types'
 import { SLOT_CONFIG, getRarityFromTokens } from '../types'
 import { countTokens } from '../utils/tokenizer'
 import { generateMarkdown } from '../utils/markdownGenerator'
+import {
+  generatePlatformConfig,
+  getPlatformExtension,
+  type AIPlatform
+} from '../utils/platformGenerators'
 
 interface EquippedSlots {
   [key: string]: AgentItem | null
@@ -31,6 +36,7 @@ interface BuildState {
   // Preview
   previewOpen: boolean
   generatedMarkdown: string
+  selectedPlatform: AIPlatform
 
   // Loading state
   isLoading: boolean
@@ -42,6 +48,7 @@ interface BuildState {
   setSettingsOpen: (open: boolean) => void
 
   scanForItems: () => Promise<void>
+  addInventoryItem: (item: AgentItem) => void
   setSelectedCategory: (category: Category | 'all') => void
   setSearchQuery: (query: string) => void
 
@@ -59,10 +66,12 @@ interface BuildState {
 
   setPreviewOpen: (open: boolean) => void
   regenerateMarkdown: () => void
+  setSelectedPlatform: (platform: AIPlatform) => void
 
   exportToFile: () => Promise<string | null>
   exportToClipboard: () => Promise<void>
   exportToClaudeDir: (filename: string) => Promise<boolean>
+  exportToPlatform: (filename: string, platform: AIPlatform) => Promise<boolean>
 }
 
 const DEFAULT_SETTINGS: Settings = {
@@ -87,13 +96,14 @@ export const useBuildStore = create<BuildState>((set, get) => ({
   searchQuery: '',
   equippedSlots: initializeSlots(),
   draggingItem: null,
-  setDraggingItem: (item) => set({ draggingItem: item }),
+  setDraggingItem: item => set({ draggingItem: item }),
   settings: DEFAULT_SETTINGS,
   settingsOpen: false,
   loadouts: [],
   activeLoadoutId: null,
   previewOpen: false,
   generatedMarkdown: '',
+  selectedPlatform: 'claude',
   isLoading: false,
   error: null,
 
@@ -101,7 +111,7 @@ export const useBuildStore = create<BuildState>((set, get) => ({
   loadSettings: async () => {
     try {
       const stored = await window.electronAPI.storeGet<Settings>('settings')
-      const loadouts = await window.electronAPI.storeGet<Loadout[]>('loadouts') || []
+      const loadouts = (await window.electronAPI.storeGet<Loadout[]>('loadouts')) || []
 
       if (stored) {
         set({ settings: { ...DEFAULT_SETTINGS, ...stored }, loadouts })
@@ -119,7 +129,7 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     }
   },
 
-  saveSettings: async (newSettings) => {
+  saveSettings: async newSettings => {
     const current = get().settings
     const updated = { ...current, ...newSettings }
     set({ settings: updated })
@@ -131,7 +141,7 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     }
   },
 
-  setSettingsOpen: (open) => set({ settingsOpen: open }),
+  setSettingsOpen: open => set({ settingsOpen: open }),
 
   // Scan for markdown files
   scanForItems: async () => {
@@ -143,7 +153,7 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     try {
       const files = await window.electronAPI.scanDirectory(settings.rootFolderPath)
 
-      const items: AgentItem[] = files.map((file) => {
+      const items: AgentItem[] = files.map(file => {
         const tokens = countTokens(file.content)
         return {
           id: file.path,
@@ -173,7 +183,27 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     }
   },
 
-  setSelectedCategory: (category) => {
+  addInventoryItem: (item: AgentItem) => {
+    const { inventoryItems } = get()
+
+    // 检查是否已存在
+    const exists = inventoryItems.some(i => i.id === item.id || i.name === item.name)
+    if (exists) {
+      // console.log('组件已存在:', item.name)
+      return
+    }
+
+    const updated = [...inventoryItems, item]
+    set({
+      inventoryItems: updated,
+      filteredItems: updated
+    })
+
+    // 重新应用过滤器
+    get().setSelectedCategory(get().selectedCategory)
+  },
+
+  setSelectedCategory: category => {
     const { inventoryItems, searchQuery } = get()
     let filtered = inventoryItems
 
@@ -183,16 +213,16 @@ export const useBuildStore = create<BuildState>((set, get) => ({
 
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(item =>
-        item.name.toLowerCase().includes(query) ||
-        item.content.toLowerCase().includes(query)
+      filtered = filtered.filter(
+        item =>
+          item.name.toLowerCase().includes(query) || item.content.toLowerCase().includes(query)
       )
     }
 
     set({ selectedCategory: category, filteredItems: filtered })
   },
 
-  setSearchQuery: (query) => {
+  setSearchQuery: query => {
     const { inventoryItems, selectedCategory } = get()
     let filtered = inventoryItems
 
@@ -202,9 +232,8 @@ export const useBuildStore = create<BuildState>((set, get) => ({
 
     if (query) {
       const q = query.toLowerCase()
-      filtered = filtered.filter(item =>
-        item.name.toLowerCase().includes(q) ||
-        item.content.toLowerCase().includes(q)
+      filtered = filtered.filter(
+        item => item.name.toLowerCase().includes(q) || item.content.toLowerCase().includes(q)
       )
     }
 
@@ -233,7 +262,7 @@ export const useBuildStore = create<BuildState>((set, get) => ({
       currentTokens -= existingItem.tokens
     }
 
-    return (currentTokens + item.tokens) <= settings.maxTokenBudget
+    return currentTokens + item.tokens <= settings.maxTokenBudget
   },
 
   equipItem: (slotType, item) => {
@@ -256,7 +285,7 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     return true
   },
 
-  unequipItem: (slotType) => {
+  unequipItem: slotType => {
     set(state => ({
       equippedSlots: {
         ...state.equippedSlots,
@@ -291,7 +320,7 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     return Math.min((total / settings.maxTokenBudget) * 100, 100)
   },
 
-  saveLoadout: async (name) => {
+  saveLoadout: async name => {
     const { equippedSlots, loadouts } = get()
 
     const slots: Record<SlotType, string | null> = {} as Record<SlotType, string | null>
@@ -311,7 +340,7 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     await window.electronAPI.storeSet('loadouts', updated)
   },
 
-  loadLoadout: (loadoutId) => {
+  loadLoadout: loadoutId => {
     const { loadouts, inventoryItems } = get()
     const loadout = loadouts.find(l => l.id === loadoutId)
     if (!loadout) return
@@ -333,7 +362,7 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     }
   },
 
-  deleteLoadout: async (loadoutId) => {
+  deleteLoadout: async loadoutId => {
     const { loadouts, activeLoadoutId } = get()
     const updated = loadouts.filter(l => l.id !== loadoutId)
     set({
@@ -343,7 +372,7 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     await window.electronAPI.storeSet('loadouts', updated)
   },
 
-  setPreviewOpen: (open) => {
+  setPreviewOpen: open => {
     set({ previewOpen: open })
     if (open) {
       get().regenerateMarkdown()
@@ -351,16 +380,24 @@ export const useBuildStore = create<BuildState>((set, get) => ({
   },
 
   regenerateMarkdown: () => {
-    const { equippedSlots } = get()
+    const { equippedSlots, selectedPlatform } = get()
     const items: AgentItem[] = []
 
     // Collect items in a logical order
     const slotOrder: SlotType[] = [
-      'HEAD', 'CHEST_1', 'CHEST_2', 'WEAPON',
-      'HANDS_1', 'HANDS_2', 'HANDS_3',
-      'RING1', 'RING2',
-      'LEGS_1', 'LEGS_2',
-      'FEET', 'OFFHAND'
+      'HEAD',
+      'CHEST_1',
+      'CHEST_2',
+      'WEAPON',
+      'HANDS_1',
+      'HANDS_2',
+      'HANDS_3',
+      'RING1',
+      'RING2',
+      'LEGS_1',
+      'LEGS_2',
+      'FEET',
+      'OFFHAND'
     ]
 
     for (const slotType of slotOrder) {
@@ -370,8 +407,15 @@ export const useBuildStore = create<BuildState>((set, get) => ({
       }
     }
 
-    const markdown = generateMarkdown(items)
+    const markdown = generatePlatformConfig(selectedPlatform, items, 'preview-agent')
     set({ generatedMarkdown: markdown })
+  },
+
+  setSelectedPlatform: platform => {
+    set({ selectedPlatform: platform })
+    if (get().previewOpen) {
+      get().regenerateMarkdown()
+    }
   },
 
   exportToFile: async () => {
@@ -391,16 +435,28 @@ export const useBuildStore = create<BuildState>((set, get) => ({
   },
 
   exportToClaudeDir: async (filename: string) => {
+    return get().exportToPlatform(filename, 'claude')
+  },
+
+  exportToPlatform: async (filename: string, platform: AIPlatform) => {
     const { equippedSlots } = get()
     const items: AgentItem[] = []
 
     // Collect items in a logical order
     const slotOrder: SlotType[] = [
-      'HEAD', 'CHEST_1', 'CHEST_2', 'WEAPON',
-      'HANDS_1', 'HANDS_2', 'HANDS_3',
-      'RING1', 'RING2',
-      'LEGS_1', 'LEGS_2',
-      'FEET', 'OFFHAND'
+      'HEAD',
+      'CHEST_1',
+      'CHEST_2',
+      'WEAPON',
+      'HANDS_1',
+      'HANDS_2',
+      'HANDS_3',
+      'RING1',
+      'RING2',
+      'LEGS_1',
+      'LEGS_2',
+      'FEET',
+      'OFFHAND'
     ]
 
     for (const slotType of slotOrder) {
@@ -411,17 +467,26 @@ export const useBuildStore = create<BuildState>((set, get) => ({
     }
 
     // Use filename as agent name (minus extension)
-    const agentName = filename.replace(/\.md$/, '')
-    const markdown = generateMarkdown(items, agentName)
+    const agentName = filename.replace(/\.(md|json|yaml)$/, '')
+    const config = generatePlatformConfig(platform, items, agentName)
 
     // Update state to reflect what was saved
-    set({ generatedMarkdown: markdown })
+    set({ generatedMarkdown: config })
 
     const homeDir = await window.electronAPI.getHomeDir()
-    // Ensure filename ends with .md
-    const safeFilename = filename.endsWith('.md') ? filename : `${filename}.md`
-    const claudePath = `${homeDir}/.claude/agents/${safeFilename}`
+    const ext = getPlatformExtension(platform)
+    const safeFilename = filename.includes('.') ? filename : `${filename}.${ext}`
 
-    return window.electronAPI.writeFile(claudePath, markdown)
+    // Platform-specific paths
+    let targetPath: string
+    if (platform === 'claude') {
+      targetPath = `${homeDir}/.claude/agents/${safeFilename}`
+    } else if (platform === 'openclaw') {
+      targetPath = `${homeDir}/.openclaw/agents/${safeFilename}`
+    } else {
+      targetPath = `${homeDir}/ai-agents/${platform}/${safeFilename}`
+    }
+
+    return window.electronAPI.writeFile(targetPath, config)
   }
 }))
