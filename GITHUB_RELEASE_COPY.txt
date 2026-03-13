@@ -1,0 +1,105 @@
+# 复制以下内容到 GitHub Release
+
+================================================================================
+标题：AgentForge v0.1.0 - MVP Release 🎉
+Tag: v0.1.0
+================================================================================
+
+## 🌟 AgentForge - Forge Your AI Dream Team
+
+> **Forge your AI agents like legendary heroes** | 像锻造传奇英雄一样打造你的 AI Agent
+
+AgentForge is a visual RPG-style builder for Claude AI agents with task management and auto-discovery capabilities.
+
+**No config needed** - Start with 8 demo agents and 35 sample tasks out of the box!
+
+---
+
+## ✨ Key Features
+
+🎮 **RPG Equipment System** - Drag & drop interface for building agent configurations
+📋 **Task Management** - Assign and track tasks across multiple agents
+🔍 **Auto-Discovery** - Automatically detect local OpenClaw instances
+👥 **8 Demo Agents** - Pre-configured agents ready to use (ATLAS, CLIP, ORACLE, etc.)
+📊 **35 Sample Tasks** - Example tasks to get started immediately
+🎨 **Cyberpunk UI** - Modern, sleek interface with smooth animations
+🌍 **Bilingual** - Full English and Chinese support
+
+---
+
+## 🚀 Quick Start
+
+```bash
+git clone https://github.com/Summonair/agentforge.git
+cd agentforge
+npm install
+npm run electron:dev
+```
+
+**That's it!** You'll see 8 agents and 35 tasks immediately.
+
+---
+
+## 📖 Documentation
+
+- **[README](https://github.com/Summonair/agentforge#readme)** - Quick start guide
+- **[README (中文)](https://github.com/Summonair/agentforge/blob/main/README.zh-CN.md)** - Chinese version
+- **[TROUBLESHOOTING](https://github.com/Summonair/agentforge/blob/main/TROUBLESHOOTING.md)** - Diagnostic guide
+- **[CONTRIBUTING](https://github.com/Summonair/agentforge/blob/main/CONTRIBUTING.md)** - How to contribute
+
+---
+
+## 🐛 Bug Fixes
+
+This release includes critical bug fixes:
+
+✅ **Fixed empty task list** - Standardized Agent ID format across codebase (11 changes)
+✅ **Fixed auto-discovery** - Proper file system access via Electron API
+✅ **Fixed OpenClaw connection** - Corrected authToken path and default port
+✅ **Improved UX** - Better empty states, status indicators, and error messages
+
+---
+
+## 📦 What's Included
+
+- **Core Application** - Electron + React + TypeScript
+- **Demo Content** - 8 agents, 35 tasks, sample components
+- **Documentation** - 13 markdown files (1,200+ lines)
+- **Tools** - Setup verification, test suite, cleanup scripts
+- **CI/CD** - GitHub Actions configuration
+
+---
+
+## ⚠️ Known Limitations
+
+- TypeScript compilation warnings (does not affect runtime)
+- No automated tests yet (manual testing passed)
+- Electron packaging incomplete (use dev mode)
+
+See [CHANGELOG.md](https://github.com/Summonair/agentforge/blob/main/CHANGELOG.md) for complete details.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](https://github.com/Summonair/agentforge/blob/main/CONTRIBUTING.md) for guidelines.
+
+---
+
+## 📄 License
+
+MIT License - See [LICENSE](https://github.com/Summonair/agentforge/blob/main/LICENSE)
+
+---
+
+## 🙏 Acknowledgments
+
+Thanks to Claude AI, OpenClaw, and all contributors!
+
+---
+
+**Start forging your AI dream team today!** 🚀
+
+像锻造传奇英雄一样打造你的 AI Agent！⚔️
+
+================================================================================
