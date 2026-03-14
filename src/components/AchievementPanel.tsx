@@ -10,6 +10,7 @@ import type { AgentData } from '../store/useDataSourceStore'
 import { Trophy, Lock } from 'lucide-react'
 import { useInstantFeedback } from '../hooks/useInstantFeedback'
 import { audioSystem } from '../services/audioSystem'
+import { transitions } from '../utils/animations'
 
 interface AchievementPanelProps {
   agent: AgentData
@@ -86,7 +87,7 @@ export const AchievementPanel: React.FC<AchievementPanelProps> = ({ agent }) => 
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${stats.percent}%` }}
-            transition={{ duration: 1, ease: 'easeOut' }}
+            transition={transitions.slow}
             className="bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 h-full"
           />
         </div>

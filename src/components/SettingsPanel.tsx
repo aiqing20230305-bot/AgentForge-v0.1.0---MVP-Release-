@@ -23,6 +23,7 @@ import {
 import { useSettingsStore } from '../store/useSettingsStore'
 import { audioSystem } from '../services/audioSystem'
 import type { UserSettings } from '../store/useSettingsStore'
+import { slideUpVariants, transitions } from '../utils/animations'
 
 export const SettingsPanel: React.FC = () => {
   const { settings, updateSettings, resetSettings, exportSettings, importSettings } =
@@ -177,8 +178,10 @@ export const SettingsPanel: React.FC = () => {
         {/* General Settings */}
         {activeTab === 'general' && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            variants={slideUpVariants}
+            initial="hidden"
+            animate="visible"
+            transition={transitions.fast}
             className="space-y-6"
           >
             {/* Theme */}
@@ -274,8 +277,10 @@ export const SettingsPanel: React.FC = () => {
         {/* Audio Settings */}
         {activeTab === 'audio' && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            variants={slideUpVariants}
+            initial="hidden"
+            animate="visible"
+            transition={transitions.fast}
             className="space-y-6"
           >
             {/* Master Audio Toggle */}
