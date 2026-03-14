@@ -121,11 +121,8 @@ export async function loadOpenClawAgents(): Promise<OpenClawAgent[]> {
         console.log(`[AgentLoader] Loaded ${agentDataList.length} agents from data sources`)
 
         // ✅ 更新Store缓存（重要！）
-        const { updateAgentsCache, initializeAgentExtendedData } = useDataSourceStore.getState()
+        const { updateAgentsCache } = useDataSourceStore.getState()
         updateAgentsCache(agentDataList)
-
-        // ✅ 初始化扩展数据（技能树、成就等）
-        initializeAgentExtendedData()
 
         // 转换为 OpenClawAgent 格式返回给UI
         return agentDataList.map(convertAgentDataToLocal)

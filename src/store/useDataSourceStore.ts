@@ -351,7 +351,8 @@ export const useDataSourceStore = create<DataSourceStore>()(
             // 记录升级历史
             agent.levelSystem.levelHistory.push({
               level: newLevel,
-              timestamp: new Date().toISOString()
+              timestamp: new Date().toISOString(),
+              expGained: expAmount
             })
           }
 
@@ -432,17 +433,18 @@ function createDefaultAgent(): void {
   const defaultAgent: AgentData = {
     id: 'demo-agent-001',
     name: '演示Agent',
-    type: 'demo',
+    displayName: '演示Agent',
     sourceId: sources[0].id,
+    sourceName: sources[0].name,
     status: 'online',
-    capabilities: ['task-execution', 'chat', 'analysis'],
-    config: {
-      model: 'claude-sonnet-3-5-20241022',
-      temperature: 0.7
-    },
     level: 1,
-    experience: 0,
-    health: 100,
+    exp: 0,
+    maxExp: 100,
+    role: 'Team Member',
+    skills: [],
+    personality: 'Professional and helpful',
+    color: '#3b82f6',
+    description: '演示用 Agent',
 
     // 技能树
     skillTree: {
@@ -498,10 +500,7 @@ function createDefaultAgent(): void {
       rankTier: 'bronze',
       rankPoints: 0,
       totalBattles: 0
-    },
-
-    // 金币
-    coins: 1000
+    }
   }
 
   store.updateAgentsCache([defaultAgent])

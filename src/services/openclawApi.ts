@@ -18,6 +18,14 @@ export interface AgentStatus {
   status: 'online' | 'offline' | 'working' | 'idle'
   currentTask?: string
   lastActive?: string
+  level?: number
+  exp?: number
+  maxExp?: number
+  role?: string
+  skills?: string[]
+  personality?: string
+  color?: string
+  description?: string
 }
 
 export interface TaskInfo {
