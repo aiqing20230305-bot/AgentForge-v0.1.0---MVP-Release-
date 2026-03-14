@@ -160,7 +160,7 @@ class AudioSystem {
 
     // 如果没有预加载，实时生成
     if (!buffer) {
-      buffer = this.generateSound(type)
+      buffer = this.generateSound(type) || undefined
       if (!buffer) return
       this.sounds.set(type, buffer)
     }

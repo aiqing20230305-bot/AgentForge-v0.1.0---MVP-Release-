@@ -351,8 +351,7 @@ export const useDataSourceStore = create<DataSourceStore>()(
             // 记录升级历史
             agent.levelSystem.levelHistory.push({
               level: newLevel,
-              timestamp: new Date().toISOString(),
-              totalExp: agent.levelSystem.totalExp + expAmount
+              timestamp: new Date().toISOString()
             })
           }
 
@@ -435,7 +434,7 @@ function createDefaultAgent(): void {
     name: '演示Agent',
     type: 'demo',
     sourceId: sources[0].id,
-    status: 'active',
+    status: 'online',
     capabilities: ['task-execution', 'chat', 'analysis'],
     config: {
       model: 'claude-sonnet-3-5-20241022',

@@ -26,13 +26,17 @@ export class BattleEngine {
       currentPlayer: firstPlayer as 1 | 2,
       battleLog: [
         {
+          id: `log-${Date.now()}-1`,
           timestamp: new Date().toISOString(),
           message: `战斗开始！${player1.name} vs ${player2.name}`,
+          action: 'system',
           type: 'info'
         },
         {
+          id: `log-${Date.now()}-2`,
           timestamp: new Date().toISOString(),
           message: `${firstPlayer === 1 ? player1.name : player2.name} 获得先手！`,
+          action: 'system',
           type: 'info'
         }
       ],
@@ -116,8 +120,10 @@ export class BattleEngine {
       defender.hp = Math.max(0, defender.hp - damage)
 
       log.push({
+        id: `log-${Date.now()}-${Math.random()}`,
         timestamp: new Date().toISOString(),
         message: `${attacker.name} 对 ${defender.name} 造成了 ${damage} 点伤害！`,
+        action: 'damage',
         type: 'damage',
         value: damage
       })
@@ -133,8 +139,10 @@ export class BattleEngine {
         skill.currentCooldown = skill.cooldown
 
         log.push({
+          id: `log-${Date.now()}-${Math.random()}`,
           timestamp: new Date().toISOString(),
           message: `${attacker.name} 使用 ${skill.name}，造成 ${actualDamage} 点伤害！`,
+          action: 'skill',
           type: 'damage',
           value: actualDamage
         })
@@ -143,7 +151,7 @@ export class BattleEngine {
 
     // Reduce cooldowns
     attacker.battleSkills.forEach(skill => {
-      if (skill.currentCooldown > 0) skill.currentCooldown--
+      if ((skill.currentCooldown || 0) > 0) skill.currentCooldown = (skill.currentCooldown || 0) - 1
     })
 
     // Check if battle is over
@@ -165,8 +173,10 @@ export class BattleEngine {
     if (winner) {
       updatedBattle.rewards = this.calculateRewards(battle, winner)
       updatedBattle.battleLog.push({
+        id: `log-${Date.now()}-victory`,
         timestamp: new Date().toISOString(),
         message: `${winner === 1 ? battle.player1.name : battle.player2.name} 获胜！`,
+        action: 'victory',
         type: 'info'
       })
     }

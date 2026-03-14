@@ -252,7 +252,7 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
             <div className="space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-gray-400">等级要求：</span>
-                <span className={agent.levelSystem.currentLevel >= selectedSkill.unlockLevel ? 'text-green-400' : 'text-red-400'}>
+                <span className={(agent.levelSystem?.currentLevel || 0) >= selectedSkill.unlockLevel ? 'text-green-400' : 'text-red-400'}>
                   Lv. {selectedSkill.unlockLevel}
                 </span>
               </div>
@@ -261,7 +261,7 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
                   <div className="text-gray-400 mb-1">前置技能：</div>
                   {selectedSkill.requiredSkills.map(reqId => {
                     const reqSkill = SKILLS.find(s => s.id === reqId)
-                    const hasReq = agent.skillTree.unlockedSkills.includes(reqId)
+                    const hasReq = agent.skillTree?.unlockedSkills.includes(reqId) || false
                     return (
                       <div key={reqId} className={`ml-2 ${hasReq ? 'text-green-400' : 'text-red-400'}`}>
                         {hasReq ? '✓' : '✗'} {reqSkill?.name || reqId}

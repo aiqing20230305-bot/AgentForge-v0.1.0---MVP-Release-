@@ -243,7 +243,7 @@ export const InvitePanel: React.FC = () => {
             ) : (
               <div className="space-y-3">
                 {myInviteCodes.map(code => {
-                  const daysLeft = getDaysRemaining(code.expiresAt)
+                  const daysLeft = getDaysRemaining(code.expiresAt || '')
                   const warning = getExpiryWarning(daysLeft)
 
                   return (
@@ -317,7 +317,7 @@ export const InvitePanel: React.FC = () => {
                       {code.status === 'active' && (
                         <div className="flex gap-2">
                           <button
-                            onClick={(e) => handleShowQR(code.code, code.expiresAt, e)}
+                            onClick={(e) => handleShowQR(code.code, code.expiresAt || '', e)}
                             className="p-3 bg-cyan-600 hover:bg-cyan-500 rounded-lg transition-all feedback-button-scale"
                             title="显示二维码"
                           >
