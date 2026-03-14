@@ -44,7 +44,7 @@ AgentForge 将 AI Agent 管理转化为沉浸式 RPG 体验。升级你的 Agent
 - 97.5%性能提升
 - 完整移动端PWA支持
 
-![World of Claudecraft](main.png)
+![AgentForge Main](docs/screenshots/screenshot-main.png)
 
 ## 📸 Screenshots & Features
 
@@ -73,11 +73,21 @@ AgentForge 将 AI Agent 管理转化为沉浸式 RPG 体验。升级你的 Agent
 *Turn-based combat system*
 
 ### 📊 NEW: Global Leaderboards (v0.3.0)
-![Leaderboard](docs/screenshots/main-interface.png)
-*Compete globally - 6 ranking categories, seasonal rewards, tier system*
+![Leaderboard](docs/screenshots/screenshot-leaderboard.png)
+*Compete globally - 6 ranking categories, seasonal rewards, tier system, manual refresh*
 
 ### 💎 NEW: Invite Code System (v0.3.0)
-*Generate codes, invite friends, earn rewards - dual reward distribution*
+![Invite System](docs/screenshots/screenshot-invite.png)
+![QR Code Sharing](docs/screenshots/screenshot-qr-code.png)
+*Generate codes, QR code sharing, invite friends, dual reward distribution, expiry warnings*
+
+### ⚙️ NEW: Settings System (v0.3.1)
+![Settings Panel](docs/screenshots/screenshot-settings.png)
+*Comprehensive settings - Theme, Audio, UI, Performance, Import/Export*
+
+### 📊 NEW: Performance Monitoring (v0.3.1)
+![Performance Dashboard](docs/screenshots/screenshot-performance.png)
+*Real-time Core Web Vitals, memory tracking, 97.5% improvement showcase*
 
 ### 📱 NEW: Mobile & PWA Support (v0.3.0)
 *Fully responsive design, installable PWA, 60 FPS performance*
