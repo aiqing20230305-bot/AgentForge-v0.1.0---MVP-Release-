@@ -32,6 +32,37 @@ AgentForge 是面向 Claude AI Agent 的 RPG 风格可视化构建工具。像�
 
 ![World of Claudecraft](main.png)
 
+## 📸 Screenshots
+
+### Main Interface
+![AgentForge Main Interface](docs/screenshots/screenshot-main.png)
+*Agent management panel with RPG-style character display*
+
+### Task Management
+![Task Management](docs/screenshots/screenshot-tasks.png)
+*Task tracking and assignment interface*
+
+### Data Source Discovery
+![Auto-Discovery](docs/screenshots/screenshot-discovery.png)
+*Automatic OpenClaw instance discovery and configuration*
+
+### RPG Equipment System
+![Equipment System](docs/screenshots/screenshot-equipment.png)
+*Drag-and-drop equipment slots with inventory management*
+
+### Demo GIFs
+
+**Quick Demo (5 seconds)**
+![Quick Demo](docs/screenshots/demo.gif)
+
+**Task Management Flow (10 seconds)**
+![Task Flow](docs/screenshots/task-management.gif)
+
+**Auto-Discovery Process (8 seconds)**
+![Auto Discovery](docs/screenshots/auto-discovery.gif)
+
+---
+
 ## ✨ Features
 
 - **🛡️ Visual Equipment UI**: WoW-inspired character equipment interface

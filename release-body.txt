@@ -1,0 +1,80 @@
+# AgentForge v0.1.0 - MVP Release
+
+> **Forge your AI agents like legendary heroes** | 像锻造传奇英雄一样打造你的 AI Agent
+
+---
+
+## 🌟 What is AgentForge?
+
+AgentForge is a visual RPG-style builder for Claude AI agents. Equip your agents with skills, behaviors, and constraints like assembling legendary heroes. Manage tasks, track progress, and auto-discover local OpenClaw instances - all in a sleek cyberpunk interface.
+
+**No config needed** - Start with 8 demo agents and 35 sample tasks out of the box!
+
+---
+
+## ✨ Key Features
+
+🎮 **RPG Equipment System** - Drag & drop components into equipment slots
+📋 **Task Management** - Assign and track tasks across multiple agents  
+🔍 **Auto-Discovery** - Automatically detect local OpenClaw instances
+👥 **8 Demo Agents** - Pre-configured agents ready to use
+📊 **35 Sample Tasks** - Example tasks to get started immediately
+🎨 **Cyberpunk UI** - Modern, sleek interface with smooth animations
+🌍 **Bilingual** - Full English and Chinese support
+
+---
+
+## 🚀 Quick Start
+
+```bash
+git clone https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-.git
+cd AgentForge-v0.1.0---MVP-Release-
+npm install
+npm run electron:dev
+```
+
+**That's it!** You'll see 8 agents and 35 tasks immediately.
+
+---
+
+## 📖 Documentation
+
+- [README](README.md) - Complete getting started guide
+- [README (中文)](README.zh-CN.md) - Chinese version
+- [TROUBLESHOOTING](TROUBLESHOOTING.md) - Diagnostic guide with console log interpretation
+- [CONTRIBUTING](CONTRIBUTING.md) - How to contribute
+
+---
+
+## 🐛 Bug Fixes in v0.1.0
+
+✅ **Fixed empty task list** - Standardized Agent ID format (11 code changes)
+✅ **Fixed auto-discovery** - Proper file system access via Electron API  
+✅ **Fixed OpenClaw connection** - Corrected authToken path and default port
+✅ **Improved UX** - Better empty states, status indicators, and error messages
+
+---
+
+## 🛠️ Technical Details
+
+**Built With:** Electron, React 18, TypeScript, Vite, Zustand, TailwindCSS
+**Requirements:** Node.js >= 16.0.0
+**Platforms:** macOS, Windows, Linux
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md)
+
+---
+
+## 📄 License
+
+MIT License - See [LICENSE](LICENSE)
+
+---
+
+**Start forging your AI dream team today!** 🚀
+
+像锻造传奇英雄一样打造你的 AI Agent！⚔️

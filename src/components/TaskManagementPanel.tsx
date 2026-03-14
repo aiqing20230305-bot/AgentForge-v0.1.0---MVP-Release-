@@ -9,11 +9,17 @@ import {
   Circle,
   XCircle,
   AlertCircle,
-  MessageSquare
+  MessageSquare,
+  Play,
+  Pause,
+  Eye,
+  StopCircle
 } from 'lucide-react'
 import type { Task, TaskStatus, TaskPriority } from '../types/task'
 import AgentChatPanel from './AgentChatPanel'
 import { useRipple } from '../hooks/useRipple'
+import { TaskDetailDrawer } from './TaskDetailDrawer'
+import { useTaskAutoExecution } from '../hooks/useTaskAutoExecution'
 
 const STATUS_CONFIG = {
   pending: { label: '待处理', icon: Circle, color: '#9CA3AF' },
@@ -46,7 +52,10 @@ export default function TaskManagementPanel() {
   const { getUnreadCount } = useChatStore()
   const [showNewTaskModal, setShowNewTaskModal] = useState(false)
   const [chatTask, setChatTask] = useState<Task | null>(null)
+  const [detailTaskId, setDetailTaskId] = useState<string | null>(null)
+  const [autoExecutionEnabled, setAutoExecutionEnabled] = useState(true)
   const { createRipple } = useRipple()
+  const { executeTask, cancelExecution } = useTaskAutoExecution()
 
   const tasks = getFilteredTasks()
   const stats = getTaskStats(selectedAgentId || undefined)
@@ -84,16 +93,33 @@ export default function TaskManagementPanel() {
             <Clock className="w-4 h-4" />
             <span>任务管理 ({tasks.length})</span>
           </h2>
-          <button
-            onClick={e => {
-              createRipple(e)
-              setShowNewTaskModal(true)
-            }}
-            className="px-3 py-1.5 text-xs font-medium text-white bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 rounded-xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1"
-          >
-            <Plus className="w-3 h-3" />
-            新增任务
-          </button>
+          <div className="flex items-center gap-2">
+            {/* 自动执行开关 */}
+            <button
+              onClick={e => {
+                createRipple(e)
+                setAutoExecutionEnabled(!autoExecutionEnabled)
+              }}
+              className={`px-3 py-1.5 text-xs font-medium border rounded-xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1 ${
+                autoExecutionEnabled
+                  ? 'text-green-300 bg-green-900/30 border-green-500/50 hover:bg-green-900/40'
+                  : 'text-gray-400 bg-gray-900/30 border-gray-600/50 hover:bg-gray-900/40'
+              }`}
+            >
+              {autoExecutionEnabled ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
+              自动执行
+            </button>
+            <button
+              onClick={e => {
+                createRipple(e)
+                setShowNewTaskModal(true)
+              }}
+              className="px-3 py-1.5 text-xs font-medium text-white bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 rounded-xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1"
+            >
+              <Plus className="w-3 h-3" />
+              新增任务
+            </button>
+          </div>
         </div>
 
         {/* 统计卡片 - macOS 彩色渐变 */}
@@ -271,6 +297,22 @@ export default function TaskManagementPanel() {
                     </div>
                   </div>
 
+                  {/* 执行进度条 */}
+                  {task.status === 'in_progress' && task.executionProgress !== undefined && (
+                    <div className="mb-3">
+                      <div className="flex items-center justify-between text-xs text-white/60 mb-1">
+                        <span>执行进度</span>
+                        <span>{task.executionProgress.toFixed(0)}%</span>
+                      </div>
+                      <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-blue-600 to-blue-400 h-full transition-all duration-300"
+                          style={{ width: `${task.executionProgress}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   {/* 任务信息 */}
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-3 text-white/60">
@@ -282,21 +324,64 @@ export default function TaskManagementPanel() {
                       </span>
                     </div>
 
-                    {/* 状态选择器 */}
-                    <select
-                      value={task.status}
-                      onChange={e => {
-                        e.stopPropagation()
-                        handleStatusChange(task.id, e.target.value as TaskStatus)
-                      }}
-                      onClick={e => e.stopPropagation()}
-                      className="px-3 py-1.5 text-sm bg-white/5 border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors"
-                    >
-                      <option value="pending">待处理</option>
-                      <option value="in_progress">进行中</option>
-                      <option value="completed">已完成</option>
-                      <option value="failed">失败</option>
-                    </select>
+                    {/* 操作按钮 */}
+                    <div className="flex items-center gap-2">
+                      {/* 查看详情按钮 */}
+                      <button
+                        onClick={e => {
+                          e.stopPropagation()
+                          setDetailTaskId(task.id)
+                        }}
+                        className="px-3 py-1.5 text-xs bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1"
+                      >
+                        <Eye className="w-3 h-3" />
+                        详情
+                      </button>
+
+                      {/* 取消执行按钮 */}
+                      {task.status === 'in_progress' && (
+                        <button
+                          onClick={e => {
+                            e.stopPropagation()
+                            cancelExecution(task.id)
+                          }}
+                          className="px-3 py-1.5 text-xs bg-red-500/20 hover:bg-red-500/30 border border-red-400/50 text-red-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1"
+                        >
+                          <StopCircle className="w-3 h-3" />
+                          取消
+                        </button>
+                      )}
+
+                      {/* 手动执行按钮 */}
+                      {task.status === 'pending' && (
+                        <button
+                          onClick={e => {
+                            e.stopPropagation()
+                            executeTask(task.id)
+                          }}
+                          className="px-3 py-1.5 text-xs bg-green-500/20 hover:bg-green-500/30 border border-green-400/50 text-green-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1"
+                        >
+                          <Play className="w-3 h-3" />
+                          执行
+                        </button>
+                      )}
+
+                      {/* 状态选择器 */}
+                      <select
+                        value={task.status}
+                        onChange={e => {
+                          e.stopPropagation()
+                          handleStatusChange(task.id, e.target.value as TaskStatus)
+                        }}
+                        onClick={e => e.stopPropagation()}
+                        className="px-3 py-1.5 text-sm bg-white/5 border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors"
+                      >
+                        <option value="pending">待处理</option>
+                        <option value="in_progress">进行中</option>
+                        <option value="completed">已完成</option>
+                        <option value="failed">失败</option>
+                      </select>
+                    </div>
                   </div>
 
                   {/* 展开的详情 */}
@@ -368,6 +453,9 @@ export default function TaskManagementPanel() {
 
       {/* Agent 对话面板 */}
       {chatTask && <AgentChatPanel task={chatTask} onClose={() => setChatTask(null)} />}
+
+      {/* 任务详情抽屉 */}
+      <TaskDetailDrawer taskId={detailTaskId} onClose={() => setDetailTaskId(null)} />
     </div>
   )
 }

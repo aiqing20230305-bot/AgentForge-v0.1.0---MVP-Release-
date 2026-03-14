@@ -5,7 +5,7 @@ import { useBuildStore } from './stores/buildStore'
 import { initializeDefaultDataSources } from './store/useDataSourceStore'
 import TopBar from './components/TopBar'
 import AgentDisplayPanel from './components/AgentDisplayPanel'
-import TaskManagementPanel from './components/TaskManagementPanel'
+import { MainNavigationTabs } from './components/MainNavigationTabs'
 import PreviewPanel from './components/PreviewPanel'
 import SettingsModal from './components/SettingsModal'
 import OpenClawAgentsPanel from './components/OpenClawAgentsPanel'
@@ -13,6 +13,8 @@ import ParticleBackground from './components/ParticleBackground'
 import SpaceBackground from './components/SpaceBackground'
 import CockpitLoading from './components/CockpitLoading'
 import OnboardingWizard from './components/OnboardingWizard'
+import { GlobalExpBar } from './components/GlobalExpBar'
+import { DailyQuestPanel } from './components/DailyQuestPanel'
 
 function App() {
   const { loadSettings, scanForItems, settingsOpen } = useBuildStore()
@@ -27,6 +29,7 @@ function App() {
     }
 
     // Initialize default data sources (only once on first run)
+    console.log('[App] Initializing default data sources...')
     initializeDefaultDataSources()
 
     // Load settings and scan for items on mount
@@ -47,18 +50,19 @@ function App() {
         {/* 星空背景 */}
         <SpaceBackground />
 
+        {/* 全局经验条 */}
+        <GlobalExpBar />
+
         <TopBar />
 
-        <div className="flex-1 flex min-h-0 h-full">
+        <div className="flex-1 flex min-h-0 h-full mt-12">
           {/* Agent Display Panel - Full Width */}
           <div className="flex-1 min-w-0 overflow-hidden h-full">
             <AgentDisplayPanel />
           </div>
 
-          {/* Task Management Panel - Right */}
-          <div className="w-[480px] flex-shrink-0 border-l border-white/10 overflow-hidden h-full">
-            <TaskManagementPanel />
-          </div>
+          {/* Main Navigation Tabs - Right */}
+          <MainNavigationTabs />
         </div>
 
         {/* Preview Panel */}
@@ -69,6 +73,9 @@ function App() {
 
         {/* Onboarding Wizard */}
         {showOnboarding && <OnboardingWizard onComplete={() => setShowOnboarding(false)} />}
+
+        {/* 每日任务面板 */}
+        <DailyQuestPanel />
       </div>
     </DndProvider>
   )

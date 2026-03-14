@@ -129,7 +129,8 @@ export default function AutoDiscoveryPanel() {
       name: result.name,
       type: result.type as any,
       config: result.config,
-      enabled: true
+      enabled: true,
+      isDefault: false
     }
 
     addSource(newSource)

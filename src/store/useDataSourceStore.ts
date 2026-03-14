@@ -69,6 +69,24 @@ export interface DataSource {
   errorMessage?: string
 }
 
+// Energy tracking
+export interface EnergyRecord {
+  id: string
+  taskId: string
+  taskTitle: string
+  tokensUsed: number
+  timestamp: string
+  model: string
+  duration: number
+}
+
+// Level up history
+export interface LevelUpRecord {
+  level: number
+  timestamp: string
+  expGained: number
+}
+
 // Agent 数据（从数据源获取的标准格式）
 export interface AgentData {
   id: string
@@ -87,6 +105,58 @@ export interface AgentData {
   avatar?: string
   description?: string
   metadata?: Record<string, any> // 额外的自定义字段
+
+  // Energy tracking
+  energyStats?: {
+    totalTokensUsed: number
+    tokensUsedToday: number
+    tokensUsedThisWeek: number
+    tokensUsedThisMonth: number
+    averagePerTask: number
+    peakTokensPerHour: number
+  }
+  energyBudget?: {
+    dailyLimit: number
+    weeklyLimit: number
+    monthlyLimit: number
+    alertThreshold: number
+  }
+  energyHistory?: EnergyRecord[]
+
+  // Leveling system
+  levelSystem?: {
+    currentLevel: number
+    currentExp: number
+    expToNextLevel: number
+    totalExp: number
+    prestigeLevel: number
+    levelHistory: LevelUpRecord[]
+  }
+
+  // Skill tree
+  skillTree?: {
+    unlockedSkills: string[]
+    activeSkills: string[]
+    skillPoints: number
+    skillLevels: Record<string, number>
+  }
+
+  // Achievements
+  achievements?: {
+    unlocked: string[]
+    progress: Record<string, number>
+  }
+
+  // PvP stats
+  pvpStats?: {
+    wins: number
+    losses: number
+    winRate: number
+    mmr: number
+    rankTier: 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond' | 'master'
+    rankPoints: number
+    totalBattles: number
+  }
 }
 
 interface DataSourceStore {
@@ -262,6 +332,8 @@ export function initializeDefaultDataSources(): void {
 
   // 如果已有数据源，不初始化
   if (store.sources.length > 0) {
+    // 但仍然需要确保所有Agent有扩展数据
+    initializeAgentExtendedData()
     return
   }
 
@@ -277,4 +349,90 @@ export function initializeDefaultDataSources(): void {
     enabled: true,
     isDefault: true
   })
+
+  // 初始化Agent扩展数据
+  initializeAgentExtendedData()
+}
+
+/**
+ * 初始化Agent扩展数据（技能树、成就、等级系统等）
+ */
+export function initializeAgentExtendedData(): void {
+  const store = useDataSourceStore.getState()
+  const agents = [...store.agentsCache]
+
+  agents.forEach(agent => {
+    // 初始化技能树
+    if (!agent.skillTree) {
+      agent.skillTree = {
+        unlockedSkills: [],
+        activeSkills: [],
+        skillPoints: 5, // 给新用户5个技能点
+        skillLevels: {}
+      }
+    }
+
+    // 初始化成就系统
+    if (!agent.achievements) {
+      agent.achievements = {
+        unlocked: [],
+        progress: {
+          // 初始化一些基础进度
+          first_task: 0,
+          task_master: 0,
+          level_10: agent.level >= 10 ? 1 : 0
+        }
+      }
+    }
+
+    // 初始化等级系统
+    if (!agent.levelSystem) {
+      agent.levelSystem = {
+        currentLevel: agent.level || 1,
+        currentExp: agent.exp || 0,
+        expToNextLevel: Math.round(100 * Math.pow(1.5, agent.level || 1)),
+        totalExp: agent.exp || 0,
+        prestigeLevel: 0,
+        levelHistory: []
+      }
+    }
+
+    // 初始化能耗统计
+    if (!agent.energyStats) {
+      agent.energyStats = {
+        totalTokensUsed: 0,
+        tokensUsedToday: 0,
+        tokensUsedThisWeek: 0,
+        tokensUsedThisMonth: 0,
+        averagePerTask: 0,
+        peakTokensPerHour: 0
+      }
+    }
+
+    // 初始化能耗预算
+    if (!agent.energyBudget) {
+      agent.energyBudget = {
+        dailyLimit: 100000,
+        weeklyLimit: 500000,
+        monthlyLimit: 2000000,
+        alertThreshold: 80
+      }
+    }
+
+    // 初始化PvP统计
+    if (!agent.pvpStats) {
+      agent.pvpStats = {
+        wins: 0,
+        losses: 0,
+        winRate: 0,
+        mmr: 1000,
+        rankTier: 'bronze',
+        rankPoints: 0,
+        totalBattles: 0
+      }
+    }
+  })
+
+  // 更新缓存
+  store.updateAgentsCache(agents)
 }

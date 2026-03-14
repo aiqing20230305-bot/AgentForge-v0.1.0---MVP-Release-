@@ -1,0 +1,281 @@
+/**
+ * 即时反馈动画样式
+ */
+
+/* 涟漪扩散动画 */
+@keyframes ripple-expand {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(20);
+    opacity: 0;
+  }
+}
+
+/* 按钮点击时的缩放效果 */
+.feedback-button-scale {
+  transition: transform 0.1s ease-out;
+}
+
+.feedback-button-scale:active {
+  transform: scale(0.95);
+}
+
+/* 悬停时的发光效果 */
+.feedback-button-glow {
+  transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.feedback-button-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* 成功动画 */
+@keyframes success-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+.feedback-success-pulse {
+  animation: success-pulse 0.5s ease-out;
+}
+
+/* 错误震动动画 */
+@keyframes error-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.feedback-error-shake {
+  animation: error-shake 0.4s ease-out;
+}
+
+/* 升级庆祝动画 */
+@keyframes levelup-celebrate {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.2) rotate(-5deg);
+  }
+  75% {
+    transform: scale(1.2) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.feedback-levelup-celebrate {
+  animation: levelup-celebrate 0.6s ease-out;
+}
+
+/* 成就解锁闪光动画 */
+@keyframes achievement-flash {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(251, 191, 36, 0);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
+  }
+}
+
+.feedback-achievement-flash {
+  animation: achievement-flash 1s ease-out;
+}
+
+/* 战斗冲击波动画 */
+@keyframes battle-shockwave {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.feedback-battle-shockwave {
+  animation: battle-shockwave 0.5s ease-out;
+}
+
+/* 全局粒子容器 */
+.instant-feedback-particle {
+  will-change: transform, opacity;
+}
+
+.instant-feedback-ripple {
+  will-change: transform, opacity;
+}
+
+/* 防止动画影响布局 */
+.feedback-no-layout-shift {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* 金币飞入动画 */
+@keyframes coin-fly-in {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-20px, -50px) scale(1.5) rotate(180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-40px, -100px) scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.feedback-coin-fly {
+  animation: coin-fly-in 0.8s ease-out forwards;
+}
+
+/* 经验值数字上升动画 */
+@keyframes exp-number-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+
+.feedback-exp-rise {
+  animation: exp-number-rise 1s ease-out forwards;
+}
+
+/* 进度条填充动画 */
+@keyframes progress-fill {
+  from {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+.feedback-progress-fill {
+  animation: progress-fill 0.5s ease-out;
+}
+
+/* 徽章旋转出现动画 */
+@keyframes badge-spin-in {
+  0% {
+    transform: scale(0) rotate(-360deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.feedback-badge-spin {
+  animation: badge-spin-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* 连击数字放大动画 */
+@keyframes combo-scale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+}
+
+.feedback-combo-scale {
+  animation: combo-scale 0.3s ease-out;
+}
+
+/* 闪光效果 */
+@keyframes flash-light {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.feedback-flash {
+  animation: flash-light 0.5s ease-out;
+}
+
+/* 脉冲发光效果 */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 20px currentColor;
+  }
+}
+
+.feedback-pulse-glow {
+  animation: pulse-glow 1s ease-in-out infinite;
+}
+
+/* 呼吸动画 */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+.feedback-breathe {
+  animation: breathe 2s ease-in-out infinite;
+}
+
+/* 弹跳动画 */
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.feedback-bounce {
+  animation: bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}

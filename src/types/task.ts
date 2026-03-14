@@ -16,6 +16,26 @@ export interface Task {
   completedAt?: string
   result?: string // 任务执行结果
   tags?: string[] // 任务标签
+
+  // Auto-execution fields
+  autoExecution?: boolean
+  executionProgress?: number // 0-100
+  estimatedDuration?: number // seconds
+  actualDuration?: number // seconds
+  retryCount?: number
+  maxRetries?: number // default 3
+  errorMessage?: string
+  executionLog?: string[]
+
+  // Token metrics
+  tokenMetrics?: {
+    estimatedTokens: number
+    actualTokens: number
+    inputTokens: number
+    outputTokens: number
+    model: string
+    costUSD: number
+  }
 }
 
 export interface Project {
