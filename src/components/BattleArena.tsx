@@ -6,7 +6,7 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Battle, BattleAgent } from '../types/battle'
-import { Heart, Shield, Swords, Zap, Skull } from 'lucide-react'
+import { Heart, Shield, Swords, Zap } from 'lucide-react'
 
 interface BattleArenaProps {
   battle: Battle
@@ -24,18 +24,6 @@ export const BattleArena: React.FC<BattleArenaProps> = ({
   const isPlayerTurn = battle.currentPlayer === 1
   const player = battle.player1
   const opponent = battle.player2
-
-  // 获取HP百分比
-  const getHPPercentage = (agent: BattleAgent) => {
-    return (agent.hp / agent.maxHp) * 100
-  }
-
-  // HP条颜色
-  const getHPColor = (percentage: number) => {
-    if (percentage > 60) return 'from-green-600 to-green-400'
-    if (percentage > 30) return 'from-yellow-600 to-yellow-400'
-    return 'from-red-600 to-red-400'
-  }
 
   return (
     <div className="fixed inset-0 z-50 bg-gradient-to-b from-purple-900 via-blue-900 to-black overflow-hidden">

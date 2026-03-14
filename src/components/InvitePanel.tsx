@@ -3,9 +3,9 @@
  * 管理邀请码生成、使用、统计和排行榜
  */
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Gift, Copy, Check, UserPlus, Trophy, TrendingUp, Award, Coins, Zap, X, QrCode } from 'lucide-react'
+import { Gift, Copy, Check, UserPlus, Trophy, Award, Coins, Zap, QrCode } from 'lucide-react'
 import { useInviteStore } from '../store/useInviteStore'
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import { useInstantFeedback } from '../hooks/useInstantFeedback'

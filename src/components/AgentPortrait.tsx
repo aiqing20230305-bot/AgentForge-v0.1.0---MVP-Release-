@@ -1,8 +1,8 @@
 import { OpenClawAgent } from '../utils/openclawLoader'
 import { useState } from 'react'
-import { Palette, Plus, Clock, MessageCircle } from 'lucide-react'
+import { Palette } from 'lucide-react'
 import { usePortraitStore } from '../store/usePortraitStore'
-import { useSkillStore, SKILL_CATEGORY_CONFIG } from '../store/useSkillStore'
+import { useSkillStore } from '../store/useSkillStore'
 import PortraitSelector from './PortraitSelector'
 import SkillSelector from './SkillSelector'
 import AgentTaskHistory from './AgentTaskHistory'
@@ -172,14 +172,8 @@ export default function AgentPortrait({ agent, size = 'large' }: AgentPortraitPr
   const portraits = usePortraitStore(state => state.portraits)
   const selectedPortrait = portraits.find(p => p.id === selectedPortraitId) || null
 
-  const agentSkills = getAgentSkills(agent.name.toLowerCase())
-
   // 确定要显示的图片
   const agentImage = selectedPortrait?.path || null
-
-  // 图片加载失败处理
-  const [imageError, setImageError] = useState(false)
-  const handleImageError = () => setImageError(true)
 
   const sizeClasses = {
     small: 'w-16 h-20',
@@ -343,24 +337,5 @@ export default function AgentPortrait({ agent, size = 'large' }: AgentPortraitPr
 }
 
 // 属性条组件（紧凑版）
-function AttributeBar({ label, value, color }: { label: string; value: number; color: string }) {
-  return (
-    <div>
-      <div className="flex justify-between text-[10px] text-white/80 mb-1">
-        <span>{label}</span>
-        <span className="font-bold">{value}</span>
-      </div>
-      <div className="h-1.5 bg-black/50 rounded-full overflow-hidden border border-white/10">
-        <div
-          className="h-full rounded-full transition-all duration-500"
-          style={{
-            width: `${value}%`,
-            background: `linear-gradient(90deg, ${color}60, ${color})`
-          }}
-        >
-          <div className="h-full bg-gradient-to-b from-white/30 to-transparent" />
-        </div>
-      </div>
-    </div>
-  )
-}
+// AttributeBar component removed - not currently used
+// Can be restored if needed in future
