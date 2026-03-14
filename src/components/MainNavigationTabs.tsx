@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react'
-import { Activity, Zap, Trophy, Swords, BarChart3, TrendingUp, Gift } from 'lucide-react'
+import { Activity, Zap, Trophy, Swords, BarChart3, TrendingUp, Gift, Settings, Gauge } from 'lucide-react'
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import TaskManagementPanel from './TaskManagementPanel'
 import { EnergyDashboard } from './EnergyDashboard'
@@ -15,9 +15,11 @@ import { BattleArena } from './BattleArena'
 import { BattleResult } from './BattleResult'
 import { LeaderboardPanel } from './LeaderboardPanel'
 import { InvitePanel } from './InvitePanel'
+import { SettingsPanel } from './SettingsPanel'
+import { PerformanceDashboard } from './PerformanceDashboard'
 import type { Battle } from '../types/battle'
 
-type TabType = 'tasks' | 'energy' | 'skills' | 'achievements' | 'battle' | 'leaderboard' | 'invite'
+type TabType = 'tasks' | 'energy' | 'skills' | 'achievements' | 'battle' | 'leaderboard' | 'invite' | 'performance' | 'settings'
 
 export const MainNavigationTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('tasks')
@@ -37,7 +39,9 @@ export const MainNavigationTabs: React.FC = () => {
     { id: 'achievements' as TabType, label: '成就', icon: Trophy },
     { id: 'battle' as TabType, label: '对战', icon: Swords },
     { id: 'leaderboard' as TabType, label: '排行', icon: TrendingUp },
-    { id: 'invite' as TabType, label: '邀请', icon: Gift }
+    { id: 'invite' as TabType, label: '邀请', icon: Gift },
+    { id: 'performance' as TabType, label: '性能', icon: Gauge },
+    { id: 'settings' as TabType, label: '设置', icon: Settings }
   ]
 
   const handleUpgradeSkill = (skillId: string) => {
@@ -140,6 +144,8 @@ export const MainNavigationTabs: React.FC = () => {
         )}
         {activeTab === 'leaderboard' && <LeaderboardPanel />}
         {activeTab === 'invite' && <InvitePanel />}
+        {activeTab === 'performance' && <PerformanceDashboard />}
+        {activeTab === 'settings' && <SettingsPanel />}
       </div>
 
       {/* 战斗场景（覆盖整个屏幕） */}

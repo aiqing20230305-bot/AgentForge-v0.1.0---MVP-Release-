@@ -5,11 +5,12 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Gift, Copy, Check, UserPlus, Trophy, TrendingUp, Award, Coins, Zap, X } from 'lucide-react'
+import { Gift, Copy, Check, UserPlus, Trophy, TrendingUp, Award, Coins, Zap, X, QrCode } from 'lucide-react'
 import { useInviteStore } from '../store/useInviteStore'
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import { useInstantFeedback } from '../hooks/useInstantFeedback'
 import { audioSystem } from '../services/audioSystem'
+import { InviteQRModal } from './InviteQRModal'
 
 export const InvitePanel: React.FC = () => {
   const feedback = useInstantFeedback()
@@ -30,6 +31,9 @@ export const InvitePanel: React.FC = () => {
   const [inputCode, setInputCode] = useState('')
   const [copiedCode, setCopiedCode] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'my-codes' | 'use-code' | 'leaderboard'>('my-codes')
+  const [qrModalOpen, setQrModalOpen] = useState(false)
+  const [selectedCode, setSelectedCode] = useState<string>('')
+  const [selectedExpiry, setSelectedExpiry] = useState<string>('')
 
   // 当前Agent（演示用第一个）
   const myAgent = agentsCache[0] || { id: 'demo-agent-001', name: '演示Agent' }
@@ -59,6 +63,36 @@ export const InvitePanel: React.FC = () => {
     setCopiedCode(code)
     setTimeout(() => setCopiedCode(null), 2000)
     audioSystem.play('success')
+  }
+
+  // 显示二维码
+  const handleShowQR = (code: string, expiresAt: string, e: React.MouseEvent) => {
+    feedback.onClick(e)
+    audioSystem.play('click')
+
+    setSelectedCode(code)
+    setSelectedExpiry(new Date(expiresAt).toLocaleDateString('zh-CN'))
+    setQrModalOpen(true)
+  }
+
+  // 计算剩余天数
+  const getDaysRemaining = (expiresAt: string): number => {
+    const now = new Date().getTime()
+    const expiry = new Date(expiresAt).getTime()
+    const daysLeft = Math.ceil((expiry - now) / (1000 * 60 * 60 * 24))
+    return daysLeft
+  }
+
+  // 获取过期警告状态
+  const getExpiryWarning = (daysLeft: number): { level: 'none' | 'warning' | 'urgent'; message: string } => {
+    if (daysLeft <= 0) {
+      return { level: 'none', message: '' }
+    } else if (daysLeft <= 3) {
+      return { level: 'urgent', message: `⚠️ ${daysLeft}天后过期` }
+    } else if (daysLeft <= 7) {
+      return { level: 'warning', message: `⏰ ${daysLeft}天后过期` }
+    }
+    return { level: 'none', message: `${daysLeft}天后过期` }
   }
 
   // 使用邀请码
@@ -209,7 +243,11 @@ export const InvitePanel: React.FC = () => {
               </div>
             ) : (
               <div className="space-y-3">
-                {myInviteCodes.map(code => (
+                {myInviteCodes.map(code => {
+                  const daysLeft = getDaysRemaining(code.expiresAt)
+                  const warning = getExpiryWarning(daysLeft)
+
+                  return (
                   <motion.div
                     key={code.code}
                     initial={{ opacity: 0, y: 20 }}
@@ -239,14 +277,37 @@ export const InvitePanel: React.FC = () => {
                             </span>
                           )}
                           {code.status === 'active' && (
-                            <span className="px-2 py-0.5 bg-pink-500/20 text-pink-400 text-xs font-bold rounded-full">
-                              有效
-                            </span>
+                            <>
+                              <span className="px-2 py-0.5 bg-pink-500/20 text-pink-400 text-xs font-bold rounded-full">
+                                有效
+                              </span>
+                              {warning.level === 'urgent' && (
+                                <span className="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs font-bold rounded-full animate-pulse">
+                                  即将过期
+                                </span>
+                              )}
+                              {warning.level === 'warning' && (
+                                <span className="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-xs font-bold rounded-full">
+                                  临近过期
+                                </span>
+                              )}
+                            </>
                           )}
                         </div>
                         <div className="text-xs text-gray-400 mt-2">
                           创建于 {new Date(code.createdAt).toLocaleDateString('zh-CN')}
                         </div>
+                        {code.status === 'active' && warning.message && (
+                          <div className={`text-xs mt-1 font-medium ${
+                            warning.level === 'urgent'
+                              ? 'text-red-400'
+                              : warning.level === 'warning'
+                              ? 'text-yellow-400'
+                              : 'text-gray-500'
+                          }`}>
+                            {warning.message}
+                          </div>
+                        )}
                         {code.usedBy && (
                           <div className="text-xs text-green-400 mt-1">
                             ✅ 被 {code.usedByName} 使用
@@ -255,20 +316,31 @@ export const InvitePanel: React.FC = () => {
                       </div>
 
                       {code.status === 'active' && (
-                        <button
-                          onClick={(e) => handleCopyCode(code.code, e)}
-                          className="p-3 bg-pink-600 hover:bg-pink-500 rounded-lg transition-all feedback-button-scale"
-                        >
-                          {copiedCode === code.code ? (
-                            <Check className="w-5 h-5 text-white" />
-                          ) : (
-                            <Copy className="w-5 h-5 text-white" />
-                          )}
-                        </button>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={(e) => handleShowQR(code.code, code.expiresAt, e)}
+                            className="p-3 bg-cyan-600 hover:bg-cyan-500 rounded-lg transition-all feedback-button-scale"
+                            title="显示二维码"
+                          >
+                            <QrCode className="w-5 h-5 text-white" />
+                          </button>
+                          <button
+                            onClick={(e) => handleCopyCode(code.code, e)}
+                            className="p-3 bg-pink-600 hover:bg-pink-500 rounded-lg transition-all feedback-button-scale"
+                            title="复制邀请码"
+                          >
+                            {copiedCode === code.code ? (
+                              <Check className="w-5 h-5 text-white" />
+                            ) : (
+                              <Copy className="w-5 h-5 text-white" />
+                            )}
+                          </button>
+                        </div>
                       )}
                     </div>
                   </motion.div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </div>
@@ -381,6 +453,14 @@ export const InvitePanel: React.FC = () => {
           💡 提示：每个邀请码只能使用一次 • 邀请码有效期30天
         </div>
       </div>
+
+      {/* QR码模态框 */}
+      <InviteQRModal
+        isOpen={qrModalOpen}
+        onClose={() => setQrModalOpen(false)}
+        inviteCode={selectedCode}
+        expiryDate={selectedExpiry}
+      />
     </div>
   )
 }

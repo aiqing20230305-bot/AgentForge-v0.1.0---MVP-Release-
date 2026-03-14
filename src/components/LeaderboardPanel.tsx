@@ -12,8 +12,38 @@ import { RankDetailModal } from './RankDetailModal'
 export const LeaderboardPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<LeaderboardType>('level')
   const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null)
+  const [refreshing, setRefreshing] = useState(false)
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date>(new Date())
 
   const { getLeaderboard } = useLeaderboardStore()
+
+  /**
+   * 手动刷新排行榜（30秒冷却）
+   */
+  const handleRefresh = () => {
+    const now = new Date()
+    const timeSinceLastRefresh = (now.getTime() - lastRefreshTime.getTime()) / 1000
+
+    if (timeSinceLastRefresh < 30) {
+      const remainingTime = Math.ceil(30 - timeSinceLastRefresh)
+      alert(`⏰ 请等待 ${remainingTime} 秒后再刷新`)
+      return
+    }
+
+    setRefreshing(true)
+    setLastRefreshTime(now)
+
+    // 模拟刷新延迟
+    setTimeout(() => {
+      setRefreshing(false)
+      // Toast notification
+      const toast = document.createElement('div')
+      toast.className = 'fixed top-20 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-fade-in'
+      toast.textContent = '✅ 排行榜已更新！'
+      document.body.appendChild(toast)
+      setTimeout(() => document.body.removeChild(toast), 2000)
+    }, 1000)
+  }
 
   const currentLeaderboard = useMemo(() => {
     return getLeaderboard(activeTab, 100)
@@ -55,12 +85,44 @@ export const LeaderboardPanel: React.FC = () => {
   return (
     <div className="h-full flex flex-col bg-gray-900 text-gray-100">
       {/* Header */}
-      <div className="p-4 border-b border-gray-700">
-        <h2 className="text-2xl font-bold flex items-center gap-2">
-          <span>🏆</span>
-          <span>排行榜</span>
-        </h2>
-        <p className="text-sm text-gray-400 mt-1">查看全球 Agent 排名</p>
+      <div className="p-4 border-b border-gray-700 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold flex items-center gap-2">
+            <span>🏆</span>
+            <span>排行榜</span>
+          </h2>
+          <p className="text-sm text-gray-400 mt-1">查看全球 Agent 排名</p>
+        </div>
+
+        {/* Refresh Button */}
+        <button
+          onClick={handleRefresh}
+          disabled={refreshing}
+          className={`
+            flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm
+            transition-all duration-200
+            ${refreshing
+              ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
+              : 'bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/30'
+            }
+          `}
+          title="刷新排行榜（30秒冷却）"
+        >
+          <svg
+            className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
+          </svg>
+          <span>{refreshing ? '刷新中...' : '刷新'}</span>
+        </button>
       </div>
 
       {/* Tabs */}

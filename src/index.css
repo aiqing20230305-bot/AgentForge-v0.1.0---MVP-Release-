@@ -168,3 +168,50 @@ body {
 .category-contexts { color: #6c5ce7; }
 .category-formats { color: #a29bfe; }
 .category-tools { color: #55a3ff; }
+
+/* Custom range slider for settings */
+input[type="range"].slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="range"].slider-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #06b6d4;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+input[type="range"].slider-thumb::-webkit-slider-thumb:hover {
+  background: #0891b2;
+  transform: scale(1.2);
+}
+
+input[type="range"].slider-thumb::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #06b6d4;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+input[type="range"].slider-thumb::-moz-range-thumb:hover {
+  background: #0891b2;
+  transform: scale(1.2);
+}
+
+input[type="range"].slider-thumb:disabled::-webkit-slider-thumb {
+  background: #4a4a6a;
+  cursor: not-allowed;
+}
+
+input[type="range"].slider-thumb:disabled::-moz-range-thumb {
+  background: #4a4a6a;
+  cursor: not-allowed;
+}

@@ -5,7 +5,7 @@
 
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Share2, Copy, Download, X, Twitter, Linkedin, Loader2 } from 'lucide-react'
+import { Share2, Copy, Download, X, Twitter, Loader2 } from 'lucide-react'
 import { useInstantFeedback } from '../hooks/useInstantFeedback'
 import { audioSystem } from '../services/audioSystem'
 import type { Achievement } from '../data/achievements'

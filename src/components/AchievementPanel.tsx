@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ACHIEVEMENTS, type Achievement } from '../data/achievements'
 import type { AgentData } from '../store/useDataSourceStore'
-import { Trophy, Lock, Star, TrendingUp, Filter } from 'lucide-react'
+import { Trophy, Lock } from 'lucide-react'
 import { useInstantFeedback } from '../hooks/useInstantFeedback'
 import { audioSystem } from '../services/audioSystem'
 

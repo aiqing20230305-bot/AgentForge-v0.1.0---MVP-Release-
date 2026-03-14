@@ -3,7 +3,6 @@ import { useTaskStore } from '../stores/taskStore'
 import { useChatStore } from '../store/useChatStore'
 import {
   Plus,
-  Filter,
   Clock,
   CheckCircle2,
   Circle,
