@@ -3,11 +3,10 @@
  * Integrates task executor with React state management
  */
 
-import { useEffect, useCallback } from 'react'
+import { useCallback } from 'react'
 import { useTaskStore } from '../stores/taskStore'
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import { taskExecutor } from '../services/taskExecutor'
-import type { Task } from '../types/task'
 
 export function useTaskAutoExecution() {
   const { tasks, updateTask } = useTaskStore()

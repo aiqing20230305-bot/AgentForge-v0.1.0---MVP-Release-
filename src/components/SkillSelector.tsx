@@ -14,7 +14,7 @@ interface SkillSelectorProps {
 }
 
 export default function SkillSelector({ agentId, agentName, onClose }: SkillSelectorProps) {
-  const { skills, addSkill, removeSkill, getAgentSkills } = useSkillStore()
+  const { addSkill, removeSkill, getAgentSkills } = useSkillStore()
   const [selectedCategory, setSelectedCategory] = useState<SkillCategory | 'all'>('all')
   const [searchQuery, setSearchQuery] = useState('')
 

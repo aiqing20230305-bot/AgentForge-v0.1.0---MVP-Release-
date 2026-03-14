@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { X, Upload, Search, Filter, Trash2, Image as ImageIcon } from 'lucide-react'
-import { usePortraitStore, Portrait } from '../store/usePortraitStore'
+import { usePortraitStore } from '../store/usePortraitStore'
 
 interface PortraitSelectorProps {
   agentId: string

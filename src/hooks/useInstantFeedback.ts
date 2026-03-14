@@ -158,7 +158,7 @@ export function useInstantFeedback() {
    * 主反馈触发函数
    */
   const trigger = useCallback((options: FeedbackOptions) => {
-    const { type, x, y, intensity = 'medium', sound = true, haptic = true } = options
+    const { type, x, y, sound = true, haptic = true } = options
 
     // 默认使用鼠标位置
     const posX = x ?? window.innerWidth / 2

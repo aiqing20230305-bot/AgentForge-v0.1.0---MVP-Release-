@@ -152,7 +152,7 @@ interface AgentBattleCardProps {
   className?: string
 }
 
-const AgentBattleCard: React.FC<AgentBattleCardProps> = ({ agent, isOpponent, isActive, className }) => {
+const AgentBattleCard: React.FC<AgentBattleCardProps> = ({ agent, isActive, className }) => {
   const hpPercentage = (agent.hp / agent.maxHp) * 100
   const hpColor = hpPercentage > 60 ? 'from-green-600 to-green-400' : hpPercentage > 30 ? 'from-yellow-600 to-yellow-400' : 'from-red-600 to-red-400'
 

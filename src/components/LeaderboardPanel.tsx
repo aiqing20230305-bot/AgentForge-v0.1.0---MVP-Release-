@@ -156,7 +156,7 @@ export const LeaderboardPanel: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-2">
-            {currentLeaderboard.map((entry, index) => {
+            {currentLeaderboard.map((entry) => {
               const medal = getMedalIcon(entry.rank)
               const isTopTen = entry.rank <= 10
               const tierColor = getTierColor(entry.tier)

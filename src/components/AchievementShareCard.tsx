@@ -165,20 +165,6 @@ export const AchievementShareCard: React.FC<AchievementShareCardProps> = ({
   }
 
   /**
-   * 分享到LinkedIn
-   */
-  const handleShareLinkedIn = (e: React.MouseEvent) => {
-    feedback.onClick(e)
-    audioSystem.play('click')
-
-    const title = `我在 AgentForge 解锁了「${achievement.name}」成就！`
-    const summary = `${agentName} (Lv.${agentLevel}) 已解锁 ${totalAchievements} 个成就。AgentForge - WoW风格的AI Agent可视化管理系统！`
-
-    const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(GITHUB_URL)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`
-    window.open(shareUrl, '_blank', 'width=600,height=400')
-  }
-
-  /**
    * 复制文本到剪贴板
    */
   const handleCopyText = async (e: React.MouseEvent) => {

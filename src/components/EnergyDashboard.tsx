@@ -45,7 +45,6 @@ export const EnergyDashboard: React.FC = () => {
   const topTasks = getTopConsumingTasks()
 
   // 判断是否需要告警
-  const isWarning = (percent: number) => percent >= alertThreshold && percent < 100
   const isDanger = (percent: number) => percent >= 100
 
   const showAlert = isDanger(dailyPercent) || isDanger(weeklyPercent) || isDanger(monthlyPercent)

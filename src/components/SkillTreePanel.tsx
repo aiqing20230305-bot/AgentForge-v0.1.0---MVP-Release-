@@ -128,7 +128,6 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
                   {skills.map(skill => {
                     const level = getSkillLevel(skill.id)
                     const unlocked = isSkillUnlocked(skill.id)
-                    const canUpgrade = canUnlock(skill)
                     const isMaxLevel = level >= skill.maxLevel
 
                     return (

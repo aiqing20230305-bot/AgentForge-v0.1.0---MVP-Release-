@@ -5,12 +5,10 @@
 
 import React, { useState } from 'react'
 import { useEnergyStore } from '../store/useEnergyStore'
-import { useDataSourceStore } from '../store/useDataSourceStore'
 import { Settings, Save, RotateCcw, AlertTriangle, Zap } from 'lucide-react'
 
 export const EnergyBudgetSettings: React.FC = () => {
   const { budget, alertThreshold, autoPauseEnabled, setBudget, setAlertThreshold, setAutoPause } = useEnergyStore()
-  const { agents } = useDataSourceStore()
 
   // 本地状态
   const [localBudget, setLocalBudget] = useState(budget)

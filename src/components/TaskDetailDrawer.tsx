@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import { useTaskStore } from '../stores/taskStore'
 import { TaskTimeline } from './TaskTimeline'
 import { TaskExecutionLog } from './TaskExecutionLog'
-import { downloadTask, copyTaskToClipboard } from '../utils/taskExporter'
+import { downloadTask } from '../utils/taskExporter'
 import { useTaskAutoExecution } from '../hooks/useTaskAutoExecution'
 
 interface TaskDetailDrawerProps {
@@ -19,7 +19,6 @@ export const TaskDetailDrawer: React.FC<TaskDetailDrawerProps> = ({ taskId, onCl
   const { tasks } = useTaskStore()
   const { executeTask, cancelExecution } = useTaskAutoExecution()
   const [activeTab, setActiveTab] = useState<'info' | 'timeline' | 'logs'>('info')
-  const [copySuccess, setCopySuccess] = useState(false)
 
   const task = tasks.find(t => t.id === taskId)
 
@@ -35,12 +34,6 @@ export const TaskDetailDrawer: React.FC<TaskDetailDrawerProps> = ({ taskId, onCl
 
   const handleExport = (format: 'json' | 'markdown') => {
     downloadTask(task, format)
-  }
-
-  const handleCopy = async (format: 'json' | 'markdown') => {
-    await copyTaskToClipboard(task, format)
-    setCopySuccess(true)
-    setTimeout(() => setCopySuccess(false), 2000)
   }
 
   const getPriorityColor = (priority: string) => {
@@ -265,10 +258,6 @@ export const TaskDetailDrawer: React.FC<TaskDetailDrawerProps> = ({ taskId, onCl
               📦 导出 JSON
             </button>
           </div>
-
-          {copySuccess && (
-            <div className="text-center text-green-400 text-sm">✅ 已复制到剪贴板</div>
-          )}
         </div>
       </div>
 

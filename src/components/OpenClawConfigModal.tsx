@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { X, Zap, Server, Key, CheckCircle, XCircle, Loader } from 'lucide-react'
 import {
   OpenClawConfig,

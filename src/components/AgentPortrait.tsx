@@ -2,7 +2,6 @@ import { OpenClawAgent } from '../utils/openclawLoader'
 import { useState } from 'react'
 import { Palette } from 'lucide-react'
 import { usePortraitStore } from '../store/usePortraitStore'
-import { useSkillStore } from '../store/useSkillStore'
 import PortraitSelector from './PortraitSelector'
 import SkillSelector from './SkillSelector'
 import AgentTaskHistory from './AgentTaskHistory'
@@ -160,7 +159,6 @@ export default function AgentPortrait({ agent, size = 'large' }: AgentPortraitPr
     borderColor: agent.color || DEFAULT_PORTRAIT.borderColor,
     title: agent.role || DEFAULT_PORTRAIT.title
   }
-  const { getAgentSkills } = useSkillStore()
   const [showPortraitSelector, setShowPortraitSelector] = useState(false)
   const [showSkillSelector, setShowSkillSelector] = useState(false)
   const [showTaskHistory, setShowTaskHistory] = useState(false)

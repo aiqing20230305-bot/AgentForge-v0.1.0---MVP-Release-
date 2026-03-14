@@ -5,8 +5,7 @@ import { useBuildStore } from '../stores/buildStore'
 export default function OpenClawAgentsPanel() {
   const [agents, setAgents] = useState<OpenClawAgent[]>([])
   const [loading, setLoading] = useState(true)
-  const { inventoryItems, scanForItems, addInventoryItem, equipItem, setSelectedCategory } =
-    useBuildStore()
+  const { addInventoryItem, equipItem, setSelectedCategory } = useBuildStore()
 
   useEffect(() => {
     async function loadAgents() {
