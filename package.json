@@ -8,8 +8,7 @@
     "build": "tsc && vite build && electron-builder",
     "preview": "vite preview",
     "electron:dev": "concurrently \"vite\" \"electron .\"",
-    "typecheck": "tsc --noEmit",
-    "generate-agents": "node scripts/generate-agent-images.js"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "electron-store": "^8.1.0",
@@ -42,8 +41,8 @@
     "vite-plugin-electron-renderer": "^0.14.6"
   },
   "build": {
-    "appId": "com.agent-builder.app",
-    "productName": "Agent Builder",
+    "appId": "com.agentforge.app",
+    "productName": "AgentForge",
     "directories": {
       "output": "release"
     },

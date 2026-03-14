@@ -44,3 +44,21 @@ yarn-error.log*
 *.exe
 *.zip
 *.tar.gz
+
+# Sensitive data
+.env
+.env.*
+!.env.example
+*.secret
+*.key
+*.pem
+openclaw.json
+上海小龙虾*.md
+*密钥*.md
+*token*.txt
+*secret*.txt
+
+# Test and debug files
+debug-*.html
+test-*.json
+*.local
