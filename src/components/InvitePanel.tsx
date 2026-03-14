@@ -17,7 +17,6 @@ export const InvitePanel: React.FC = () => {
 
   const {
     inviteCodes,
-    inviteStats,
     inviteLeaderboard,
     rewardConfig,
     createInviteCode,

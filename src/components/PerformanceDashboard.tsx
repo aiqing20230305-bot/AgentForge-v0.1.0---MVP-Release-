@@ -18,8 +18,8 @@ import {
   Cpu,
   HardDrive
 } from 'lucide-react'
-import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
-import { performanceMonitor, logMemoryUsage } from '../utils/performanceMonitor'
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { performanceMonitor } from '../utils/performanceMonitor'
 
 interface PerformanceMetric {
   name: string
