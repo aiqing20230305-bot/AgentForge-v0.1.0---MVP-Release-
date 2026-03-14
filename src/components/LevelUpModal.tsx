@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Sparkles, Star, TrendingUp } from 'lucide-react'
+import { fadeVariants, scaleVariants, slideUpVariants, transitions } from '../utils/animations'
 
 interface LevelUpModalProps {
   agentName: string
@@ -47,9 +48,10 @@ export const LevelUpModal: React.FC<LevelUpModalProps> = ({
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        variants={fadeVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
         onClick={onClose}
       >
@@ -120,9 +122,10 @@ export const LevelUpModal: React.FC<LevelUpModalProps> = ({
 
               {/* Agent 名称 */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                variants={slideUpVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ ...transitions.fast, delay: 0.4 }}
                 className="text-white text-xl font-bold mb-6 flex items-center justify-center gap-2"
               >
                 <Sparkles className="w-5 h-5 text-yellow-400" />
@@ -132,9 +135,10 @@ export const LevelUpModal: React.FC<LevelUpModalProps> = ({
 
               {/* 等级数字 */}
               <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: 'spring', damping: 8, stiffness: 100, delay: 0.6 }}
+                variants={scaleVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ ...transitions.spring, delay: 0.6 }}
                 className="relative mb-8"
               >
                 <div className="text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 via-yellow-400 to-orange-500">
@@ -149,9 +153,10 @@ export const LevelUpModal: React.FC<LevelUpModalProps> = ({
 
               {/* 奖励信息 */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
+                variants={slideUpVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ ...transitions.normal, delay: 0.8 }}
                 className="space-y-3"
               >
                 {/* 技能点 */}
@@ -193,9 +198,10 @@ export const LevelUpModal: React.FC<LevelUpModalProps> = ({
 
               {/* 提示文字 */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5 }}
+                variants={fadeVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ ...transitions.fast, delay: 1.5 }}
                 className="mt-6 text-white/60 text-sm"
               >
                 点击任意位置关闭 · 自动关闭中...
@@ -204,14 +210,13 @@ export const LevelUpModal: React.FC<LevelUpModalProps> = ({
 
             {/* 装饰星星 */}
             <motion.div
-              animate={{
-                rotate: [0, 360],
-                scale: [1, 1.2, 1]
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: 'linear'
+              animate="spin"
+              variants={{
+                spin: {
+                  rotate: [0, 360],
+                  scale: [1, 1.2, 1],
+                  transition: { duration: 3, repeat: Infinity, ease: 'linear' }
+                }
               }}
               className="absolute -top-4 -right-4 text-yellow-400"
             >
@@ -219,14 +224,13 @@ export const LevelUpModal: React.FC<LevelUpModalProps> = ({
             </motion.div>
 
             <motion.div
-              animate={{
-                rotate: [360, 0],
-                scale: [1, 1.3, 1]
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: 'linear'
+              animate="spin"
+              variants={{
+                spin: {
+                  rotate: [360, 0],
+                  scale: [1, 1.3, 1],
+                  transition: { duration: 4, repeat: Infinity, ease: 'linear' }
+                }
               }}
               className="absolute -bottom-4 -left-4 text-orange-400"
             >

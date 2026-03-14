@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Download, Copy, Check, Loader2 } from 'lucide-react'
 import { generateInviteQRCode, downloadQRCode, copyQRCodeToClipboard } from '../utils/qrcode'
 import { audioSystem } from '../services/audioSystem'
+import { fadeVariants, modalVariants } from '../utils/animations'
 
 interface InviteQRModalProps {
   isOpen: boolean
@@ -86,17 +87,18 @@ export const InviteQRModal: React.FC<InviteQRModalProps> = ({
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        variants={fadeVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
         className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
         onClick={handleClose}
       >
         <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.9, opacity: 0 }}
-          transition={{ type: 'spring', duration: 0.3 }}
+          variants={modalVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
           className="relative bg-gray-900 border border-cyan-500/30 rounded-xl p-6 max-w-md w-full shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >

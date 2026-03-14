@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Volume2, VolumeX, Music, Bell, Zap, X } from 'lucide-react'
 import { audioSystem } from '../services/audioSystem'
 import { useInstantFeedback } from '../hooks/useInstantFeedback'
+import { fadeVariants, slideUpVariants } from '../utils/animations'
 
 interface AudioSettingsModalProps {
   isOpen: boolean
@@ -99,16 +100,18 @@ export const AudioSettingsModal: React.FC<AudioSettingsModalProps> = ({ isOpen, 
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        variants={fadeVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
         className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
         onClick={onClose}
       >
         <motion.div
-          initial={{ scale: 0.9, y: 20 }}
-          animate={{ scale: 1, y: 0 }}
-          exit={{ scale: 0.9, y: 20 }}
+          variants={slideUpVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
           onClick={(e) => e.stopPropagation()}
           className="w-full max-w-2xl bg-gradient-to-br from-gray-900 to-black border-2 border-cyan-500/30 rounded-2xl shadow-2xl overflow-hidden"
         >

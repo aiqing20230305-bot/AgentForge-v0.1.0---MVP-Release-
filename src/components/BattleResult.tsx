@@ -7,6 +7,7 @@ import React, { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Battle } from '../types/battle'
 import { Trophy, Skull, Coins, Star, TrendingUp, Award } from 'lucide-react'
+import { fadeVariants, scaleVariants, slideUpVariants, bounceVariants, transitions } from '../utils/animations'
 
 interface BattleResultProps {
   battle: Battle
@@ -31,9 +32,10 @@ export const BattleResult: React.FC<BattleResultProps> = ({
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        variants={fadeVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md"
         onClick={onClose}
       >
@@ -102,7 +104,7 @@ export const BattleResult: React.FC<BattleResultProps> = ({
             <motion.div
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
+              transition={{ ...transitions.normal, delay: 0.2 }}
               className="text-center mb-8"
             >
               <motion.div
@@ -121,9 +123,10 @@ export const BattleResult: React.FC<BattleResultProps> = ({
               </motion.div>
 
               <motion.h1
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: 'spring', damping: 8, delay: 0.4 }}
+                variants={bounceVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.4 }}
                 className={`text-6xl font-black tracking-wider mb-2 ${
                   isVictory ? 'text-yellow-300' : 'text-red-400'
                 }`}
@@ -145,9 +148,10 @@ export const BattleResult: React.FC<BattleResultProps> = ({
 
             {/* 战斗统计 */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
+              variants={slideUpVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ ...transitions.fast, delay: 0.6 }}
               className="bg-black/30 border border-white/20 rounded-xl p-4 mb-6"
             >
               <h3 className="text-white font-bold mb-3 text-center">战斗数据</h3>
@@ -168,9 +172,10 @@ export const BattleResult: React.FC<BattleResultProps> = ({
             {/* 奖励展示 */}
             {isVictory && rewards && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.8 }}
+                variants={scaleVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ ...transitions.spring, delay: 0.8 }}
                 className="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border-2 border-yellow-500/50 rounded-xl p-6 mb-6"
               >
                 <h3 className="text-yellow-300 font-bold mb-4 text-center flex items-center justify-center gap-2">
@@ -241,9 +246,10 @@ export const BattleResult: React.FC<BattleResultProps> = ({
             {/* 失败鼓励 */}
             {!isVictory && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
+                variants={slideUpVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ ...transitions.fast, delay: 0.8 }}
                 className="bg-red-900/20 border border-red-500/50 rounded-xl p-4 mb-6 text-center"
               >
                 <p className="text-red-200">不要气馁！分析战斗数据，提升实力后再来挑战吧！</p>
@@ -252,9 +258,10 @@ export const BattleResult: React.FC<BattleResultProps> = ({
 
             {/* 按钮 */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
+              variants={slideUpVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ ...transitions.fast, delay: 1 }}
               className="flex gap-4"
             >
               <button

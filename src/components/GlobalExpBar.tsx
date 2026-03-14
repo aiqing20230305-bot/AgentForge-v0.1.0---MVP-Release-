@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import { Zap, TrendingUp, Star } from 'lucide-react'
 import { useInstantFeedback } from '../hooks/useInstantFeedback'
+import { scaleVariants, transitions } from '../utils/animations'
 
 export const GlobalExpBar: React.FC = () => {
   const { agentsCache } = useDataSourceStore()
@@ -70,7 +71,7 @@ export const GlobalExpBar: React.FC = () => {
                 }`}
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
+                transition={transitions.slow}
               >
                 {/* 闪光效果（接近升级时） */}
                 {isNearLevelUp && (
@@ -157,10 +158,10 @@ export const GlobalExpBar: React.FC = () => {
       <AnimatePresence>
         {showLevelUpEffect && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.5 }}
-            transition={{ duration: 0.5 }}
+            variants={scaleVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
           >
             {/* 背景闪光 */}

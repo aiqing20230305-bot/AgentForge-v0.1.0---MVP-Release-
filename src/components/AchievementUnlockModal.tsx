@@ -7,6 +7,7 @@ import React, { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Achievement } from '../data/achievements'
 import { Trophy, Sparkles, Gift } from 'lucide-react'
+import { fadeVariants, scaleVariants, slideUpVariants, transitions } from '../utils/animations'
 
 interface AchievementUnlockModalProps {
   achievement: Achievement
@@ -58,9 +59,10 @@ export const AchievementUnlockModal: React.FC<AchievementUnlockModalProps> = ({
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        variants={fadeVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md"
         onClick={onClose}
       >
@@ -157,7 +159,7 @@ export const AchievementUnlockModal: React.FC<AchievementUnlockModalProps> = ({
             <motion.div
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
+              transition={{ ...transitions.normal, delay: 0.2 }}
               className="text-center mb-6"
             >
               <div className="text-white/80 text-lg font-bold mb-2 flex items-center justify-center gap-2">
@@ -166,9 +168,10 @@ export const AchievementUnlockModal: React.FC<AchievementUnlockModalProps> = ({
                 <Trophy className="w-5 h-5" />
               </div>
               <motion.h1
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: 'spring', damping: 8, delay: 0.4 }}
+                variants={scaleVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ ...transitions.spring, delay: 0.4 }}
                 className="text-5xl font-black text-white tracking-wider"
                 style={{
                   textShadow: `0 0 30px ${config.glow}, 0 0 60px ${config.glow}`
@@ -190,9 +193,10 @@ export const AchievementUnlockModal: React.FC<AchievementUnlockModalProps> = ({
 
             {/* 稀有度 */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
+              variants={slideUpVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ ...transitions.fast, delay: 0.8 }}
               className="text-center mb-4"
             >
               <div
@@ -209,9 +213,10 @@ export const AchievementUnlockModal: React.FC<AchievementUnlockModalProps> = ({
 
             {/* 成就名称 */}
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
+              variants={slideUpVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ ...transitions.fast, delay: 1 }}
               className="text-3xl font-bold text-white text-center mb-3"
             >
               {achievement.name}
@@ -219,9 +224,10 @@ export const AchievementUnlockModal: React.FC<AchievementUnlockModalProps> = ({
 
             {/* 成就描述 */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2 }}
+              variants={slideUpVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ ...transitions.fast, delay: 1.2 }}
               className="text-white/90 text-center mb-6 text-lg leading-relaxed"
             >
               {achievement.description}
@@ -229,9 +235,10 @@ export const AchievementUnlockModal: React.FC<AchievementUnlockModalProps> = ({
 
             {/* 奖励 */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.4 }}
+              variants={scaleVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ ...transitions.fast, delay: 1.4 }}
               className="bg-black/30 border-2 border-white/20 rounded-xl p-5 backdrop-blur-sm"
             >
               <div className="flex items-center justify-center gap-2 text-white/80 text-sm font-bold mb-3">
@@ -277,9 +284,10 @@ export const AchievementUnlockModal: React.FC<AchievementUnlockModalProps> = ({
 
             {/* 提示文字 */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2 }}
+              variants={fadeVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ ...transitions.fast, delay: 2 }}
               className="mt-6 text-center text-white/50 text-sm"
             >
               点击任意位置关闭
