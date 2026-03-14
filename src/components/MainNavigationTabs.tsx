@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react'
-import { Activity, Zap, Trophy, Swords, BarChart3, TrendingUp, Gift, Settings, Gauge } from 'lucide-react'
+import { Activity, Zap, Trophy, Swords, BarChart3, TrendingUp, Gift, Settings, Gauge, BookOpen } from 'lucide-react'
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import TaskManagementPanel from './TaskManagementPanel'
 import { EnergyDashboard } from './EnergyDashboard'
@@ -17,9 +17,10 @@ import { LeaderboardPanel } from './LeaderboardPanel'
 import { InvitePanel } from './InvitePanel'
 import { SettingsPanel } from './SettingsPanel'
 import { PerformanceDashboard } from './PerformanceDashboard'
+import ComponentShowcase from './ComponentShowcase'
 import type { Battle } from '../types/battle'
 
-type TabType = 'tasks' | 'energy' | 'skills' | 'achievements' | 'battle' | 'leaderboard' | 'invite' | 'performance' | 'settings'
+type TabType = 'tasks' | 'energy' | 'skills' | 'achievements' | 'battle' | 'leaderboard' | 'invite' | 'performance' | 'showcase' | 'settings'
 
 export const MainNavigationTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('tasks')
@@ -41,6 +42,7 @@ export const MainNavigationTabs: React.FC = () => {
     { id: 'leaderboard' as TabType, label: '排行', icon: TrendingUp },
     { id: 'invite' as TabType, label: '邀请', icon: Gift },
     { id: 'performance' as TabType, label: '性能', icon: Gauge },
+    { id: 'showcase' as TabType, label: '组件', icon: BookOpen },
     { id: 'settings' as TabType, label: '设置', icon: Settings }
   ]
 
@@ -145,6 +147,7 @@ export const MainNavigationTabs: React.FC = () => {
         {activeTab === 'leaderboard' && <LeaderboardPanel />}
         {activeTab === 'invite' && <InvitePanel />}
         {activeTab === 'performance' && <PerformanceDashboard />}
+        {activeTab === 'showcase' && <ComponentShowcase />}
         {activeTab === 'settings' && <SettingsPanel />}
       </div>
 

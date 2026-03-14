@@ -6,6 +6,7 @@ import {
   saveOpenClawConfig,
   OpenClawAPIClient
 } from '../services/openclawApi'
+import { APIKeyDisplay, CopyableText } from './CopyableCodeBlock'
 
 interface OpenClawConfigModalProps {
   onClose: () => void
@@ -101,14 +102,21 @@ export default function OpenClawConfigModal({ onClose, onSave }: OpenClawConfigM
               <Server className="w-4 h-4 text-blue-400" />
               Gateway URL
             </label>
-            <input
-              type="text"
-              value={config.gatewayUrl}
-              onChange={e => setConfig({ ...config, gatewayUrl: e.target.value })}
-              placeholder="http://localhost:18789"
-              className="w-full px-4 py-2.5 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all"
-              disabled={!config.enabled}
-            />
+            <div className="flex gap-2 items-start">
+              <input
+                type="text"
+                value={config.gatewayUrl}
+                onChange={e => setConfig({ ...config, gatewayUrl: e.target.value })}
+                placeholder="http://localhost:18789"
+                className="flex-1 px-4 py-2.5 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all"
+                disabled={!config.enabled}
+              />
+              {config.gatewayUrl && config.enabled && (
+                <div className="pt-1">
+                  <CopyableText text={config.gatewayUrl} showCopyIcon={true} />
+                </div>
+              )}
+            </div>
             <p className="text-xs text-slate-500 mt-1.5">OpenClaw Gateway 服务地址</p>
           </div>
 
@@ -118,14 +126,27 @@ export default function OpenClawConfigModal({ onClose, onSave }: OpenClawConfigM
               <Key className="w-4 h-4 text-amber-400" />
               认证 Token
             </label>
-            <input
-              type="password"
-              value={config.authToken}
-              onChange={e => setConfig({ ...config, authToken: e.target.value })}
-              placeholder="输入 Gateway Auth Token"
-              className="w-full px-4 py-2.5 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all font-mono text-sm"
-              disabled={!config.enabled}
-            />
+            {config.enabled && config.authToken ? (
+              <div className="space-y-2">
+                <APIKeyDisplay apiKey={config.authToken} label="" masked={true} />
+                <input
+                  type="password"
+                  value={config.authToken}
+                  onChange={e => setConfig({ ...config, authToken: e.target.value })}
+                  placeholder="输入 Gateway Auth Token"
+                  className="w-full px-4 py-2.5 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all font-mono text-sm"
+                />
+              </div>
+            ) : (
+              <input
+                type="password"
+                value={config.authToken}
+                onChange={e => setConfig({ ...config, authToken: e.target.value })}
+                placeholder="输入 Gateway Auth Token"
+                className="w-full px-4 py-2.5 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all font-mono text-sm"
+                disabled={!config.enabled}
+              />
+            )}
             <p className="text-xs text-slate-500 mt-1.5">
               在{' '}
               <code className="px-1 py-0.5 bg-slate-700 rounded text-amber-400">

@@ -21,6 +21,7 @@ import { useInstantFeedback } from '../hooks/useInstantFeedback'
 import { audioSystem } from '../services/audioSystem'
 import { TaskDetailDrawer } from './TaskDetailDrawer'
 import { useTaskAutoExecution } from '../hooks/useTaskAutoExecution'
+import { TaskSearchBar } from './TaskSearchBar'
 
 const STATUS_CONFIG = {
   pending: { label: '待处理', icon: Circle, color: '#9CA3AF' },
@@ -47,7 +48,8 @@ export default function TaskManagementPanel() {
     getTaskStats,
     selectedTask,
     setSelectedTask,
-    updateTask
+    updateTask,
+    setSearchTerm
   } = useTaskStore()
 
   const { getUnreadCount } = useChatStore()
@@ -179,6 +181,15 @@ export default function TaskManagementPanel() {
             <div className="text-xs text-white/70">待处理</div>
             <div className="text-lg font-bold text-white">{stats.pending}</div>
           </div>
+        </div>
+
+        {/* 搜索栏 */}
+        <div className="mb-3">
+          <TaskSearchBar
+            onSearch={setSearchTerm}
+            placeholder="搜索任务标题、描述、标签或Agent..."
+            showHistory={true}
+          />
         </div>
 
         {/* 过滤器 */}

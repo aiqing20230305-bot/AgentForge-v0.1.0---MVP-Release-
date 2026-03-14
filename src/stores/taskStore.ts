@@ -11,12 +11,14 @@ interface TaskState {
   // 过滤器
   filterStatus: TaskStatus | 'all'
   filterTimeRange: 'today' | 'week' | 'month' | 'all'
+  searchTerm: string
 
   // Actions
   setSelectedAgent: (agentId: string | null) => void
   setSelectedTask: (task: Task | null) => void
   setFilterStatus: (status: TaskStatus | 'all') => void
   setFilterTimeRange: (range: 'today' | 'week' | 'month' | 'all') => void
+  setSearchTerm: (term: string) => void
 
   // Task CRUD
   addTask: (task: Omit<Task, 'id' | 'createdAt'>) => void
@@ -545,12 +547,14 @@ export const useTaskStore = create<TaskState>((set, get) => ({
   selectedTask: null,
   filterStatus: 'all',
   filterTimeRange: 'all',
+  searchTerm: '',
 
   // Setters
   setSelectedAgent: agentId => set({ selectedAgentId: agentId }),
   setSelectedTask: task => set({ selectedTask: task }),
   setFilterStatus: status => set({ filterStatus: status }),
   setFilterTimeRange: range => set({ filterTimeRange: range }),
+  setSearchTerm: term => set({ searchTerm: term }),
 
   // Task CRUD
   addTask: taskData => {
@@ -608,7 +612,7 @@ export const useTaskStore = create<TaskState>((set, get) => ({
 
   // 获取过滤后的任务
   getFilteredTasks: () => {
-    const { tasks, selectedAgentId, filterStatus, filterTimeRange } = get()
+    const { tasks, selectedAgentId, filterStatus, filterTimeRange, searchTerm } = get()
     let filtered = tasks
 
     // 按 Agent 过滤
@@ -634,6 +638,18 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         const taskDate = new Date(task.createdAt)
         return now.getTime() - taskDate.getTime() <= range
       })
+    }
+
+    // 按搜索词过滤 (搜索标题、描述、标签、Agent名称)
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase()
+      filtered = filtered.filter(
+        task =>
+          task.title.toLowerCase().includes(term) ||
+          task.description.toLowerCase().includes(term) ||
+          task.agentName.toLowerCase().includes(term) ||
+          (task.tags && task.tags.some(tag => tag.toLowerCase().includes(term)))
+      )
     }
 
     // 按创建时间倒序排序

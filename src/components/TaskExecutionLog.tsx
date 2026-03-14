@@ -4,6 +4,8 @@
  */
 
 import React, { useEffect, useRef } from 'react'
+import { Copy, Check } from 'lucide-react'
+import { useCopy } from '../hooks/useCopyToClipboard'
 
 interface TaskExecutionLogProps {
   logs: string[]
@@ -12,11 +14,17 @@ interface TaskExecutionLogProps {
 
 export const TaskExecutionLog: React.FC<TaskExecutionLogProps> = ({ logs, maxHeight = '300px' }) => {
   const logEndRef = useRef<HTMLDivElement>(null)
+  const [copyLogs, copied] = useCopy(2000)
 
   // 自动滚动到底部
   useEffect(() => {
     logEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [logs])
+
+  const handleCopyAll = () => {
+    const allLogs = logs.join('\n')
+    copyLogs(allLogs)
+  }
 
   if (logs.length === 0) {
     return (
@@ -27,21 +35,49 @@ export const TaskExecutionLog: React.FC<TaskExecutionLogProps> = ({ logs, maxHei
   }
 
   return (
-    <div
-      className="bg-black/90 rounded-lg p-4 overflow-y-auto font-mono text-xs"
-      style={{ maxHeight }}
-    >
-      <div className="space-y-1">
-        {logs.map((log, index) => {
-          const lineColor = getLogColor(log)
-          return (
-            <div key={index} className={`${lineColor} whitespace-pre-wrap break-words`}>
-              <span className="text-green-600/70 select-none">$ </span>
-              {log}
-            </div>
-          )
-        })}
-        <div ref={logEndRef} />
+    <div className="relative">
+      {/* 复制按钮 */}
+      <div className="absolute top-2 right-2 z-10">
+        <button
+          onClick={handleCopyAll}
+          className={`flex items-center gap-1 px-2 py-1 text-xs rounded transition-all ${
+            copied
+              ? 'bg-green-500 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+          }`}
+          title="复制所有日志"
+        >
+          {copied ? (
+            <>
+              <Check className="w-3 h-3" />
+              <span>已复制</span>
+            </>
+          ) : (
+            <>
+              <Copy className="w-3 h-3" />
+              <span>复制日志</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* 日志内容 */}
+      <div
+        className="bg-black/90 rounded-lg p-4 overflow-y-auto font-mono text-xs pt-10"
+        style={{ maxHeight }}
+      >
+        <div className="space-y-1">
+          {logs.map((log, index) => {
+            const lineColor = getLogColor(log)
+            return (
+              <div key={index} className={`${lineColor} whitespace-pre-wrap break-words`}>
+                <span className="text-green-600/70 select-none">$ </span>
+                {log}
+              </div>
+            )
+          })}
+          <div ref={logEndRef} />
+        </div>
       </div>
     </div>
   )

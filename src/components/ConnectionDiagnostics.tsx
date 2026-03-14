@@ -4,7 +4,8 @@
  */
 
 import { useState, useEffect } from 'react'
-import { AlertCircle, CheckCircle, XCircle, RefreshCw, Copy } from 'lucide-react'
+import { AlertCircle, CheckCircle, XCircle, RefreshCw } from 'lucide-react'
+import { CopyableText, CopyableCodeBlock } from './CopyableCodeBlock'
 
 interface DiagnosticResult {
   name: string
@@ -151,10 +152,6 @@ export default function ConnectionDiagnostics({ onClose }: { onClose: () => void
     }
   }
 
-  const copyCommand = (cmd: string) => {
-    navigator.clipboard.writeText(cmd)
-    alert('命令已复制到剪贴板')
-  }
 
   useEffect(() => {
     runDiagnostics()
@@ -193,8 +190,21 @@ export default function ConnectionDiagnostics({ onClose }: { onClose: () => void
                   <div className="font-semibold text-amber-100">{result.name}</div>
                   <div className="text-sm text-amber-100/80 mt-1">{result.message}</div>
                   {result.details && (
-                    <div className="text-xs text-amber-100/60 mt-2 bg-black/40 p-2 rounded font-mono">
-                      {result.details}
+                    <div className="mt-2">
+                      {result.details.startsWith('http') ? (
+                        <CopyableText text={result.details} showCopyIcon={true} className="text-xs" />
+                      ) : result.details.includes('node ') || result.details.includes('cd ') ? (
+                        <CopyableCodeBlock
+                          code={result.details}
+                          language="bash"
+                          showLineNumbers={false}
+                          className="text-xs"
+                        />
+                      ) : (
+                        <div className="text-xs text-amber-100/60 bg-black/40 p-2 rounded font-mono">
+                          {result.details}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -230,19 +240,13 @@ export default function ConnectionDiagnostics({ onClose }: { onClose: () => void
 
         {/* 快速命令 */}
         <div className="px-6 py-3 bg-black/40 border-t border-white/5">
-          <div className="text-xs text-amber-100/60 space-y-1">
-            <div className="flex items-center gap-2">
-              <span>启动桥接服务:</span>
-              <code className="flex-1 bg-black/50 px-2 py-0.5 rounded">
-                node scripts/openclaw-bridge.js
-              </code>
-              <button
-                onClick={() => copyCommand('node scripts/openclaw-bridge.js')}
-                className="text-amber-400 hover:text-amber-300"
-              >
-                <Copy size={14} />
-              </button>
-            </div>
+          <div className="text-xs text-amber-100/60 space-y-2">
+            <div className="text-xs text-amber-100/40 mb-1">快速命令:</div>
+            <CopyableText
+              text="node scripts/openclaw-bridge.js"
+              label="启动桥接服务"
+              showCopyIcon={true}
+            />
           </div>
         </div>
       </div>
