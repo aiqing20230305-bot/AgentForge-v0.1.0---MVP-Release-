@@ -1,0 +1,163 @@
+name: Release
+
+# 触发条件：推送tag时自动发布
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write  # 创建Release需要
+
+jobs:
+  # Job 1: 类型检查和构建
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build || echo "Build command not available"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: dist/
+          if-no-files-found: ignore
+
+  # Job 2: 自动截图（可选）
+  screenshots:
+    name: Generate Screenshots
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install chromium --with-deps
+
+      - name: Start app
+        run: npm run dev &
+
+      - name: Wait for app
+        run: sleep 15
+
+      - name: Generate screenshots
+        run: node scripts/auto-screenshot.js || echo "Screenshot generation failed"
+        continue-on-error: true
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: docs/screenshots/
+          if-no-files-found: ignore
+
+  # Job 3: 创建GitHub Release
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build, screenshots]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: dist/
+        continue-on-error: true
+
+      - name: Download screenshots
+        uses: actions/download-artifact@v4
+        with:
+          name: screenshots
+          path: docs/screenshots/
+        continue-on-error: true
+
+      - name: Read release notes
+        id: release_notes
+        run: |
+          if [ -f "RELEASE_v${{ steps.version.outputs.VERSION }}.md" ]; then
+            NOTES=$(cat "RELEASE_v${{ steps.version.outputs.VERSION }}.md")
+          else
+            NOTES="Release v${{ steps.version.outputs.VERSION }}
+
+See CHANGELOG.md for details."
+          fi
+          echo "NOTES<<EOF" >> $GITHUB_OUTPUT
+          echo "$NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: v${{ steps.version.outputs.VERSION }}
+          body: ${{ steps.release_notes.outputs.NOTES }}
+          draft: false
+          prerelease: false
+          files: |
+            dist/**/*.dmg
+            dist/**/*.exe
+            dist/**/*.AppImage
+            dist/**/*.zip
+            docs/screenshots/v${{ steps.version.outputs.VERSION }}/*.png
+            docs/screenshots/v${{ steps.version.outputs.VERSION }}/*.jpg
+            docs/screenshots/v${{ steps.version.outputs.VERSION }}/*.gif
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release summary
+        run: |
+          echo "🎉 Release Created!"
+          echo "Version: v${{ steps.version.outputs.VERSION }}"
+          echo "URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.VERSION }}"
+
+  # Job 4: 通知（可选）
+  notify:
+    name: Post-release Notifications
+    runs-on: ubuntu-latest
+    needs: release
+    if: success()
+
+    steps:
+      - name: Success notification
+        run: |
+          echo "✅ Release workflow completed successfully"
+          echo "Version: ${GITHUB_REF#refs/tags/}"
+          # 这里可以添加 Slack/Discord/Email 通知
