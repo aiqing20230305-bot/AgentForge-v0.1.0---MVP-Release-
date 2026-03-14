@@ -342,7 +342,6 @@ export const useDataSourceStore = create<DataSourceStore>()(
             newCurrentExp -= newExpToNext
             newLevel += 1
             newExpToNext = Math.round(100 * Math.pow(1.5, newLevel))
-            leveledUp = true
 
             // 升级奖励：每级+2技能点
             if (agent.skillTree) {

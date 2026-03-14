@@ -86,7 +86,6 @@ export default function PortraitSelector({ agentId, agentName, onClose }: Portra
       const fileName = file.name.replace(/\.[^/.]+$/, '') // 去除扩展名
       const portraitId = uploadPortrait(fileName, mediaData)
       setSelectedPortraitId(portraitId)
-      setShowUpload(false)
     }
     reader.readAsDataURL(file)
   }
