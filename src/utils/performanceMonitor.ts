@@ -144,7 +144,7 @@ export class PerformanceMonitor {
    */
   printAllStats() {
     console.group('[Performance] All Stats')
-    for (const [name, values] of this.metrics.entries()) {
+    for (const [name] of this.metrics.entries()) {
       const stats = this.getStats(name)
       if (stats) {
         console.log(`${name}:`, {

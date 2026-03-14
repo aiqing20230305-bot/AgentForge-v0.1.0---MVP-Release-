@@ -12,7 +12,7 @@ import type {
   InviteReward,
   InviteCodeStatus
 } from '../types/invite'
-import { generateInviteCode, isValidInviteCodeFormat, DEFAULT_INVITE_REWARD } from '../types/invite'
+import { generateInviteCode, DEFAULT_INVITE_REWARD } from '../types/invite'
 
 interface InviteStore {
   // 所有邀请码

@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { Task, Project, TaskStatus, TaskPriority } from '../types/task'
+import type { Task, Project, TaskStatus } from '../types/task'
 
 interface TaskState {
   // 数据

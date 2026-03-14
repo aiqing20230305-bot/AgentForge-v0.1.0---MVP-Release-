@@ -247,12 +247,12 @@ async function validateOpenClawConfig(config: any): Promise<boolean> {
   }
 }
 
-async function validateClaudeAgent(config: any): Promise<boolean> {
+async function validateClaudeAgent(_config: any): Promise<boolean> {
   // 验证 Agent 配置文件是否存在且格式正确
   return true
 }
 
-async function validateLocalScript(config: any): Promise<boolean> {
+async function validateLocalScript(_config: any): Promise<boolean> {
   // 验证本地脚本是否可执行
   return true
 }

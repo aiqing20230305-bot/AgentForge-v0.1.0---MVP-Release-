@@ -219,7 +219,7 @@ export function initializeSettings() {
   applySettingsToDOM(settings)
 
   // 监听系统主题变化
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
     const { settings } = useSettingsStore.getState()
     if (settings.theme === 'auto') {
       applySettingsToDOM(settings)

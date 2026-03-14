@@ -90,7 +90,7 @@ export class TaskSimulator {
     return Math.min(0.99, baseRate + levelBonus)
   }
 
-  private static calculateTokenUsage(priority: TaskPriority, success: boolean): number {
+  private static calculateTokenUsage(priority: TaskPriority, _success: boolean): number {
     const baseTokens: Record<TaskPriority, number> = {
       low: 500,
       medium: 1500,

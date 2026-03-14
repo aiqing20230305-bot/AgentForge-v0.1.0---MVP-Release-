@@ -10,8 +10,7 @@ import type {
   LeaderboardType,
   Season,
   AgentRankingStats,
-  RankHistoryEntry,
-  RankTier
+  RankHistoryEntry
 } from '../types/leaderboard'
 import { getTierFromRank } from '../types/leaderboard'
 

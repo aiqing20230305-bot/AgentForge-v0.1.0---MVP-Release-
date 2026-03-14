@@ -336,7 +336,6 @@ export const useDataSourceStore = create<DataSourceStore>()(
           let newCurrentExp = agent.levelSystem.currentExp + expAmount
           let newLevel = agent.levelSystem.currentLevel
           let newExpToNext = agent.levelSystem.expToNextLevel
-          let leveledUp = false
 
           // 检查是否升级
           while (newCurrentExp >= newExpToNext) {
@@ -402,7 +401,7 @@ export function initializeDefaultDataSources(): void {
   }
 
   // 添加默认的本地 OpenClaw 数据源
-  const defaultSourceId = store.addSource({
+  store.addSource({
     name: '本地 OpenClaw',
     description: '本地 OpenClaw 桥接服务（上海小龙虾）',
     type: 'openclaw',

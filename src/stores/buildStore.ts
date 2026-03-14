@@ -2,7 +2,6 @@ import { create } from 'zustand'
 import type { AgentItem, Category, SlotType, Loadout, Settings } from '../types'
 import { SLOT_CONFIG, getRarityFromTokens } from '../types'
 import { countTokens } from '../utils/tokenizer'
-import { generateMarkdown } from '../utils/markdownGenerator'
 import {
   generatePlatformConfig,
   getPlatformExtension,
