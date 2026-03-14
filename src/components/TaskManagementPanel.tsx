@@ -18,6 +18,8 @@ import {
 import type { Task, TaskStatus, TaskPriority } from '../types/task'
 import AgentChatPanel from './AgentChatPanel'
 import { useRipple } from '../hooks/useRipple'
+import { useInstantFeedback } from '../hooks/useInstantFeedback'
+import { audioSystem } from '../services/audioSystem'
 import { TaskDetailDrawer } from './TaskDetailDrawer'
 import { useTaskAutoExecution } from '../hooks/useTaskAutoExecution'
 
@@ -55,6 +57,7 @@ export default function TaskManagementPanel() {
   const [detailTaskId, setDetailTaskId] = useState<string | null>(null)
   const [autoExecutionEnabled, setAutoExecutionEnabled] = useState(true)
   const { createRipple } = useRipple()
+  const feedback = useInstantFeedback()
   const { executeTask, cancelExecution } = useTaskAutoExecution()
 
   const tasks = getFilteredTasks()
@@ -75,10 +78,17 @@ export default function TaskManagementPanel() {
 
     if (newStatus === 'in_progress' && !tasks.find(t => t.id === taskId)?.startedAt) {
       updates.startedAt = new Date().toISOString()
+      audioSystem.play('success')
     }
 
-    if (newStatus === 'completed' || newStatus === 'failed') {
+    if (newStatus === 'completed') {
       updates.completedAt = new Date().toISOString()
+      audioSystem.playQuestCompleteSequence()
+    }
+
+    if (newStatus === 'failed') {
+      updates.completedAt = new Date().toISOString()
+      audioSystem.play('error')
     }
 
     updateTask(taskId, updates)
@@ -97,10 +107,11 @@ export default function TaskManagementPanel() {
             {/* 自动执行开关 */}
             <button
               onClick={e => {
-                createRipple(e)
+                feedback.onClick(e)
+                audioSystem.play('click')
                 setAutoExecutionEnabled(!autoExecutionEnabled)
               }}
-              className={`px-3 py-1.5 text-xs font-medium border rounded-xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1 ${
+              className={`px-3 py-1.5 text-xs font-medium border rounded-xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1 feedback-button-scale ${
                 autoExecutionEnabled
                   ? 'text-green-300 bg-green-900/30 border-green-500/50 hover:bg-green-900/40'
                   : 'text-gray-400 bg-gray-900/30 border-gray-600/50 hover:bg-gray-900/40'
@@ -111,10 +122,11 @@ export default function TaskManagementPanel() {
             </button>
             <button
               onClick={e => {
-                createRipple(e)
+                feedback.onClick(e)
+                audioSystem.play('click')
                 setShowNewTaskModal(true)
               }}
-              className="px-3 py-1.5 text-xs font-medium text-white bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 rounded-xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1"
+              className="px-3 py-1.5 text-xs font-medium text-white bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 rounded-xl backdrop-blur-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-1 feedback-button-scale feedback-button-glow"
             >
               <Plus className="w-3 h-3" />
               新增任务
@@ -330,9 +342,11 @@ export default function TaskManagementPanel() {
                       <button
                         onClick={e => {
                           e.stopPropagation()
+                          feedback.onClick(e)
+                          audioSystem.play('click')
                           setDetailTaskId(task.id)
                         }}
-                        className="px-3 py-1.5 text-xs bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1"
+                        className="px-3 py-1.5 text-xs bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1 feedback-button-scale"
                       >
                         <Eye className="w-3 h-3" />
                         详情
@@ -343,9 +357,11 @@ export default function TaskManagementPanel() {
                         <button
                           onClick={e => {
                             e.stopPropagation()
+                            feedback.onClick(e)
+                            audioSystem.play('error')
                             cancelExecution(task.id)
                           }}
-                          className="px-3 py-1.5 text-xs bg-red-500/20 hover:bg-red-500/30 border border-red-400/50 text-red-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1"
+                          className="px-3 py-1.5 text-xs bg-red-500/20 hover:bg-red-500/30 border border-red-400/50 text-red-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1 feedback-button-scale"
                         >
                           <StopCircle className="w-3 h-3" />
                           取消
@@ -357,9 +373,11 @@ export default function TaskManagementPanel() {
                         <button
                           onClick={e => {
                             e.stopPropagation()
+                            feedback.onClick(e)
+                            audioSystem.play('success')
                             executeTask(task.id)
                           }}
-                          className="px-3 py-1.5 text-xs bg-green-500/20 hover:bg-green-500/30 border border-green-400/50 text-green-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1"
+                          className="px-3 py-1.5 text-xs bg-green-500/20 hover:bg-green-500/30 border border-green-400/50 text-green-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1 feedback-button-scale feedback-button-glow"
                         >
                           <Play className="w-3 h-3" />
                           执行

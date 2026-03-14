@@ -5,8 +5,11 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle, Circle, Gift, Clock, Flame, Star } from 'lucide-react'
+import { CheckCircle, Circle, Gift, Clock, Flame, Star, X, Minimize2 } from 'lucide-react'
 import { useInstantFeedback } from '../hooks/useInstantFeedback'
+import { audioSystem } from '../services/audioSystem'
+import { useDataSourceStore } from '../store/useDataSourceStore'
+import { useTaskStore } from '../stores/taskStore'
 
 export interface DailyQuest {
   id: string
@@ -24,9 +27,16 @@ export interface DailyQuest {
 
 export const DailyQuestPanel: React.FC = () => {
   const feedback = useInstantFeedback()
+  const { agentsCache, addAgentExp, addAgentCoins } = useDataSourceStore()
+  const { tasks, selectedAgentId } = useTaskStore()
   const [quests, setQuests] = useState<DailyQuest[]>([])
   const [streak, setStreak] = useState(1) // 连续签到天数
   const [timeLeft, setTimeLeft] = useState('')
+  const [isMinimized, setIsMinimized] = useState(false) // 最小化状态
+  const [isVisible, setIsVisible] = useState(true) // 显示/隐藏
+
+  // 获取当前选中的Agent
+  const currentAgent = agentsCache.find(a => a.id === selectedAgentId) || agentsCache[0]
 
   // 初始化每日任务
   useEffect(() => {
@@ -90,6 +100,42 @@ export const DailyQuestPanel: React.FC = () => {
     }
   }, [])
 
+  // 监听任务完成，自动更新每日任务进度
+  useEffect(() => {
+    if (!currentAgent) return
+
+    const today = new Date().toDateString()
+    const savedDate = localStorage.getItem('daily-quests-date')
+    if (savedDate !== today) return // 只在当天有效
+
+    // 统计今日已完成的任务数
+    const completedTasksToday = tasks.filter(t =>
+      t.agentId === currentAgent.id &&
+      t.status === 'completed' &&
+      t.completedAt &&
+      new Date(t.completedAt).toDateString() === today
+    ).length
+
+    // 更新任务进度
+    setQuests(prev => {
+      const updated = prev.map(q => {
+        if (q.id === 'quest-1') {
+          // 完成5个任务
+          const newProgress = Math.min(completedTasksToday, q.target)
+          return {
+            ...q,
+            progress: newProgress,
+            completed: newProgress >= q.target
+          }
+        }
+        // TODO: 其他任务的进度追踪
+        return q
+      })
+      localStorage.setItem('daily-quests', JSON.stringify(updated))
+      return updated
+    })
+  }, [tasks, currentAgent])
+
   // 更新倒计时
   useEffect(() => {
     const updateTimeLeft = () => {
@@ -113,13 +159,22 @@ export const DailyQuestPanel: React.FC = () => {
 
   const handleClaimReward = (questId: string, event: React.MouseEvent) => {
     const quest = quests.find(q => q.id === questId)
-    if (!quest || !quest.completed) return
+    if (!quest || !quest.completed || !currentAgent) return
 
-    // 触发成功反馈
+    // 触发成功反馈和音效
     feedback.onSuccess(event.clientX, event.clientY)
+    audioSystem.play('coin')
+    setTimeout(() => audioSystem.play('exp_gain'), 100)
 
-    // 显示奖励
-    // TODO: 实际增加经验和金币
+    // 实际增加经验和金币
+    const bonusMultiplier = 1 + (streak * 0.1) // 连续签到加成
+    const finalExp = Math.round(quest.reward.exp * bonusMultiplier)
+    const finalCoins = Math.round(quest.reward.coins * bonusMultiplier)
+
+    addAgentExp(currentAgent.id, finalExp)
+    addAgentCoins(currentAgent.id, finalCoins)
+
+    console.log(`[DailyQuest] Claimed reward: ${finalExp} EXP, ${finalCoins} coins (${streak}x bonus)`)
 
     // 标记为已领取
     const updatedQuests = quests.map(q =>
@@ -138,8 +193,10 @@ export const DailyQuestPanel: React.FC = () => {
     { exp: 0, coins: 0 }
   )
 
+  if (!isVisible) return null
+
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div data-testid="daily-quest-panel" className="fixed bottom-6 right-6 z-40">
       <motion.div
         initial={{ x: 400 }}
         animate={{ x: 0 }}
@@ -147,7 +204,7 @@ export const DailyQuestPanel: React.FC = () => {
       >
         {/* 头部 */}
         <div className="bg-gradient-to-r from-yellow-600 to-orange-600 p-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Gift className="w-6 h-6 text-white" />
               <div>
@@ -156,18 +213,44 @@ export const DailyQuestPanel: React.FC = () => {
               </div>
             </div>
 
-            {/* 倒计时 */}
-            <div className="flex flex-col items-end">
-              <div className="flex items-center gap-1 text-yellow-100">
-                <Clock className="w-4 h-4" />
-                <span className="text-xs font-mono">{timeLeft}</span>
+            {/* 控制按钮 */}
+            <div className="flex items-center gap-2">
+              {/* 倒计时 */}
+              <div className="flex flex-col items-end mr-2">
+                <div className="flex items-center gap-1 text-yellow-100">
+                  <Clock className="w-4 h-4" />
+                  <span className="text-xs font-mono">{timeLeft}</span>
+                </div>
+                <div className="text-[10px] text-yellow-200">后重置</div>
               </div>
-              <div className="text-[10px] text-yellow-200">后重置</div>
+
+              <button
+                onClick={(e) => {
+                  feedback.onClick(e)
+                  audioSystem.play('click')
+                  setIsMinimized(!isMinimized)
+                }}
+                className="p-1.5 hover:bg-white/10 rounded transition-all feedback-button-scale"
+                title={isMinimized ? "展开" : "最小化"}
+              >
+                <Minimize2 className="w-4 h-4 text-white" />
+              </button>
+              <button
+                onClick={(e) => {
+                  feedback.onClick(e)
+                  audioSystem.play('click')
+                  setIsVisible(false)
+                }}
+                className="p-1.5 hover:bg-white/10 rounded transition-all feedback-button-scale"
+                title="关闭"
+              >
+                <X className="w-4 h-4 text-white" />
+              </button>
             </div>
           </div>
 
           {/* 连续签到 */}
-          <div className="mt-3 flex items-center gap-2 p-2 bg-black/20 rounded-lg">
+          <div className="flex items-center gap-2 p-2 bg-black/20 rounded-lg">
             <Flame className="w-5 h-5 text-orange-400" />
             <div className="flex-1">
               <div className="text-xs text-yellow-100">连续签到</div>
@@ -177,7 +260,9 @@ export const DailyQuestPanel: React.FC = () => {
           </div>
         </div>
 
-        {/* 任务列表 */}
+        {/* 任务列表（可折叠）*/}
+        {!isMinimized && (
+        <>
         <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
           {quests.map((quest, index) => (
             <motion.div
@@ -277,6 +362,8 @@ export const DailyQuestPanel: React.FC = () => {
               </div>
             </div>
           </div>
+        )}
+        </>
         )}
       </motion.div>
     </div>

@@ -7,6 +7,8 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import type { AgentData } from '../store/useDataSourceStore'
 import { Swords, Shield, Zap, Heart } from 'lucide-react'
+import { useInstantFeedback } from '../hooks/useInstantFeedback'
+import { audioSystem } from '../services/audioSystem'
 
 interface BattlePreparationProps {
   playerAgent: AgentData
@@ -22,6 +24,7 @@ export const BattlePreparation: React.FC<BattlePreparationProps> = ({
   onCancel
 }) => {
   const [selectedOpponent, setSelectedOpponent] = useState<AgentData | null>(null)
+  const feedback = useInstantFeedback()
 
   // 计算战斗属性
   const calculateBattleStats = (agent: AgentData) => {
@@ -136,9 +139,13 @@ export const BattlePreparation: React.FC<BattlePreparationProps> = ({
                   key={opponent.id}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedOpponent(opponent)}
+                  onClick={(e) => {
+                    feedback.onClick(e)
+                    audioSystem.play('battle_hit')
+                    setSelectedOpponent(opponent)
+                  }}
                   className={`
-                    cursor-pointer rounded-lg p-3 border-2 transition-all
+                    cursor-pointer rounded-lg p-3 border-2 transition-all feedback-button-scale
                     ${isSelected
                       ? 'bg-red-900/30 border-red-500 shadow-lg shadow-red-500/30'
                       : 'bg-gray-800 border-gray-700 hover:border-gray-500'
@@ -192,18 +199,28 @@ export const BattlePreparation: React.FC<BattlePreparationProps> = ({
         {/* 按钮 */}
         <div className="flex gap-4">
           <button
-            onClick={onCancel}
-            className="flex-1 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-lg transition-all"
+            onClick={(e) => {
+              feedback.onClick(e)
+              audioSystem.play('click')
+              onCancel()
+            }}
+            className="flex-1 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-lg transition-all feedback-button-scale"
           >
             取消
           </button>
           <button
-            onClick={() => selectedOpponent && onStartBattle(selectedOpponent.id)}
+            onClick={(e) => {
+              if (selectedOpponent) {
+                feedback.onClick(e)
+                audioSystem.play('battle_win')
+                onStartBattle(selectedOpponent.id)
+              }
+            }}
             disabled={!selectedOpponent}
             className={`
-              flex-1 px-6 py-3 font-bold rounded-lg transition-all
+              flex-1 px-6 py-3 font-bold rounded-lg transition-all feedback-button-scale
               ${selectedOpponent
-                ? 'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white shadow-lg shadow-red-600/50'
+                ? 'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white shadow-lg shadow-red-600/50 feedback-button-glow'
                 : 'bg-gray-700 text-gray-500 cursor-not-allowed'
               }
             `}

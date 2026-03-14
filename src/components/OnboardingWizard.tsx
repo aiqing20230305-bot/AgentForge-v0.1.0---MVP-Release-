@@ -183,7 +183,7 @@ export default function OnboardingWizard({ onComplete }: { onComplete: () => voi
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-2xl max-w-4xl w-full border border-slate-700 overflow-hidden">
+      <div className="bg-slate-900 rounded-2xl shadow-2xl max-w-4xl w-full border border-slate-700 overflow-hidden">
         {/* 进度条 */}
         <div className="h-1 bg-slate-800">
           <div

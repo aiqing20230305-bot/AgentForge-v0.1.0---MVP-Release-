@@ -8,6 +8,8 @@ import { motion } from 'framer-motion'
 import type { AgentData } from '../store/useDataSourceStore'
 import { SKILLS, canUnlockSkill, type Skill } from '../data/skillTree'
 import { Zap, Lock, TrendingUp, CheckCircle } from 'lucide-react'
+import { useInstantFeedback } from '../hooks/useInstantFeedback'
+import { audioSystem } from '../services/audioSystem'
 
 interface SkillTreePanelProps {
   agent: AgentData
@@ -16,6 +18,7 @@ interface SkillTreePanelProps {
 
 export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgradeSkill }) => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
+  const feedback = useInstantFeedback()
 
   // 确保Agent有技能树数据
   if (!agent.skillTree) {
@@ -77,9 +80,14 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
   }
 
   // 处理技能升级
-  const handleUpgrade = (skill: Skill) => {
+  const handleUpgrade = (skill: Skill, event: React.MouseEvent) => {
     if (canUnlock(skill)) {
+      feedback.onSuccess(event.clientX, event.clientY)
+      audioSystem.play('levelup')
       onUpgradeSkill(skill.id)
+    } else {
+      feedback.onError(event.clientX, event.clientY)
+      audioSystem.play('error')
     }
   }
 
@@ -128,9 +136,13 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
                         key={skill.id}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => setSelectedSkill(skill)}
+                        onClick={(e) => {
+                          feedback.onClick(e)
+                          audioSystem.play('click')
+                          setSelectedSkill(skill)
+                        }}
                         className={`
-                          relative cursor-pointer rounded-lg p-4 border-2 transition-all
+                          relative cursor-pointer rounded-lg p-4 border-2 transition-all feedback-button-scale
                           ${unlocked
                             ? `bg-gradient-to-br ${colors.bg} ${colors.border} shadow-lg`
                             : 'bg-gray-900/50 border-gray-700 opacity-60'
@@ -265,12 +277,12 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
           {/* 升级按钮 */}
           {isSkillUnlocked(selectedSkill.id) && getSkillLevel(selectedSkill.id) < selectedSkill.maxLevel ? (
             <button
-              onClick={() => handleUpgrade(selectedSkill)}
+              onClick={(e) => handleUpgrade(selectedSkill, e)}
               disabled={!canUnlock(selectedSkill)}
               className={`
-                w-full py-3 rounded-lg font-bold transition-all
+                w-full py-3 rounded-lg font-bold transition-all feedback-button-scale
                 ${canUnlock(selectedSkill)
-                  ? 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-lg hover:shadow-blue-500/50'
+                  ? 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-lg hover:shadow-blue-500/50 feedback-button-glow'
                   : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                 }
               `}
@@ -286,12 +298,12 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
             </button>
           ) : !isSkillUnlocked(selectedSkill.id) ? (
             <button
-              onClick={() => handleUpgrade(selectedSkill)}
+              onClick={(e) => handleUpgrade(selectedSkill, e)}
               disabled={!canUnlock(selectedSkill)}
               className={`
-                w-full py-3 rounded-lg font-bold transition-all
+                w-full py-3 rounded-lg font-bold transition-all feedback-button-scale
                 ${canUnlock(selectedSkill)
-                  ? 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white shadow-lg hover:shadow-green-500/50'
+                  ? 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white shadow-lg hover:shadow-green-500/50 feedback-button-glow'
                   : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                 }
               `}

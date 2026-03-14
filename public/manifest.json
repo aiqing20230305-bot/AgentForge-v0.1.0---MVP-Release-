@@ -1,0 +1,97 @@
+{
+  "name": "AgentForge - AI Agent管理平台",
+  "short_name": "AgentForge",
+  "description": "WoW风格的AI Agent可视化管理系统，支持任务管理、技能树、PvP对战、排行榜等游戏化功能",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#06b6d4",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities", "developer tools"],
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "/screenshots/main.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "label": "主界面"
+    },
+    {
+      "src": "/screenshots/tasks.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "label": "任务管理"
+    },
+    {
+      "src": "/screenshots/battle.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "label": "PvP对战"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "任务管理",
+      "short_name": "任务",
+      "description": "快速访问任务管理面板",
+      "url": "/?tab=tasks",
+      "icons": [
+        {
+          "src": "/icons/tasks.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "排行榜",
+      "short_name": "排行",
+      "description": "查看全球排行榜",
+      "url": "/?tab=leaderboard",
+      "icons": [
+        {
+          "src": "/icons/leaderboard.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "PvP对战",
+      "short_name": "对战",
+      "description": "开始PvP对战",
+      "url": "/?tab=battle",
+      "icons": [
+        {
+          "src": "/icons/battle.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}

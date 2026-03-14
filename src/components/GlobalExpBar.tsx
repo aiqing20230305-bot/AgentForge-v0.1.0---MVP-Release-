@@ -45,7 +45,7 @@ export const GlobalExpBar: React.FC = () => {
   return (
     <>
       {/* 全局经验条 */}
-      <div className="fixed top-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-sm border-b border-cyan-500/30">
+      <div data-testid="global-exp-bar" className="fixed top-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-sm border-b border-cyan-500/30">
         <div className="max-w-full px-4 py-2 flex items-center gap-4">
           {/* Agent信息 */}
           <div className="flex items-center gap-2 min-w-0">

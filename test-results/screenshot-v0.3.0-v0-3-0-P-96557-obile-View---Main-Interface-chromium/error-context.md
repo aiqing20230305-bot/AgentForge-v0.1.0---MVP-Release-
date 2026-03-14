@@ -1,0 +1,473 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]: "1"
+      - generic [ref=e9]: 演示Agent
+    - generic [ref=e10]:
+      - generic [ref=e13]: 0 / 100 XP
+      - generic [ref=e14]: 0.0%
+    - generic [ref=e15]:
+      - img [ref=e16]
+      - generic [ref=e19]: Lv.2
+    - generic [ref=e20]:
+      - button "经验详情" [ref=e21] [cursor=pointer]:
+        - img [ref=e22]
+      - button "成就" [ref=e24] [cursor=pointer]:
+        - img [ref=e25]
+  - generic [ref=e27]:
+    - generic [ref=e29]:
+      - generic [ref=e30]: 🦞
+      - heading "OpenClaw Agent 管理中心" [level=1] [ref=e31]
+    - generic [ref=e32]:
+      - button "数据源 1 / 1" [ref=e33] [cursor=pointer]:
+        - img [ref=e34]
+        - generic [ref=e38]:
+          - generic [ref=e39]: 数据源
+          - generic [ref=e40]: 1 / 1
+      - button "OpenClaw 已连接" [ref=e41] [cursor=pointer]:
+        - img [ref=e42]
+        - generic [ref=e44]:
+          - generic [ref=e45]: OpenClaw
+          - generic [ref=e46]: 已连接
+      - generic [ref=e47] [cursor=pointer]:
+        - img [ref=e48]
+        - generic [ref=e53]:
+          - generic [ref=e54]: 工作中 Agent
+          - generic [ref=e55]: 8 / 4
+      - generic [ref=e56] [cursor=pointer]:
+        - img [ref=e57]
+        - generic [ref=e59]:
+          - generic [ref=e60]: 任务完成率
+          - generic [ref=e61]: 54%
+      - button "诊断" [ref=e62] [cursor=pointer]:
+        - img [ref=e63]
+        - generic [ref=e67]: 诊断
+      - button "⚙️" [ref=e68] [cursor=pointer]:
+        - generic [ref=e69]: ⚙️
+  - generic [ref=e70]:
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e74]:
+          - generic [ref=e77]: 🟡 Demo Mode
+          - generic [ref=e78]: 8 agents
+        - generic [ref=e79]:
+          - button "👑 Lv.45 ATLAS" [ref=e80] [cursor=pointer]:
+            - generic [ref=e82]:
+              - generic [ref=e85]:
+                - generic [ref=e92]: 👑
+                - generic [ref=e93]: Lv.45
+              - generic [ref=e95]: ATLAS
+          - button "💻 Lv.38 CLIP" [ref=e96] [cursor=pointer]:
+            - generic [ref=e97]:
+              - generic [ref=e100]:
+                - generic [ref=e107]: 💻
+                - generic [ref=e108]: Lv.38
+              - generic [ref=e110]: CLIP
+          - button "🔮 Lv.50 ORACLE" [ref=e111] [cursor=pointer]:
+            - generic [ref=e112]:
+              - generic [ref=e115]:
+                - generic [ref=e122]: 🔮
+                - generic [ref=e123]: Lv.50
+              - generic [ref=e125]: ORACLE
+          - button "🛡️ Lv.48 SENTINEL" [ref=e126] [cursor=pointer]:
+            - generic [ref=e127]:
+              - generic [ref=e130]:
+                - generic [ref=e137]: 🛡️
+                - generic [ref=e138]: Lv.48
+              - generic [ref=e140]: SENTINEL
+          - button "N Lv.42 NEXUS" [ref=e141] [cursor=pointer]:
+            - generic [ref=e142]:
+              - generic [ref=e145]:
+                - generic [ref=e152]: "N"
+                - generic [ref=e153]: Lv.42
+              - generic [ref=e155]: NEXUS
+          - button "E Lv.40 ECHO" [ref=e156] [cursor=pointer]:
+            - generic [ref=e157]:
+              - generic [ref=e160]:
+                - generic [ref=e167]: E
+                - generic [ref=e168]: Lv.40
+              - generic [ref=e170]: ECHO
+          - button "N Lv.35 NOVA" [ref=e171] [cursor=pointer]:
+            - generic [ref=e172]:
+              - generic [ref=e175]:
+                - generic [ref=e182]: "N"
+                - generic [ref=e183]: Lv.35
+              - generic [ref=e185]: NOVA
+          - button "A Lv.44 AEGIS" [ref=e186] [cursor=pointer]:
+            - generic [ref=e187]:
+              - generic [ref=e190]:
+                - generic [ref=e197]: A
+                - generic [ref=e198]: Lv.44
+              - generic [ref=e200]: AEGIS
+      - generic [ref=e201]:
+        - generic [ref=e205] [cursor=pointer]:
+          - generic [ref=e208]: 👑
+          - generic [ref=e212]:
+            - img [ref=e213]
+            - text: 选择形象
+          - generic [ref=e220]:
+            - generic [ref=e221]: Lv.45
+            - generic [ref=e224]: 在线
+        - generic [ref=e225]:
+          - generic [ref=e226]:
+            - generic [ref=e227]:
+              - generic [ref=e228]:
+                - heading "ATLAS" [level=2] [ref=e229]
+                - generic [ref=e231]: Lv.45
+              - generic [ref=e233]: Team Leader
+            - generic [ref=e235]:
+              - generic [ref=e236]: 8,500
+              - generic [ref=e237]: / 10,000
+              - generic [ref=e238]: ▲ 85%
+            - generic [ref=e241]:
+              - generic [ref=e242]: Core Attributes
+              - generic [ref=e243]:
+                - generic [ref=e244]:
+                  - generic [ref=e245]: "95"
+                  - generic [ref=e246]: 统率
+                - generic [ref=e247]:
+                  - generic [ref=e248]: "90"
+                  - generic [ref=e249]: 谋略
+                - generic [ref=e250]:
+                  - generic [ref=e251]: "85"
+                  - generic [ref=e252]: 执行
+                - generic [ref=e253]:
+                  - generic [ref=e254]: "80"
+                  - generic [ref=e255]: 创新
+            - generic [ref=e256]:
+              - generic [ref=e257]:
+                - generic [ref=e258]: ⚡
+                - generic [ref=e259]: Core Skills
+              - generic [ref=e260]:
+                - generic [ref=e261] [cursor=pointer]:
+                  - img [ref=e264]
+                  - generic [ref=e266]:
+                    - generic [ref=e267]: 👑
+                    - generic [ref=e268]: Leadership
+                - generic [ref=e270] [cursor=pointer]:
+                  - img [ref=e273]
+                  - generic [ref=e275]:
+                    - generic [ref=e276]: 🎯
+                    - generic [ref=e277]: Strategy
+                - generic [ref=e279] [cursor=pointer]:
+                  - img [ref=e282]
+                  - generic [ref=e284]:
+                    - generic [ref=e285]: ⚙️
+                    - generic [ref=e286]: Management
+            - generic [ref=e288]:
+              - button "任务记录" [ref=e289] [cursor=pointer]:
+                - img [ref=e290]
+                - generic [ref=e293]: 任务记录
+              - button "对话" [ref=e294] [cursor=pointer]:
+                - img [ref=e295]
+                - generic [ref=e297]: 对话
+          - generic [ref=e298]:
+            - generic [ref=e299]:
+              - img [ref=e300]
+              - generic [ref=e304]: Task Overview
+            - generic [ref=e305]:
+              - generic [ref=e306] [cursor=pointer]:
+                - generic [ref=e307]: 总任务
+                - generic [ref=e308]: "28"
+              - generic [ref=e309] [cursor=pointer]:
+                - generic [ref=e310]: 进行中
+                - generic [ref=e311]: "1"
+              - generic [ref=e312] [cursor=pointer]:
+                - generic [ref=e313]: 已完成
+                - generic [ref=e314]: "25"
+              - generic [ref=e315] [cursor=pointer]:
+                - generic [ref=e316]: 待处理
+                - generic [ref=e317]: "0"
+            - generic [ref=e319]:
+              - generic [ref=e320]: 89%
+              - generic [ref=e321]: 完成率
+          - generic [ref=e324]:
+            - generic [ref=e325]:
+              - generic [ref=e326]: 📖
+              - generic [ref=e327]: Agent Profile
+            - generic [ref=e328]: 团队领袖，负责战略规划和团队协调。擅长多Agent协作和资源调度，已完成25+大型项目管理。
+    - generic [ref=e329]:
+      - generic [ref=e330]:
+        - button "任务" [ref=e331] [cursor=pointer]:
+          - img [ref=e332]
+          - generic [ref=e334]: 任务
+        - button "能耗" [ref=e335] [cursor=pointer]:
+          - img [ref=e336]
+          - generic [ref=e338]: 能耗
+        - button "技能" [ref=e339] [cursor=pointer]:
+          - img [ref=e340]
+          - generic [ref=e342]: 技能
+        - button "成就" [ref=e343] [cursor=pointer]:
+          - img [ref=e344]
+          - generic [ref=e350]: 成就
+        - button "对战" [ref=e351] [cursor=pointer]:
+          - img [ref=e352]
+          - generic [ref=e361]: 对战
+        - button "排行" [ref=e362] [cursor=pointer]:
+          - img [ref=e363]
+          - generic [ref=e366]: 排行
+        - button "邀请" [ref=e367] [cursor=pointer]:
+          - img [ref=e368]
+          - generic [ref=e372]: 邀请
+      - generic [ref=e374]:
+        - generic [ref=e375]:
+          - generic [ref=e376]:
+            - heading "任务管理 (4)" [level=2] [ref=e377]:
+              - img [ref=e378]
+              - generic [ref=e381]: 任务管理 (4)
+            - generic [ref=e382]:
+              - button "自动执行" [ref=e383] [cursor=pointer]:
+                - img [ref=e384]
+                - text: 自动执行
+              - button "新增任务" [ref=e386] [cursor=pointer]:
+                - img [ref=e387]
+                - text: 新增任务
+          - generic [ref=e388]:
+            - generic [ref=e389] [cursor=pointer]:
+              - generic [ref=e390]: 总计
+              - generic [ref=e391]: "4"
+            - generic [ref=e392] [cursor=pointer]:
+              - generic [ref=e393]: 进行中
+              - generic [ref=e394]: "1"
+            - generic [ref=e395] [cursor=pointer]:
+              - generic [ref=e396]: 已完成
+              - generic [ref=e397]: "2"
+            - generic [ref=e398] [cursor=pointer]:
+              - generic [ref=e399]: 待处理
+              - generic [ref=e400]: "1"
+          - generic [ref=e401]:
+            - combobox [ref=e402]:
+              - option "全部状态" [selected]
+              - option "待处理"
+              - option "进行中"
+              - option "已完成"
+              - option "失败"
+            - combobox [ref=e403]:
+              - option "全部时间" [selected]
+              - option "今天"
+              - option "本周"
+              - option "本月"
+        - generic [ref=e405]:
+          - generic [ref=e406] [cursor=pointer]:
+            - generic [ref=e407]:
+              - generic [ref=e408]:
+                - img [ref=e410]
+                - generic [ref=e412]:
+                  - generic [ref=e413]: 📊 优化团队工作流程
+                  - generic [ref=e414]: 分析当前工作瓶颈，设计新的任务分配算法提升效率20%
+              - generic [ref=e415]:
+                - button "与 Agent 对话" [ref=e416]:
+                  - img [ref=e417]
+                - generic [ref=e419]: 中
+            - generic [ref=e420]:
+              - generic [ref=e421]:
+                - generic [ref=e422]:
+                  - text: 👤
+                  - generic [ref=e423]: ATLAS
+                - generic [ref=e424]: 2026/3/13
+              - generic [ref=e425]:
+                - button "详情" [ref=e426]:
+                  - img [ref=e427]
+                  - text: 详情
+                - button "执行" [ref=e430]:
+                  - img [ref=e431]
+                  - text: 执行
+                - combobox [ref=e433]:
+                  - option "待处理" [selected]
+                  - option "进行中"
+                  - option "已完成"
+                  - option "失败"
+          - generic [ref=e434] [cursor=pointer]:
+            - generic [ref=e435]:
+              - generic [ref=e436]:
+                - img [ref=e438]
+                - generic [ref=e440]:
+                  - generic [ref=e441]: 🎯 协调跨团队技术攻坚
+                  - generic [ref=e442]: 统筹CLIP和ORACLE的协作，解决分布式系统架构难题
+              - generic [ref=e443]:
+                - button "与 Agent 对话" [ref=e444]:
+                  - img [ref=e445]
+                - generic [ref=e447]: 高
+            - generic [ref=e448]:
+              - generic [ref=e449]:
+                - generic [ref=e450]:
+                  - text: 👤
+                  - generic [ref=e451]: ATLAS
+                - generic [ref=e452]: 2026/3/13
+              - generic [ref=e453]:
+                - button "详情" [ref=e454]:
+                  - img [ref=e455]
+                  - text: 详情
+                - button "取消" [ref=e458]:
+                  - img [ref=e459]
+                  - text: 取消
+                - combobox [ref=e462]:
+                  - option "待处理"
+                  - option "进行中" [selected]
+                  - option "已完成"
+                  - option "失败"
+          - generic [ref=e463] [cursor=pointer]:
+            - generic [ref=e464]:
+              - generic [ref=e465]:
+                - img [ref=e467]
+                - generic [ref=e470]:
+                  - generic [ref=e471]: 👑 制定Q2季度战略规划
+                  - generic [ref=e472]: 规划第二季度团队目标，协调4个Agent的工作分配和资源调度
+              - generic [ref=e473]:
+                - button "与 Agent 对话" [ref=e474]:
+                  - img [ref=e475]
+                - generic [ref=e477]: 紧急
+            - generic [ref=e478]:
+              - generic [ref=e479]:
+                - generic [ref=e480]:
+                  - text: 👤
+                  - generic [ref=e481]: ATLAS
+                - generic [ref=e482]: 2026/3/10
+              - generic [ref=e483]:
+                - button "详情" [ref=e484]:
+                  - img [ref=e485]
+                  - text: 详情
+                - combobox [ref=e488]:
+                  - option "待处理"
+                  - option "进行中"
+                  - option "已完成" [selected]
+                  - option "失败"
+          - generic [ref=e489] [cursor=pointer]:
+            - generic [ref=e490]:
+              - generic [ref=e491]:
+                - img [ref=e493]
+                - generic [ref=e496]:
+                  - generic [ref=e497]: 🚀 启动OpenClaw项目
+                  - generic [ref=e498]: 组建团队，制定项目路线图和开发计划
+              - generic [ref=e499]:
+                - button "与 Agent 对话" [ref=e500]:
+                  - img [ref=e501]
+                - generic [ref=e503]: 紧急
+            - generic [ref=e504]:
+              - generic [ref=e505]:
+                - generic [ref=e506]:
+                  - text: 👤
+                  - generic [ref=e507]: ATLAS
+                - generic [ref=e508]: 2026/2/15
+              - generic [ref=e509]:
+                - button "详情" [ref=e510]:
+                  - img [ref=e511]
+                  - text: 详情
+                - combobox [ref=e514]:
+                  - option "待处理"
+                  - option "进行中"
+                  - option "已完成" [selected]
+                  - option "失败"
+  - button "▶ 配置预览 No components equipped" [ref=e516] [cursor=pointer]:
+    - generic [ref=e517]:
+      - generic [ref=e518]: ▶
+      - generic [ref=e519]: 配置预览
+      - generic [ref=e520]: No components equipped
+  - generic [ref=e522]:
+    - generic [ref=e525]:
+      - generic [ref=e527]: "1"
+      - generic [ref=e530]: "2"
+      - generic [ref=e533]: "3"
+      - generic [ref=e536]: "4"
+    - generic [ref=e537]:
+      - generic [ref=e538]:
+        - heading "欢迎使用 World of Claudecraft" [level=2] [ref=e539]
+        - paragraph [ref=e540]: 让我们快速配置您的 AI Agent 管理系统
+      - generic [ref=e542]:
+        - generic [ref=e543]: ⚔️🤖
+        - heading "World of Claudecraft" [level=1] [ref=e544]
+        - paragraph [ref=e545]: 可视化构建和管理您的 AI Agents
+        - generic [ref=e546]:
+          - generic [ref=e547]:
+            - generic [ref=e548]: 🛡️
+            - heading "可视化配置" [level=3] [ref=e549]
+            - paragraph [ref=e550]: WoW 风格的装备界面，拖拽配置 Agent
+          - generic [ref=e551]:
+            - generic [ref=e552]: 🦞
+            - heading "OpenClaw 集成" [level=3] [ref=e553]
+            - paragraph [ref=e554]: 直接连接和管理本地 OpenClaw Agent
+          - generic [ref=e555]:
+            - generic [ref=e556]: 🔄
+            - heading "配置同步" [level=3] [ref=e557]
+            - paragraph [ref=e558]: 自动同步 Claude Agent 配置文件
+    - generic [ref=e559]:
+      - button "跳过向导" [ref=e561] [cursor=pointer]
+      - button "下一步" [ref=e563] [cursor=pointer]:
+        - text: 下一步
+        - img [ref=e564]
+  - generic [ref=e567]:
+    - generic [ref=e568]:
+      - generic [ref=e569]:
+        - generic [ref=e570]:
+          - img [ref=e571]
+          - generic [ref=e575]:
+            - heading "每日任务" [level=3] [ref=e576]
+            - generic [ref=e577]: 完成 0/3
+        - generic [ref=e578]:
+          - generic [ref=e579]:
+            - generic [ref=e580]:
+              - img [ref=e581]
+              - generic [ref=e584]: 2时 32分 34秒
+            - generic [ref=e585]: 后重置
+          - button "最小化" [ref=e586] [cursor=pointer]:
+            - img [ref=e587]
+          - button "关闭" [ref=e592] [cursor=pointer]:
+            - img [ref=e593]
+      - generic [ref=e596]:
+        - img [ref=e597]
+        - generic [ref=e599]:
+          - generic [ref=e600]: 连续签到
+          - generic [ref=e601]: 1 天
+        - generic [ref=e602]: +10% 奖励
+    - generic [ref=e603]:
+      - generic [ref=e605]:
+        - img [ref=e607]
+        - generic [ref=e609]:
+          - heading "完成5个任务" [level=4] [ref=e610]
+          - paragraph [ref=e611]: 今日完成5个任何类型的任务
+          - generic [ref=e613]:
+            - generic [ref=e614]: 进度
+            - generic [ref=e615]: 0/5
+          - generic [ref=e617]:
+            - generic [ref=e618]:
+              - img [ref=e619]
+              - generic [ref=e621]: +500 XP
+            - generic [ref=e622]:
+              - generic [ref=e623]: 💰
+              - generic [ref=e624]: "+100"
+      - generic [ref=e626]:
+        - img [ref=e628]
+        - generic [ref=e630]:
+          - heading "解锁1个技能" [level=4] [ref=e631]
+          - paragraph [ref=e632]: 在技能树中解锁或升级任意技能
+          - generic [ref=e634]:
+            - generic [ref=e635]: 进度
+            - generic [ref=e636]: 0/1
+          - generic [ref=e638]:
+            - generic [ref=e639]:
+              - img [ref=e640]
+              - generic [ref=e642]: +1000 XP
+            - generic [ref=e643]:
+              - generic [ref=e644]: 💰
+              - generic [ref=e645]: "+200"
+            - generic [ref=e646]: 🎖️ 特殊徽章
+      - generic [ref=e648]:
+        - img [ref=e650]
+        - generic [ref=e652]:
+          - heading "进行1场PvP战斗" [level=4] [ref=e653]
+          - paragraph [ref=e654]: 参与一场Agent对战（胜负不重要）
+          - generic [ref=e656]:
+            - generic [ref=e657]: 进度
+            - generic [ref=e658]: 0/1
+          - generic [ref=e660]:
+            - generic [ref=e661]:
+              - img [ref=e662]
+              - generic [ref=e664]: +800 XP
+            - generic [ref=e665]:
+              - generic [ref=e666]: 💰
+              - generic [ref=e667]: "+150"
+            - generic [ref=e668]: ⚔️ 战斗积分+10
+```

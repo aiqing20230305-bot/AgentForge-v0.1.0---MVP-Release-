@@ -8,6 +8,8 @@ import { motion } from 'framer-motion'
 import { ACHIEVEMENTS, type Achievement } from '../data/achievements'
 import type { AgentData } from '../store/useDataSourceStore'
 import { Trophy, Lock, Star, TrendingUp, Filter } from 'lucide-react'
+import { useInstantFeedback } from '../hooks/useInstantFeedback'
+import { audioSystem } from '../services/audioSystem'
 
 interface AchievementPanelProps {
   agent: AgentData
@@ -16,6 +18,7 @@ interface AchievementPanelProps {
 export const AchievementPanel: React.FC<AchievementPanelProps> = ({ agent }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null)
+  const feedback = useInstantFeedback()
 
   // 成就类别
   const categories = [
@@ -93,9 +96,13 @@ export const AchievementPanel: React.FC<AchievementPanelProps> = ({ agent }) => 
           {categories.map(cat => (
             <button
               key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
+              onClick={(e) => {
+                feedback.onClick(e)
+                audioSystem.play('click')
+                setSelectedCategory(cat.id)
+              }}
               className={`
-                flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap
+                flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap feedback-button-scale
                 ${selectedCategory === cat.id
                   ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/50'
                   : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
@@ -124,9 +131,17 @@ export const AchievementPanel: React.FC<AchievementPanelProps> = ({ agent }) => 
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.03 }}
                 whileHover={{ scale: 1.05 }}
-                onClick={() => setSelectedAchievement(achievement)}
+                onClick={(e) => {
+                  feedback.onClick(e)
+                  if (unlocked) {
+                    audioSystem.play('achievement')
+                  } else {
+                    audioSystem.play('click')
+                  }
+                  setSelectedAchievement(achievement)
+                }}
                 className={`
-                  relative cursor-pointer rounded-xl p-4 border-2 transition-all
+                  relative cursor-pointer rounded-xl p-4 border-2 transition-all feedback-button-scale
                   ${unlocked
                     ? `bg-gradient-to-br ${colors.bg} ${colors.border} shadow-lg ${colors.glow}`
                     : 'bg-gray-900/50 border-gray-700 opacity-60'
@@ -227,6 +242,8 @@ const AchievementDetailModal: React.FC<AchievementDetailModalProps> = ({
   progress,
   onClose
 }) => {
+  const feedback = useInstantFeedback()
+
   const colors = {
     common: { bg: 'from-gray-700 to-gray-600', border: 'border-gray-500', text: 'text-gray-300' },
     rare: { bg: 'from-blue-700 to-blue-600', border: 'border-blue-500', text: 'text-blue-300' },
@@ -321,8 +338,12 @@ const AchievementDetailModal: React.FC<AchievementDetailModalProps> = ({
 
         {/* 关闭按钮 */}
         <button
-          onClick={onClose}
-          className="w-full py-3 bg-white/10 hover:bg-white/20 border-2 border-white/30 rounded-lg text-white font-bold transition-all"
+          onClick={(e) => {
+            feedback.onClick(e)
+            audioSystem.play('click')
+            onClose()
+          }}
+          className="w-full py-3 bg-white/10 hover:bg-white/20 border-2 border-white/30 rounded-lg text-white font-bold transition-all feedback-button-scale"
         >
           关闭
         </button>

@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react'
-import { Activity, Zap, Trophy, Swords, BarChart3 } from 'lucide-react'
+import { Activity, Zap, Trophy, Swords, BarChart3, TrendingUp, Gift } from 'lucide-react'
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import TaskManagementPanel from './TaskManagementPanel'
 import { EnergyDashboard } from './EnergyDashboard'
@@ -13,9 +13,11 @@ import { AchievementPanel } from './AchievementPanel'
 import { BattlePreparation } from './BattlePreparation'
 import { BattleArena } from './BattleArena'
 import { BattleResult } from './BattleResult'
+import { LeaderboardPanel } from './LeaderboardPanel'
+import { InvitePanel } from './InvitePanel'
 import type { Battle } from '../types/battle'
 
-type TabType = 'tasks' | 'energy' | 'skills' | 'achievements' | 'battle'
+type TabType = 'tasks' | 'energy' | 'skills' | 'achievements' | 'battle' | 'leaderboard' | 'invite'
 
 export const MainNavigationTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('tasks')
@@ -29,11 +31,13 @@ export const MainNavigationTabs: React.FC = () => {
   const firstAgent = agentsCache.length > 0 ? agentsCache[0] : null
 
   const tabs = [
-    { id: 'tasks' as TabType, label: '任务管理', icon: Activity },
-    { id: 'energy' as TabType, label: '能耗仪表盘', icon: Zap },
-    { id: 'skills' as TabType, label: '技能树', icon: BarChart3 },
+    { id: 'tasks' as TabType, label: '任务', icon: Activity },
+    { id: 'energy' as TabType, label: '能耗', icon: Zap },
+    { id: 'skills' as TabType, label: '技能', icon: BarChart3 },
     { id: 'achievements' as TabType, label: '成就', icon: Trophy },
-    { id: 'battle' as TabType, label: 'PvP对战', icon: Swords }
+    { id: 'battle' as TabType, label: '对战', icon: Swords },
+    { id: 'leaderboard' as TabType, label: '排行', icon: TrendingUp },
+    { id: 'invite' as TabType, label: '邀请', icon: Gift }
   ]
 
   const handleUpgradeSkill = (skillId: string) => {
@@ -90,7 +94,7 @@ export const MainNavigationTabs: React.FC = () => {
   }
 
   return (
-    <div className="w-[480px] flex-shrink-0 border-l border-white/10 overflow-hidden h-full flex flex-col bg-black/20 backdrop-blur-sm">
+    <div className="navigation-tabs-panel w-[480px] md:w-[480px] flex-shrink-0 border-l border-white/10 overflow-hidden h-full flex flex-col bg-black/20 backdrop-blur-sm">
       {/* 标签页导航 */}
       <div className="flex border-b border-white/10 bg-black/30">
         {tabs.map((tab) => {
@@ -100,6 +104,7 @@ export const MainNavigationTabs: React.FC = () => {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`
+                tab-button
                 flex-1 px-2 py-3 flex items-center justify-center gap-1
                 text-xs font-medium transition-all
                 ${activeTab === tab.id
@@ -109,7 +114,7 @@ export const MainNavigationTabs: React.FC = () => {
               `}
             >
               <Icon className="w-4 h-4" />
-              <span className="hidden lg:inline">{tab.label}</span>
+              <span className="hidden md:inline">{tab.label}</span>
             </button>
           )
         })}
@@ -133,6 +138,8 @@ export const MainNavigationTabs: React.FC = () => {
             onCancel={() => setActiveTab('tasks')}
           />
         )}
+        {activeTab === 'leaderboard' && <LeaderboardPanel />}
+        {activeTab === 'invite' && <InvitePanel />}
       </div>
 
       {/* 战斗场景（覆盖整个屏幕） */}

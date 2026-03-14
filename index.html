@@ -2,9 +2,37 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- 移动端视口优化 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+
+    <!-- PWA配置 -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#06b6d4" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AgentForge" />
+
+    <!-- SEO -->
     <title>AgentForge - AI Agent Builder</title>
     <meta name="description" content="Forge your AI agents like legendary heroes | 像锻造传奇英雄一样打造你的 AI Agent" />
+    <meta name="keywords" content="AI, Agent, AgentForge, 可视化, 管理, 游戏化, RPG, WoW" />
+    <meta name="author" content="AgentForge Team" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="AgentForge - AI Agent管理平台" />
+    <meta property="og:description" content="WoW风格的AI Agent可视化管理系统" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://agentforge.app" />
+    <meta property="og:image" content="/og-image.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AgentForge - AI Agent管理平台" />
+    <meta name="twitter:description" content="WoW风格的AI Agent可视化管理系统" />
+    <meta name="twitter:image" content="/twitter-image.png" />
+
+    <!-- 字体预加载 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">

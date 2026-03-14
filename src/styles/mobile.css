@@ -1,0 +1,541 @@
+/**
+ * 移动端适配样式
+ * 针对小屏幕设备的响应式优化
+ */
+
+/* ===== 全局移动端优化 ===== */
+
+/* 移动端视口优化 */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px; /* 基础字体缩小 */
+  }
+
+  body {
+    -webkit-text-size-adjust: 100%; /* 防止字体自动缩放 */
+    -webkit-tap-highlight-color: transparent; /* 移除点击高亮 */
+    touch-action: manipulation; /* 禁用双击缩放 */
+  }
+}
+
+/* ===== 主布局移动端适配 ===== */
+
+@media (max-width: 768px) {
+  /* 主容器 */
+  .h-screen {
+    height: 100dvh; /* 使用动态视口高度 */
+  }
+
+  /* Agent显示面板 */
+  .agent-display-panel {
+    padding: 0.5rem;
+  }
+
+  /* 导航标签面板 */
+  .navigation-tabs-panel {
+    width: 100% !important; /* 全宽显示 */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    max-height: 60vh; /* 最大高度60%视口 */
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem 1rem 0 0;
+    z-index: 40;
+  }
+
+  /* 标签按钮 */
+  .navigation-tabs-panel .tab-button {
+    min-width: auto;
+    padding: 0.5rem 0.25rem;
+    font-size: 0.65rem;
+  }
+
+  .navigation-tabs-panel .tab-button .lucide {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* ===== 组件移动端适配 ===== */
+
+/* TopBar */
+@media (max-width: 768px) {
+  .top-bar {
+    padding: 0.5rem 1rem;
+    height: 3rem;
+  }
+
+  .top-bar h1 {
+    font-size: 1.25rem;
+  }
+
+  .top-bar .button-group {
+    gap: 0.25rem;
+  }
+
+  .top-bar button {
+    padding: 0.375rem;
+  }
+
+  .top-bar button .lucide {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* GlobalExpBar */
+@media (max-width: 768px) {
+  .global-exp-bar {
+    padding: 0.375rem 0.75rem;
+    height: 2.5rem;
+  }
+
+  .global-exp-bar .exp-text {
+    font-size: 0.75rem;
+  }
+
+  .global-exp-bar .level-badge {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* DailyQuestPanel */
+@media (max-width: 768px) {
+  .daily-quest-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .daily-quest-panel.minimized {
+    bottom: 4rem; /* 避开底部导航 */
+  }
+}
+
+/* TaskManagementPanel */
+@media (max-width: 768px) {
+  .task-management-panel {
+    padding: 0.75rem;
+  }
+
+  .task-card {
+    padding: 0.75rem;
+  }
+
+  .task-card .task-title {
+    font-size: 0.875rem;
+  }
+
+  .task-card .task-description {
+    font-size: 0.75rem;
+  }
+
+  .task-card button {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* EnergyDashboard */
+@media (max-width: 768px) {
+  .energy-dashboard {
+    padding: 0.75rem;
+  }
+
+  .energy-chart-container {
+    height: 200px; /* 降低图表高度 */
+  }
+
+  .energy-stats-grid {
+    grid-template-columns: 1fr; /* 单列布局 */
+    gap: 0.5rem;
+  }
+}
+
+/* SkillTreePanel */
+@media (max-width: 768px) {
+  .skill-tree-panel {
+    padding: 0.75rem;
+  }
+
+  .skill-node {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.25rem;
+  }
+
+  .skill-tooltip {
+    width: calc(100vw - 2rem);
+    max-width: 320px;
+  }
+}
+
+/* AchievementPanel */
+@media (max-width: 768px) {
+  .achievement-panel {
+    padding: 0.75rem;
+  }
+
+  .achievement-grid {
+    grid-template-columns: 1fr; /* 单列布局 */
+    gap: 0.5rem;
+  }
+
+  .achievement-card {
+    padding: 0.75rem;
+  }
+
+  .achievement-card .achievement-icon {
+    font-size: 2rem;
+  }
+
+  .achievement-card .achievement-title {
+    font-size: 0.875rem;
+  }
+}
+
+/* LeaderboardPanel */
+@media (max-width: 768px) {
+  .leaderboard-panel {
+    padding: 0.75rem;
+  }
+
+  .leaderboard-tabs {
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+
+  .leaderboard-tabs::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .leaderboard-tab {
+    min-width: 5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .leaderboard-entry {
+    padding: 0.75rem;
+  }
+
+  .leaderboard-rank {
+    font-size: 1.25rem;
+  }
+
+  .leaderboard-name {
+    font-size: 0.875rem;
+  }
+
+  .leaderboard-score {
+    font-size: 1rem;
+  }
+}
+
+/* InvitePanel */
+@media (max-width: 768px) {
+  .invite-panel {
+    padding: 0.75rem;
+  }
+
+  .invite-tabs {
+    gap: 0.25rem;
+  }
+
+  .invite-tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .invite-code-card {
+    padding: 0.75rem;
+  }
+
+  .invite-code-text {
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+  }
+
+  .invite-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* BattleArena */
+@media (max-width: 768px) {
+  .battle-arena {
+    padding: 0.5rem;
+  }
+
+  .battle-agent-card {
+    padding: 0.75rem;
+  }
+
+  .battle-hp-bar {
+    height: 0.5rem;
+  }
+
+  .battle-skill-buttons {
+    gap: 0.5rem;
+  }
+
+  .battle-skill-button {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Modals */
+@media (max-width: 768px) {
+  .modal-container {
+    padding: 0.5rem;
+  }
+
+  .modal-content {
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100vh - 1rem);
+    border-radius: 1rem;
+  }
+
+  .modal-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .modal-footer {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* ===== 触摸优化 ===== */
+
+@media (max-width: 768px) {
+  /* 增大点击区域 */
+  button,
+  a,
+  .clickable {
+    min-height: 2.75rem; /* 44px iOS推荐 */
+    min-width: 2.75rem;
+  }
+
+  /* 优化触摸反馈 */
+  button:active,
+  .clickable:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
+
+  /* 滚动优化 */
+  .scrollable {
+    -webkit-overflow-scrolling: touch; /* iOS平滑滚动 */
+    overscroll-behavior: contain; /* 防止滚动链 */
+  }
+}
+
+/* ===== 横屏优化 ===== */
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .navigation-tabs-panel {
+    max-height: 80vh; /* 横屏时增加高度 */
+  }
+
+  .daily-quest-panel {
+    max-height: 70vh;
+  }
+}
+
+/* ===== 小屏幕特殊优化 ===== */
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+
+  .navigation-tabs-panel .tab-button {
+    font-size: 0.6rem;
+    padding: 0.375rem 0.125rem;
+  }
+
+  .navigation-tabs-panel .tab-button .lucide {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  /* 隐藏部分文本，只显示图标 */
+  .tab-button span {
+    display: none;
+  }
+
+  /* 强制图标始终显示 */
+  .tab-button .lucide {
+    display: inline-block !important;
+  }
+}
+
+/* ===== PWA优化 ===== */
+
+@media (display-mode: standalone) {
+  /* PWA模式下的特殊样式 */
+  body {
+    padding-top: env(safe-area-inset-top); /* 刘海屏适配 */
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .top-bar {
+    padding-top: calc(0.5rem + env(safe-area-inset-top));
+  }
+
+  .navigation-tabs-panel {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ===== 性能优化 ===== */
+
+@media (max-width: 768px) {
+  /* 减少动画复杂度 */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* 禁用某些高消耗动画 */
+  .particle-background {
+    display: none; /* 移动端隐藏粒子背景 */
+  }
+
+  .complex-animation {
+    animation: none; /* 禁用复杂动画 */
+  }
+}
+
+/* ===== 文字优化 ===== */
+
+@media (max-width: 768px) {
+  /* 防止文字溢出 */
+  .text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .text-wrap {
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* 优化行高 */
+  p, span, div {
+    line-height: 1.5;
+  }
+}
+
+/* ===== 表格优化 ===== */
+
+@media (max-width: 768px) {
+  /* 响应式表格 */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 卡片式表格 */
+  .table-responsive {
+    display: block;
+  }
+
+  .table-responsive thead {
+    display: none;
+  }
+
+  .table-responsive tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .table-responsive td {
+    display: block;
+    text-align: left;
+    padding: 0.25rem 0;
+  }
+
+  .table-responsive td::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* ===== 工具类 ===== */
+
+/* 仅桌面端显示 */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* 仅移动端显示 */
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block !important;
+  }
+
+  .mobile-inline {
+    display: inline !important;
+  }
+
+  .mobile-flex {
+    display: flex !important;
+  }
+
+  .mobile-grid {
+    display: grid !important;
+  }
+}
+
+/* 移动端隐藏 */
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
+
+/* 移动端全宽 */
+@media (max-width: 768px) {
+  .mobile-full-width {
+    width: 100% !important;
+  }
+}
+
+/* 移动端居中 */
+@media (max-width: 768px) {
+  .mobile-center {
+    text-align: center !important;
+  }
+}

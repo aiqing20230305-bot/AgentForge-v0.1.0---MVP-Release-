@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useBuildStore } from '../stores/buildStore'
+import { AudioSettingsModal } from './AudioSettingsModal'
 
 export default function SettingsModal() {
   const { settings, saveSettings, setSettingsOpen, scanForItems } = useBuildStore()
 
   const [rootPath, setRootPath] = useState(settings.rootFolderPath)
   const [maxTokens, setMaxTokens] = useState(settings.maxTokenBudget)
+  const [audioSettingsOpen, setAudioSettingsOpen] = useState(false)
 
   useEffect(() => {
     setRootPath(settings.rootFolderPath)
@@ -29,14 +31,15 @@ export default function SettingsModal() {
   }
 
   return (
-    <div
-      className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
-      onClick={() => setSettingsOpen(false)}
-    >
+    <>
       <div
-        className="w-full max-w-md bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] border-2 border-[#4a4a4a] rounded-lg shadow-2xl"
-        onClick={e => e.stopPropagation()}
+        className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+        onClick={() => setSettingsOpen(false)}
       >
+        <div
+          className="w-full max-w-md bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] border-2 border-[#4a4a4a] rounded-lg shadow-2xl"
+          onClick={e => e.stopPropagation()}
+        >
         {/* Header */}
         <div className="px-4 py-3 border-b-2 border-[#4a4a4a] flex items-center justify-between bg-gradient-to-r from-[#3a3a3a] to-[#2a2a2a]">
           <div className="flex items-center gap-2">
@@ -96,6 +99,23 @@ export default function SettingsModal() {
             />
           </div>
 
+          {/* Audio Settings Button */}
+          <div>
+            <button
+              onClick={() => setAudioSettingsOpen(true)}
+              className="w-full px-4 py-3 bg-gradient-to-r from-cyan-900/30 to-blue-900/30 hover:from-cyan-800/50 hover:to-blue-800/50 border-2 border-cyan-500/30 hover:border-cyan-500/50 rounded-lg transition-all flex items-center justify-between group"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🔊</span>
+                <div className="text-left">
+                  <div className="text-sm font-bold text-white">音效设置</div>
+                  <div className="text-xs text-gray-400">调整音量和音效开关</div>
+                </div>
+              </div>
+              <span className="text-cyan-400 text-xl group-hover:translate-x-1 transition-transform">›</span>
+            </button>
+          </div>
+
           {/* Presets */}
           <div>
             <label className="block text-[10px] text-amber-100/60 uppercase tracking-wider mb-2">
@@ -137,7 +157,14 @@ export default function SettingsModal() {
             保存
           </button>
         </div>
+        </div>
       </div>
-    </div>
+
+      {/* Audio Settings Modal */}
+      <AudioSettingsModal
+        isOpen={audioSettingsOpen}
+        onClose={() => setAudioSettingsOpen(false)}
+      />
+    </>
   )
 }

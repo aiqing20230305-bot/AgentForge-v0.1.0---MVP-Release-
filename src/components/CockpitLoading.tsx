@@ -16,13 +16,13 @@ export default function CockpitLoading({ onComplete }: CockpitLoadingProps) {
   const [videoEnded, setVideoEnded] = useState(false)
 
   useEffect(() => {
-    // 启动序列文本
+    // 启动序列文本（优化后：总时长约1.5秒）
     const sequence = [
-      { text: '系统初始化中...', duration: 1000 },
-      { text: '加载导航系统...', duration: 800 },
-      { text: '连接 OpenClaw 网络...', duration: 800 },
-      { text: '准备启航...', duration: 700 },
-      { text: '开往火星 🚀', duration: 1000 }
+      { text: '系统初始化中...', duration: 300 },
+      { text: '加载导航系统...', duration: 250 },
+      { text: '连接 OpenClaw 网络...', duration: 250 },
+      { text: '准备启航...', duration: 200 },
+      { text: '开往火星 🚀', duration: 300 }
     ]
 
     let currentIndex = 0
@@ -36,12 +36,12 @@ export default function CockpitLoading({ onComplete }: CockpitLoadingProps) {
           const checkVideo = setInterval(() => {
             if (videoEnded || !videoLoaded) {
               clearInterval(checkVideo)
-              setTimeout(onComplete, 500)
+              setTimeout(onComplete, 200)
             }
           }, 100)
         } else {
           // 没有视频或视频已结束，直接完成
-          setTimeout(onComplete, 500)
+          setTimeout(onComplete, 200)
         }
         return
       }
@@ -66,9 +66,9 @@ export default function CockpitLoading({ onComplete }: CockpitLoadingProps) {
       }, sequence[currentIndex].duration)
     }
 
-    // 延迟启动，让开场视频先播放
-    setTimeout(updateSequence, 500)
-  }, [onComplete])
+    // 延迟启动，让开场视频先播放（优化：减少延迟）
+    setTimeout(updateSequence, 100)
+  }, [onComplete, videoEnded, videoLoaded])
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">

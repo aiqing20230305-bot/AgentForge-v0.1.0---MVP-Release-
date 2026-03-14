@@ -193,6 +193,10 @@ interface DataSourceStore {
   updateAgentsCache: (agents: AgentData[]) => void
   getAgentsBySource: (sourceId: string) => AgentData[]
   clearAgentsCache: () => void
+
+  // 游戏化功能
+  addAgentExp: (agentId: string, expAmount: number) => void
+  addAgentCoins: (agentId: string, coinAmount: number) => void
 }
 
 export const useDataSourceStore = create<DataSourceStore>()(
@@ -316,6 +320,61 @@ export const useDataSourceStore = create<DataSourceStore>()(
 
       clearAgentsCache: () => {
         set({ agentsCache: [] })
+      },
+
+      /**
+       * 给Agent增加经验值
+       */
+      addAgentExp: (agentId: string, expAmount: number) => {
+        set(state => {
+          const agents = [...state.agentsCache]
+          const agent = agents.find(a => a.id === agentId)
+
+          if (!agent || !agent.levelSystem) return state
+
+          // 增加经验值
+          let newCurrentExp = agent.levelSystem.currentExp + expAmount
+          let newLevel = agent.levelSystem.currentLevel
+          let newExpToNext = agent.levelSystem.expToNextLevel
+          let leveledUp = false
+
+          // 检查是否升级
+          while (newCurrentExp >= newExpToNext) {
+            newCurrentExp -= newExpToNext
+            newLevel += 1
+            newExpToNext = Math.round(100 * Math.pow(1.5, newLevel))
+            leveledUp = true
+
+            // 升级奖励：每级+2技能点
+            if (agent.skillTree) {
+              agent.skillTree.skillPoints += 2
+            }
+
+            // 记录升级历史
+            agent.levelSystem.levelHistory.push({
+              level: newLevel,
+              timestamp: new Date().toISOString(),
+              totalExp: agent.levelSystem.totalExp + expAmount
+            })
+          }
+
+          // 更新数据
+          agent.levelSystem.currentExp = newCurrentExp
+          agent.levelSystem.currentLevel = newLevel
+          agent.levelSystem.expToNextLevel = newExpToNext
+          agent.levelSystem.totalExp += expAmount
+          agent.level = newLevel // 同步旧字段
+
+          return { agentsCache: agents }
+        })
+      },
+
+      /**
+       * 给Agent增加金币（未来扩展）
+       */
+      addAgentCoins: (agentId: string, coinAmount: number) => {
+        // TODO: 未来实现金币系统
+        console.log(`[Store] Agent ${agentId} gained ${coinAmount} coins`)
       }
     }),
     {
@@ -334,11 +393,16 @@ export function initializeDefaultDataSources(): void {
   if (store.sources.length > 0) {
     // 但仍然需要确保所有Agent有扩展数据
     initializeAgentExtendedData()
+
+    // 如果没有Agent，创建默认Agent（用于测试和演示）
+    if (store.agentsCache.length === 0) {
+      createDefaultAgent()
+    }
     return
   }
 
   // 添加默认的本地 OpenClaw 数据源
-  store.addSource({
+  const defaultSourceId = store.addSource({
     name: '本地 OpenClaw',
     description: '本地 OpenClaw 桥接服务（上海小龙虾）',
     type: 'openclaw',
@@ -350,8 +414,101 @@ export function initializeDefaultDataSources(): void {
     isDefault: true
   })
 
+  // 如果没有Agent，创建默认Agent（用于测试和演示）
+  if (store.agentsCache.length === 0) {
+    createDefaultAgent()
+  }
+
   // 初始化Agent扩展数据
   initializeAgentExtendedData()
+}
+
+/**
+ * 创建默认演示Agent（当没有真实Agent时）
+ */
+function createDefaultAgent(): void {
+  const store = useDataSourceStore.getState()
+  const sources = store.sources
+
+  if (sources.length === 0) return
+
+  const defaultAgent: AgentData = {
+    id: 'demo-agent-001',
+    name: '演示Agent',
+    type: 'demo',
+    sourceId: sources[0].id,
+    status: 'active',
+    capabilities: ['task-execution', 'chat', 'analysis'],
+    config: {
+      model: 'claude-sonnet-3-5-20241022',
+      temperature: 0.7
+    },
+    level: 1,
+    experience: 0,
+    health: 100,
+
+    // 技能树
+    skillTree: {
+      unlockedSkills: [],
+      activeSkills: [],
+      skillPoints: 5,
+      skillLevels: {}
+    },
+
+    // 成就系统
+    achievements: {
+      unlocked: [],
+      progress: {}
+    },
+
+    // 等级系统
+    levelSystem: {
+      currentLevel: 1,
+      currentExp: 0,
+      expToNextLevel: 100,
+      totalExp: 0,
+      prestigeLevel: 0,
+      levelHistory: []
+    },
+
+    // 能耗统计
+    energyStats: {
+      totalTokensUsed: 0,
+      tokensUsedToday: 0,
+      tokensUsedThisWeek: 0,
+      tokensUsedThisMonth: 0,
+      averagePerTask: 0,
+      peakTokensPerHour: 0
+    },
+
+    // 能耗预算
+    energyBudget: {
+      dailyLimit: 50000,
+      weeklyLimit: 300000,
+      monthlyLimit: 1000000,
+      alertThreshold: 80
+    },
+
+    // 能耗历史
+    energyHistory: [],
+
+    // PVP统计
+    pvpStats: {
+      wins: 0,
+      losses: 0,
+      winRate: 0,
+      mmr: 1000,
+      rankTier: 'bronze',
+      rankPoints: 0,
+      totalBattles: 0
+    },
+
+    // 金币
+    coins: 1000
+  }
+
+  store.updateAgentsCache([defaultAgent])
+  console.log('[Store] Created default demo agent:', defaultAgent.name)
 }
 
 /**

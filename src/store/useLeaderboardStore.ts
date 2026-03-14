@@ -68,16 +68,73 @@ const createDefaultSeason = (): Season => ({
   }
 })
 
+// Helper to generate mock leaderboard data
+function generateMockLeaderboardData(type: LeaderboardType, count: number = 50): LeaderboardEntry[] {
+  const names = [
+    '闪电侠', '暗影刺客', '钢铁战士', '冰霜法师', '烈焰战神',
+    '神秘行者', '光明使者', '暗夜猎手', '雷霆之神', '风暴领主',
+    '机械先驱', '量子旅者', '星际守卫', '时空行者', '虚空领主',
+    '元素大师', '混沌使者', '秩序骑士', '自由战士', '永恒守望',
+    '幻影刺客', '圣光骑士', '死亡使者', '生命法师', '魔导学者',
+    '剑圣', '弓箭大师', '枪械专家', '爆破专家', '战术大师',
+    '狙击手', '格斗家', '刺客', '坦克', '辅助',
+    '中单', '打野', '射手', '辅助', '上单',
+    '战士', '法师', '坦克', '刺客', '射手',
+    '辅助', '战士', '法师', '坦克', '刺客'
+  ]
+
+  const sourcePrefixes = ['GitHub', 'GitLab', 'Jira', 'Notion', 'Slack']
+
+  return Array.from({ length: count }, (_, i) => {
+    const rank = i + 1
+    let score: number
+
+    switch (type) {
+      case 'level':
+        score = Math.max(1, 100 - i * 2 + Math.floor(Math.random() * 10))
+        break
+      case 'pvp_rating':
+        score = Math.max(0, 3000 - i * 50 + Math.floor(Math.random() * 100))
+        break
+      case 'tasks_completed':
+        score = Math.max(0, 1000 - i * 15 + Math.floor(Math.random() * 20))
+        break
+      case 'energy_saved':
+        score = Math.max(0, 95 - i + Math.floor(Math.random() * 5))
+        break
+      case 'achievement_points':
+        score = Math.max(0, 5000 - i * 80 + Math.floor(Math.random() * 100))
+        break
+      default:
+        score = 0
+    }
+
+    const change = Math.floor(Math.random() * 11) - 5 // -5 到 +5
+
+    return {
+      rank,
+      agentId: `agent-${i + 1}`,
+      agentName: names[i % names.length] + (i >= names.length ? ` ${Math.floor(i / names.length) + 1}` : ''),
+      score,
+      tier: getTierFromRank(rank),
+      change,
+      sourceId: `source-${i + 1}`,
+      sourceName: `${sourcePrefixes[i % sourcePrefixes.length]} Source ${Math.floor(i / sourcePrefixes.length) + 1}`,
+      updatedAt: new Date().toISOString()
+    }
+  })
+}
+
 export const useLeaderboardStore = create<LeaderboardStore>()(
   persist(
     (set, get) => ({
       currentSeason: createDefaultSeason(),
       leaderboards: {
-        level: [],
-        pvp_rating: [],
-        tasks_completed: [],
-        energy_saved: [],
-        achievement_points: []
+        level: generateMockLeaderboardData('level'),
+        pvp_rating: generateMockLeaderboardData('pvp_rating'),
+        tasks_completed: generateMockLeaderboardData('tasks_completed'),
+        energy_saved: generateMockLeaderboardData('energy_saved'),
+        achievement_points: generateMockLeaderboardData('achievement_points')
       },
       agentRankings: {},
       seasonHistory: [],

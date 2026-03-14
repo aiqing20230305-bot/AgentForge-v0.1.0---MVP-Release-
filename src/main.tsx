@@ -6,6 +6,7 @@ import './styles/animations.css'
 import './styles/macos-glass.css'
 import './styles/cockpit-animation.css'
 import './styles/instant-feedback.css'
+import './styles/mobile.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
