@@ -81,34 +81,30 @@ AgentForge 将 AI Agent 管理转化为沉浸式 RPG 体验。升级你的 Agent
 *Turn-based combat system*
 
 ### 📊 NEW: Global Leaderboards (v0.3.0)
-![Leaderboard](docs/screenshots/screenshot-leaderboard.png)
-*Compete globally - 6 ranking categories, seasonal rewards, tier system, manual refresh*
+*Compete globally - 6 ranking categories, seasonal rewards, tier system (Bronze → Master), manual refresh*
 
 ### 💎 NEW: Invite Code System (v0.3.0)
-![Invite System](docs/screenshots/screenshot-invite.png)
-![QR Code Sharing](docs/screenshots/screenshot-qr-code.png)
 *Generate codes, QR code sharing, invite friends, dual reward distribution, expiry warnings*
 
 ### ⚙️ NEW: Settings System (v0.3.1)
-![Settings Panel](docs/screenshots/screenshot-settings.png)
-*Comprehensive settings - Theme, Audio, UI, Performance, Import/Export*
+*Comprehensive settings - Theme, Audio, UI, Performance, Import/Export, all preferences saved*
 
 ### 📊 NEW: Performance Monitoring (v0.3.1)
-![Performance Dashboard](docs/screenshots/screenshot-performance.png)
-*Real-time Core Web Vitals, memory tracking, 97.5% improvement showcase*
+*Real-time Core Web Vitals, memory tracking, 97.5% improvement showcase, export reports*
 
 ### 📱 NEW: Mobile & PWA Support (v0.3.0)
-*Fully responsive design, installable PWA, 60 FPS performance*
+*Fully responsive design (768px/480px breakpoints), installable PWA, 60 FPS performance, touch-optimized*
 
 ### 🔔 NEW: Desktop Notification System (v0.3.7)
-![Notification System](docs/screenshots/screenshot-notifications.png)
-*Native desktop notifications (Electron), browser notifications, 3 sound effects, notification history*
+*Native desktop notifications (Electron - macOS/Windows/Linux), browser notifications, 3 sound effects with volume control, notification history (last 50)*
 
 ### 🔍 NEW: Task Search & Copy Features (v0.3.6)
-*Debounced search (300ms), search history, one-click copy for configs/logs/URLs*
+*Debounced search (300ms), search history (last 5), one-click copy for configs/logs/URLs, visual feedback*
 
 ### 📚 NEW: Component Showcase (v0.3.6)
-*Interactive demo gallery for all 67 components with code examples*
+*Interactive demo gallery for all 67 components with code examples, 4 category tabs, live demos*
+
+> **Note:** Additional screenshots coming soon! See existing screenshots in `docs/screenshots/` for current features.
 
 ---
 
