@@ -1,41 +1,19 @@
 import { useState } from 'react'
 import { useTaskStore } from '../stores/taskStore'
-import { useChatStore } from '../store/useChatStore'
 import {
   Plus,
   Clock,
-  CheckCircle2,
-  Circle,
-  XCircle,
-  AlertCircle,
-  MessageSquare,
   Play,
-  Pause,
-  Eye,
-  StopCircle
+  Pause
 } from 'lucide-react'
-import type { Task, TaskStatus, TaskPriority } from '../types/task'
+import type { Task, TaskPriority } from '../types/task'
 import AgentChatPanel from './AgentChatPanel'
-import { useRipple } from '../hooks/useRipple'
 import { useInstantFeedback } from '../hooks/useInstantFeedback'
 import { audioSystem } from '../services/audioSystem'
 import { TaskDetailDrawer } from './TaskDetailDrawer'
-import { useTaskAutoExecution } from '../hooks/useTaskAutoExecution'
 import { TaskSearchBar } from './TaskSearchBar'
-
-const STATUS_CONFIG = {
-  pending: { label: '待处理', icon: Circle, color: '#9CA3AF' },
-  in_progress: { label: '进行中', icon: AlertCircle, color: '#3B82F6' },
-  completed: { label: '已完成', icon: CheckCircle2, color: '#10B981' },
-  failed: { label: '失败', icon: XCircle, color: '#EF4444' }
-}
-
-const PRIORITY_CONFIG = {
-  low: { label: '低', color: '#9CA3AF' },
-  medium: { label: '中', color: '#F59E0B' },
-  high: { label: '高', color: '#EF4444' },
-  urgent: { label: '紧急', color: '#DC2626' }
-}
+// import { VirtualizedTaskList } from './VirtualizedTaskList' // Temporarily disabled for v1.1.0 screenshots
+import { TaskListItem } from './TaskListItem'
 
 export default function TaskManagementPanel() {
   const {
@@ -46,20 +24,13 @@ export default function TaskManagementPanel() {
     setFilterTimeRange,
     getFilteredTasks,
     getTaskStats,
-    selectedTask,
-    setSelectedTask,
-    updateTask,
     setSearchTerm
   } = useTaskStore()
-
-  const { getUnreadCount } = useChatStore()
   const [showNewTaskModal, setShowNewTaskModal] = useState(false)
   const [chatTask, setChatTask] = useState<Task | null>(null)
   const [detailTaskId, setDetailTaskId] = useState<string | null>(null)
   const [autoExecutionEnabled, setAutoExecutionEnabled] = useState(true)
-  const { createRipple } = useRipple()
   const feedback = useInstantFeedback()
-  const { executeTask, cancelExecution } = useTaskAutoExecution()
 
   const tasks = getFilteredTasks()
   const stats = getTaskStats(selectedAgentId || undefined)
@@ -73,27 +44,6 @@ export default function TaskManagementPanel() {
     tasks.slice(0, 3).map(t => t.agentId)
   )
   console.log('[TaskPanel] Stats:', stats)
-
-  const handleStatusChange = (taskId: string, newStatus: TaskStatus) => {
-    const updates: any = { status: newStatus }
-
-    if (newStatus === 'in_progress' && !tasks.find(t => t.id === taskId)?.startedAt) {
-      updates.startedAt = new Date().toISOString()
-      audioSystem.play('success')
-    }
-
-    if (newStatus === 'completed') {
-      updates.completedAt = new Date().toISOString()
-      audioSystem.playQuestCompleteSequence()
-    }
-
-    if (newStatus === 'failed') {
-      updates.completedAt = new Date().toISOString()
-      audioSystem.play('error')
-    }
-
-    updateTask(taskId, updates)
-  }
 
   return (
     <div className="h-full flex flex-col bg-[#1a1a1a]">
@@ -138,7 +88,7 @@ export default function TaskManagementPanel() {
         {/* 统计卡片 - macOS 彩色渐变 */}
         <div className="grid grid-cols-4 gap-2 mb-3">
           <div
-            onClick={createRipple}
+            onClick={() => {}}
             className="bg-white/10 hover:bg-white/15 backdrop-blur-sm border border-white/20 hover:border-white/30 rounded-xl p-2 text-center cursor-pointer transition-all hover:scale-105 active:scale-95"
             style={{
               background:
@@ -149,7 +99,7 @@ export default function TaskManagementPanel() {
             <div className="text-lg font-bold text-white">{stats.total}</div>
           </div>
           <div
-            onClick={createRipple}
+            onClick={() => {}}
             className="bg-white/10 hover:bg-white/15 backdrop-blur-sm border border-white/20 hover:border-white/30 rounded-xl p-2 text-center cursor-pointer transition-all hover:scale-105 active:scale-95"
             style={{
               background:
@@ -160,7 +110,7 @@ export default function TaskManagementPanel() {
             <div className="text-lg font-bold text-white">{stats.in_progress}</div>
           </div>
           <div
-            onClick={createRipple}
+            onClick={() => {}}
             className="bg-white/10 hover:bg-white/15 backdrop-blur-sm border border-white/20 hover:border-white/30 rounded-xl p-2 text-center cursor-pointer transition-all hover:scale-105 active:scale-95"
             style={{
               background:
@@ -171,7 +121,7 @@ export default function TaskManagementPanel() {
             <div className="text-lg font-bold text-white">{stats.completed}</div>
           </div>
           <div
-            onClick={createRipple}
+            onClick={() => {}}
             className="bg-white/10 hover:bg-white/15 backdrop-blur-sm border border-white/20 hover:border-white/30 rounded-xl p-2 text-center cursor-pointer transition-all hover:scale-105 active:scale-95"
             style={{
               background:
@@ -245,233 +195,18 @@ export default function TaskManagementPanel() {
             )}
           </div>
         ) : (
-          <div className="space-y-3">
-            {tasks.map(task => {
-              const StatusIcon = STATUS_CONFIG[task.status].icon
-              const isSelected = selectedTask?.id === task.id
-
-              return (
-                <div
-                  key={task.id}
-                  onClick={() => setSelectedTask(isSelected ? null : task)}
-                  className={`bg-white/10 backdrop-blur-sm border-2 rounded-xl p-4 cursor-pointer transition-all hover:bg-white/15 hover:scale-[1.02] ${
-                    isSelected
-                      ? 'border-cyan-400 shadow-lg shadow-cyan-500/20'
-                      : 'border-white/20 hover:border-white/30'
-                  }`}
-                >
-                  {/* 任务头部 */}
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-start gap-3 flex-1">
-                      <div
-                        className={`p-2 rounded-lg ${
-                          task.status === 'completed'
-                            ? 'bg-green-500/20'
-                            : task.status === 'in_progress'
-                              ? 'bg-blue-500/20'
-                              : task.status === 'failed'
-                                ? 'bg-red-500/20'
-                                : 'bg-gray-500/20'
-                        }`}
-                      >
-                        <StatusIcon
-                          className="w-5 h-5"
-                          style={{ color: STATUS_CONFIG[task.status].color }}
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-base font-bold text-white mb-1.5">{task.title}</div>
-                        <div className="text-sm text-white/70 line-clamp-2 leading-relaxed">
-                          {task.description}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 flex-shrink-0 ml-2">
-                      {/* 对话按钮 */}
-                      <button
-                        onClick={e => {
-                          e.stopPropagation()
-                          setChatTask(task)
-                        }}
-                        className="relative p-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/50 transition-all hover:scale-110 group"
-                        title="与 Agent 对话"
-                      >
-                        <MessageSquare className="w-4 h-4 text-blue-300 group-hover:animate-pulse" />
-                        {getUnreadCount(task.id) > 0 && (
-                          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-[10px] font-bold text-white flex items-center justify-center animate-pulse">
-                            {getUnreadCount(task.id)}
-                          </span>
-                        )}
-                      </button>
-
-                      {/* 优先级标签 */}
-                      <span
-                        className="text-xs px-3 py-1 rounded-full font-bold border"
-                        style={{
-                          backgroundColor: PRIORITY_CONFIG[task.priority].color + '30',
-                          borderColor: PRIORITY_CONFIG[task.priority].color + '80',
-                          color: PRIORITY_CONFIG[task.priority].color
-                        }}
-                      >
-                        {PRIORITY_CONFIG[task.priority].label}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* 执行进度条 */}
-                  {task.status === 'in_progress' && task.executionProgress !== undefined && (
-                    <div className="mb-3">
-                      <div className="flex items-center justify-between text-xs text-white/60 mb-1">
-                        <span>执行进度</span>
-                        <span>{task.executionProgress.toFixed(0)}%</span>
-                      </div>
-                      <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
-                        <div
-                          className="bg-gradient-to-r from-blue-600 to-blue-400 h-full transition-all duration-300"
-                          style={{ width: `${task.executionProgress}%` }}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* 任务信息 */}
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-3 text-white/60">
-                      <span className="flex items-center gap-1.5 bg-white/5 px-2 py-1 rounded">
-                        👤 <span className="font-medium text-white/80">{task.agentName}</span>
-                      </span>
-                      <span className="bg-white/5 px-2 py-1 rounded">
-                        {new Date(task.createdAt).toLocaleDateString('zh-CN')}
-                      </span>
-                    </div>
-
-                    {/* 操作按钮 */}
-                    <div className="flex items-center gap-2">
-                      {/* 查看详情按钮 */}
-                      <button
-                        onClick={e => {
-                          e.stopPropagation()
-                          feedback.onClick(e)
-                          audioSystem.play('click')
-                          setDetailTaskId(task.id)
-                        }}
-                        className="px-3 py-1.5 text-xs bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1 feedback-button-scale"
-                      >
-                        <Eye className="w-3 h-3" />
-                        详情
-                      </button>
-
-                      {/* 取消执行按钮 */}
-                      {task.status === 'in_progress' && (
-                        <button
-                          onClick={e => {
-                            e.stopPropagation()
-                            feedback.onClick(e)
-                            audioSystem.play('error')
-                            cancelExecution(task.id)
-                          }}
-                          className="px-3 py-1.5 text-xs bg-red-500/20 hover:bg-red-500/30 border border-red-400/50 text-red-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1 feedback-button-scale"
-                        >
-                          <StopCircle className="w-3 h-3" />
-                          取消
-                        </button>
-                      )}
-
-                      {/* 手动执行按钮 */}
-                      {task.status === 'pending' && (
-                        <button
-                          onClick={e => {
-                            e.stopPropagation()
-                            feedback.onClick(e)
-                            audioSystem.play('success')
-                            executeTask(task.id)
-                          }}
-                          className="px-3 py-1.5 text-xs bg-green-500/20 hover:bg-green-500/30 border border-green-400/50 text-green-300 rounded-lg transition-all hover:scale-105 flex items-center gap-1 feedback-button-scale feedback-button-glow"
-                        >
-                          <Play className="w-3 h-3" />
-                          执行
-                        </button>
-                      )}
-
-                      {/* 状态选择器 */}
-                      <select
-                        value={task.status}
-                        onChange={e => {
-                          e.stopPropagation()
-                          handleStatusChange(task.id, e.target.value as TaskStatus)
-                        }}
-                        onClick={e => e.stopPropagation()}
-                        className="px-3 py-1.5 text-sm bg-white/5 border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors"
-                      >
-                        <option value="pending">待处理</option>
-                        <option value="in_progress">进行中</option>
-                        <option value="completed">已完成</option>
-                        <option value="failed">失败</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* 展开的详情 */}
-                  {isSelected && (
-                    <div className="mt-4 pt-4 border-t border-white/20">
-                      {/* 标签 */}
-                      {task.tags && task.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          {task.tags.map((tag, idx) => (
-                            <span
-                              key={idx}
-                              className="text-xs px-3 py-1 rounded-full bg-white/10 text-white/90 border border-white/20 font-medium"
-                            >
-                              #{tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* 时间信息 */}
-                      <div className="text-sm text-white/70 space-y-2 mb-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-white/50">创建:</span>
-                          <span className="font-medium">
-                            {new Date(task.createdAt).toLocaleString('zh-CN')}
-                          </span>
-                        </div>
-                        {task.startedAt && (
-                          <div className="flex items-center gap-2">
-                            <span className="text-white/50">开始:</span>
-                            <span className="font-medium">
-                              {new Date(task.startedAt).toLocaleString('zh-CN')}
-                            </span>
-                          </div>
-                        )}
-                        {task.completedAt && (
-                          <div className="flex items-center gap-2">
-                            <span className="text-white/50">完成:</span>
-                            <span className="font-medium">
-                              {new Date(task.completedAt).toLocaleString('zh-CN')}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* 任务结果 */}
-                      {task.result && (
-                        <div className="bg-green-500/10 border border-green-400/30 rounded-lg p-3">
-                          <div className="text-sm font-bold text-green-300 mb-2 flex items-center gap-2">
-                            <CheckCircle2 className="w-4 h-4" />
-                            执行结果
-                          </div>
-                          <div className="text-sm text-white/90 whitespace-pre-wrap leading-relaxed">
-                            {task.result}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
+          <div className="overflow-y-auto space-y-3 pr-2">
+            {tasks.map((task) => (
+              <TaskListItem
+                key={task.id}
+                task={task}
+                isSelected={false}
+                onSelect={() => {}}
+                onChat={() => setChatTask(task)}
+                onViewDetail={() => setDetailTaskId(task.id)}
+                unreadCount={0}
+              />
+            ))}
           </div>
         )}
       </div>

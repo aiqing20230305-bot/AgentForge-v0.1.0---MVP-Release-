@@ -1,6 +1,6 @@
 {
   "name": "agentforge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Forge your AI agents like legendary heroes - RPG-style builder for Claude agents | 像锻造传奇英雄一样打造你的 AI Agent",
   "main": "dist-electron/main.js",
   "scripts": {
@@ -8,9 +8,13 @@
     "build": "tsc && vite build && electron-builder",
     "preview": "vite preview",
     "electron:dev": "concurrently \"vite\" \"electron .\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "screenshots": "node scripts/take-screenshots.mjs",
+    "screenshots:setup": "npx playwright install chromium"
   },
   "dependencies": {
+    "axios": "^1.13.6",
+    "date-fns": "^4.1.0",
     "electron-store": "^8.1.0",
     "framer-motion": "^12.36.0",
     "gpt-tokenizer": "^2.1.2",
@@ -21,7 +25,9 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
+    "react-window": "^2.2.7",
     "recharts": "^3.8.0",
+    "socket.io-client": "^4.8.3",
     "zustand": "^4.4.7"
   },
   "overrides": {
@@ -33,6 +39,7 @@
     "@types/qrcode": "^1.5.6",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
+    "@types/react-window": "^1.8.8",
     "@vitejs/plugin-react": "^4.3.0",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.1.0",

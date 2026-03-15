@@ -10,13 +10,13 @@
 
 🎮 **RPG Level System** · 🏆 **PVP Arena** · 📊 **Real-time Leaderboards** · 🔔 **Desktop Notifications** · ⚡ **67 Components**
 
-**v1.0.0 - Official Release! 🎉 Complete gamification platform with 34K+ lines of code**
+**v1.1.0 - Core Evolution! 🫀 Living agents with health monitoring, automatic evolution & predictive analytics (37K+ lines)**
 
 [English](#english) | [中文](#中文)
 
 [![GitHub stars](https://img.shields.io/github/stars/aiqing20230305-bot/AgentForge?style=social)](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.0-brightgreen.svg)](CHANGELOG.md)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](.)
 [![Components](https://img.shields.io/badge/components-67-orange.svg)](src/components)
 
@@ -28,14 +28,15 @@
 
 AgentForge transforms AI agent management into an immersive RPG experience. Level up your agents, compete on leaderboards, battle in PVP arena, and build the ultimate AI team. Featuring desktop notifications, achievement system, auto-execution, and full mobile support.
 
-**🎉 v1.0.0 Milestone:**
-- **67 production components** with 34,059 lines of TypeScript code
-- **100% feature complete** - All Phase 1-3 roadmap items delivered
-- **Desktop notifications** with sound effects (Electron native)
-- **Auto-execution engine** with smart retry and queueing
-- **97.5% performance improvement** through virtual scrolling
-- **Full mobile PWA support** with responsive design
-- **0 TypeScript errors** - 100% type safety
+**🎉 v1.1.0 Evolution:**
+- **87 production components** (+20 new) with 37,000+ lines of TypeScript code
+- **Core Evolution System** - 2,940 LOC across 4 phases
+- **Heartbeat monitoring** with 30-second intervals and 6-factor vitality
+- **20 evolution rules** across 8 categories (Common → Legendary)
+- **Predictive analytics** - Forecast agent health up to 24 hours ahead
+- **Advanced features** - Global monitor, replay player, performance reports
+- **Cloud sync enhancements** - Offline queue, WebSocket real-time updates
+- **0 TypeScript errors** - 100% type safety maintained
 
 ---
 
@@ -43,14 +44,15 @@ AgentForge transforms AI agent management into an immersive RPG experience. Leve
 
 AgentForge 将 AI Agent 管理转化为沉浸式 RPG 体验。升级你的 Agent、竞争排行榜、PVP 竞技场对战，打造终极 AI 团队。配备桌面通知、成就系统、自动执行，全面移动端支持。
 
-**🎉 v1.0.0 里程碑：**
-- **67 个生产组件**，34,059 行 TypeScript 代码
-- **100% 功能完整** - 第1-3阶段路线图全部交付
-- **桌面通知** + 音效系统（Electron 原生）
-- **自动执行引擎** + 智能重试和队列
-- **97.5% 性能提升** - 虚拟滚动优化
-- **完整移动端 PWA** - 响应式设计
-- **0 TypeScript 错误** - 100% 类型安全
+**🎉 v1.1.0 进化版：**
+- **87 个生产组件**（+20 新增），37,000+ 行 TypeScript 代码
+- **核心进化系统** - 4个阶段共 2,940 行代码
+- **心跳监控** - 30秒间隔，6因子生命力评分
+- **20条进化规则** - 横跨8大类别（普通→传说）
+- **预测分析** - 预测Agent健康状况至24小时
+- **高级功能** - 全局监控、回放播放器、性能报告
+- **云同步增强** - 离线队列、WebSocket 实时更新
+- **0 TypeScript 错误** - 保持 100% 类型安全
 
 ![AgentForge Main](docs/screenshots/screenshot-main.png)
 
@@ -104,7 +106,92 @@ AgentForge 将 AI Agent 管理转化为沉浸式 RPG 体验。升级你的 Agent
 ### 📚 NEW: Component Showcase (v0.3.6)
 *Interactive demo gallery for all 67 components with code examples, 4 category tabs, live demos*
 
-> **Note:** Additional screenshots coming soon! See existing screenshots in `docs/screenshots/` for current features.
+---
+
+## 🫀 Core Evolution System - NEW in v1.1.0
+
+AgentForge v1.1.0 introduces a revolutionary **Core Evolution System** that transforms your agents from static entities into living, breathing beings with health monitoring, automatic evolution, and advanced predictive analytics.
+
+### 🎯 Heartbeat Monitoring
+Real-time agent health monitoring with vitality scores, heart rate tracking, and intelligent warnings.
+
+![Vitality Dashboard](screenshots/v1.1.0/02-vitality-dashboard.png)
+*Multi-factor vitality calculation with 30-second heartbeat intervals*
+
+**Key Features:**
+- ⏱️ **30-second Heartbeat Intervals** - Continuous health monitoring
+- 📊 **Vitality Score (0-100)** - Based on 6 key metrics
+- 🚦 **4-Level Health Status** - Healthy / Warning / Critical / Offline
+- ⚠️ **6 Warning Types** - Proactive alerts before issues escalate
+- 🎁 **Auto Rewards** - Evolution points for maintaining agent health
+
+### 🧬 Evolution Engine
+Automatic evolution system that detects and applies improvements to your agents.
+
+![Evolution Timeline](screenshots/v1.1.0/03-evolution-timeline.png)
+*Visual timeline of agent evolution with 20 intelligent rules across 8 categories*
+
+**Evolution Categories:**
+1. **Productivity** 🎯 - Task completion milestones
+2. **Learning** 📚 - Skill development tracking
+3. **Resilience** 🛡️ - Error recovery patterns
+4. **Speed** ⚡ - Performance optimization
+5. **Quality** ✨ - High-quality output detection
+6. **Social** 👥 - Team collaboration metrics
+7. **Combat** ⚔️ - Battle performance (PK system)
+8. **Legendary** 🌟 - Rare game-changing evolutions
+
+**Evolution System:**
+- 🔄 **Hourly Checks** - Automatic scanning
+- ⭐ **5 Rarity Tiers** - Common → Legendary
+- ⏳ **Smart Cooldown** - 1h per evolution, 3/day max
+- 🎯 **20 Evolution Rules** - Comprehensive coverage
+
+### 🚀 Advanced Features
+
+#### Global Heartbeat Monitor
+Monitor all agents simultaneously with advanced filtering and sorting.
+
+![Global Monitor](screenshots/v1.1.0/04-heartbeat-monitor.png)
+*Centralized monitoring dashboard with real-time status updates*
+
+#### Vitality Dashboard
+Comprehensive health visualization with predictive insights.
+
+![Vitality Gauge](screenshots/v1.1.0/02-vitality-dashboard.png)
+*Animated SVG gauges with trend analysis and health recommendations*
+
+**Dashboard Components:**
+- 🎨 **VitalityGauge** - Animated radial gauge with gradient colors
+- 📈 **HeartbeatChart** - Real-time waveform visualization
+- 📊 **VitalityTrendChart** - 24-hour trend analysis
+- 💡 **Health Recommendations** - AI-powered actionable advice
+
+#### Vitality Predictor
+Predict future agent health using linear regression algorithms.
+
+![Settings Panel](screenshots/v1.1.0/05-settings-panel.png)
+*Forecast vitality 1h/6h/24h ahead with confidence intervals*
+
+**Prediction Features:**
+- 📈 **Linear Regression** - Time-series forecasting
+- ⏰ **3 Time Horizons** - 1-hour, 6-hour, 24-hour
+- 📊 **Confidence Intervals** - Statistical reliability
+- 🎯 **Trend Visualization** - Clear future trajectory
+
+### 📊 System Highlights
+
+| Metric | Value |
+|--------|-------|
+| **Total Code** | 2,940 LOC (Core Evolution System) |
+| **Components** | 20 new React components |
+| **Algorithms** | 4 sophisticated algorithms |
+| **Real-time** | 30s heartbeat, 1h evolution |
+| **Evolution Rules** | 20 rules, 8 categories |
+| **Predictions** | Up to 24 hours ahead |
+| **Health Metrics** | 6 vitality factors |
+
+> **Note:** High-quality screenshots available in `screenshots/v1.1.0/`. Run `node scripts/take-screenshots.mjs` to generate.
 
 ---
 
@@ -250,11 +337,11 @@ Each slot represents a different aspect of your agent's personality and capabili
 - **qrcode 1.5.4** - QR code generation
 - **html2canvas 1.4.1** - Screenshots
 
-### **Project Stats**
-- **67 Components** - Full-featured UI library
+### **Project Stats (v1.1.0)**
+- **87 Components** - Full-featured UI library (+20 evolution components)
 - **15 Stores** - Comprehensive state management
-- **8 Services** - Core business logic
-- **12 Utils** - Helper functions
-- **6 Type Modules** - TypeScript definitions
-- **34,059 Lines** - Total codebase
+- **10 Services** - Core business logic (+evolution, sync services)
+- **15 Utils** - Helper functions (+evolution calculators)
+- **8 Type Modules** - TypeScript definitions (+evolution types)
+- **37,000+ Lines** - Total codebase (Core Evolution +2,940 LOC)
 - **0 Errors** - TypeScript compilation

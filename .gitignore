@@ -62,3 +62,6 @@ openclaw.json
 debug-*.html
 test-*.json
 *.local
+release/mac-*
+release/win-*
+release/linux-*
