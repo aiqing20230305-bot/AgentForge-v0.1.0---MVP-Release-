@@ -1,9 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { loadOpenClawAgents, OpenClawAgent } from '../utils/openclawLoader'
 import { useTaskStore } from '../stores/taskStore'
 import { Target, Clock, MessageCircle } from 'lucide-react'
 import AgentPortrait from './AgentPortrait'
 import { useRipple } from '../hooks/useRipple'
+import { CloudSyncIndicator } from './CloudSyncIndicator'
+import { HeartbeatIndicator } from './HeartbeatIndicator'
+import { EvolutionTimeline } from './EvolutionTimeline'
+import { VitalityDashboard } from './VitalityDashboard'
+import { AdvancedFeaturesPanel } from './AdvancedFeaturesPanel'
+import { getEvolutionEngine } from '../services/evolution/evolutionEngine'
 
 export default function AgentDisplayPanel() {
   const [agents, setAgents] = useState<OpenClawAgent[]>([])
@@ -33,11 +39,12 @@ export default function AgentDisplayPanel() {
     loadAgents()
   }, [])
 
-  const handleSelectAgent = (agent: OpenClawAgent) => {
+  // 🚀 Performance: Memoize handler to prevent child re-renders
+  const handleSelectAgent = useCallback((agent: OpenClawAgent) => {
     console.log('[AgentDisplay] Selected agent:', agent.id, '→', agent.name)
     setSelectedAgent(agent)
     setTaskStoreAgent(agent.id)
-  }
+  }, [setTaskStoreAgent])
 
   if (!selectedAgent) {
     return (
@@ -45,18 +52,21 @@ export default function AgentDisplayPanel() {
     )
   }
 
-  // 优先使用 API 返回的 taskStats，如果没有则使用 taskStore
-  const apiStats = selectedAgent.metadata?.taskStats
-  const storeStats = getTaskStats(selectedAgent.id)
+  // 🚀 Performance: Memoize stats calculation
+  const stats = useMemo(() => {
+    // 优先使用 API 返回的 taskStats，如果没有则使用 taskStore
+    const apiStats = selectedAgent?.metadata?.taskStats
+    const storeStats = getTaskStats(selectedAgent?.id || '')
 
-  const stats = apiStats
-    ? {
-        total: apiStats.total || 0,
-        in_progress: apiStats.inProgress || 0,
-        completed: apiStats.completed || 0,
-        pending: 0 // API 暂不支持 pending 状态
-      }
-    : storeStats
+    return apiStats
+      ? {
+          total: apiStats.total || 0,
+          in_progress: apiStats.inProgress || 0,
+          completed: apiStats.completed || 0,
+          pending: 0 // API 暂不支持 pending 状态
+        }
+      : storeStats
+  }, [selectedAgent?.id, selectedAgent?.metadata?.taskStats, getTaskStats])
 
   return (
     <div className="h-full flex flex-col relative cockpit-init boot-scan">
@@ -133,13 +143,10 @@ export default function AgentDisplayPanel() {
 
       {/* 主要展示区 - 左侧形象 + 右侧信息 */}
       <div className="flex-1 flex gap-5 p-5 overflow-hidden">
-        {/* 左侧：Agent 形象大卡片 - 9:16 比例 */}
+        {/* 左侧：Agent 形象大卡片 - 9:16 比例 - 🚀 Mobile Optimized */}
         <div
-          className="flex-shrink-0 h-full module-init-delay-1 border-activate"
+          className="flex-shrink-0 h-full module-init-delay-1 border-activate w-full max-w-sm lg:w-96"
           key={`portrait-${selectedAgent.name}`}
-          style={{
-            width: '380px'
-          }}
         >
           <AgentPortrait agent={selectedAgent} size="large" />
         </div>
@@ -161,6 +168,22 @@ export default function AgentDisplayPanel() {
                   <span className="px-2 py-0.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-medium">
                     Lv.{selectedAgent.level}
                   </span>
+                  {/* Cloud sync indicator */}
+                  <CloudSyncIndicator
+                    isCloudSynced={!!selectedAgent.metadata?.cloudId}
+                    size="sm"
+                    showLabel={true}
+                  />
+                  {/* Heartbeat indicator */}
+                  {selectedAgent.coreEvolution && (
+                    <HeartbeatIndicator
+                      vitality={selectedAgent.coreEvolution.vitality}
+                      heartRate={selectedAgent.coreEvolution.heartRate}
+                      status={selectedAgent.coreEvolution.healthStatus}
+                      size="sm"
+                      showLabel={false}
+                    />
+                  )}
                   <div
                     className="w-2 h-2 rounded-full"
                     style={{
@@ -458,6 +481,67 @@ export default function AgentDisplayPanel() {
               <div className="text-xs text-white/90 leading-relaxed">
                 {selectedAgent.description}
               </div>
+            </div>
+          )}
+
+          {/* 进化历程 - Evolution Timeline */}
+          {selectedAgent.coreEvolution && (
+            <div className="bg-white/5 backdrop-blur-xl border border-white/20 rounded-xl p-3 flex-shrink-0 hover:bg-white/10 hover:border-white/30 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 shadow-lg module-init-delay-5">
+              <div className="text-[9px] text-white/50 mb-2 uppercase tracking-wider flex items-center gap-1">
+                <span>🧬</span>
+                <span>Evolution History</span>
+              </div>
+              <EvolutionTimeline
+                agentId={selectedAgent.id}
+                evolutionHistory={getEvolutionEngine().getEvolutionHistory(selectedAgent.id)}
+                currentPoints={selectedAgent.coreEvolution.evolutionPoints || 0}
+                currentLevel={selectedAgent.level}
+                unlockedRules={selectedAgent.coreEvolution.unlockedRules || []}
+                nextEvolution={
+                  selectedAgent.coreEvolution.nextEvolution &&
+                  'ruleId' in selectedAgent.coreEvolution.nextEvolution
+                    ? selectedAgent.coreEvolution.nextEvolution
+                    : undefined
+                }
+                onManualEvolve={async (ruleId: string) => {
+                  const engine = getEvolutionEngine()
+                  const success = await engine.manualEvolve(selectedAgent.id, ruleId)
+                  if (success) {
+                    // Refresh the agent data
+                    const updatedAgents = await loadOpenClawAgents()
+                    setAgents(updatedAgents)
+                  }
+                }}
+              />
+            </div>
+          )}
+
+          {/* 生命力仪表盘 - Vitality Dashboard */}
+          {selectedAgent.coreEvolution && (
+            <div className="bg-white/5 backdrop-blur-xl border border-white/20 rounded-xl p-3 flex-shrink-0 hover:bg-white/10 hover:border-white/30 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 shadow-lg module-init-delay-6">
+              <div className="text-[9px] text-white/50 mb-3 uppercase tracking-wider flex items-center gap-1">
+                <span>🫀</span>
+                <span>Vitality Dashboard</span>
+              </div>
+              <VitalityDashboard agent={selectedAgent} />
+            </div>
+          )}
+
+          {/* 高级功能面板 - Advanced Features */}
+          {selectedAgent.coreEvolution && (
+            <div className="bg-white/5 backdrop-blur-xl border border-white/20 rounded-xl p-3 flex-shrink-0 hover:bg-white/10 hover:border-white/30 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 shadow-lg module-init-delay-7">
+              <div className="text-[9px] text-white/50 mb-3 uppercase tracking-wider flex items-center gap-1">
+                <span>🚀</span>
+                <span>Advanced Features</span>
+              </div>
+              <AdvancedFeaturesPanel
+                agent={selectedAgent}
+                agents={agents}
+                onAgentSelect={(agentId) => {
+                  const agent = agents.find(a => a.id === agentId)
+                  if (agent) handleSelectAgent(agent)
+                }}
+              />
             </div>
           )}
         </div>

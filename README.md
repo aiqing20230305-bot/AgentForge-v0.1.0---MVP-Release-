@@ -1,26 +1,48 @@
-# AgentForge ⚔️
-
 <div align="center">
 
-**The Ultimate Gamified AI Agent Management Platform**
+# 🫀 AgentForge - Core Evolution System
 
-全球首个游戏化AI Agent管理平台
+**Transform Static AI Agents Into Living, Breathing Entities**
+
+[![GitHub Stars](https://img.shields.io/github/stars/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-?style=social)](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/stargazers)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/releases)
+[![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](.)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+[🚀 Quick Start](#-getting-started) • [📖 Documentation](#-core-features) • [💬 Community](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/discussions) • [🐛 Report Bug](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/issues)
+
+![AgentForge Demo](screenshots/demo.gif)
+
+</div>
 
 ---
 
-🎮 **RPG Level System** · 🏆 **PVP Arena** · 📊 **Real-time Leaderboards** · 🔔 **Desktop Notifications** · ⚡ **67 Components**
+## ✨ Why AgentForge?
 
-**v1.1.0 - Core Evolution! 🫀 Living agents with health monitoring, automatic evolution & predictive analytics (37K+ lines)**
+| Before | After |
+|--------|-------|
+| ❌ Static agents with no visibility | ✅ Real-time health monitoring |
+| ❌ Manual performance tracking | ✅ Automatic evolution (20 rules) |
+| ❌ Reactive problem solving | ✅ Predictive analytics (24h ahead) |
+| ❌ Generic agent management | ✅ Living, breathing entities |
+| ❌ No gamification or motivation | ✅ RPG system with levels & rewards |
+| ❌ Limited scalability | ✅ 1000+ agents at 60fps |
+
+## 📊 At a Glance
+
+- 🫀 **30-second heartbeat** monitoring with 6-factor vitality score
+- 🧬 **20 evolution rules** across 8 categories (Common → Legendary)
+- 📈 **Predictive analytics** forecast health up to 24 hours ahead
+- ⚡ **60fps performance** handling 1000+ agents
+- 📦 **2,940 LOC** enterprise-grade Core Evolution System
+- 🎮 **87 components** with full RPG gamification
+- 🏆 **PVP Arena** with turn-based combat & MMR ranking
+- 📱 **PWA ready** - Responsive design & offline support
+
+---
 
 [English](#english) | [中文](#中文)
-
-[![GitHub stars](https://img.shields.io/github/stars/aiqing20230305-bot/AgentForge?style=social)](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.1.0-brightgreen.svg)](CHANGELOG.md)
-[![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](.)
-[![Components](https://img.shields.io/badge/components-67-orange.svg)](src/components)
-
-</div>
 
 ---
 

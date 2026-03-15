@@ -1,313 +1,307 @@
-# AgentForge Backend API
+# AgentForge Backend
 
-Backend API server for AgentForge - Gamified AI Agent Management Platform
+Node.js + Express + MongoDB backend for AgentForge v1.1.0
 
-## 🚀 Tech Stack
+## Features
 
-- **Runtime:** Node.js 20+
-- **Framework:** Express.js 4.18
-- **Language:** TypeScript 5.3
-- **Database:** MongoDB (Mongoose 8.0)
-- **Real-time:** Socket.io 4.6
-- **Authentication:** JWT (jsonwebtoken 9.0)
-- **Security:** bcrypt, helmet, cors
-- **Dev Tools:** ts-node-dev, ESLint, Prettier
+- ✅ **RESTful API**: Complete CRUD operations for Users, Agents, Tasks, and Teams
+- ✅ **JWT Authentication**: Secure access with refresh token support
+- ✅ **MongoDB Integration**: Mongoose ODM with schema validation
+- ✅ **TypeScript**: 100% type-safe codebase
+- ✅ **Error Handling**: Global error middleware with development stack traces
+- ✅ **Security**: Helmet, CORS, bcrypt password hashing
+- ✅ **Logging**: Morgan HTTP request logging (development mode)
 
-## 📦 Installation
+## Tech Stack
+
+- **Runtime**: Node.js 18+
+- **Framework**: Express 4.18
+- **Database**: MongoDB (Mongoose 8.0)
+- **Authentication**: JWT (jsonwebtoken 9.0)
+- **Security**: bcrypt 5.1, helmet 7.1, cors 2.8
+- **Language**: TypeScript 5.6
+
+## Prerequisites
+
+- Node.js 18+ and npm
+- MongoDB instance (local or cloud)
+
+## Installation
 
 ```bash
 # Install dependencies
 npm install
 
-# Copy environment variables
+# Create .env file
 cp .env.example .env
 
 # Edit .env with your configuration
-nano .env
+# Required: MONGODB_URI, JWT_SECRET, JWT_REFRESH_SECRET
 ```
 
-## 🔧 Configuration
+## Environment Variables
 
-### Environment Variables
-
-Required variables (see `.env.example`):
+Create a `.env` file in the backend directory:
 
 ```env
-# Server
 NODE_ENV=development
-PORT=3000
+PORT=3001
 
 # MongoDB
 MONGODB_URI=mongodb://localhost:27017/agentforge
+MONGODB_TEST_URI=mongodb://localhost:27017/agentforge_test
 
-# JWT Secrets (CHANGE IN PRODUCTION!)
-JWT_SECRET=your-super-secret-jwt-key
-JWT_REFRESH_SECRET=your-super-secret-refresh-key
+# JWT
+JWT_SECRET=your_super_secret_jwt_key_here
+JWT_REFRESH_SECRET=your_super_secret_refresh_key_here
+JWT_EXPIRES_IN=7d
+JWT_REFRESH_EXPIRES_IN=30d
+
+# CORS (comma-separated origins)
+CORS_ORIGIN=http://localhost:5173,http://localhost:3000
 ```
 
-### MongoDB Setup
+**Security Notes:**
+- Generate strong secrets: `openssl rand -base64 32`
+- Never commit `.env` to version control
+- In production, set `NODE_ENV=production`
 
-**Option 1: Local MongoDB**
-```bash
-# Install MongoDB (macOS)
-brew install mongodb-community
-
-# Start MongoDB
-brew services start mongodb-community
-```
-
-**Option 2: MongoDB Atlas (Cloud)**
-1. Create account at [mongodb.com/atlas](https://www.mongodb.com/atlas)
-2. Create a free cluster
-3. Get connection string
-4. Update `MONGODB_URI` in `.env`
-
-## 🛠️ Development
+## Development
 
 ```bash
-# Development mode (hot reload)
+# Start development server (auto-reload)
 npm run dev
 
 # Build TypeScript
 npm run build
 
-# Production mode
+# Run production server
 npm start
 
-# Type checking
+# Type check only
 npm run typecheck
 
-# Linting
+# Lint code
 npm run lint
-
-# Format code
-npm run format
 ```
 
-## 📚 API Documentation
-
-### Base URL
-```
-http://localhost:3000/api/v1
-```
-
-### Endpoints (Planned)
-
-#### Authentication
-- `POST /auth/register` - Register new user
-- `POST /auth/login` - Login user
-- `POST /auth/refresh` - Refresh access token
-- `GET /auth/me` - Get current user
-
-#### Agents
-- `GET /agents` - List agents
-- `POST /agents` - Create agent
-- `GET /agents/:id` - Get agent
-- `PUT /agents/:id` - Update agent
-- `DELETE /agents/:id` - Delete agent
-
-#### Tasks
-- `GET /tasks` - List tasks
-- `POST /tasks` - Create task
-- `GET /tasks/:id` - Get task
-- `PUT /tasks/:id` - Update task
-- `DELETE /tasks/:id` - Delete task
-
-#### Teams
-- `GET /teams` - List teams
-- `POST /teams` - Create team
-- `GET /teams/:id` - Get team
-- `PUT /teams/:id` - Update team
-- `DELETE /teams/:id` - Delete team
-
-### WebSocket Events (Planned)
-
-```javascript
-// Client → Server
-socket.emit('agent:update', { agentId, data })
-socket.emit('task:update', { taskId, data })
-socket.emit('team:join', { teamId })
-
-// Server → Client
-socket.on('agent:updated', (data) => {})
-socket.on('task:updated', (data) => {})
-socket.on('team:message', (data) => {})
-```
-
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 backend/
 ├── src/
-│   ├── index.ts              # Entry point
-│   ├── app.ts                # Express app setup
-│   ├── config/
-│   │   ├── db.ts             # MongoDB configuration
-│   │   └── env.ts            # Environment variables
-│   ├── models/
-│   │   ├── User.ts           # User model
-│   │   ├── Agent.ts          # Agent model
-│   │   ├── Task.ts           # Task model
-│   │   └── Team.ts           # Team model
-│   ├── routes/
-│   │   ├── auth.ts           # Auth routes
-│   │   ├── agents.ts         # Agent routes
-│   │   ├── tasks.ts          # Task routes
-│   │   └── teams.ts          # Team routes
-│   ├── controllers/
+│   ├── config/          # Configuration files
+│   │   ├── db.ts        # MongoDB connection
+│   │   └── env.ts       # Environment variables
+│   ├── controllers/     # Request handlers
 │   │   ├── authController.ts
 │   │   ├── agentController.ts
-│   │   └── taskController.ts
-│   ├── middleware/
-│   │   ├── auth.ts           # JWT verification
-│   │   └── errorHandler.ts  # Global error handler
-│   ├── services/
-│   │   └── socketService.ts # Socket.io service
-│   └── utils/
-│       ├── jwt.ts            # JWT utilities
-│       └── validator.ts      # Validation utilities
-├── dist/                     # Compiled JavaScript (gitignored)
-├── package.json
-├── tsconfig.json
-├── .env.example
-├── .gitignore
-└── README.md
+│   │   ├── taskController.ts
+│   │   └── teamController.ts
+│   ├── middleware/      # Express middleware
+│   │   ├── auth.ts      # JWT authentication
+│   │   └── errorHandler.ts
+│   ├── models/          # Mongoose schemas
+│   │   ├── User.ts
+│   │   ├── Agent.ts
+│   │   ├── Task.ts
+│   │   └── Team.ts
+│   ├── routes/          # API routes
+│   │   ├── auth.ts
+│   │   ├── agents.ts
+│   │   ├── tasks.ts
+│   │   └── teams.ts
+│   ├── utils/           # Utility functions
+│   │   └── jwt.ts
+│   ├── app.ts           # Express app setup
+│   └── index.ts         # Server entry point
+├── docs/                # Documentation
+│   └── API.md           # Complete API reference
+├── .env.example         # Environment template
+├── tsconfig.json        # TypeScript config
+└── package.json
 ```
 
-## 🔐 Security
+## API Endpoints
 
-- **JWT Authentication:** Token-based auth with refresh tokens
-- **Password Hashing:** bcrypt with 12 rounds
-- **CORS:** Configured for frontend origin
-- **Helmet:** Security headers
-- **Rate Limiting:** Prevent abuse (planned)
-- **Input Validation:** express-validator
+Base URL: `http://localhost:3001/api/v1`
 
-## 🧪 Testing
+### Authentication
+- `POST /auth/register` - Register new user
+- `POST /auth/login` - Login user
+- `POST /auth/refresh` - Refresh access token
+- `GET /auth/me` - Get current user profile
+
+### Agents
+- `GET /agents` - Get all agents
+- `GET /agents/:id` - Get single agent
+- `POST /agents` - Create agent
+- `PUT /agents/:id` - Update agent
+- `DELETE /agents/:id` - Delete agent
+- `PATCH /agents/:id/stats` - Update agent statistics
+
+### Tasks
+- `GET /tasks` - Get all tasks
+- `GET /tasks/:id` - Get single task
+- `GET /tasks/stats` - Get task statistics
+- `POST /tasks` - Create task
+- `PUT /tasks/:id` - Update task
+- `DELETE /tasks/:id` - Delete task
+- `POST /tasks/:id/logs` - Add execution log entry
+
+### Teams
+- `GET /teams` - Get all teams
+- `GET /teams/:id` - Get single team
+- `POST /teams` - Create team
+- `PUT /teams/:id` - Update team
+- `DELETE /teams/:id` - Delete team
+- `POST /teams/:id/members` - Add team member
+- `DELETE /teams/:id/members/:agentId` - Remove team member
+- `PATCH /teams/:id/stats` - Update team statistics
+
+**See [docs/API.md](./docs/API.md) for complete API documentation with examples.**
+
+## Testing the API
+
+### Using curl
 
 ```bash
-# Run tests (when implemented)
-npm test
+# Health check
+curl http://localhost:3001/health
 
-# Test coverage
-npm run test:coverage
+# Register user
+curl -X POST http://localhost:3001/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"test123","username":"testuser"}'
+
+# Login
+curl -X POST http://localhost:3001/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"test123"}'
+
+# Get agents (requires token)
+curl http://localhost:3001/api/v1/agents \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
-## 📊 Database Schema
+### Using Postman/Insomnia
+
+1. Import the collection from `docs/API.md`
+2. Set base URL: `http://localhost:3001/api/v1`
+3. For authenticated endpoints:
+   - Add header: `Authorization: Bearer <your_token>`
+   - Get token from login/register response
+
+## Database Schema
 
 ### User
-```typescript
-{
-  _id: ObjectId
-  email: string (unique)
-  password: string (hashed)
-  username: string
-  avatar?: string
-  createdAt: Date
-  updatedAt: Date
-}
-```
+- email, password (bcrypt hashed), username
+- Unique indexes on email and username
 
 ### Agent
-```typescript
-{
-  _id: ObjectId
-  userId: ObjectId (ref: User)
-  name: string
-  level: number
-  experience: number
-  skills: ObjectId[] (ref: Skill)
-  config: Object (agent configuration)
-  stats: Object (performance stats)
-  createdAt: Date
-  updatedAt: Date
-}
-```
+- userId, name, aiModel, systemPrompt, temperature, maxTokens
+- RPG attributes: level, experience
+- Statistics: tasksCompleted, tokensUsed, totalUptime
+- Status: idle, busy, error
 
 ### Task
-```typescript
-{
-  _id: ObjectId
-  userId: ObjectId (ref: User)
-  agentId?: ObjectId (ref: Agent)
-  teamId?: ObjectId (ref: Team)
-  title: string
-  description: string
-  status: 'pending' | 'in_progress' | 'completed' | 'failed'
-  priority: 'low' | 'medium' | 'high'
-  dueDate?: Date
-  completedAt?: Date
-  createdAt: Date
-  updatedAt: Date
-}
-```
+- userId, agentId, title, description
+- Status: pending, in_progress, completed, failed
+- Priority: low, medium, high, urgent
+- Execution: result, errorMessage, executionLog, tokensUsed, actualDuration
 
 ### Team
-```typescript
-{
-  _id: ObjectId
-  name: string
-  ownerId: ObjectId (ref: User)
-  members: ObjectId[] (ref: User)
-  inviteCode: string (unique)
-  createdAt: Date
-  updatedAt: Date
-}
-```
+- userId, name, description, maxMembers
+- Members: array of { agentId, agentName, role, joinedAt }
+- Statistics: tasksCompleted, totalTokensUsed
 
-## 🚢 Deployment
+## Security Features
 
-### Docker (Planned)
+- **Password Hashing**: bcrypt with 12 salt rounds
+- **JWT Tokens**: Access (7d) + Refresh (30d) tokens
+- **CORS**: Configurable allowed origins
+- **Helmet**: Security headers
+- **Input Validation**: Mongoose schema validation
+- **Error Handling**: No sensitive data in error responses (production)
+
+## Deployment
+
+### Local MongoDB
 
 ```bash
-# Build image
-docker build -t agentforge-backend .
+# Install MongoDB
+brew install mongodb-community  # macOS
+sudo apt install mongodb         # Ubuntu
 
-# Run container
-docker run -p 3000:3000 --env-file .env agentforge-backend
+# Start MongoDB
+brew services start mongodb-community  # macOS
+sudo systemctl start mongodb           # Ubuntu
+
+# Verify
+mongosh
 ```
 
-### Environment Variables (Production)
+### Cloud MongoDB (MongoDB Atlas)
 
-**Required:**
-- `NODE_ENV=production`
-- `MONGODB_URI=<production-mongodb-uri>`
-- `JWT_SECRET=<strong-random-secret>`
-- `JWT_REFRESH_SECRET=<strong-random-secret>`
-- `CORS_ORIGIN=<production-frontend-url>`
+1. Create free cluster at [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
+2. Get connection string
+3. Update `.env`: `MONGODB_URI=mongodb+srv://...`
 
-## 📝 Development Status
+### Production Deployment
 
-### ✅ Completed (v1.1.0 Phase 1 - In Progress)
-- [x] Project initialization
-- [x] TypeScript configuration
-- [x] Environment configuration
-- [x] MongoDB connection setup
-- [ ] Data models (User, Agent, Task, Team)
-- [ ] Authentication system (register/login/JWT)
-- [ ] RESTful API routes
-- [ ] Socket.io real-time communication
-- [ ] Error handling middleware
-- [ ] API testing
+```bash
+# Build
+npm run build
 
-### 🔜 Next Steps
-1. Complete data models
-2. Implement authentication system
-3. Create CRUD routes for agents/tasks
-4. Add Socket.io for real-time updates
-5. Write API tests
-6. Deploy to staging environment
+# Set environment
+export NODE_ENV=production
 
-## 📞 Support
+# Start
+npm start
+```
+
+**Production Checklist:**
+- [ ] Set strong JWT secrets
+- [ ] Configure production MongoDB URI
+- [ ] Set proper CORS origins
+- [ ] Enable HTTPS
+- [ ] Configure process manager (PM2)
+- [ ] Set up monitoring (logs, errors)
+
+## Troubleshooting
+
+### Cannot connect to MongoDB
+```
+Error: connect ECONNREFUSED 127.0.0.1:27017
+```
+**Solution**: Start MongoDB service
+
+### JWT errors
+```
+Error: secretOrPrivateKey must have a value
+```
+**Solution**: Set `JWT_SECRET` and `JWT_REFRESH_SECRET` in `.env`
+
+### TypeScript errors
+```
+Cannot find module 'express'
+```
+**Solution**: Run `npm install`
+
+## Contributing
+
+1. Follow existing code style
+2. Write TypeScript with strict mode
+3. Add JSDoc comments for public APIs
+4. Test endpoints before committing
+5. Update API documentation if adding/changing endpoints
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Support
 
 For issues and questions:
-- **Issues:** [GitHub Issues](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/discussions)
-
-## 📄 License
-
-MIT License - see [LICENSE](../LICENSE) file
-
----
-
-**Part of AgentForge v1.1.0** - Online Collaboration Features
+- GitHub Issues: [github.com/yourusername/agentforge/issues](https://github.com/yourusername/agentforge/issues)
+- Documentation: [docs/API.md](./docs/API.md)

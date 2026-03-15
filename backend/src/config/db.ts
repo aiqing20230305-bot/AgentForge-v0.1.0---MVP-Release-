@@ -6,7 +6,7 @@
 import mongoose from 'mongoose'
 import config from './env'
 
-const connectDB = async (): Promise<void> => {
+export const connectDB = async (): Promise<void> => {
   try {
     const mongoURI = config.NODE_ENV === 'test' ? config.MONGODB_TEST_URI : config.MONGODB_URI
 
@@ -22,7 +22,7 @@ const connectDB = async (): Promise<void> => {
     console.log(`📁 Database: ${conn.connection.name}`)
 
     // Handle connection events
-    mongoose.connection.on('error', (err) => {
+    mongoose.connection.on('error', (err: Error) => {
       console.error('❌ MongoDB connection error:', err)
     })
 
@@ -41,10 +41,8 @@ const connectDB = async (): Promise<void> => {
       process.exit(0)
     })
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('❌ MongoDB connection failed:', error)
     process.exit(1)
   }
 }
-
-export default connectDB

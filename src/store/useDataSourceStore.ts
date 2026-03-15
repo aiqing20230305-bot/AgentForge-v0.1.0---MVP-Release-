@@ -5,6 +5,7 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { getRandomAvatar, getAvatarByRole } from '../utils/avatarLibrary'
 
 // 数据源类型
 export type DataSourceType = 'openclaw' | 'custom-api' | 'local-script' | 'ssh-remote'
@@ -156,6 +157,25 @@ export interface AgentData {
     rankTier: 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond' | 'master'
     rankPoints: number
     totalBattles: number
+  }
+
+  // Core Evolution System (Heart System)
+  coreEvolution?: {
+    vitality: number              // 0-100 生命力
+    heartRate: number             // 心跳频率（次/分钟）
+    lastHeartbeat: string        // 最后心跳时间
+    evolutionPoints: number      // 进化点
+    evolutionLevel: number       // 进化等级 0-10
+    totalEvolutions: number      // 总进化次数
+    healthStatus: 'healthy' | 'warning' | 'critical' | 'offline'
+    autoEvolutionEnabled: boolean
+    unlockedRules?: string[]     // 已解锁的进化规则ID列表
+    nextEvolution?: {
+      ruleId: string
+      ruleName: string
+      requiredPoints: number
+      progress: number           // 0-1
+    }
   }
 }
 
@@ -444,6 +464,7 @@ function createDefaultAgent(): void {
     skills: [],
     personality: 'Professional and helpful',
     color: '#3b82f6',
+    avatar: getAvatarByRole('Team Member'), // 🎯 Random avatar from library
     description: '演示用 Agent',
 
     // 技能树

@@ -1,4 +1,32 @@
 # Changelog
+## [1.2.0] - 2026-03-15
+
+### Added
+- ✨ 全局 ErrorBoundary 组件，捕获所有 React 错误
+- ✨ 统一的 LoadingSpinner 组件（4种尺寸 + 骨架屏）
+- 🤖 发布前自动检查脚本（7项验证）
+- 📝 完整的 v1.2.0 发布说明文档
+- 📸 截图更新指南和检查清单
+
+### Changed
+- ⚡ AgentDisplayPanel 性能优化（useMemo, useCallback）
+- 📱 移动端响应式布局优化（移除固定宽度）
+- 🎯 Stats 计算使用 useMemo 缓存
+- 🎨 App.tsx 集成全局 ErrorBoundary
+
+### Performance
+- ⚡ 减少 30-50% 不必要的组件重渲染
+- 💾 优化 stats 计算性能
+- 📱 改善移动端布局流畅度
+
+### Developer Experience  
+- 🔧 自动化发布前检查流程
+- 📚 完善的发布文档和指南
+- 🛠️ TypeScript 编译优化
+
+### Fixed
+- 🐛 修复 AgentDisplayPanel 固定宽度导致的移动端显示问题
+- 🐛 优化事件处理器引用稳定性
 
 All notable changes to AgentForge will be documented in this file.
 

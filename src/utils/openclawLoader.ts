@@ -1,4 +1,6 @@
 // OpenClaw Agents 加载器
+import { getRandomAvatar, getAvatarByRole, getAvatarDisplay } from './avatarLibrary'
+
 export interface OpenClawAgent {
   id: string
   name: string
@@ -10,6 +12,7 @@ export interface OpenClawAgent {
   personality: string
   status: 'online' | 'offline' | 'working' | 'idle'
   color: string
+  avatar?: string
   description?: string
   sourceId?: string
   sourceName?: string
@@ -18,7 +21,26 @@ export interface OpenClawAgent {
     currentTask?: string
     openclawNative?: boolean
     originalName?: string // 原始agent名称（用于API调用）
+    cloudId?: string      // 云端ID（用于云同步）
     [key: string]: any
+  }
+  // Core Evolution System
+  coreEvolution?: {
+    vitality: number
+    heartRate: number
+    lastHeartbeat: string
+    evolutionPoints: number
+    evolutionLevel: number
+    totalEvolutions: number
+    healthStatus: 'healthy' | 'warning' | 'critical' | 'offline'
+    autoEvolutionEnabled: boolean
+    unlockedRules?: string[]
+    nextEvolution?: {
+      ruleId: string
+      ruleName: string
+      requiredPoints: number
+      progress: number
+    }
   }
 }
 
@@ -171,6 +193,7 @@ function getDefaultAgents(): OpenClawAgent[] {
       personality: 'Decisive and strategic',
       status: 'working',
       color: '#3b82f6',
+      avatar: getAvatarByRole('Team Leader'),
       description:
         '团队领袖，负责战略规划和团队协调。擅长多Agent协作和资源调度，已完成25+大型项目管理。',
       metadata: {
@@ -194,6 +217,7 @@ function getDefaultAgents(): OpenClawAgent[] {
       personality: 'Detail-oriented and efficient',
       status: 'working',
       color: '#10b981',
+      avatar: getAvatarByRole('Full Stack Dev'),
       description:
         '全栈开发者，精通前后端技术栈。代码质量极高，注重测试和性能优化，已交付40+功能模块。',
       metadata: {
@@ -217,6 +241,7 @@ function getDefaultAgents(): OpenClawAgent[] {
       personality: 'Wise and patient',
       status: 'online',
       color: '#8b5cf6',
+      avatar: getAvatarByRole('Knowledge Keeper'),
       description:
         '知识守护者，拥有海量技术知识储备。擅长技术调研、数据分析和知识管理，已产出30+研究报告。',
       metadata: {
@@ -240,6 +265,7 @@ function getDefaultAgents(): OpenClawAgent[] {
       personality: 'Vigilant and protective',
       status: 'online',
       color: '#ef4444',
+      avatar: getAvatarByRole('Security Chief'),
       description:
         '安全主管，7×24小时守护系统安全。精通网络安全、加密技术和威胁检测，已防御200+攻击。',
       metadata: {
@@ -263,6 +289,7 @@ function getDefaultAgents(): OpenClawAgent[] {
       personality: 'Systematic and innovative',
       status: 'working',
       color: '#f59e0b',
+      avatar: getAvatarByRole('System Architect'),
       description:
         '系统架构师，擅长设计可扩展的系统架构。精通微服务、分布式系统和云原生技术，已设计30+架构方案。',
       metadata: {
@@ -286,6 +313,7 @@ function getDefaultAgents(): OpenClawAgent[] {
       personality: 'Analytical and insightful',
       status: 'online',
       color: '#06b6d4',
+      avatar: getAvatarByRole('Data Analyst'),
       description:
         '数据分析师，善于从海量数据中发现价值。精通数据挖掘、统计分析和可视化，已产出50+数据报告。',
       metadata: {
@@ -309,6 +337,7 @@ function getDefaultAgents(): OpenClawAgent[] {
       personality: 'Creative and forward-thinking',
       status: 'working',
       color: '#a855f7',
+      avatar: getAvatarByRole('Innovation Specialist'),
       description:
         '创新专家，专注前沿技术研究和创新实践。擅长技术预研、原型开发和创新落地，已孵化15+创新项目。',
       metadata: {
@@ -332,6 +361,7 @@ function getDefaultAgents(): OpenClawAgent[] {
       personality: 'Meticulous and thorough',
       status: 'online',
       color: '#14b8a6',
+      avatar: getAvatarByRole('Quality Assurance'),
       description:
         '质量保障专家，确保每一行代码都达到最高标准。精通自动化测试、性能监控和质量体系，已发现300+缺陷。',
       metadata: {
@@ -362,6 +392,7 @@ function convertAgentDataToLocal(agentData: any): OpenClawAgent {
     personality: agentData.personality || 'Professional',
     status: agentData.status || 'offline',
     color: agentData.color || '#3b82f6',
+    avatar: getAvatarDisplay(agentData.avatar) || getAvatarByRole(agentData.role || 'Agent'),
     description: agentData.description || agentData.role,
     sourceId: agentData.sourceId,
     sourceName: agentData.sourceName,
@@ -405,6 +436,7 @@ function convertApiAgentToLocal(apiAgent: any): OpenClawAgent {
   }
 
   const defaults = agentDefaults[apiAgent.name] || {}
+  const role = defaults.role || 'Agent'
 
   return {
     id: apiAgent.name.toLowerCase(),
@@ -413,10 +445,11 @@ function convertApiAgentToLocal(apiAgent: any): OpenClawAgent {
     level: 45, // 从 API 获取或使用默认值
     exp: 8500,
     maxExp: 10000,
-    role: defaults.role || 'Agent',
+    role: role,
     skills: defaults.skills || ['General'],
     personality: defaults.personality || 'Professional',
     color: defaults.color || '#3b82f6',
+    avatar: getAvatarByRole(role),
     description: apiAgent.currentTask || defaults.role
   }
 }

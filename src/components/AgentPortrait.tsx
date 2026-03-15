@@ -7,6 +7,7 @@ import SkillSelector from './SkillSelector'
 import AgentTaskHistory from './AgentTaskHistory'
 import AgentChat from './AgentChat'
 import { useRipple } from '../hooks/useRipple'
+import { isValidEmoji } from '../utils/avatarLibrary'
 
 interface AgentPortraitProps {
   agent: OpenClawAgent
@@ -170,8 +171,8 @@ export default function AgentPortrait({ agent, size = 'large' }: AgentPortraitPr
   const portraits = usePortraitStore(state => state.portraits)
   const selectedPortrait = portraits.find(p => p.id === selectedPortraitId) || null
 
-  // 确定要显示的图片
-  const agentImage = selectedPortrait?.path || null
+  // 确定要显示的图片 - 优先使用选中的portrait，其次使用agent.avatar
+  const agentImage = selectedPortrait?.path || agent.avatar || null
 
   const sizeClasses = {
     small: 'w-16 h-20',

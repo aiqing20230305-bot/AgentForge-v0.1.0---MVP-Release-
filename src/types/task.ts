@@ -9,13 +9,22 @@ export interface Task {
   description: string
   status: TaskStatus
   priority: TaskPriority
-  agentId: string // 执行此任务的 Agent ID
+  agentId: string // 执行此任务的 Agent ID (本地ID)
   agentName: string // Agent 名称
   createdAt: string
   startedAt?: string
   completedAt?: string
   result?: string // 任务执行结果
   tags?: string[] // 任务标签
+
+  // Cloud sync fields
+  cloudId?: string // Cloud backend ID
+  agentCloudId?: string // Cloud agent ID (for sync mapping)
+  updatedAt?: string // Last updated timestamp
+  metadata?: {
+    lastSyncedAt?: string // Last sync timestamp
+    [key: string]: any
+  }
 
   // Auto-execution fields
   autoExecution?: boolean

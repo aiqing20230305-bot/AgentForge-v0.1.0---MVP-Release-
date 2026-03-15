@@ -51,8 +51,10 @@ export default {
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-fast': 'pulse 0.75s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'glow': 'glow 2s ease-in-out infinite alternate',
         'float': 'float 3s ease-in-out infinite',
+        'heartbeat': 'heartbeat 1.5s ease-in-out infinite',
       },
       keyframes: {
         glow: {
@@ -62,6 +64,13 @@ export default {
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-5px)' },
+        },
+        heartbeat: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '10%': { transform: 'scale(1.1)' },
+          '20%': { transform: 'scale(1)' },
+          '30%': { transform: 'scale(1.1)' },
+          '40%': { transform: 'scale(1)' },
         },
       },
     },

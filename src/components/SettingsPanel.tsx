@@ -18,18 +18,20 @@ import {
   Upload,
   RotateCcw,
   Check,
-  Sparkles
+  Sparkles,
+  Cloud
 } from 'lucide-react'
 import { useSettingsStore } from '../store/useSettingsStore'
 import { audioSystem } from '../services/audioSystem'
 import type { UserSettings } from '../store/useSettingsStore'
 import { slideUpVariants, transitions } from '../utils/animations'
+import { CloudSyncSettings } from './CloudSyncSettings'
 
 export const SettingsPanel: React.FC = () => {
   const { settings, updateSettings, resetSettings, exportSettings, importSettings } =
     useSettingsStore()
 
-  const [activeTab, setActiveTab] = useState<'general' | 'audio' | 'ui' | 'performance'>('general')
+  const [activeTab, setActiveTab] = useState<'general' | 'audio' | 'ui' | 'performance' | 'cloud'>('general')
   const [showResetConfirm, setShowResetConfirm] = useState(false)
 
   // 更新单个设置
@@ -97,7 +99,8 @@ export const SettingsPanel: React.FC = () => {
     { id: 'general' as const, label: '通用', icon: Settings },
     { id: 'audio' as const, label: '音效', icon: Volume2 },
     { id: 'ui' as const, label: 'UI', icon: Eye },
-    { id: 'performance' as const, label: '性能', icon: Zap }
+    { id: 'performance' as const, label: '性能', icon: Zap },
+    { id: 'cloud' as const, label: '云同步', icon: Cloud }
   ]
 
   return (
@@ -483,6 +486,18 @@ export const SettingsPanel: React.FC = () => {
                 <li>• 30 FPS适合省电模式</li>
               </ul>
             </div>
+          </motion.div>
+        )}
+
+        {/* Cloud Sync Settings */}
+        {activeTab === 'cloud' && (
+          <motion.div
+            variants={slideUpVariants}
+            initial="hidden"
+            animate="visible"
+            transition={transitions.fast}
+          >
+            <CloudSyncSettings />
           </motion.div>
         )}
       </div>

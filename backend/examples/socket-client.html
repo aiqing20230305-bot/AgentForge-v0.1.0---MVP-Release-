@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentForge WebSocket Test Client</title>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    h1 { color: #333; margin-top: 0; }
+    h2 { color: #666; border-bottom: 2px solid #4CAF50; padding-bottom: 10px; }
+    input, button, textarea {
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover { background: #45a049; }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .status {
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+    .status.connected { background: #d4edda; color: #155724; }
+    .status.disconnected { background: #f8d7da; color: #721c24; }
+    .status.connecting { background: #fff3cd; color: #856404; }
+    #eventLog {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      padding: 15px;
+      height: 300px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+    .event {
+      margin: 5px 0;
+      padding: 5px;
+      border-left: 3px solid #4CAF50;
+      background: white;
+    }
+    .event.error { border-left-color: #f44336; }
+    .event.warning { border-left-color: #ff9800; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 AgentForge WebSocket Test Client</h1>
+
+  <!-- Connection Status -->
+  <div class="container">
+    <h2>Connection Status</h2>
+    <div id="status" class="status disconnected">Disconnected</div>
+    <p><strong>Socket ID:</strong> <span id="socketId">-</span></p>
+    <p><strong>User ID:</strong> <span id="userId">-</span></p>
+  </div>
+
+  <!-- Authentication -->
+  <div class="container">
+    <h2>1. Authentication</h2>
+    <input type="text" id="tokenInput" placeholder="Enter JWT Access Token" style="width: 500px;">
+    <button onclick="connect()">Connect</button>
+    <button onclick="disconnect()">Disconnect</button>
+    <p style="color: #666; font-size: 12px;">
+      💡 Get token by calling POST /api/v1/auth/login first
+    </p>
+  </div>
+
+  <!-- Team Actions -->
+  <div class="container">
+    <h2>2. Team Actions</h2>
+    <div class="grid">
+      <div>
+        <h3>Join Team</h3>
+        <input type="text" id="joinTeamId" placeholder="Team ID">
+        <button onclick="joinTeam()">Join Team</button>
+      </div>
+      <div>
+        <h3>Leave Team</h3>
+        <input type="text" id="leaveTeamId" placeholder="Team ID">
+        <button onclick="leaveTeam()">Leave Team</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Actions -->
+  <div class="container">
+    <h2>3. Task Actions</h2>
+    <div class="grid">
+      <div>
+        <h3>Task Completed</h3>
+        <input type="text" id="taskIdComplete" placeholder="Task ID">
+        <input type="text" id="teamIdTask" placeholder="Team ID (optional)">
+        <textarea id="taskResult" placeholder="Result" rows="3" style="width: 100%;"></textarea>
+        <button onclick="taskCompleted()">Send Task Completed</button>
+      </div>
+      <div>
+        <h3>Task Log</h3>
+        <input type="text" id="taskIdLog" placeholder="Task ID">
+        <input type="text" id="teamIdLog" placeholder="Team ID (optional)">
+        <input type="text" id="logEntry" placeholder="Log entry">
+        <button onclick="taskLog()">Send Log Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Actions -->
+  <div class="container">
+    <h2>4. Agent Actions</h2>
+    <div class="grid">
+      <div>
+        <h3>Agent Status</h3>
+        <input type="text" id="agentId" placeholder="Agent ID">
+        <input type="text" id="teamIdAgent" placeholder="Team ID (optional)">
+        <select id="agentStatus">
+          <option value="idle">Idle</option>
+          <option value="busy">Busy</option>
+          <option value="error">Error</option>
+        </select>
+        <button onclick="agentStatus()">Update Agent Status</button>
+      </div>
+      <div>
+        <h3>Agent Level Up</h3>
+        <input type="text" id="agentIdLevel" placeholder="Agent ID">
+        <input type="text" id="teamIdLevel" placeholder="Team ID (optional)">
+        <input type="number" id="newLevel" placeholder="New Level">
+        <button onclick="agentLevelUp()">Send Level Up</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat -->
+  <div class="container">
+    <h2>5. Team Chat</h2>
+    <input type="text" id="chatTeamId" placeholder="Team ID">
+    <textarea id="chatMessage" placeholder="Message" rows="3" style="width: 100%;"></textarea>
+    <button onclick="sendChat()">Send Message</button>
+  </div>
+
+  <!-- Event Log -->
+  <div class="container">
+    <h2>Event Log</h2>
+    <button onclick="clearLog()">Clear Log</button>
+    <div id="eventLog"></div>
+  </div>
+
+  <script>
+    let socket = null;
+
+    function connect() {
+      const token = document.getElementById('tokenInput').value;
+      if (!token) {
+        alert('Please enter a JWT token');
+        return;
+      }
+
+      updateStatus('connecting', 'Connecting...');
+
+      socket = io('http://localhost:3001', {
+        auth: { token }
+      });
+
+      socket.on('connect', () => {
+        updateStatus('connected', 'Connected');
+        document.getElementById('socketId').textContent = socket.id;
+        logEvent('Connected to server', 'success');
+      });
+
+      socket.on('connected', (data) => {
+        document.getElementById('userId').textContent = data.userId;
+        logEvent(`Authentication successful: ${data.username}`, 'success');
+      });
+
+      socket.on('disconnect', () => {
+        updateStatus('disconnected', 'Disconnected');
+        document.getElementById('socketId').textContent = '-';
+        document.getElementById('userId').textContent = '-';
+        logEvent('Disconnected from server', 'warning');
+      });
+
+      socket.on('connect_error', (error) => {
+        updateStatus('disconnected', 'Connection Error');
+        logEvent(`Connection error: ${error.message}`, 'error');
+      });
+
+      // Team events
+      socket.on('team:member_joined', (data) => {
+        logEvent(`Team ${data.teamId}: ${data.username} joined`, 'success');
+      });
+
+      socket.on('team:member_left', (data) => {
+        logEvent(`Team ${data.teamId}: ${data.username} left`, 'warning');
+      });
+
+      socket.on('team:members', (data) => {
+        logEvent(`Team ${data.teamId} has ${data.count} members`, 'success');
+      });
+
+      socket.on('team:member_status', (data) => {
+        logEvent(`Team member ${data.username} status: ${data.status}`, 'info');
+      });
+
+      // Task events
+      socket.on('task:created', (data) => {
+        logEvent(`Task created by ${data.createdBy}: ${data.task.title}`, 'success');
+      });
+
+      socket.on('task:updated', (data) => {
+        logEvent(`Task ${data.taskId} updated by ${data.updatedBy}`, 'info');
+      });
+
+      socket.on('task:completed', (data) => {
+        logEvent(`Task ${data.taskId} completed by ${data.completedBy}`, 'success');
+      });
+
+      socket.on('task:log', (data) => {
+        logEvent(`Task ${data.taskId} log: ${data.logEntry}`, 'info');
+      });
+
+      // Agent events
+      socket.on('agent:status', (data) => {
+        logEvent(`Agent ${data.agentId} status: ${data.status}`, 'info');
+      });
+
+      socket.on('agent:level_up', (data) => {
+        logEvent(`Agent ${data.agentId} leveled up to ${data.newLevel}!`, 'success');
+      });
+
+      socket.on('agent:stats', (data) => {
+        logEvent(`Agent ${data.agentId} stats updated`, 'info');
+      });
+
+      // Chat events
+      socket.on('chat:message', (data) => {
+        logEvent(`${data.username}: ${data.message}`, 'info');
+      });
+
+      socket.on('chat:typing', (data) => {
+        logEvent(`${data.username} is typing...`, 'info');
+      });
+    }
+
+    function disconnect() {
+      if (socket) {
+        socket.disconnect();
+        socket = null;
+      }
+    }
+
+    function joinTeam() {
+      const teamId = document.getElementById('joinTeamId').value;
+      if (!socket || !teamId) return;
+      socket.emit('team:join', { teamId });
+      logEvent(`Joining team ${teamId}...`, 'info');
+    }
+
+    function leaveTeam() {
+      const teamId = document.getElementById('leaveTeamId').value;
+      if (!socket || !teamId) return;
+      socket.emit('team:leave', { teamId });
+      logEvent(`Leaving team ${teamId}...`, 'info');
+    }
+
+    function taskCompleted() {
+      const taskId = document.getElementById('taskIdComplete').value;
+      const teamId = document.getElementById('teamIdTask').value;
+      const result = document.getElementById('taskResult').value;
+      if (!socket || !taskId) return;
+      socket.emit('task:completed', { taskId, result, teamId: teamId || undefined });
+      logEvent(`Sent task completed: ${taskId}`, 'info');
+    }
+
+    function taskLog() {
+      const taskId = document.getElementById('taskIdLog').value;
+      const teamId = document.getElementById('teamIdLog').value;
+      const logEntry = document.getElementById('logEntry').value;
+      if (!socket || !taskId || !logEntry) return;
+      socket.emit('task:log', { taskId, logEntry, teamId: teamId || undefined });
+      logEvent(`Sent task log: ${logEntry}`, 'info');
+    }
+
+    function agentStatus() {
+      const agentId = document.getElementById('agentId').value;
+      const teamId = document.getElementById('teamIdAgent').value;
+      const status = document.getElementById('agentStatus').value;
+      if (!socket || !agentId) return;
+      socket.emit('agent:status', { agentId, status, teamId: teamId || undefined });
+      logEvent(`Sent agent status: ${status}`, 'info');
+    }
+
+    function agentLevelUp() {
+      const agentId = document.getElementById('agentIdLevel').value;
+      const teamId = document.getElementById('teamIdLevel').value;
+      const newLevel = parseInt(document.getElementById('newLevel').value);
+      if (!socket || !agentId || !newLevel) return;
+      socket.emit('agent:level_up', { agentId, newLevel, teamId: teamId || undefined });
+      logEvent(`Sent agent level up: ${newLevel}`, 'info');
+    }
+
+    function sendChat() {
+      const teamId = document.getElementById('chatTeamId').value;
+      const message = document.getElementById('chatMessage').value;
+      if (!socket || !teamId || !message) return;
+      socket.emit('chat:message', { teamId, message });
+      logEvent(`You: ${message}`, 'info');
+      document.getElementById('chatMessage').value = '';
+    }
+
+    function updateStatus(type, text) {
+      const statusEl = document.getElementById('status');
+      statusEl.className = `status ${type}`;
+      statusEl.textContent = text;
+    }
+
+    function logEvent(message, type = 'info') {
+      const log = document.getElementById('eventLog');
+      const timestamp = new Date().toLocaleTimeString();
+      const eventClass = type === 'error' ? 'error' : type === 'warning' ? 'warning' : '';
+      log.innerHTML += `<div class="event ${eventClass}">[${timestamp}] ${message}</div>`;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function clearLog() {
+      document.getElementById('eventLog').innerHTML = '';
+    }
+  </script>
+</body>
+</html>

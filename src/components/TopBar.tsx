@@ -7,6 +7,7 @@ import DataSourceManager from './DataSourceManager'
 import ConnectionDiagnostics from './ConnectionDiagnostics'
 import { getLocalOpenClawConfig, type OpenClawConfig } from '../services/openclawApi'
 import { useDataSourceStore } from '../store/useDataSourceStore'
+import { CloudSyncToggle } from './CloudSyncToggle'
 
 export default function TopBar() {
   const { setSettingsOpen } = useBuildStore()
@@ -120,6 +121,9 @@ export default function TopBar() {
           <Stethoscope className="w-3 h-3 text-amber-400" />
           <span className="text-[10px] font-bold text-amber-400">诊断</span>
         </button>
+
+        {/* Cloud Sync Toggle */}
+        <CloudSyncToggle />
 
         {/* Settings */}
         <button

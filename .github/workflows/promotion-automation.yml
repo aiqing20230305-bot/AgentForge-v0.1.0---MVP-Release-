@@ -1,0 +1,277 @@
+name: Promotion Automation
+
+# Automated tasks for GitHub Stars growth campaign
+# Runs daily to track metrics and update documentation
+
+on:
+  schedule:
+    # Run daily at 9:00 AM UTC (1:00 AM PT)
+    - cron: '0 9 * * *'
+  workflow_dispatch:  # Allow manual trigger
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'package.json'
+
+jobs:
+  update-stats:
+    name: Update Project Stats
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Count components
+        id: count-components
+        run: |
+          COMPONENTS=$(find src/components -name "*.tsx" | wc -l)
+          echo "count=$COMPONENTS" >> $GITHUB_OUTPUT
+          echo "📦 Components: $COMPONENTS"
+
+      - name: Count lines of code
+        id: count-loc
+        run: |
+          LOC=$(find src -name "*.ts" -o -name "*.tsx" | xargs wc -l | tail -1 | awk '{print $1}')
+          echo "count=$LOC" >> $GITHUB_OUTPUT
+          echo "📝 Lines of Code: $LOC"
+
+      - name: Get current stars
+        id: get-stars
+        run: |
+          STARS=$(curl -s https://api.github.com/repos/${{ github.repository }} | jq -r '.stargazers_count')
+          echo "count=$STARS" >> $GITHUB_OUTPUT
+          echo "⭐ GitHub Stars: $STARS"
+
+      - name: Create analytics directory
+        run: mkdir -p analytics
+
+      - name: Log stats to CSV
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          STARS=${{ steps.get-stars.outputs.count }}
+          COMPONENTS=${{ steps.count-components.outputs.count }}
+          LOC=${{ steps.count-loc.outputs.count }}
+
+          # Create CSV if doesn't exist
+          if [ ! -f analytics/daily-stats.csv ]; then
+            echo "date,stars,components,loc" > analytics/daily-stats.csv
+          fi
+
+          # Append today's stats
+          echo "$DATE,$STARS,$COMPONENTS,$LOC" >> analytics/daily-stats.csv
+
+          echo "✅ Stats logged to analytics/daily-stats.csv"
+
+      - name: Generate stats badge
+        run: |
+          STARS=${{ steps.get-stars.outputs.count }}
+          COMPONENTS=${{ steps.count-components.outputs.count }}
+
+          mkdir -p .github/badges
+
+          # Create JSON for shields.io dynamic badge
+          cat > .github/badges/stats.json << EOF
+          {
+            "schemaVersion": 1,
+            "label": "project",
+            "message": "$STARS ⭐ | $COMPONENTS components",
+            "color": "brightgreen"
+          }
+          EOF
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add analytics/ .github/badges/ || true
+          git diff --quiet && git diff --staged --quiet || \
+            (git commit -m "chore: update project stats [skip ci]" && git push)
+
+  check-milestones:
+    name: Check Star Milestones
+    runs-on: ubuntu-latest
+    needs: update-stats
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get current stars
+        id: stars
+        run: |
+          STARS=$(curl -s https://api.github.com/repos/${{ github.repository }} | jq -r '.stargazers_count')
+          echo "count=$STARS" >> $GITHUB_OUTPUT
+
+      - name: Check milestones
+        run: |
+          STARS=${{ steps.stars.outputs.count }}
+
+          # Define milestones
+          MILESTONES=(10 25 50 75 100 250 500 1000)
+
+          for MILESTONE in "${MILESTONES[@]}"; do
+            if [ $STARS -ge $MILESTONE ]; then
+              echo "🎉 Milestone reached: $MILESTONE stars!"
+
+              # Check if we've already celebrated this milestone
+              if [ ! -f ".milestones/$MILESTONE.txt" ]; then
+                mkdir -p .milestones
+                echo "$(date)" > .milestones/$MILESTONE.txt
+
+                echo "🎊 NEW MILESTONE: $MILESTONE stars!" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "Time to celebrate and share on social media!" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "Suggested posts:" >> $GITHUB_STEP_SUMMARY
+                echo "- Twitter: \"🎉 AgentForge just hit $MILESTONE stars! Thank you to our amazing community! 🫀\"" >> $GITHUB_STEP_SUMMARY
+                echo "- LinkedIn: Professional announcement with metrics" >> $GITHUB_STEP_SUMMARY
+                echo "- Reddit: Thank the community in relevant subreddits" >> $GITHUB_STEP_SUMMARY
+              fi
+            fi
+          done
+
+      - name: Commit milestone markers
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .milestones/ || true
+          git diff --quiet && git diff --staged --quiet || \
+            (git commit -m "chore: record star milestone [skip ci]" && git push) || true
+
+  generate-social-content:
+    name: Generate Daily Social Content
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get recent commits
+        id: commits
+        run: |
+          COMMITS=$(git log --since="24 hours ago" --pretty=format:"%s" | head -5)
+          echo "recent<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMITS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Generate tweet suggestions
+        run: |
+          mkdir -p marketing/auto-generated
+
+          cat > marketing/auto-generated/daily-tweets-$(date +%Y-%m-%d).md << 'EOF'
+          # Daily Tweet Suggestions - $(date +%Y-%m-%d)
+
+          ## Recent Updates
+          ${{ steps.commits.outputs.recent }}
+
+          ## Suggested Tweets
+
+          ### Tweet 1: Progress Update
+          ```
+          🚀 AgentForge development continues!
+
+          Recent updates:
+          - [List 2-3 key commits]
+
+          Check out the latest: [GitHub Link]
+
+          #BuildInPublic #OpenSource #AI
+          ```
+
+          ### Tweet 2: Technical Insight
+          ```
+          💡 Quick tip for #ReactJS developers:
+
+          [Share a code snippet or technique from recent work]
+
+          Full code in our repo: [Link]
+          ⭐ Star if useful!
+
+          #TypeScript #WebDev
+          ```
+
+          ### Tweet 3: Community Engagement
+          ```
+          📊 Poll: What feature should we prioritize next?
+
+          1️⃣ Machine learning predictions
+          2️⃣ Multi-agent collaboration
+          3️⃣ Historical analytics
+          4️⃣ Mobile app
+
+          Vote below! 👇
+
+          ⭐ [GitHub Link]
+          ```
+          EOF
+
+          echo "✅ Daily content suggestions generated"
+
+  weekly-report:
+    name: Generate Weekly Report
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 9 * * 1'  # Only on Mondays
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate weekly report
+        run: |
+          mkdir -p analytics/reports
+
+          STARS=$(curl -s https://api.github.com/repos/${{ github.repository }} | jq -r '.stargazers_count')
+          FORKS=$(curl -s https://api.github.com/repos/${{ github.repository }} | jq -r '.forks_count')
+          ISSUES=$(curl -s https://api.github.com/repos/${{ github.repository }} | jq -r '.open_issues_count')
+
+          cat > analytics/reports/weekly-$(date +%Y-W%V).md << EOF
+          # Weekly Report - Week $(date +%V), $(date +%Y)
+
+          ## GitHub Stats
+          - ⭐ Stars: $STARS
+          - 🔱 Forks: $FORKS
+          - 🐛 Open Issues: $ISSUES
+
+          ## This Week's Highlights
+          - [Manual entry: Key accomplishments]
+          - [Manual entry: Major updates]
+          - [Manual entry: Community feedback]
+
+          ## Next Week's Goals
+          - [ ] [Goal 1]
+          - [ ] [Goal 2]
+          - [ ] [Goal 3]
+
+          ## Social Media Performance
+          - Twitter impressions: [Track manually]
+          - Reddit upvotes: [Track manually]
+          - Blog post views: [Track manually]
+
+          ## Action Items
+          - [ ] Respond to open issues
+          - [ ] Publish scheduled content
+          - [ ] Engage with community
+          EOF
+
+          echo "📊 Weekly report generated"
+
+      - name: Commit report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add analytics/reports/ marketing/auto-generated/
+          git diff --quiet && git diff --staged --quiet || \
+            (git commit -m "chore: add weekly report [skip ci]" && git push) || true

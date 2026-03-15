@@ -13,6 +13,13 @@ import CockpitLoading from './components/CockpitLoading'
 import OnboardingWizard from './components/OnboardingWizard'
 import { GlobalExpBar } from './components/GlobalExpBar'
 import { DailyQuestPanel } from './components/DailyQuestPanel'
+import { AuthProvider } from './contexts/AuthContext'
+import { SocketProvider } from './contexts/SocketContext'
+import { GlobalSocketEventHandler } from './components/GlobalSocketEventHandler'
+import { OfflineIndicator } from './components/OfflineIndicator'
+import { getHeartbeatService } from './services/evolution/heartbeatService'
+import { getEvolutionEngine } from './services/evolution/evolutionEngine'
+import { ErrorBoundary } from './components/ErrorBoundary'
 
 function App() {
   const { loadSettings, scanForItems, settingsOpen } = useBuildStore()
@@ -32,6 +39,23 @@ function App() {
 
     // Load settings and scan for items on mount
     loadSettings()
+
+    // 🫀 启动心跳监控系统
+    const heartbeatService = getHeartbeatService()
+    heartbeatService.start()
+    console.log('[App] 🫀 Heartbeat monitoring started')
+
+    // 🧬 启动进化引擎
+    const evolutionEngine = getEvolutionEngine()
+    evolutionEngine.start()
+    console.log('[App] 🧬 Evolution engine started')
+
+    // Cleanup on unmount
+    return () => {
+      heartbeatService.stop()
+      evolutionEngine.stop()
+      console.log('[App] 💔 Heartbeat & Evolution stopped')
+    }
   }, [loadSettings])
 
   useEffect(() => {
@@ -40,42 +64,52 @@ function App() {
   }, [scanForItems])
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      {/* 驾驶舱启动Loading */}
-      {showLoading && <CockpitLoading onComplete={() => setShowLoading(false)} />}
+    <ErrorBoundary>
+      <AuthProvider>
+        <SocketProvider autoConnect={false}>
+          <GlobalSocketEventHandler />
+          <DndProvider backend={HTML5Backend}>
+            {/* 驾驶舱启动Loading */}
+            {showLoading && <CockpitLoading onComplete={() => setShowLoading(false)} />}
 
-      <div className="h-screen flex flex-col bg-[#0a0a0a] overflow-hidden relative">
-        {/* 星空背景 */}
-        <SpaceBackground />
+            <div className="h-screen flex flex-col bg-[#0a0a0a] overflow-hidden relative">
+              {/* 星空背景 */}
+              <SpaceBackground />
 
-        {/* 全局经验条 */}
-        <GlobalExpBar />
+              {/* 离线指示器 */}
+              <OfflineIndicator />
 
-        <TopBar />
+              {/* 全局经验条 */}
+              <GlobalExpBar />
 
-        <div className="flex-1 flex min-h-0 h-full mt-12">
-          {/* Agent Display Panel - Full Width */}
-          <div className="flex-1 min-w-0 overflow-hidden h-full">
-            <AgentDisplayPanel />
-          </div>
+              <TopBar />
 
-          {/* Main Navigation Tabs - Right */}
-          <MainNavigationTabs />
-        </div>
+              <div className="flex-1 flex min-h-0 h-full mt-12">
+                {/* Agent Display Panel - Full Width */}
+                <div className="flex-1 min-w-0 overflow-hidden h-full">
+                  <AgentDisplayPanel />
+                </div>
 
-        {/* Preview Panel */}
-        <PreviewPanel />
+                {/* Main Navigation Tabs - Right */}
+                <MainNavigationTabs />
+              </div>
 
-        {/* Settings Modal */}
-        {settingsOpen && <SettingsModal />}
+              {/* Preview Panel */}
+              <PreviewPanel />
 
-        {/* Onboarding Wizard */}
-        {showOnboarding && <OnboardingWizard onComplete={() => setShowOnboarding(false)} />}
+              {/* Settings Modal */}
+              {settingsOpen && <SettingsModal />}
 
-        {/* 每日任务面板 */}
-        <DailyQuestPanel />
-      </div>
-    </DndProvider>
+              {/* Onboarding Wizard */}
+              {showOnboarding && <OnboardingWizard onComplete={() => setShowOnboarding(false)} />}
+
+              {/* 每日任务面板 */}
+              <DailyQuestPanel />
+            </div>
+          </DndProvider>
+        </SocketProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   )
 }
 
