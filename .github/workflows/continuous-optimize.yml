@@ -1,0 +1,202 @@
+name: ⚡ Continuous Optimize - 持续优化永不停
+
+on:
+  # 每周自动运行性能分析
+  schedule:
+    - cron: '0 0 * * 0'  # 每周日午夜
+
+  # PR 合并时自动优化
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+  # 手动触发
+  workflow_dispatch:
+
+jobs:
+  # 性能分析
+  performance-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📦 安装依赖
+        run: npm install
+
+      - name: 🔍 代码复杂度分析
+        run: |
+          echo "## 📊 代码复杂度分析" > analysis.md
+          echo "" >> analysis.md
+
+          # 查找大文件
+          echo "### 大文件（>500行）" >> analysis.md
+          find src -name "*.tsx" -o -name "*.ts" | while read file; do
+            lines=$(wc -l < "$file")
+            if [ $lines -gt 500 ]; then
+              echo "- $file: $lines 行" >> analysis.md
+            fi
+          done
+
+          # 统计组件数量
+          echo "" >> analysis.md
+          echo "### 组件统计" >> analysis.md
+          echo "- 组件总数: $(find src/components -name "*.tsx" | wc -l)" >> analysis.md
+          echo "- Hooks: $(find src/hooks -name "*.ts" | wc -l)" >> analysis.md
+          echo "- Services: $(find src/services -name "*.ts" | wc -l)" >> analysis.md
+
+          cat analysis.md
+
+      - name: 🎯 识别优化机会
+        run: |
+          echo "" >> analysis.md
+          echo "## 🎯 自动识别的优化机会" >> analysis.md
+          echo "" >> analysis.md
+
+          # 查找没有 useMemo 的大组件
+          echo "### 缺少性能优化的大组件" >> analysis.md
+          find src/components -name "*.tsx" | while read file; do
+            lines=$(wc -l < "$file")
+            if [ $lines -gt 300 ]; then
+              if ! grep -q "useMemo\|useCallback\|memo" "$file"; then
+                echo "- $file ($lines 行) - 建议添加 useMemo/useCallback" >> analysis.md
+              fi
+            fi
+          done
+
+          # 查找重复代码
+          echo "" >> analysis.md
+          echo "### 潜在的重复代码" >> analysis.md
+          # 简单的重复检测（实际应使用专业工具）
+          find src -name "*.tsx" -o -name "*.ts" | xargs grep -h "function \|const.*=.*=>" | \
+            sort | uniq -d | head -5 | sed 's/^/- /' >> analysis.md || echo "- 无明显重复" >> analysis.md
+
+      - name: 📤 保存分析报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-analysis
+          path: analysis.md
+
+  # 依赖更新检查
+  dependency-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📦 检查过期依赖
+        run: |
+          npm install > /dev/null 2>&1
+
+          echo "## 📦 依赖更新检查" > deps.md
+          echo "" >> deps.md
+
+          # 检查过期包
+          npm outdated --json > outdated.json || true
+
+          if [ -s outdated.json ]; then
+            echo "### 🔄 可更新的包" >> deps.md
+            cat outdated.json | jq -r 'to_entries[] | "- \(.key): \(.value.current) → \(.value.latest)"' >> deps.md
+          else
+            echo "✅ 所有依赖都是最新的" >> deps.md
+          fi
+
+          # 安全漏洞检查
+          echo "" >> deps.md
+          echo "### 🔒 安全检查" >> deps.md
+          npm audit --json > audit.json || true
+
+          VULNERABILITIES=$(cat audit.json | jq '.metadata.vulnerabilities | add')
+          if [ "$VULNERABILITIES" -gt 0 ]; then
+            echo "⚠️ 发现 $VULNERABILITIES 个安全漏洞" >> deps.md
+            echo "\`\`\`" >> deps.md
+            npm audit >> deps.md
+            echo "\`\`\`" >> deps.md
+          else
+            echo "✅ 无安全漏洞" >> deps.md
+          fi
+
+          cat deps.md
+
+      - name: 🤖 自动创建更新 PR（如果需要）
+        run: |
+          if [ -s outdated.json ]; then
+            echo "📝 发现可更新的依赖，建议创建 PR"
+            # 实际项目中可以自动创建 PR
+          fi
+
+  # 代码质量检查
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📦 安装依赖
+        run: npm install
+
+      - name: 🔍 TypeScript 严格检查
+        run: |
+          echo "## 🔍 TypeScript 质量报告" > ts-report.md
+          echo "" >> ts-report.md
+
+          # 运行 typecheck
+          npm run typecheck > typecheck.log 2>&1 || true
+
+          ERRORS=$(grep -c "error TS" typecheck.log || echo "0")
+          WARNINGS=$(grep -c "warning" typecheck.log || echo "0")
+
+          echo "- ❌ 错误: $ERRORS" >> ts-report.md
+          echo "- ⚠️ 警告: $WARNINGS" >> ts-report.md
+
+          if [ $ERRORS -gt 0 ]; then
+            echo "" >> ts-report.md
+            echo "### 需要修复的错误" >> ts-report.md
+            echo "\`\`\`" >> ts-report.md
+            grep "error TS" typecheck.log | head -10 >> ts-report.md
+            echo "\`\`\`" >> ts-report.md
+          fi
+
+          cat ts-report.md
+
+      - name: 📊 代码统计
+        run: |
+          echo "" >> ts-report.md
+          echo "## 📊 代码统计" >> ts-report.md
+          echo "" >> ts-report.md
+
+          # 统计代码行数
+          echo "### 代码量" >> ts-report.md
+          echo "- TypeScript: $(find src -name "*.ts" -o -name "*.tsx" | xargs wc -l | tail -1 | awk '{print $1}') 行" >> ts-report.md
+          echo "- 组件: $(find src/components -name "*.tsx" | wc -l) 个" >> ts-report.md
+          echo "- Hooks: $(find src/hooks -name "*.ts" 2>/dev/null | wc -l) 个" >> ts-report.md
+
+          cat ts-report.md
+
+      - name: 📤 保存报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-quality-report
+          path: ts-report.md
+
+  # 自动生成优化 Issue
+  create-optimization-issues:
+    needs: [performance-analysis, code-quality]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📥 下载分析报告
+        uses: actions/download-artifact@v4
+        with:
+          name: performance-analysis
+
+      - name: 🎯 创建优化 Issues
+        run: |
+          # 读取分析报告，自动创建 Issues
+          if grep -q "建议添加 useMemo" analysis.md; then
+            gh issue create \
+              --title "🚀 性能优化：添加 React 性能优化（自动生成）" \
+              --body "$(cat analysis.md)" \
+              --label "performance,auto-generated,enhancement" \
+              --assignee "@me" || echo "Issue 已存在或创建失败"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

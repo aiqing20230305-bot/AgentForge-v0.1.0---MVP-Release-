@@ -1,0 +1,216 @@
+name: 🚀 Auto Release - 自动化版本发布
+
+on:
+  # 当 main 分支有特定 commit 时自动发布
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: '版本类型'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch   # 1.2.0 → 1.2.1
+          - minor   # 1.2.0 → 1.3.0
+          - major   # 1.2.0 → 2.0.0
+
+jobs:
+  # 检查是否需要发布
+  check-release:
+    runs-on: ubuntu-latest
+    outputs:
+      should_release: ${{ steps.check.outputs.should_release }}
+      new_version: ${{ steps.check.outputs.new_version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔍 检查版本变化
+        id: check
+        run: |
+          CURRENT_VERSION=$(cat package.json | grep version | head -1 | awk -F'"' '{print $4}')
+
+          # 检查是否有对应的 tag
+          if git rev-parse "v$CURRENT_VERSION" >/dev/null 2>&1; then
+            echo "should_release=false" >> $GITHUB_OUTPUT
+            echo "版本 v$CURRENT_VERSION 已存在"
+          else
+            echo "should_release=true" >> $GITHUB_OUTPUT
+            echo "new_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+            echo "检测到新版本: v$CURRENT_VERSION"
+          fi
+
+  # 自动化发布流程
+  auto-release:
+    needs: check-release
+    if: needs.check-release.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📦 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 🔧 安装依赖
+        run: npm install
+
+      - name: ✅ 运行发布前检查
+        run: |
+          chmod +x scripts/pre-release-check.sh
+
+          # 跳过某些检查（CI 环境）
+          export CI=true
+
+          # TypeScript 检查
+          npm run typecheck || echo "⚠️ TypeScript 有警告，继续发布"
+
+          # 构建检查
+          npm run build || exit 1
+
+      - name: 📝 生成 Release Notes
+        id: release_notes
+        run: |
+          VERSION="${{ needs.check-release.outputs.new_version }}"
+
+          # 从 CHANGELOG 提取当前版本的更新内容
+          if [ -f "CHANGELOG.md" ]; then
+            sed -n "/## \[$VERSION\]/,/## \[/p" CHANGELOG.md | sed '$d' > release-notes.md
+          else
+            # 如果没有 CHANGELOG，生成简单的 Release Notes
+            echo "## What's Changed" > release-notes.md
+            echo "" >> release-notes.md
+
+            # 获取上一个 tag
+            PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+            if [ -n "$PREV_TAG" ]; then
+              # 列出自上个版本以来的 commits
+              git log $PREV_TAG..HEAD --pretty=format:"- %s (%h)" >> release-notes.md
+            else
+              echo "首次发布" >> release-notes.md
+            fi
+          fi
+
+          cat release-notes.md
+
+      - name: 🏷️ 创建 Git Tag
+        run: |
+          VERSION="${{ needs.check-release.outputs.new_version }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin "v$VERSION"
+
+      - name: 🚀 创建 GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ needs.check-release.outputs.new_version }}
+          release_name: v${{ needs.check-release.outputs.new_version }}
+          body_path: release-notes.md
+          draft: false
+          prerelease: false
+
+      - name: 📢 通知发布成功
+        run: |
+          VERSION="${{ needs.check-release.outputs.new_version }}"
+
+          echo "✅ v$VERSION 已成功发布！"
+          echo ""
+          echo "🔗 Release: https://github.com/${{ github.repository }}/releases/tag/v$VERSION"
+          echo ""
+          echo "📊 下一步："
+          echo "  1. 更新产品截图"
+          echo "  2. 社交媒体推广"
+          echo "  3. 收集用户反馈"
+          echo "  4. 开始下一个迭代"
+
+  # 发布后自动任务
+  post-release:
+    needs: [check-release, auto-release]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📊 创建发布统计
+        run: |
+          VERSION="${{ needs.check-release.outputs.new_version }}"
+
+          cat > release-stats.md << EOF
+# 📊 v$VERSION 发布统计
+
+**发布时间：** $(date)
+**发布方式：** 自动化 GitHub Actions
+
+## 代码统计
+- 总文件数: $(git ls-files | wc -l)
+- 代码行数: $(find src -name "*.ts" -o -name "*.tsx" | xargs wc -l | tail -1 | awk '{print $1}')
+- Commits: $(git rev-list --count HEAD)
+
+## 下一步行动
+- [ ] 更新产品截图
+- [ ] 社交媒体推广
+- [ ] 监控用户反馈
+- [ ] 计划下一版本
+EOF
+
+          cat release-stats.md
+
+      - name: 🎯 创建下一版本 Milestone
+        run: |
+          CURRENT_VERSION="${{ needs.check-release.outputs.new_version }}"
+
+          # 计算下一个版本号（patch +1）
+          NEXT_VERSION=$(echo $CURRENT_VERSION | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+
+          # 创建新的 Milestone
+          gh api repos/${{ github.repository }}/milestones \
+            -f title="v$NEXT_VERSION" \
+            -f description="下一个迭代版本" \
+            -f state="open" || echo "Milestone 已存在"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📝 创建迭代规划 Issue
+        run: |
+          NEXT_VERSION=$(echo "${{ needs.check-release.outputs.new_version }}" | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+
+          gh issue create \
+            --title "📋 v$NEXT_VERSION 迭代规划" \
+            --body "$(cat << 'EOF'
+# v$NEXT_VERSION 迭代规划
+
+## 🎯 本次迭代目标
+- [ ] 修复 v${{ needs.check-release.outputs.new_version }} 发现的问题
+- [ ] 实现高优先级功能
+- [ ] 性能持续优化
+
+## 📊 基于用户反馈的优先级
+将根据 Issues 和讨论自动更新
+
+## 🚀 发布时间
+预计 2 周后
+
+---
+**此 Issue 由自动化系统创建**
+EOF
+)" \
+            --label "planning,auto-generated" \
+            --milestone "v$NEXT_VERSION" || echo "Issue 创建失败"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

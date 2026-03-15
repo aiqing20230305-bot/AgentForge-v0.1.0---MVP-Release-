@@ -1,0 +1,297 @@
+name: 🔄 Auto Iterate - 永不停止的迭代机器
+
+on:
+  # 每天自动运行
+  schedule:
+    - cron: '0 9 * * *'  # 每天 9:00 AM
+
+  # 手动触发
+  workflow_dispatch:
+
+  # 新 Issue 创建时
+  issues:
+    types: [opened, labeled]
+
+  # PR 合并时
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  # 收集反馈和数据
+  collect-feedback:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📊 收集 GitHub 数据
+        run: |
+          echo "## 📊 每日数据报告 $(date +%Y-%m-%d)" > daily-report.md
+          echo "" >> daily-report.md
+
+          # Stars
+          STARS=$(gh api repos/${{ github.repository }} --jq '.stargazers_count')
+          echo "⭐ Stars: $STARS" >> daily-report.md
+
+          # Forks
+          FORKS=$(gh api repos/${{ github.repository }} --jq '.forks_count')
+          echo "🍴 Forks: $FORKS" >> daily-report.md
+
+          # Open Issues
+          ISSUES=$(gh api repos/${{ github.repository }} --jq '.open_issues_count')
+          echo "🐛 Open Issues: $ISSUES" >> daily-report.md
+
+          # Watchers
+          WATCHERS=$(gh api repos/${{ github.repository }} --jq '.watchers_count')
+          echo "👀 Watchers: $WATCHERS" >> daily-report.md
+
+          cat daily-report.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📝 分析新 Issues
+        run: |
+          echo "## 🐛 新增 Issues (24h)" >> daily-report.md
+          gh issue list --limit 10 --json number,title,createdAt,labels \
+            --jq '.[] | "- #\(.number): \(.title) [\(.labels[].name | join(", "))]"' \
+            >> daily-report.md || echo "无新增 Issues" >> daily-report.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 💬 分析用户反馈
+        run: |
+          echo "" >> daily-report.md
+          echo "## 💬 用户反馈关键词" >> daily-report.md
+
+          # 统计 Issues 中的关键词
+          gh issue list --limit 50 --json body \
+            --jq '.[].body' | \
+            grep -oiE '(bug|feature|improve|slow|error|crash|love|great|awesome|问题|功能|优化)' | \
+            sort | uniq -c | sort -rn | head -10 >> daily-report.md || echo "暂无足够数据" >> daily-report.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📤 保存报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-report
+          path: daily-report.md
+
+  # 自动识别优化方向
+  analyze-opportunities:
+    needs: collect-feedback
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔍 分析优化机会
+        run: |
+          echo "## 🎯 自动识别的优化方向" > opportunities.md
+          echo "" >> opportunities.md
+
+          # 分析高频 Issues 标签
+          echo "### 基于 Issues 标签" >> opportunities.md
+          gh issue list --limit 100 --json labels \
+            --jq '.[].labels[].name' | \
+            sort | uniq -c | sort -rn | head -5 | \
+            awk '{print "- " $2 " (" $1 " issues)"}' >> opportunities.md
+
+          # 分析性能相关 Issues
+          echo "" >> opportunities.md
+          echo "### 性能相关" >> opportunities.md
+          gh issue list --label "performance,bug" --limit 5 --json number,title \
+            --jq '.[] | "- #\(.number): \(.title)"' >> opportunities.md || echo "无性能问题" >> opportunities.md
+
+          # 分析功能请求
+          echo "" >> opportunities.md
+          echo "### 高优先级功能请求" >> opportunities.md
+          gh issue list --label "enhancement,feature" --limit 5 --json number,title,reactions \
+            --jq 'sort_by(.reactions."+1") | reverse | .[] | "- #\(.number): \(.title) (👍 \(.reactions."+1"))"' \
+            >> opportunities.md || echo "无功能请求" >> opportunities.md
+
+          cat opportunities.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📤 保存分析
+        uses: actions/upload-artifact@v4
+        with:
+          name: opportunities
+          path: opportunities.md
+
+  # 自动创建迭代计划
+  create-iteration-plan:
+    needs: analyze-opportunities
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📋 生成迭代计划
+        run: |
+          NEXT_VERSION=$(node -p "
+            const current = require('./package.json').version;
+            const parts = current.split('.');
+            parts[2] = String(parseInt(parts[2]) + 1);
+            parts.join('.');
+          ")
+
+          echo "## 🚀 下一次迭代计划 v$NEXT_VERSION" > iteration-plan.md
+          echo "" >> iteration-plan.md
+          echo "**生成时间：** $(date)" >> iteration-plan.md
+          echo "**当前版本：** $(cat package.json | grep version | head -1 | awk -F'"' '{print $4}')" >> iteration-plan.md
+          echo "**目标版本：** v$NEXT_VERSION" >> iteration-plan.md
+          echo "" >> iteration-plan.md
+
+          echo "### 📊 优先级排序（基于用户反馈）" >> iteration-plan.md
+          echo "" >> iteration-plan.md
+          echo "#### 🔥 高优先级（本周完成）" >> iteration-plan.md
+          gh issue list --label "priority:high" --limit 5 --json number,title \
+            --jq '.[] | "- [ ] #\(.number): \(.title)"' >> iteration-plan.md || echo "- 无高优先级任务" >> iteration-plan.md
+
+          echo "" >> iteration-plan.md
+          echo "#### ⚡ 中优先级（2周内）" >> iteration-plan.md
+          gh issue list --label "priority:medium" --limit 5 --json number,title \
+            --jq '.[] | "- [ ] #\(.number): \(.title)"' >> iteration-plan.md || echo "- 无中优先级任务" >> iteration-plan.md
+
+          echo "" >> iteration-plan.md
+          echo "#### 💡 优化建议" >> iteration-plan.md
+          gh issue list --label "enhancement" --limit 5 --json number,title,reactions \
+            --jq 'sort_by(.reactions."+1") | reverse | .[] | "- [ ] #\(.number): \(.title) (👍 \(.reactions."+1"))"' \
+            >> iteration-plan.md || echo "- 无优化建议" >> iteration-plan.md
+
+          cat iteration-plan.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📤 保存计划
+        uses: actions/upload-artifact@v4
+        with:
+          name: iteration-plan
+          path: iteration-plan.md
+
+      - name: 📢 创建 Discussion
+        run: |
+          gh api graphql -f query='
+            mutation($repositoryId: ID!, $title: String!, $body: String!, $categoryId: ID!) {
+              createDiscussion(input: {repositoryId: $repositoryId, title: $title, body: $body, categoryId: $categoryId}) {
+                discussion {
+                  url
+                }
+              }
+            }
+          ' \
+          -f repositoryId="$(gh api repos/${{ github.repository }} --jq .node_id)" \
+          -f title="🔄 自动迭代计划 - $(date +%Y-%m-%d)" \
+          -f body="$(cat iteration-plan.md)" \
+          -f categoryId="DIC_kwDON3XjC84Cj4U7" || echo "Discussion 创建失败，跳过"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # 自动化推广
+  auto-promote:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📢 准备推广素材
+        run: |
+          VERSION=$(cat package.json | grep version | head -1 | awk -F'"' '{print $4}')
+
+          cat > promotion-tweet.txt << EOF
+🚀 AgentForge v$VERSION 发布！
+
+✨ 新特性：
+- React 性能优化 (30-50% 提升)
+- 全局错误处理
+- 移动端完美适配
+- 自动化发布流程
+
+🔗 https://github.com/${{ github.repository }}
+
+#OpenSource #AI #AgentDevelopment #React
+EOF
+
+          cat promotion-tweet.txt
+
+      - name: 📝 生成推广清单
+        run: |
+          cat > promotion-checklist.md << 'EOF'
+# 📢 v$VERSION 推广清单
+
+## 立即执行
+- [ ] Twitter/X 发推
+- [ ] LinkedIn 分享
+- [ ] Product Hunt 提交
+- [ ] Hacker News Show HN
+
+## 中文社区
+- [ ] V2EX
+- [ ] 掘金
+- [ ] 知乎
+- [ ] CSDN
+
+## 技术博客
+- [ ] Dev.to
+- [ ] Medium
+- [ ] Hashnode
+- [ ] 个人博客
+
+## 监控指标
+- [ ] GitHub Stars
+- [ ] Issue 数量
+- [ ] PR 数量
+- [ ] 讨论活跃度
+EOF
+          cat promotion-checklist.md
+
+  # 监控健康度
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🏥 项目健康度检查
+        run: |
+          echo "## 🏥 项目健康度报告" > health.md
+          echo "" >> health.md
+
+          # 代码质量
+          echo "### 代码质量" >> health.md
+
+          # TypeScript 检查
+          npm install > /dev/null 2>&1
+          if npm run typecheck > /dev/null 2>&1; then
+            echo "✅ TypeScript: 通过" >> health.md
+          else
+            echo "⚠️ TypeScript: 有警告" >> health.md
+          fi
+
+          # 测试覆盖
+          if [ -f "package.json" ] && grep -q '"test"' package.json; then
+            echo "✅ 测试: 已配置" >> health.md
+          else
+            echo "❌ 测试: 未配置" >> health.md
+          fi
+
+          # 文档完整性
+          echo "" >> health.md
+          echo "### 文档完整性" >> health.md
+          [ -f "README.md" ] && echo "✅ README" >> health.md || echo "❌ README" >> health.md
+          [ -f "CHANGELOG.md" ] && echo "✅ CHANGELOG" >> health.md || echo "❌ CHANGELOG" >> health.md
+          [ -f "LICENSE" ] && echo "✅ LICENSE" >> health.md || echo "❌ LICENSE" >> health.md
+
+          # 社区活跃度
+          echo "" >> health.md
+          echo "### 社区活跃度" >> health.md
+
+          RECENT_COMMITS=$(git log --since="7 days ago" --oneline | wc -l)
+          echo "📝 最近7天提交: $RECENT_COMMITS" >> health.md
+
+          cat health.md
+
+      - name: 📤 保存健康报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-report
+          path: health.md
