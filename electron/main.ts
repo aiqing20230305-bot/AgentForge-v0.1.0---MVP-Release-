@@ -208,3 +208,29 @@ ipcMain.handle('store-delete', (_, key: string) => {
 ipcMain.handle('open-external', (_, url: string) => {
   shell.openExternal(url)
 })
+
+// Desktop notification
+ipcMain.handle('show-notification', (_, options: {
+  title: string
+  body: string
+  icon?: string
+  silent?: boolean
+}) => {
+  try {
+    const { Notification } = require('electron')
+    if (Notification.isSupported()) {
+      const notification = new Notification({
+        title: options.title,
+        body: options.body,
+        icon: options.icon,
+        silent: options.silent ?? false
+      })
+      notification.show()
+      return { success: true }
+    }
+    return { success: false, error: 'Notifications not supported' }
+  } catch (error) {
+    console.error('Notification error:', error)
+    return { success: false, error: String(error) }
+  }
+})

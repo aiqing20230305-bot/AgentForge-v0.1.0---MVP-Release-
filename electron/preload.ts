@@ -34,6 +34,15 @@ const electronAPI = {
   // Utilities
   openExternal: (url: string): Promise<void> =>
     ipcRenderer.invoke('open-external', url),
+
+  // Notifications
+  showNotification: (options: {
+    title: string
+    body: string
+    icon?: string
+    silent?: boolean
+  }): Promise<{ success: boolean; error?: string }> =>
+    ipcRenderer.invoke('show-notification', options),
 }
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI)
@@ -44,3 +53,6 @@ declare global {
     electronAPI: typeof electronAPI
   }
 }
+
+// Export the type for use in other files
+export type ElectronAPI = typeof electronAPI

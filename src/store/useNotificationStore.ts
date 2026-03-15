@@ -1,12 +1,14 @@
 /**
  * 通知系统 Store
  * 管理桌面通知、浏览器通知和历史记录
+ * 集成 notificationService 提供统一的通知接口
  */
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { notificationService } from '../services/notificationService'
 
-export type NotificationType = 'task_complete' | 'task_failed' | 'agent_idle' | 'level_up' | 'achievement_unlock' | 'battle_result' | 'system'
+export type NotificationType = 'task_complete' | 'task_failed' | 'agent_idle' | 'level_up' | 'achievement_unlock' | 'battle_result' | 'system' | 'achievement'
 
 export interface Notification {
   id: string
@@ -72,25 +74,18 @@ export const useNotificationStore = create<NotificationStore>()(
           notifications: [notification, ...state.notifications].slice(0, 100) // 保留最近100条
         }))
 
-        // 触发浏览器通知
-        const { settings } = get()
-        if (settings.browserEnabled) {
-          // 会在组件中处理
-        }
-
-        // 播放声音
-        if (settings.soundEnabled) {
-          playNotificationSound(notification.type, settings.volume)
-        }
-
-        // 桌面通知（Electron）
-        if (settings.desktopEnabled && window.electron) {
-          window.electron.showNotification({
-            title: notification.title,
-            body: notification.message,
-            icon: notification.icon
-          })
-        }
+        // 使用新的 notificationService 处理所有通知
+        notificationService.show({
+          type: notification.type as any,
+          title: notification.title,
+          message: notification.message,
+          agentId: notification.agentId,
+          taskId: notification.taskId,
+          actionUrl: notification.actionUrl,
+          icon: notification.icon
+        }).catch(err => {
+          console.warn('Failed to show notification:', err)
+        })
       },
 
       markAsRead: (id) => {
@@ -137,37 +132,4 @@ export const useNotificationStore = create<NotificationStore>()(
   )
 )
 
-/**
- * 播放通知音效
- */
-function playNotificationSound(type: NotificationType, volume: number) {
-  const soundMap: Record<NotificationType, string> = {
-    task_complete: '/sounds/task-complete.mp3',
-    task_failed: '/sounds/task-failed.mp3',
-    level_up: '/sounds/level-up.mp3',
-    achievement_unlock: '/sounds/achievement.mp3',
-    battle_result: '/sounds/battle-end.mp3',
-    agent_idle: '/sounds/notification.mp3',
-    system: '/sounds/notification.mp3'
-  }
-
-  const soundPath = soundMap[type]
-  if (soundPath) {
-    const audio = new Audio(soundPath)
-    audio.volume = volume / 100
-    audio.play().catch(err => {
-      console.warn('无法播放通知音效:', err)
-    })
-  }
-}
-
-/**
- * 声明 Electron API
- */
-declare global {
-  interface Window {
-    electron?: {
-      showNotification: (options: { title: string; body: string; icon?: string }) => void
-    }
-  }
-}
+// 旧的音效播放逻辑已迁移到 notificationService 中

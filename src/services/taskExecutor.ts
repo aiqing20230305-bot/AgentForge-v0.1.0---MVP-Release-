@@ -5,6 +5,7 @@
 
 import type { Task } from '../types/task'
 import { TaskSimulator } from '../utils/taskSimulator'
+import { notify } from './notificationService'
 
 export interface ExecutionOptions {
   maxConcurrent?: number // Max concurrent tasks per agent (default: 3)
@@ -120,6 +121,17 @@ class TaskExecutionEngine {
     // Mark as complete
     running.delete(task.id)
     onComplete?.(success, result, error)
+
+    // Show notification
+    try {
+      if (success) {
+        await notify.taskComplete(task.title, `Agent ${agentId}`)
+      } else {
+        await notify.taskFailed(task.title, `Agent ${agentId}`, error || 'Unknown error')
+      }
+    } catch (err) {
+      console.warn('Failed to show task notification:', err)
+    }
 
     // Process next task in queue
     this.processQueue(agentId)
