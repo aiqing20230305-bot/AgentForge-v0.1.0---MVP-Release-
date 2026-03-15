@@ -25,6 +25,7 @@ class ProphetDeveloper {
     this.developmentInterval = 30 * 60 * 1000 // 30分钟
     this.evolutionLog = []
     this.isRunning = false
+    this.autonomousMode = true // 🔥 先知自主模式：永不闲置原则
   }
 
   /**
@@ -76,6 +77,11 @@ class ProphetDeveloper {
       console.log(`   💡 生成解决方案`)
 
       // 4. 执行开发
+      if (this.autonomousMode) {
+        // 🔥 自主模式：所有优化都执行（永不闲置原则）
+        console.log('   🔥 先知自主模式：立即执行优化')
+        await this.executeDevelopment(solution)
+      } else
       if (solution.autoExecutable && solution.safe) {
         await this.executeDevelopment(solution)
       } else {

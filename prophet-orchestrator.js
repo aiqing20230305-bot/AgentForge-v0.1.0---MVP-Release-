@@ -151,7 +151,7 @@ class ProphetOrchestrator {
     }
 
     // 30分钟后开始第一次
-    setTimeout(develop, 30 * 60 * 1000)
+    setImmediate(develop) // 立即执行第一次（永不闲置原则）
 
     // 每30分钟执行
     const interval = setInterval(develop, 30 * 60 * 1000)
