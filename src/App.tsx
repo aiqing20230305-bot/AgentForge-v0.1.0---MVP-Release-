@@ -20,6 +20,7 @@ import { OfflineIndicator } from './components/OfflineIndicator'
 import { getHeartbeatService } from './services/evolution/heartbeatService'
 import { getEvolutionEngine } from './services/evolution/evolutionEngine'
 import { ErrorBoundary } from './components/ErrorBoundary'
+import { autoLoadTestAgentInDev } from './utils/testAgentLoader'
 
 function App() {
   const { loadSettings, scanForItems, settingsOpen } = useBuildStore()
@@ -49,6 +50,9 @@ function App() {
     const evolutionEngine = getEvolutionEngine()
     evolutionEngine.start()
     console.log('[App] 🧬 Evolution engine started')
+
+    // 🎭 开发环境：自动加载测试Agent
+    autoLoadTestAgentInDev()
 
     // Cleanup on unmount
     return () => {
