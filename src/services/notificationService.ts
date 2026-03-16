@@ -7,7 +7,7 @@
 
 import { soundPlayer, type SoundType } from '../utils/soundPlayer'
 
-export type NotificationType = 'task_complete' | 'task_failed' | 'agent_idle' | 'level_up' | 'achievement' | 'system'
+export type NotificationType = 'task_complete' | 'task_failed' | 'agent_idle' | 'level_up' | 'achievement' | 'system' | 'evolution' | 'vitality_critical' | 'health_warning'
 
 export interface NotificationOptions {
   type: NotificationType

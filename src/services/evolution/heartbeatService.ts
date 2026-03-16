@@ -8,6 +8,7 @@ import type { HeartbeatData, HeartbeatHistory, EvolutionConfig } from '../../typ
 import type { Task } from '../../types/task'
 import { useDataSourceStore } from '../../store/useDataSourceStore'
 import { useTaskStore } from '../../stores/taskStore'
+import { notificationService } from '../notificationService'
 
 class HeartbeatService {
   private intervalId: NodeJS.Timeout | null = null
@@ -372,13 +373,14 @@ class HeartbeatService {
         `当前: ${heartbeatData.vitality}%`
       )
 
-      // TODO: 集成通知系统
-      // notificationService.notify({
-      //   title: `Agent ${agent.name} 生命力危急！`,
-      //   message: `当前生命力: ${heartbeatData.vitality}%`,
-      //   type: 'warning',
-      //   agentId: agent.id
-      // })
+      notificationService.show({
+        type: 'vitality_critical',
+        title: `Agent ${agent.name} 生命力危急！`,
+        message: `当前生命力: ${heartbeatData.vitality}%\n${heartbeatData.warnings.join('\n')}`,
+        agentId: agent.id
+      }).catch(err => {
+        console.warn('[HeartbeatService] Failed to show critical notification:', err)
+      })
     }
 
     // 警告状态
@@ -387,6 +389,16 @@ class HeartbeatService {
         `[HeartbeatService] ⚠️ Agent ${agent.name} 健康警告:`,
         heartbeatData.warnings
       )
+
+      notificationService.show({
+        type: 'health_warning',
+        title: `Agent ${agent.name} 健康警告`,
+        message: heartbeatData.warnings.join('\n'),
+        agentId: agent.id,
+        silent: true // 警告级别静音，避免打扰
+      }).catch(err => {
+        console.warn('[HeartbeatService] Failed to show warning notification:', err)
+      })
     }
   }
 
