@@ -383,15 +383,34 @@ class ProphetDeveloper {
       // 2. 构建 AI 提示词
       const prompt = this.buildAIPrompt(issue, type, fileContent)
 
-      // 3. 调用 Claude API
-      const message = await this.anthropic.messages.create({
-        model: process.env.ANTHROPIC_DEFAULT_SONNET_MODEL || 'claude-sonnet-4-5-20250929',
-        max_tokens: 4096,
-        messages: [{
-          role: 'user',
-          content: prompt
-        }]
-      })
+      // 3. 调用 Claude API（带重试）
+      let message
+      let lastError
+      const maxRetries = 3
+
+      for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+          message = await this.anthropic.messages.create({
+            model: process.env.ANTHROPIC_DEFAULT_SONNET_MODEL || 'claude-sonnet-4-5-20250929',
+            max_tokens: 4096,
+            messages: [{
+              role: 'user',
+              content: prompt
+            }]
+          })
+          break // 成功，退出重试循环
+        } catch (error) {
+          lastError = error
+          if (attempt < maxRetries) {
+            console.log(`      → 重试 ${attempt}/${maxRetries}...`)
+            await new Promise(resolve => setTimeout(resolve, 2000 * attempt)) // 指数退避
+          }
+        }
+      }
+
+      if (!message) {
+        throw lastError || new Error('AI 调用失败')
+      }
 
       // 4. 解析 AI 响应
       const aiResponse = message.content[0].text
@@ -407,73 +426,132 @@ class ProphetDeveloper {
   }
 
   /**
+   * 检测项目类型
+   */
+  detectProjectType() {
+    const projectPath = this.projectPath
+    try {
+      const fs = require('fs')
+      const path = require('path')
+      const packageJsonPath = path.join(projectPath, 'package.json')
+
+      if (fs.existsSync(packageJsonPath)) {
+        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
+        const deps = { ...packageJson.dependencies, ...packageJson.devDependencies }
+
+        if (deps['next']) return 'Next.js Web App'
+        if (deps['react']) return 'React Web App'
+        if (deps['vue']) return 'Vue.js Web App'
+        if (deps['express']) return 'Express API Server'
+        if (deps['electron']) return 'Electron Desktop App'
+
+        return 'Node.js Application'
+      }
+    } catch (error) {
+      // 忽略错误
+    }
+
+    return 'JavaScript Project'
+  }
+
+  /**
    * 构建 AI 提示词
    */
   buildAIPrompt(issue, type, fileContent) {
     const promptMap = {
-      'bug-fix': `你是一个专业的代码修复助手。请分析并修复以下问题：
+      'bug-fix': `你是一个专业的代码修复助手。请分析并修复以下问题。
 
-问题描述：${issue.title}
-优先级：${issue.priority}
-位置：${issue.location ? `${issue.location.file}:${issue.location.line}` : '未知'}
+# 问题信息
+- **描述**: ${issue.title}
+- **优先级**: ${issue.priority}
+- **位置**: ${issue.location ? `${issue.location.file}:${issue.location.line}` : '未知'}
 
-${fileContent ? `当前文件内容：
-\`\`\`
-${fileContent.split('\n').slice(Math.max(0, (issue.location?.line || 1) - 10), (issue.location?.line || 1) + 20).join('\n')}
+# 项目上下文
+- **类型**: ${this.detectProjectType()}
+- **技术栈**: JavaScript/TypeScript, Node.js, React/Next.js
+- **代码风格**: ES6+, async/await, 函数式优先
+
+${fileContent ? `# 相关代码
+\`\`\`javascript
+${fileContent.split('\n').slice(Math.max(0, (issue.location?.line || 1) - 15), (issue.location?.line || 1) + 30).join('\n')}
 \`\`\`
 ` : ''}
 
-请提供：
-1. 问题根因分析
-2. 修复方案说明
-3. 完整的修复后代码
+# 要求
+1. **根因分析**: 深入分析问题产生的原因
+2. **最小改动**: 只修改必要的代码，保持其他部分不变
+3. **代码质量**:
+   - 添加必要的错误处理
+   - 考虑边界条件
+   - 保持代码简洁清晰
+   - 遵循现有代码风格
+4. **向后兼容**: 确保不破坏现有功能
 
-输出格式：
+# 输出格式
+必须返回有效的 JSON：
 \`\`\`json
 {
-  "analysis": "问题根因分析",
-  "solution": "修复方案说明",
+  "analysis": "简要说明问题根因（1-2句话）",
+  "solution": "修复方案说明（2-3句话）",
   "files": [
     {
-      "file": "相对路径",
+      "file": "相对路径（如 src/utils/helper.js）",
       "action": "update",
-      "content": "完整文件内容",
-      "changes": "改动说明"
+      "content": "完整的修复后文件内容",
+      "changes": "改动说明（如：添加空值检查，修复逻辑错误）"
     }
   ]
 }
 \`\`\``,
 
-      'feature': `你是一个专业的功能实现助手。请实现以下功能：
+      'feature': `你是一个专业的功能实现助手。请实现以下功能。
 
-功能描述：${issue.title}
-优先级：${issue.priority}
-位置：${issue.location ? `${issue.location.file}:${issue.location.line}` : '新功能'}
+# 功能需求
+- **描述**: ${issue.title}
+- **优先级**: ${issue.priority}
+- **位置**: ${issue.location ? `${issue.location.file}:${issue.location.line}` : '新功能'}
 
-${fileContent ? `当前文件内容：
-\`\`\`
-${fileContent}
+# 项目上下文
+- **类型**: ${this.detectProjectType()}
+- **技术栈**: JavaScript/TypeScript, Node.js, React/Next.js
+- **架构原则**: 模块化、可测试、可维护
+
+${fileContent ? `# 现有代码
+\`\`\`javascript
+${fileContent.length > 1000 ? fileContent.slice(0, 1000) + '\n// ... (已截断)' : fileContent}
 \`\`\`
 ` : ''}
 
-请提供：
-1. 实现思路和架构设计
-2. 代码实现
-3. 使用示例
+# 实现要求
+1. **设计原则**:
+   - 单一职责
+   - 最小依赖
+   - 易于扩展
+2. **代码质量**:
+   - 完善的错误处理
+   - 参数验证
+   - 清晰的命名
+   - 必要的注释
+3. **性能考虑**:
+   - 避免不必要的计算
+   - 合理使用缓存
+   - 异步操作用 async/await
+4. **测试友好**: 代码应该易于测试
 
-输出格式：
+# 输出格式
+必须返回有效的 JSON：
 \`\`\`json
 {
-  "design": "实现思路和架构设计",
+  "design": "简要说明实现思路（3-5句话）",
   "files": [
     {
       "file": "相对路径",
-      "action": "create" 或 "update",
+      "action": "create",
       "content": "完整文件内容",
-      "changes": "改动说明"
+      "changes": "新增功能说明"
     }
   ],
-  "usage": "使用示例"
+  "usage": "使用示例代码"
 }
 \`\`\``,
     }

@@ -141,10 +141,10 @@ class ProphetOrchestrator {
 
         this.logEvolution('developer', 'Development iteration completed')
 
-        const process = this.processes.get('developer')
-        if (process) {
-          process.lastRun = new Date()
-          process.iterations = (process.iterations || 0) + 1
+        const processInfo = this.processes.get('developer')
+        if (processInfo) {
+          processInfo.lastRun = new Date()
+          processInfo.iterations = (processInfo.iterations || 0) + 1
         }
       } catch (error) {
         console.error('   Developer error:', error.message)
@@ -196,10 +196,10 @@ class ProphetOrchestrator {
 
         this.logEvolution('analyzer', 'Deep analysis completed')
 
-        const process = this.processes.get('analyzer')
-        if (process) {
-          process.lastRun = new Date()
-          process.iterations = (process.iterations || 0) + 1
+        const processInfo = this.processes.get('analyzer')
+        if (processInfo) {
+          processInfo.lastRun = new Date()
+          processInfo.iterations = (processInfo.iterations || 0) + 1
         }
       } catch (error) {
         console.error('   Analyzer error:', error.message)
@@ -261,10 +261,10 @@ class ProphetOrchestrator {
 
         this.logEvolution('memory-consolidator', `Consolidated ${insights.length} memories`)
 
-        const process = this.processes.get('memory-consolidator')
-        if (process) {
-          process.lastRun = new Date()
-          process.memoriesProcessed = (process.memoriesProcessed || 0) + insights.length
+        const processInfo = this.processes.get('memory-consolidator')
+        if (processInfo) {
+          processInfo.lastRun = new Date()
+          processInfo.memoriesProcessed = (processInfo.memoriesProcessed || 0) + insights.length
         }
       } catch (error) {
         console.error('   Memory consolidator error:', error.message)

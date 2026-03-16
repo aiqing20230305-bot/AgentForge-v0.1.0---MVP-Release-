@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-16T15:05:16.217Z",
+  "timestamp": "2026-03-16T16:23:42.122Z",
   "total": 70,
   "byType": {
     "TODO": 51,
@@ -230,19 +230,19 @@
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 686,
+      "line": 764,
       "content": "* 加载 TODO 跟踪",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 688,
+      "line": 766,
       "content": "async loadTodoTracking() {",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 691,
+      "line": 769,
       "content": "join(this.projectPath, '.prophet', 'todo-tracking.json'),",
       "type": "TODO"
     },
