@@ -90,6 +90,12 @@ class ProphetOrchestrator {
         })
 
         this.logEvolution('heart-monitor', 'Heart beat completed')
+
+        // 更新最后运行时间
+        const processInfo = this.processes.get('heart-monitor')
+        if (processInfo) {
+          processInfo.lastRun = new Date()
+        }
       } catch (error) {
         console.error('   Heart beat error:', error.message)
       }
@@ -313,6 +319,12 @@ class ProphetOrchestrator {
           optimizations: this.evolutionLog.filter(e => e.type === 'optimization')
             .length
         })
+
+        // 更新最后运行时间
+        const processInfo = this.processes.get('evolution-tracker')
+        if (processInfo) {
+          processInfo.lastRun = new Date()
+        }
       } catch (error) {
         console.error('   Evolution tracker error:', error.message)
       }
