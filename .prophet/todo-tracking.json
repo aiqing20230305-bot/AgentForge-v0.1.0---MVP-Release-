@@ -1,27 +1,15 @@
 {
-  "timestamp": "2026-03-16T20:25:32.022Z",
-  "total": 55,
+  "timestamp": "2026-03-16T20:55:31.997Z",
+  "total": 53,
   "byType": {
-    "TODO": 44,
-    "FIXME": 11
+    "TODO": 43,
+    "FIXME": 10
   },
   "items": [
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 7,
-      "content": "* - FIXME: Issues that need to be fixed",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 8,
-      "content": "* - TODO: Features or improvements to be implemented",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 18,
-      "content": "const MARKERS = ['FIXME', 'TODO', 'HACK'];",
+      "line": 13,
+      "content": "* 分析函数 - 已修复FIXME问题",
       "type": "FIXME"
     },
     {
