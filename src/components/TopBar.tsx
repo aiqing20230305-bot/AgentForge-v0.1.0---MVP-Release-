@@ -9,6 +9,7 @@ import { getLocalOpenClawConfig, type OpenClawConfig } from '../services/opencla
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import { CloudSyncToggle } from './CloudSyncToggle'
 import { OpenClawStatusBadge } from './OpenClawStatusBadge'
+import { ThemeSwitcherCompact } from './ThemeSwitcher'
 
 export default function TopBar() {
   const { setSettingsOpen } = useBuildStore()
@@ -128,6 +129,9 @@ export default function TopBar() {
 
         {/* OpenClaw Status Badge (New Quick Connect) */}
         <OpenClawStatusBadge />
+
+        {/* Theme Switcher */}
+        <ThemeSwitcherCompact />
 
         {/* Settings */}
         <button

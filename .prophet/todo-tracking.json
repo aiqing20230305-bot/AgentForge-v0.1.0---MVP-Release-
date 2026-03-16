@@ -1,88 +1,118 @@
 {
-  "timestamp": "2026-03-16T13:48:20.128Z",
-  "total": 63,
+  "timestamp": "2026-03-16T15:05:16.217Z",
+  "total": 70,
   "byType": {
     "TODO": 51,
-    "FIXME": 12
+    "FIXME": 19
   },
   "items": [
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 20,
-      "content": "todoCount: 0,",
+      "line": 8,
+      "content": "analysis.quality.fixmeCount = (analysis.quality.fixmeCount || 0) + (content.match(/FIXME/gi) || []).length;",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 11,
+      "content": "// 方案2：增强修复 - 只匹配注释中的FIXME",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 14,
+      "content": "// 匹配单行注释和多行注释中的 FIXME",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 15,
+      "content": "const singleLineComments = content.match(/\\/\\/.*?FIXME.*?$/gim) || [];",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 16,
+      "content": "const multiLineComments = content.match(/\\/\\*[\\s\\S]*?FIXME[\\s\\S]*?\\*\\//gi) || [];",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 17,
+      "content": "analysis.quality.fixmeCount = (analysis.quality.fixmeCount || 0) + singleLineComments.length + multiLineComments.length;",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 21,
+      "line": 23,
+      "content": "console.warn('Invalid content provided for FIXME analysis');",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 30,
       "content": "fixmeCount: 0,",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 111,
-      "content": "analysis.quality.todoCount += (content.match(/TODO/gi) || []).length",
+      "line": 31,
+      "content": "todoCount: 0,",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 112,
-      "content": "analysis.quality.fixmeCount += (content.match(/FIXME/gi) || []).length",
+      "line": 36,
+      "content": "// 匹配注释中的 FIXME（支持 //FIXME 和 /* FIXME */）",
       "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 155,
-      "content": "// 1. TODO/FIXME 检查",
+      "line": 37,
+      "content": "const fixmePattern = /(?:\\/\\/.*?FIXME.*?$|\\/\\*[\\s\\S]*?FIXME[\\s\\S]*?\\*\\/)/gim;",
       "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 156,
-      "content": "if (analysis.quality.todoCount > 50) {",
+      "line": 38,
+      "content": "const matches = content.match(fixmePattern) || [];",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 160,
-      "content": "title: '大量 TODO 标记',",
+      "line": 40,
+      "content": "analysis.quality.fixmeCount = (analysis.quality.fixmeCount || 0) + matches.length;",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 161,
-      "content": "description: `发现 ${analysis.quality.todoCount} 个 TODO 标记。这些可能是未完成的功能或技术债务。`,",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 163,
-      "content": "'梳理所有 TODO，创建 GitHub issues',",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 164,
-      "content": "'优先处理关键路径的 TODO',",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 165,
-      "content": "'设置 TODO 清理的 sprint 目标'",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 331,
-      "content": "console.log(`   TODO 标记：${analysis.quality.todoCount}`)",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 332,
-      "content": "console.log(`   FIXME 标记：${analysis.quality.fixmeCount}`)",
+      "line": 42,
+      "content": "// 可选：记录FIXME的具体位置和内容",
       "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 44,
+      "content": "analysis.quality.fixmeDetails = analysis.quality.fixmeDetails || [];",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 46,
+      "content": "analysis.quality.fixmeDetails.push({",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 54,
+      "content": "console.error('Error analyzing FIXME comments:', error);",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 59,
+      "content": "analysis.quality.fixmeCount = 0;",
+      "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-auto-dev.js",
@@ -322,6 +352,18 @@
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-heart.js",
       "line": 461,
       "content": "console.log(`      → TODO 跟踪报告: .prophet/todo-tracking.json`)",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/App.tsx",
+      "line": 42,
+      "content": "// TODO: 实现创建任务对话框",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/GlobalSearch.tsx",
+      "line": 174,
+      "content": "// TODO: 实现导航逻辑",
       "type": "TODO"
     },
     {

@@ -82,6 +82,9 @@ export class SocketService {
       // Handle chat events
       this.handleChatEvents(socket)
 
+      // Handle collaboration events
+      this.handleCollaborationEvents(socket)
+
       // Handle disconnect
       socket.on('disconnect', () => {
         console.log(`❌ Socket disconnected: ${socket.id} (User: ${socket.username})`)
@@ -326,6 +329,143 @@ export class SocketService {
         userId: socket.userId,
         username: socket.username,
         isTyping
+      })
+    })
+  }
+
+  /**
+   * Handle collaboration events for real-time multi-user editing
+   */
+  private handleCollaborationEvents(socket: AuthenticatedSocket): void {
+    // User presence update
+    socket.on('collab:presence', (data: any) => {
+      console.log(`👤 User presence update: ${socket.username}`)
+
+      // Broadcast presence to all team members
+      if (data.teamId) {
+        socket.to(`team:${data.teamId}`).emit('collab:presence', {
+          ...data,
+          userId: socket.userId,
+          username: socket.username,
+          timestamp: new Date()
+        })
+      } else {
+        // Broadcast to all connected clients
+        socket.broadcast.emit('collab:presence', {
+          ...data,
+          userId: socket.userId,
+          username: socket.username,
+          timestamp: new Date()
+        })
+      }
+    })
+
+    // Cursor position update
+    socket.on('collab:cursor_moved', (data: { userId: string; position: any }) => {
+      console.log(`🖱️ Cursor moved: ${socket.username}`)
+
+      // Broadcast cursor position to all in the same resource
+      if (data.position?.resourceId) {
+        socket.broadcast.emit('collab:cursor_moved', {
+          userId: socket.userId,
+          username: socket.username,
+          position: data.position,
+          timestamp: new Date()
+        })
+      }
+    })
+
+    // Collaborative operation
+    socket.on('collab:operation', (data: any) => {
+      console.log(`⚡ Operation: ${data.operationType} by ${socket.username}`)
+
+      // Broadcast operation to all team members or specific resource viewers
+      const operation = {
+        ...data,
+        userId: socket.userId,
+        username: socket.username,
+        timestamp: new Date()
+      }
+
+      if (data.teamId) {
+        socket.to(`team:${data.teamId}`).emit('collab:operation', operation)
+      } else {
+        socket.broadcast.emit('collab:operation', operation)
+      }
+    })
+
+    // User status change (online, idle, away)
+    socket.on('collab:status', (data: { userId: string; status: string }) => {
+      console.log(`📊 Status change: ${socket.username} -> ${data.status}`)
+
+      socket.broadcast.emit('collab:status', {
+        userId: socket.userId,
+        username: socket.username,
+        status: data.status,
+        timestamp: new Date()
+      })
+    })
+
+    // Permission change
+    socket.on('collab:permission_changed', (data: { userId: string; permissions: any }) => {
+      console.log(`🔐 Permission changed for user: ${data.userId}`)
+
+      // Notify the specific user about permission change
+      this.io.to(`user:${data.userId}`).emit('collab:permission_changed', {
+        userId: data.userId,
+        permissions: data.permissions,
+        changedBy: socket.username,
+        timestamp: new Date()
+      })
+
+      // Also broadcast to team if teamId is provided
+      if (data.teamId) {
+        socket.to(`team:${data.teamId}`).emit('collab:permission_changed', {
+          userId: data.userId,
+          permissions: data.permissions,
+          changedBy: socket.username,
+          timestamp: new Date()
+        })
+      }
+    })
+
+    // User leaving collaboration session
+    socket.on('collab:leave', (data: { userId: string; resourceId?: string }) => {
+      console.log(`👋 User leaving collaboration: ${socket.username}`)
+
+      socket.broadcast.emit('collab:leave', {
+        userId: socket.userId,
+        username: socket.username,
+        resourceId: data.resourceId,
+        timestamp: new Date()
+      })
+    })
+
+    // Lock/unlock resource for editing
+    socket.on('collab:lock', (data: { resourceId: string; resourceType: string; lock: boolean }) => {
+      console.log(`🔒 Resource ${data.lock ? 'locked' : 'unlocked'}: ${data.resourceId}`)
+
+      socket.broadcast.emit('collab:lock', {
+        resourceId: data.resourceId,
+        resourceType: data.resourceType,
+        locked: data.lock,
+        userId: socket.userId,
+        username: socket.username,
+        timestamp: new Date()
+      })
+    })
+
+    // Conflict notification
+    socket.on('collab:conflict', (data: { resourceId: string; conflictType: string }) => {
+      console.log(`⚠️ Conflict detected: ${data.conflictType} on ${data.resourceId}`)
+
+      // Notify all users viewing the same resource
+      socket.broadcast.emit('collab:conflict', {
+        resourceId: data.resourceId,
+        conflictType: data.conflictType,
+        userId: socket.userId,
+        username: socket.username,
+        timestamp: new Date()
       })
     })
   }

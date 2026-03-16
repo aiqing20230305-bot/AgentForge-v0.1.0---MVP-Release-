@@ -463,6 +463,6 @@ interface KeyboardShortcuts {
 - #78 实时协作 → v1.3.0 团队功能
 - #83 AI助手 → v1.3.0 核心功能
 - #84 快捷键系统 → v1.3.0 完善
-- #85 自定义Dashboard → v1.3.0 实现
+- #85 自定义Dashboard → ✅ v1.3.0 已完成（2026-03-16）
 
 **行动：** 将这些任务标记为 completed 或合并到新任务中

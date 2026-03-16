@@ -107,6 +107,9 @@ export interface AgentData {
   description?: string
   metadata?: Record<string, any> // 额外的自定义字段
 
+  // Team collaboration
+  teamId?: string // 所属团队ID
+
   // Energy tracking
   energyStats?: {
     totalTokensUsed: number

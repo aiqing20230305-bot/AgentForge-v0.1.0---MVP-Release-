@@ -6,6 +6,8 @@
 import type { Task } from '../types/task'
 import { TaskSimulator } from '../utils/taskSimulator'
 import { notify } from './notificationService'
+import { skillEffectProcessor } from './skillEffectProcessor'
+import { SKILLS } from '../data/skillTree'
 
 export interface ExecutionOptions {
   maxConcurrent?: number // Max concurrent tasks per agent (default: 3)
@@ -16,6 +18,7 @@ export interface ExecutionOptions {
 export interface ExecutionQueueItem {
   task: Task
   agentLevel: number
+  unlockedSkills?: string[] // Agent's unlocked skills
   onProgress?: (progress: number) => void
   onComplete?: (success: boolean, result?: string, error?: string) => void
   onLog?: (log: string) => void
@@ -64,9 +67,37 @@ class TaskExecutionEngine {
    * Run a single task with retry logic
    */
   private async runTask(item: ExecutionQueueItem): Promise<void> {
-    const { task, agentLevel, onProgress, onComplete, onLog } = item
+    const { task, agentLevel, unlockedSkills = [], onProgress, onComplete, onLog } = item
     const agentId = task.agentId
     const running = this.runningTasks.get(agentId)!
+
+    // Initialize skill context if not exists
+    let context = skillEffectProcessor.getContext(agentId)
+    if (!context) {
+      context = skillEffectProcessor.initializeContext(agentId, agentLevel, unlockedSkills)
+    } else {
+      skillEffectProcessor.updateUnlockedSkills(agentId, unlockedSkills)
+    }
+
+    // Calculate skill effects
+    const effects = skillEffectProcessor.calculateEffects(agentId, SKILLS, context)
+
+    // Apply effects to task
+    let modifiedTask = skillEffectProcessor.applyEffectsToTask(agentId, task, effects)
+
+    // Log active skill effects
+    if (effects.tokenReduction > 0) {
+      onLog?.(`[SKILL] Token reduction: ${effects.tokenReduction.toFixed(1)}%`)
+    }
+    if (effects.speedBoost > 0) {
+      onLog?.(`[SKILL] Speed boost: ${effects.speedBoost.toFixed(1)}%`)
+    }
+    if (effects.successRate > 0) {
+      onLog?.(`[SKILL] Success rate boost: ${effects.successRate.toFixed(1)}%`)
+    }
+    if (effects.expGain > 0) {
+      onLog?.(`[SKILL] Experience gain boost: ${effects.expGain.toFixed(1)}%`)
+    }
 
     // Mark as running
     running.add(task.id)
@@ -90,10 +121,24 @@ class TaskExecutionEngine {
           onProgress?.(randomProgress)
         }, 500)
 
-        // Execute task
-        const executionResult = await TaskSimulator.simulateExecution(task, agentLevel)
+        // Execute task with skill effects applied
+        const executionResult = await TaskSimulator.simulateExecution(modifiedTask, agentLevel)
 
         clearInterval(progressInterval)
+
+        // Apply skill effects to result
+        if (executionResult.success) {
+          const baseExp = executionResult.expGained || 0
+          const modifiedResult = skillEffectProcessor.applyEffectsToResult(
+            effects,
+            baseExp,
+            100 // Base success rate is 100% if task succeeded
+          )
+
+          if (modifiedResult.exp !== baseExp) {
+            onLog?.(`[SKILL] Experience boosted: ${baseExp} -> ${modifiedResult.exp}`)
+          }
+        }
 
         // Process logs
         executionResult.log.forEach(log => onLog?.(log))

@@ -1,0 +1,194 @@
+/**
+ * Agent Card Responsive Styles
+ * Task #73: 优化Agent卡片UI - 响应式优化
+ */
+
+/* Base ripple animation */
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Status indicator pulse */
+@keyframes status-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+.status-pulse {
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+/* Card glow effect */
+@keyframes card-glow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.card-glow {
+  animation: card-glow 3s ease-in-out infinite;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 640px) {
+  /* Mobile: Stack cards vertically */
+  .agent-card-container {
+    grid-template-columns: 1fr;
+  }
+
+  /* Reduce padding on mobile */
+  .agent-card {
+    padding: 12px;
+  }
+
+  /* Smaller status indicator */
+  .agent-status-indicator {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Compact skill badges */
+  .agent-skill-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  /* Hide less important elements on mobile */
+  .mobile-hidden {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* Tablet: 2 columns */
+  .agent-card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  /* Desktop: 3 columns or full width depending on container */
+  .agent-card-container-wide {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase tap targets for touch */
+  .agent-card-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Disable hover effects on touch devices */
+  .hover-lift:hover {
+    transform: none;
+  }
+
+  /* Add active state for touch feedback */
+  .agent-card:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Dark mode optimization (already dark, but ensure consistency) */
+@media (prefers-color-scheme: dark) {
+  .agent-card {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .agent-card,
+  .hover-lift,
+  .status-pulse,
+  .card-glow,
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .agent-card {
+    border-width: 3px;
+  }
+
+  .agent-status-indicator {
+    border: 2px solid white;
+  }
+}
+
+/* Context menu styles */
+.agent-context-menu {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.agent-context-menu-item {
+  transition: all 0.2s ease;
+}
+
+.agent-context-menu-item:hover {
+  transform: translateX(4px);
+}
+
+/* Drag preview styles */
+.agent-card-dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+  cursor: grabbing;
+}
+
+.agent-card-drag-preview {
+  transform: rotate(-5deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Loading skeleton */
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.agent-card-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}

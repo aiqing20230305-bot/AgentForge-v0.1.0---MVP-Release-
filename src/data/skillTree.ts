@@ -24,6 +24,13 @@ export interface Skill {
   requiredSkills: string[] // Must unlock these skills first
   effects: SkillEffect[]
   cost: number // Skill points to unlock
+  cooldown?: number // Cooldown in seconds (for active skills)
+  manaCost?: number // Mana/energy cost for activation
+  visualEffect?: {
+    color: string
+    particleCount: number
+    animationType: 'pulse' | 'explosion' | 'spiral' | 'beam' | 'nova'
+  }
 }
 
 export const SKILLS: Skill[] = [
@@ -81,6 +88,29 @@ export const SKILLS: Skill[] = [
     cost: 2
   },
   {
+    id: 'focus_mode',
+    name: '专注模式',
+    description: '激活后40秒内速度提升50%，Token消耗降低20%',
+    icon: '🎯',
+    category: 'active',
+    branch: 'efficiency',
+    maxLevel: 1,
+    unlockLevel: 20,
+    requiredSkills: ['fast_thinker', 'token_saver_2'],
+    effects: [
+      { type: 'speed_boost', value: 50, duration: 40 },
+      { type: 'token_reduction', value: 20, duration: 40 }
+    ],
+    cost: 4,
+    cooldown: 120,
+    manaCost: 50,
+    visualEffect: {
+      color: '#3b82f6',
+      particleCount: 100,
+      animationType: 'beam'
+    }
+  },
+  {
     id: 'ultra_efficient',
     name: '超级效率',
     description: '同时获得15% Token减少和10%速度提升',
@@ -94,7 +124,12 @@ export const SKILLS: Skill[] = [
       { type: 'token_reduction', value: 15 },
       { type: 'speed_boost', value: 10 }
     ],
-    cost: 5
+    cost: 5,
+    visualEffect: {
+      color: '#10b981',
+      particleCount: 60,
+      animationType: 'pulse'
+    }
   },
 
   // ===== COMBAT BRANCH =====
@@ -135,7 +170,14 @@ export const SKILLS: Skill[] = [
     unlockLevel: 15,
     requiredSkills: ['power_strike'],
     effects: [{ type: 'attack_boost', value: 50, duration: 30 }],
-    cost: 3
+    cost: 3,
+    cooldown: 60,
+    manaCost: 30,
+    visualEffect: {
+      color: '#ef4444',
+      particleCount: 80,
+      animationType: 'explosion'
+    }
   },
   {
     id: 'regeneration',
@@ -262,6 +304,29 @@ export const SKILLS: Skill[] = [
     cost: 4
   },
   {
+    id: 'super_focus',
+    name: '超级专注',
+    description: '激活后60秒内成功率提升40%，经验获取提升30%',
+    icon: '🔥',
+    category: 'active',
+    branch: 'precision',
+    maxLevel: 1,
+    unlockLevel: 35,
+    requiredSkills: ['critical_thinking'],
+    effects: [
+      { type: 'success_rate', value: 40, duration: 60 },
+      { type: 'exp_gain', value: 30, duration: 60 }
+    ],
+    cost: 5,
+    cooldown: 180,
+    manaCost: 60,
+    visualEffect: {
+      color: '#8b5cf6',
+      particleCount: 120,
+      animationType: 'spiral'
+    }
+  },
+  {
     id: 'never_fail',
     name: '永不失败',
     description: '任务成功率达到99%（近乎完美）',
@@ -331,7 +396,12 @@ export const SKILLS: Skill[] = [
       { type: 'success_rate', value: 100 },
       { type: 'exp_gain', value: 100 }
     ],
-    cost: 50
+    cost: 50,
+    visualEffect: {
+      color: '#fbbf24',
+      particleCount: 200,
+      animationType: 'nova'
+    }
   }
 ]
 

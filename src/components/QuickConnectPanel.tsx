@@ -9,12 +9,19 @@
  */
 
 import React, { useState, useEffect } from 'react'
-import { Zap, Check, X, Loader2, ExternalLink, RefreshCw } from 'lucide-react'
-import { getOpenClawWSClient, type OpenClawConfig } from '../services/openclawWebSocket'
+import { Zap, Check, X, Loader2, ExternalLink, RefreshCw, Download, Upload, Signal } from 'lucide-react'
+import { getOpenClawWSClient, type OpenClawConfig, type ConnectionQuality } from '../services/openclawWebSocket'
 import { testOpenClawConnection, type TestResult } from '../utils/openclawTester'
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import { convertOpenClawAgents } from '../adapters/openclawWSAdapter'
 import { getAutoSyncService } from '../services/openclawAutoSync'
+import {
+  saveConfig,
+  getAllConfigs,
+  exportConfigToFile,
+  importConfigFromFile,
+  type SavedConfig,
+} from '../utils/openclawConfigManager'
 
 type ConnectionStatus = 'idle' | 'detecting' | 'connecting' | 'connected' | 'failed'
 
@@ -29,9 +36,31 @@ export const QuickConnectPanel: React.FC = () => {
   const [isManualMode, setIsManualMode] = useState(false)
   const [autoSyncEnabled, setAutoSyncEnabled] = useState(false)
   const [lastSyncTime, setLastSyncTime] = useState<string | null>(null)
+  const [connectionQuality, setConnectionQuality] = useState<ConnectionQuality | null>(null)
+  const [savedConfigs, setSavedConfigs] = useState<SavedConfig[]>([])
+  const [showConfigManager, setShowConfigManager] = useState(false)
 
   const dataSourceStore = useDataSourceStore()
   const autoSyncService = getAutoSyncService()
+  const wsClient = getOpenClawWSClient()
+
+  // 监听连接质量
+  useEffect(() => {
+    const handleQualityChange = (quality: ConnectionQuality) => {
+      setConnectionQuality(quality)
+    }
+
+    wsClient.onQualityChange(handleQualityChange)
+
+    return () => {
+      wsClient.offQualityChange(handleQualityChange)
+    }
+  }, [])
+
+  // 加载保存的配置
+  useEffect(() => {
+    setSavedConfigs(getAllConfigs())
+  }, [])
 
   // 监听Auto Sync状态
   useEffect(() => {
@@ -192,6 +221,70 @@ export const QuickConnectPanel: React.FC = () => {
     return `${token.slice(0, 6)}...${token.slice(-4)}`
   }
 
+  // 获取连接质量显示
+  const getQualityDisplay = () => {
+    if (!connectionQuality || status !== 'connected') {
+      return null
+    }
+
+    const { status: qStatus, latency } = connectionQuality
+
+    const colors = {
+      excellent: 'text-green-400',
+      good: 'text-blue-400',
+      fair: 'text-yellow-400',
+      poor: 'text-red-400',
+    }
+
+    const labels = {
+      excellent: '优秀',
+      good: '良好',
+      fair: '一般',
+      poor: '较差',
+    }
+
+    return {
+      color: colors[qStatus],
+      label: labels[qStatus],
+      latency,
+    }
+  }
+
+  // 保存当前配置
+  const handleSaveConfig = () => {
+    const name = prompt('请输入配置名称：', 'OpenClaw Gateway')
+    if (name) {
+      saveConfig(config, name)
+      setSavedConfigs(getAllConfigs())
+      alert('配置已保存！')
+    }
+  }
+
+  // 导出配置
+  const handleExportConfig = () => {
+    const savedConfig: SavedConfig = {
+      ...config,
+      id: `export_${Date.now()}`,
+      name: 'Exported Config',
+      createdAt: new Date().toISOString(),
+    }
+    exportConfigToFile(savedConfig)
+  }
+
+  // 导入配置
+  const handleImportConfig = async () => {
+    try {
+      const imported = await importConfigFromFile()
+      setConfig({ url: imported.url, token: imported.token })
+      setSavedConfigs(getAllConfigs())
+      alert(`配置 "${imported.name}" 已导入！`)
+    } catch (error) {
+      alert('导入失败：' + error)
+    }
+  }
+
+  const qualityDisplay = getQualityDisplay()
+
   return (
     <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl">
       {/* 标题 */}
@@ -280,9 +373,56 @@ export const QuickConnectPanel: React.FC = () => {
                 </button>
               </div>
             </div>
+
+            {/* Connection Quality */}
+            {qualityDisplay && (
+              <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                <div className="flex items-center gap-2">
+                  <Signal className="w-3 h-3 text-white/70" />
+                  <span className="text-sm text-white/70">连接质量</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={`text-sm font-medium ${qualityDisplay.color}`}>
+                    {qualityDisplay.label}
+                  </span>
+                  <span className="text-xs text-white/50">
+                    {qualityDisplay.latency}ms
+                  </span>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
+
+      {/* Config Management */}
+      {status !== 'connected' && (
+        <div className="mb-4 space-y-2">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleSaveConfig}
+              className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+            >
+              <Download className="w-3 h-3" />
+              <span>保存配置</span>
+            </button>
+            <button
+              onClick={handleExportConfig}
+              className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+            >
+              <Download className="w-3 h-3" />
+              <span>导出</span>
+            </button>
+            <button
+              onClick={handleImportConfig}
+              className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+            >
+              <Upload className="w-3 h-3" />
+              <span>导入</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* 错误信息 */}
       {status === 'failed' && testResult && (
