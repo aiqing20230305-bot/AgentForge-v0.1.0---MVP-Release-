@@ -38,6 +38,19 @@
       },
       "commitHash": "33f783d3587f7814313094fe49c3fbcf25990225",
       "timestamp": "2026-03-16T07:58:55.549Z"
+    },
+    {
+      "issueKey": "-b6m0qs",
+      "issue": {
+        "type": "bug-fix",
+        "title": "修复: // 优先处理 FIXME",
+        "priority": "high"
+      },
+      "solution": {
+        "approach": "修复已知问题"
+      },
+      "commitHash": "6999b21888507aa55e0eaf7fe558467e9f758a4c",
+      "timestamp": "2026-03-16T08:28:55.529Z"
     }
   ]
 }
