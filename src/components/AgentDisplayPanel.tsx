@@ -46,14 +46,11 @@ export default function AgentDisplayPanel() {
     setTaskStoreAgent(agent.id)
   }, [setTaskStoreAgent])
 
-  if (!selectedAgent) {
-    return (
-      <div className="h-full flex items-center justify-center text-white/80 text-lg">加载中...</div>
-    )
-  }
-
   // 🚀 Performance: Memoize stats calculation
+  // IMPORTANT: 必须在所有条件渲染之前调用所有Hooks
   const stats = useMemo(() => {
+    if (!selectedAgent) return { total: 0, in_progress: 0, completed: 0, pending: 0 }
+
     // 优先使用 API 返回的 taskStats，如果没有则使用 taskStore
     const apiStats = selectedAgent?.metadata?.taskStats
     const storeStats = getTaskStats(selectedAgent?.id || '')
@@ -66,7 +63,14 @@ export default function AgentDisplayPanel() {
           pending: 0 // API 暂不支持 pending 状态
         }
       : storeStats
-  }, [selectedAgent?.id, selectedAgent?.metadata?.taskStats, getTaskStats])
+  }, [selectedAgent?.id, selectedAgent?.metadata?.taskStats, getTaskStats, selectedAgent])
+
+  // Loading state - 现在放在所有Hooks之后
+  if (!selectedAgent) {
+    return (
+      <div className="h-full flex items-center justify-center text-white/80 text-lg">加载中...</div>
+    )
+  }
 
   return (
     <div className="h-full flex flex-col relative cockpit-init boot-scan">
