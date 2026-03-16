@@ -105,18 +105,18 @@ export function removeLinaJieTestAgent() {
 
 /**
  * 在开发环境自动加载测试Agent
+ * IMPORTANT: 不使用延迟加载，而是同步加载避免Hook渲染问题
  */
 export function autoLoadTestAgentInDev() {
   if (import.meta.env.DEV) {
-    // 延迟加载，等待Store初始化
-    setTimeout(() => {
-      const urlParams = new URLSearchParams(window.location.search)
-      const loadTest = urlParams.get('loadTest')
+    const urlParams = new URLSearchParams(window.location.search)
+    const loadTest = urlParams.get('loadTest')
 
-      if (loadTest === 'lina') {
-        loadLinaJieTestAgent()
-      }
-    }, 1000)
+    if (loadTest === 'lina') {
+      // 同步加载，不延迟
+      console.log('[TestAgentLoader] 🎭 Auto-loading test agent (sync)...')
+      loadLinaJieTestAgent()
+    }
   }
 }
 

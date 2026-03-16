@@ -34,6 +34,10 @@ function App() {
       setShowOnboarding(true)
     }
 
+    // 🎭 开发环境：优先加载测试Agent（在Store初始化之前）
+    // 这样可以避免默认Agent创建和测试Agent冲突
+    autoLoadTestAgentInDev()
+
     // Initialize default data sources (only once on first run)
     console.log('[App] Initializing default data sources...')
     initializeDefaultDataSources()
@@ -50,9 +54,6 @@ function App() {
     const evolutionEngine = getEvolutionEngine()
     evolutionEngine.start()
     console.log('[App] 🧬 Evolution engine started')
-
-    // 🎭 开发环境：自动加载测试Agent
-    autoLoadTestAgentInDev()
 
     // Cleanup on unmount
     return () => {
