@@ -18,6 +18,8 @@ export const linaJieAgent: AgentData = {
 
   // 等级系统
   level: 25,
+  exp: 15800,
+  maxExp: 18000,
   levelSystem: {
     currentLevel: 25,
     currentExp: 15800,
@@ -28,17 +30,6 @@ export const linaJieAgent: AgentData = {
       { level: 24, timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), expGained: 1800 },
       { level: 25, timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), expGained: 2000 }
     ]
-  },
-
-  // RPG属性
-  stats: {
-    hp: 1000,
-    maxHp: 1000,
-    attack: 85,
-    defense: 75,
-    speed: 80,
-    critRate: 0.18,
-    critDamage: 1.65
   },
 
   // 技能树
@@ -98,19 +89,26 @@ export const linaJieAgent: AgentData = {
     peakTokensPerHour: 8500
   },
 
-  // 战斗属性
-  battleStats: {
+  // PvP战斗属性
+  pvpStats: {
     totalBattles: 18,
     wins: 14,
     losses: 4,
     winRate: 0.78,
-    currentStreak: 3,
-    longestWinStreak: 7,
     mmr: 1850,
-    rank: 'Gold III',
-    seasonWins: 14,
-    seasonLosses: 4
+    rankTier: 'gold' as const,
+    rankPoints: 1850
   },
+
+  // 基本技能列表
+  skills: [
+    '产品规划',
+    '用户研究',
+    '数据分析',
+    '原型设计',
+    '敏捷管理',
+    '功能优先级'
+  ],
 
   // 角色和个性
   role: '高级产品经理',
@@ -118,7 +116,7 @@ export const linaJieAgent: AgentData = {
   description: '资深产品经理，10年+产品经验，擅长从0到1打造爆款产品。精通用户研究、数据分析、原型设计。对产品质量有极致追求，是团队的质量守门人。',
 
   color: '#E91E63', // 玫瑰红
-  status: 'idle',
+  status: 'idle' as const,
 
   // 元数据
   metadata: {
