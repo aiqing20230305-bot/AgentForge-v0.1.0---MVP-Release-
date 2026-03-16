@@ -16,6 +16,7 @@ const { readFile, writeFile, readdir, mkdir } = require('fs/promises')
 const { join } = require('path')
 const { exec } = require('child_process')
 const { promisify } = require('util')
+const Anthropic = require('@anthropic-ai/sdk')
 
 const execAsync = promisify(exec)
 
@@ -28,6 +29,12 @@ class ProphetDeveloper {
     this.autonomousMode = true // 🔥 先知自主模式：永不闲置原则
     this.isExecuting = false // ✅ 执行锁：防止重叠执行
     this.executionTimeout = 25 * 60 * 1000 // ✅ 25分钟超时（<30分钟间隔）
+
+    // 🤖 AI 代码生成器
+    this.anthropic = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY || process.env.CLAUDE_API_KEY,
+      baseURL: process.env.ANTHROPIC_BASE_URL
+    })
   }
 
   /**
@@ -335,13 +342,17 @@ class ProphetDeveloper {
         break
 
       case 'bug-fix':
-        solution.approach = '修复已知问题'
-        solution.autoExecutable = false
+        solution.approach = '使用 AI 分析并修复已知问题'
+        solution.code = await this.generateCodeWithAI(issue, 'bug-fix')
+        solution.autoExecutable = true
+        solution.safe = true
         break
 
       case 'feature':
-        solution.approach = '实现新功能'
-        solution.autoExecutable = false
+        solution.approach = '使用 AI 实现新功能'
+        solution.code = await this.generateCodeWithAI(issue, 'feature')
+        solution.autoExecutable = true
+        solution.safe = false // 新功能需要人工审查
         break
 
       default:
@@ -349,6 +360,158 @@ class ProphetDeveloper {
     }
 
     return solution
+  }
+
+  /**
+   * 🤖 使用 AI 生成代码
+   */
+  async generateCodeWithAI(issue, type) {
+    try {
+      console.log(`      → AI 正在生成代码...`)
+
+      // 1. 读取相关文件内容
+      let fileContent = ''
+      if (issue.location && issue.location.file) {
+        try {
+          const filePath = join(this.projectPath, issue.location.file)
+          fileContent = await readFile(filePath, 'utf-8')
+        } catch (error) {
+          console.log(`      ⚠️  无法读取文件: ${issue.location.file}`)
+        }
+      }
+
+      // 2. 构建 AI 提示词
+      const prompt = this.buildAIPrompt(issue, type, fileContent)
+
+      // 3. 调用 Claude API
+      const message = await this.anthropic.messages.create({
+        model: process.env.ANTHROPIC_DEFAULT_SONNET_MODEL || 'claude-sonnet-4-5-20250929',
+        max_tokens: 4096,
+        messages: [{
+          role: 'user',
+          content: prompt
+        }]
+      })
+
+      // 4. 解析 AI 响应
+      const aiResponse = message.content[0].text
+      const codeChanges = this.parseAIResponse(aiResponse, issue)
+
+      console.log(`      ✓ AI 代码生成完成`)
+      return codeChanges
+
+    } catch (error) {
+      console.error(`      ✗ AI 代码生成失败:`, error.message)
+      return null
+    }
+  }
+
+  /**
+   * 构建 AI 提示词
+   */
+  buildAIPrompt(issue, type, fileContent) {
+    const promptMap = {
+      'bug-fix': `你是一个专业的代码修复助手。请分析并修复以下问题：
+
+问题描述：${issue.title}
+优先级：${issue.priority}
+位置：${issue.location ? `${issue.location.file}:${issue.location.line}` : '未知'}
+
+${fileContent ? `当前文件内容：
+\`\`\`
+${fileContent.split('\n').slice(Math.max(0, (issue.location?.line || 1) - 10), (issue.location?.line || 1) + 20).join('\n')}
+\`\`\`
+` : ''}
+
+请提供：
+1. 问题根因分析
+2. 修复方案说明
+3. 完整的修复后代码
+
+输出格式：
+\`\`\`json
+{
+  "analysis": "问题根因分析",
+  "solution": "修复方案说明",
+  "files": [
+    {
+      "file": "相对路径",
+      "action": "update",
+      "content": "完整文件内容",
+      "changes": "改动说明"
+    }
+  ]
+}
+\`\`\``,
+
+      'feature': `你是一个专业的功能实现助手。请实现以下功能：
+
+功能描述：${issue.title}
+优先级：${issue.priority}
+位置：${issue.location ? `${issue.location.file}:${issue.location.line}` : '新功能'}
+
+${fileContent ? `当前文件内容：
+\`\`\`
+${fileContent}
+\`\`\`
+` : ''}
+
+请提供：
+1. 实现思路和架构设计
+2. 代码实现
+3. 使用示例
+
+输出格式：
+\`\`\`json
+{
+  "design": "实现思路和架构设计",
+  "files": [
+    {
+      "file": "相对路径",
+      "action": "create" 或 "update",
+      "content": "完整文件内容",
+      "changes": "改动说明"
+    }
+  ],
+  "usage": "使用示例"
+}
+\`\`\``,
+    }
+
+    return promptMap[type] || promptMap['bug-fix']
+  }
+
+  /**
+   * 解析 AI 响应
+   */
+  parseAIResponse(aiResponse, issue) {
+    try {
+      // 提取 JSON 代码块
+      const jsonMatch = aiResponse.match(/```json\n([\s\S]*?)\n```/)
+      if (!jsonMatch) {
+        console.log(`      ⚠️  AI 响应格式不正确，尝试直接解析`)
+        return null
+      }
+
+      const parsed = JSON.parse(jsonMatch[1])
+
+      // 转换为 executeDevelopment 期望的格式
+      if (!parsed.files || parsed.files.length === 0) {
+        console.log(`      ⚠️  AI 未生成代码文件`)
+        return null
+      }
+
+      return parsed.files.map(f => ({
+        file: join(this.projectPath, f.file),
+        content: f.content,
+        action: f.action,
+        changes: f.changes
+      }))
+
+    } catch (error) {
+      console.error(`      ✗ 解析 AI 响应失败:`, error.message)
+      return null
+    }
   }
 
   /**
@@ -896,17 +1059,17 @@ ${this.generateActionItems(solution)}
   }
 
   /**
-   * 检查问题是否在最近7天内已修复
+   * 检查问题是否在最近已修复（缩短为2小时，允许 AI 重新尝试修复）
    */
   isRecentlyFixed(issue, history) {
     if (!history || !history.fixes) return false
 
-    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
+    const twoHoursAgo = Date.now() - 2 * 60 * 60 * 1000 // 2小时窗口
     const issueKey = this.getIssueKey(issue)
 
     return history.fixes.some(fix => {
       const fixTime = new Date(fix.timestamp).getTime()
-      return fix.issueKey === issueKey && fixTime > sevenDaysAgo
+      return fix.issueKey === issueKey && fixTime > twoHoursAgo
     })
   }
 

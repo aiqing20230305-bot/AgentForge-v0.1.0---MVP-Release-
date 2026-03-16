@@ -13,6 +13,7 @@
     "screenshots:setup": "npx playwright install chromium"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
     "axios": "^1.13.6",
     "date-fns": "^4.1.0",
     "electron-store": "^8.1.0",
