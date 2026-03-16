@@ -116,6 +116,19 @@
       },
       "commitHash": "828c4c5e5e2dee819b8cbe19775494fd76c75761",
       "timestamp": "2026-03-16T16:23:52.856Z"
+    },
+    {
+      "issueKey": "-70oeea",
+      "issue": {
+        "type": "bug-fix",
+        "title": "修复: // 统计 FIXME 注释数量（不区分大小写）",
+        "priority": "high"
+      },
+      "solution": {
+        "approach": "使用 AI 分析并修复已知问题"
+      },
+      "commitHash": "2ac25ca36c83c8d2b9fcc7661af389746a8b3f71",
+      "timestamp": "2026-03-16T16:58:26.484Z"
     }
   ]
 }
