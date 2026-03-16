@@ -51,15 +51,11 @@ function App() {
     evolutionEngine.start()
     console.log('[App] 🧬 Evolution engine started')
 
-    // 🎭 开发环境：延迟加载测试Agent（等待Store完全初始化）
-    // 延迟3秒确保所有系统就绪
-    const testAgentTimer = setTimeout(() => {
-      autoLoadTestAgentInDev()
-    }, 3000)
+    // 🎭 开发环境：测试Agent加载（已禁用，使用window.loadLinaJie()手动加载）
+    autoLoadTestAgentInDev()
 
     // Cleanup on unmount
     return () => {
-      clearTimeout(testAgentTimer)
       heartbeatService.stop()
       evolutionEngine.stop()
       console.log('[App] 💔 Heartbeat & Evolution stopped')

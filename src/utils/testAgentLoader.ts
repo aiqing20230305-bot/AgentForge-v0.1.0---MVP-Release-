@@ -107,19 +107,22 @@ export function removeLinaJieTestAgent() {
 
 /**
  * 在开发环境自动加载测试Agent
- * IMPORTANT: 不使用延迟加载，而是同步加载避免Hook渲染问题
+ * IMPORTANT: 暂时禁用自动加载，确保应用能正常启动
  */
 export function autoLoadTestAgentInDev() {
-  if (import.meta.env.DEV) {
-    const urlParams = new URLSearchParams(window.location.search)
-    const loadTest = urlParams.get('loadTest')
+  // 🚫 暂时禁用自动加载
+  console.log('[TestAgentLoader] Auto-load temporarily disabled. Use window.loadLinaJie() manually.')
+  return
 
-    if (loadTest === 'lina') {
-      // 同步加载，不延迟
-      console.log('[TestAgentLoader] 🎭 Auto-loading test agent (sync)...')
-      loadLinaJieTestAgent()
-    }
-  }
+  // if (import.meta.env.DEV) {
+  //   const urlParams = new URLSearchParams(window.location.search)
+  //   const loadTest = urlParams.get('loadTest')
+
+  //   if (loadTest === 'lina') {
+  //     console.log('[TestAgentLoader] 🎭 Auto-loading test agent...')
+  //     loadLinaJieTestAgent()
+  //   }
+  // }
 }
 
 // 暴露到全局window对象，方便控制台调用
