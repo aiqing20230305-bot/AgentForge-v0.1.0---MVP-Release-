@@ -1,0 +1,17 @@
+{
+  "fixes": [
+    {
+      "issueKey": "6t4jlh",
+      "issue": {
+        "type": "bug-fix",
+        "title": "修复: analysis.quality.fixmeCount += (content.match(/FIXME/gi) || []).length",
+        "priority": "high"
+      },
+      "solution": {
+        "approach": "修复已知问题"
+      },
+      "commitHash": "a493e0416a8f5b50347cfac4caa04178f9c660d0",
+      "timestamp": "2026-03-16T06:58:55.615Z"
+    }
+  ]
+}
