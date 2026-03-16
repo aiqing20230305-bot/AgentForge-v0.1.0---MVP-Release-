@@ -129,10 +129,11 @@ class ProphetOrchestrator {
 
         // 运行开发迭代
         const { stdout } = await execAsync(
-          `node "${join(this.projectPath, 'prophet-developer.js')}"`,
+          `node "${join(this.projectPath, 'prophet-developer.js')}" "${this.projectPath}" --once`,
           {
             cwd: this.projectPath,
-            timeout: 5 * 60 * 1000 // 5分钟超时
+            timeout: 5 * 60 * 1000, // 5分钟超时
+            env: process.env // 传递环境变量（包括API key）
           }
         )
 
