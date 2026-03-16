@@ -39,10 +39,12 @@ export function loadLinaJieTestAgent() {
   let loadedTasks = 0
 
   linaJieTestTasks.forEach(task => {
-    // 检查任务是否已存在
-    const taskExists = taskStore.tasks.find(t => t.id === task.id)
+    // 检查任务是否已存在（按title检查，因为id会被重新生成）
+    const taskExists = taskStore.tasks.find(t => t.title === task.title && t.agentId === task.agentId)
     if (!taskExists) {
-      taskStore.addTask(task)
+      // 移除id和createdAt，让addTask自动生成
+      const { id, createdAt, ...taskData } = task
+      taskStore.addTask(taskData as any)
       loadedTasks++
     }
   })

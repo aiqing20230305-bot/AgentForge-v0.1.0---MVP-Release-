@@ -34,10 +34,6 @@ function App() {
       setShowOnboarding(true)
     }
 
-    // 🎭 开发环境：优先加载测试Agent（在Store初始化之前）
-    // 这样可以避免默认Agent创建和测试Agent冲突
-    autoLoadTestAgentInDev()
-
     // Initialize default data sources (only once on first run)
     console.log('[App] Initializing default data sources...')
     initializeDefaultDataSources()
@@ -55,8 +51,15 @@ function App() {
     evolutionEngine.start()
     console.log('[App] 🧬 Evolution engine started')
 
+    // 🎭 开发环境：延迟加载测试Agent（等待Store完全初始化）
+    // 延迟3秒确保所有系统就绪
+    const testAgentTimer = setTimeout(() => {
+      autoLoadTestAgentInDev()
+    }, 3000)
+
     // Cleanup on unmount
     return () => {
+      clearTimeout(testAgentTimer)
       heartbeatService.stop()
       evolutionEngine.stop()
       console.log('[App] 💔 Heartbeat & Evolution stopped')
