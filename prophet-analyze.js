@@ -1,26 +1,71 @@
-// 此处需要查看完整文件内容才能提供准确修复
-// 基于问题描述，第26行附近的修复示例：
+const fs = require('fs');
+const path = require('path');
 
-// 假设原代码类似：
-// const fixmeCount = content.match(/FIXME/g)?.length || 0;
+function analyzeFile(filePath) {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const todoCount = content.match(/TODO/g)?.length || 0;
+  const fixmeCount = content.match(/FIXME/g)?.length || 0;
+  const lines = content.split('\n').length;
+  
+  return {
+    file: filePath,
+    lines,
+    todoCount,
+    fixmeCount
+  };
+}
 
-// 修复后的代码：
-const fixmeCount = (() => {
-  try {
-    if (!content || typeof content !== 'string') {
-      return 0;
-    }
-    // 使用不区分大小写的正则表达式匹配 FIXME 注释
-    // \b 确保单词边界，避免匹配到包含 fixme 的其他单词
-    const matches = content.match(/\bFIXME\b/gi);
-    return matches ? matches.length : 0;
-  } catch (error) {
-    console.error('统计 FIXME 注释时出错:', error);
-    return 0;
+function analyzeProject(projectPath) {
+  const results = [];
+  
+  function walkDir(dir) {
+    const files = fs.readdirSync(dir);
+    
+    files.forEach(file => {
+      const filePath = path.join(dir, file);
+      const stat = fs.statSync(filePath);
+      
+      if (stat.isDirectory()) {
+        if (!file.startsWith('.') && file !== 'node_modules') {
+          walkDir(filePath);
+        }
+      } else if (file.match(/\.(js|jsx|ts|tsx)$/)) {
+        try {
+          results.push(analyzeFile(filePath));
+        } catch (error) {
+          console.error(`Error analyzing ${filePath}:`, error.message);
+        }
+      }
+    });
   }
-})();
+  
+  walkDir(projectPath);
+  
+  const summary = {
+    totalFiles: results.length,
+    totalLines: results.reduce((sum, r) => sum + r.lines, 0),
+    totalTodos: results.reduce((sum, r) => sum + r.todoCount, 0),
+    totalFixmes: results.reduce((sum, r) => sum + r.fixmeCount, 0),
+    files: results.filter(r => r.todoCount > 0 || r.fixmeCount > 0)
+  };
+  
+  return summary;
+}
 
-// 或者更简洁的写法：
-const fixmeCount = (content && typeof content === 'string') 
-  ? (content.match(/\bFIXME\b/gi) || []).length 
-  : 0;
+const projectPath = process.argv[2] || '.';
+const analysis = analyzeProject(projectPath);
+
+console.log('\n=== Project Analysis ===');
+console.log(`Total Files: ${analysis.totalFiles}`);
+console.log(`Total Lines: ${analysis.totalLines}`);
+console.log(`Total TODOs: ${analysis.totalTodos}`);
+console.log(`Total FIXMEs: ${analysis.totalFixmes}`);
+
+if (analysis.files.length > 0) {
+  console.log('\n=== Files with TODOs/FIXMEs ===');
+  analysis.files.forEach(f => {
+    console.log(`${f.file}: ${f.todoCount} TODOs, ${f.fixmeCount} FIXMEs`);
+  });
+}
+
+module.exports = { analyzeFile, analyzeProject };
