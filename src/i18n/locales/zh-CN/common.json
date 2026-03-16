@@ -1,0 +1,83 @@
+{
+  "app_name": "AgentForge",
+  "welcome": "欢迎, {{name}}!",
+  "common": {
+    "create": "创建",
+    "delete": "删除",
+    "edit": "编辑",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确认",
+    "close": "关闭",
+    "search": "搜索",
+    "filter": "筛选",
+    "refresh": "刷新",
+    "export": "导出",
+    "import": "导入",
+    "settings": "设置",
+    "help": "帮助",
+    "logout": "退出登录",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "warning": "警告",
+    "info": "信息"
+  },
+  "agent": {
+    "title": "Agent",
+    "create": "创建Agent",
+    "list": "Agent列表",
+    "detail": "Agent详情",
+    "name": "名称",
+    "avatar": "头像",
+    "level": "等级",
+    "experience": "经验值",
+    "vitality": "生命力",
+    "skills": "技能",
+    "status": {
+      "active": "活跃",
+      "idle": "空闲",
+      "working": "工作中",
+      "offline": "离线"
+    }
+  },
+  "task": {
+    "title": "任务",
+    "create": "创建任务",
+    "list": "任务列表",
+    "detail": "任务详情",
+    "name": "任务名称",
+    "description": "任务描述",
+    "priority": {
+      "high": "高优先级",
+      "medium": "中优先级",
+      "low": "低优先级"
+    },
+    "status": {
+      "pending": "待处理",
+      "in_progress": "进行中",
+      "completed": "已完成",
+      "failed": "失败"
+    },
+    "assign": "分配任务",
+    "start": "开始任务",
+    "complete": "完成任务"
+  },
+  "subscription": {
+    "free": "免费版",
+    "pro": "Pro版",
+    "upgrade": "升级到Pro",
+    "manage": "管理订阅",
+    "usage": "用量",
+    "limit_reached": "已达到限制",
+    "unlimited": "无限制"
+  },
+  "features": {
+    "ai_recommendation": "AI智能推荐",
+    "performance_optimization": "性能优化",
+    "custom_theme": "自定义主题",
+    "advanced_analytics": "高级分析",
+    "team_collaboration": "团队协作",
+    "priority_support": "优先支持"
+  }
+}

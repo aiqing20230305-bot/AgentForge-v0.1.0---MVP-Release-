@@ -1,71 +1,34 @@
+// 代码质量分析工具
 const fs = require('fs');
 const path = require('path');
 
-function analyzeFile(filePath) {
-  const content = fs.readFileSync(filePath, 'utf-8');
-  const todoCount = content.match(/TODO/g)?.length || 0;
-  const fixmeCount = content.match(/FIXME/g)?.length || 0;
-  const lines = content.split('\n').length;
-  
-  return {
-    file: filePath,
-    lines,
-    todoCount,
-    fixmeCount
-  };
-}
-
-function analyzeProject(projectPath) {
-  const results = [];
-  
-  function walkDir(dir) {
-    const files = fs.readdirSync(dir);
+function analyzeCodeQuality(filePath) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
     
-    files.forEach(file => {
-      const filePath = path.join(dir, file);
-      const stat = fs.statSync(filePath);
-      
-      if (stat.isDirectory()) {
-        if (!file.startsWith('.') && file !== 'node_modules') {
-          walkDir(filePath);
-        }
-      } else if (file.match(/\.(js|jsx|ts|tsx)$/)) {
-        try {
-          results.push(analyzeFile(filePath));
-        } catch (error) {
-          console.error(`Error analyzing ${filePath}:`, error.message);
-        }
-      }
-    });
+    // 确保content是字符串类型，并使用更严格的空值合并
+    const fixmeCount = (typeof content === 'string' && content.match(/FIXME/g)?.length) ?? 0;
+    const todoCount = (typeof content === 'string' && content.match(/TODO/g)?.length) ?? 0;
+    const hackCount = (typeof content === 'string' && content.match(/HACK/g)?.length) ?? 0;
+    
+    return {
+      filePath,
+      fixmeCount,
+      todoCount,
+      hackCount,
+      totalIssues: fixmeCount + todoCount + hackCount
+    };
+  } catch (error) {
+    console.error(`Error analyzing file ${filePath}:`, error.message);
+    return {
+      filePath,
+      fixmeCount: 0,
+      todoCount: 0,
+      hackCount: 0,
+      totalIssues: 0,
+      error: error.message
+    };
   }
-  
-  walkDir(projectPath);
-  
-  const summary = {
-    totalFiles: results.length,
-    totalLines: results.reduce((sum, r) => sum + r.lines, 0),
-    totalTodos: results.reduce((sum, r) => sum + r.todoCount, 0),
-    totalFixmes: results.reduce((sum, r) => sum + r.fixmeCount, 0),
-    files: results.filter(r => r.todoCount > 0 || r.fixmeCount > 0)
-  };
-  
-  return summary;
 }
 
-const projectPath = process.argv[2] || '.';
-const analysis = analyzeProject(projectPath);
-
-console.log('\n=== Project Analysis ===');
-console.log(`Total Files: ${analysis.totalFiles}`);
-console.log(`Total Lines: ${analysis.totalLines}`);
-console.log(`Total TODOs: ${analysis.totalTodos}`);
-console.log(`Total FIXMEs: ${analysis.totalFixmes}`);
-
-if (analysis.files.length > 0) {
-  console.log('\n=== Files with TODOs/FIXMEs ===');
-  analysis.files.forEach(f => {
-    console.log(`${f.file}: ${f.todoCount} TODOs, ${f.fixmeCount} FIXMEs`);
-  });
-}
-
-module.exports = { analyzeFile, analyzeProject };
+module.exports = { analyzeCodeQuality };

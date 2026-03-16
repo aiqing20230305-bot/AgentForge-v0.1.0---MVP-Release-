@@ -1,0 +1,83 @@
+{
+  "app_name": "AgentForge",
+  "welcome": "환영합니다, {{name}}님!",
+  "common": {
+    "create": "생성",
+    "delete": "삭제",
+    "edit": "편집",
+    "save": "저장",
+    "cancel": "취소",
+    "confirm": "확인",
+    "close": "닫기",
+    "search": "검색",
+    "filter": "필터",
+    "refresh": "새로고침",
+    "export": "내보내기",
+    "import": "가져오기",
+    "settings": "설정",
+    "help": "도움말",
+    "logout": "로그아웃",
+    "loading": "로딩 중...",
+    "error": "오류",
+    "success": "성공",
+    "warning": "경고",
+    "info": "정보"
+  },
+  "agent": {
+    "title": "에이전트",
+    "create": "에이전트 생성",
+    "list": "에이전트 목록",
+    "detail": "에이전트 세부정보",
+    "name": "이름",
+    "avatar": "아바타",
+    "level": "레벨",
+    "experience": "경험치",
+    "vitality": "활력",
+    "skills": "스킬",
+    "status": {
+      "active": "활성",
+      "idle": "대기",
+      "working": "작업 중",
+      "offline": "오프라인"
+    }
+  },
+  "task": {
+    "title": "작업",
+    "create": "작업 생성",
+    "list": "작업 목록",
+    "detail": "작업 세부정보",
+    "name": "작업 이름",
+    "description": "설명",
+    "priority": {
+      "high": "높은 우선순위",
+      "medium": "중간 우선순위",
+      "low": "낮은 우선순위"
+    },
+    "status": {
+      "pending": "대기 중",
+      "in_progress": "진행 중",
+      "completed": "완료",
+      "failed": "실패"
+    },
+    "assign": "작업 할당",
+    "start": "작업 시작",
+    "complete": "작업 완료"
+  },
+  "subscription": {
+    "free": "무료 버전",
+    "pro": "Pro 버전",
+    "upgrade": "Pro로 업그레이드",
+    "manage": "구독 관리",
+    "usage": "사용량",
+    "limit_reached": "제한 도달",
+    "unlimited": "무제한"
+  },
+  "features": {
+    "ai_recommendation": "AI 추천",
+    "performance_optimization": "성능 최적화",
+    "custom_theme": "커스텀 테마",
+    "advanced_analytics": "고급 분석",
+    "team_collaboration": "팀 협업",
+    "priority_support": "우선 지원"
+  }
+}

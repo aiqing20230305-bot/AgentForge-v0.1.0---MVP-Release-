@@ -1,57 +1,75 @@
 {
-  "timestamp": "2026-03-16T17:25:31.955Z",
-  "total": 60,
+  "timestamp": "2026-03-16T17:55:31.966Z",
+  "total": 63,
   "byType": {
-    "TODO": 46,
-    "FIXME": 14
+    "TODO": 50,
+    "FIXME": 13
   },
   "items": [
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 5,
-      "content": "// const fixmeCount = content.match(/FIXME/g)?.length || 0;",
-      "type": "FIXME"
+      "line": 6,
+      "content": "const todoCount = content.match(/TODO/g)?.length || 0;",
+      "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 8,
-      "content": "const fixmeCount = (() => {",
-      "type": "TODO"
+      "line": 7,
+      "content": "const fixmeCount = content.match(/FIXME/g)?.length || 0;",
+      "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
       "line": 13,
-      "content": "// 使用不区分大小写的正则表达式匹配 FIXME 注释",
-      "type": "FIXME"
+      "content": "todoCount,",
+      "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
       "line": 14,
-      "content": "// \\b 确保单词边界，避免匹配到包含 fixme 的其他单词",
+      "content": "fixmeCount",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 15,
-      "content": "const matches = content.match(/\\bFIXME\\b/gi);",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 18,
-      "content": "console.error('统计 FIXME 注释时出错:', error);",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 24,
-      "content": "const fixmeCount = (content && typeof content === 'string')",
+      "line": 47,
+      "content": "totalTodos: results.reduce((sum, r) => sum + r.todoCount, 0),",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 25,
-      "content": "? (content.match(/\\bFIXME\\b/gi) || []).length",
+      "line": 48,
+      "content": "totalFixmes: results.reduce((sum, r) => sum + r.fixmeCount, 0),",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 49,
+      "content": "files: results.filter(r => r.todoCount > 0 || r.fixmeCount > 0)",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 61,
+      "content": "console.log(`Total TODOs: ${analysis.totalTodos}`);",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 62,
+      "content": "console.log(`Total FIXMEs: ${analysis.totalFixmes}`);",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 65,
+      "content": "console.log('\\n=== Files with TODOs/FIXMEs ===');",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 67,
+      "content": "console.log(`${f.file}: ${f.todoCount} TODOs, ${f.fixmeCount} FIXMEs`);",
       "type": "FIXME"
     },
     {
