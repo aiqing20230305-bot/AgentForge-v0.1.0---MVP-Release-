@@ -1,17 +1,11 @@
 {
-  "timestamp": "2026-03-16T20:55:31.997Z",
-  "total": 53,
+  "timestamp": "2026-03-16T21:25:32.011Z",
+  "total": 52,
   "byType": {
     "TODO": 43,
-    "FIXME": 10
+    "FIXME": 9
   },
   "items": [
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 13,
-      "content": "* 分析函数 - 已修复FIXME问题",
-      "type": "FIXME"
-    },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-auto-dev.js",
       "line": 129,
