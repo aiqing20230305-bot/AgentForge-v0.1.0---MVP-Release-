@@ -48,13 +48,56 @@ export const MainNavigationTabs: React.FC = () => {
 
   const handleUpgradeSkill = (skillId: string) => {
     console.log('升级技能:', skillId)
-    // TODO: 实现技能升级逻辑
+
+    if (!firstAgent) return
+
+    // 检查技能点是否足够
+    const skillPoints = firstAgent.skillTree?.skillPoints || 0
+    if (skillPoints < 1) {
+      console.warn('技能点不足，无法升级')
+      return
+    }
+
+    // 升级技能等级
+    const currentLevel = firstAgent.skillTree?.skillLevels?.[skillId] || 0
+    const newLevel = currentLevel + 1
+
+    // 更新Agent数据
+    const agents = useDataSourceStore.getState().agentsCache
+    const updatedAgents = agents.map(agent => {
+      if (agent.id === firstAgent.id) {
+        return {
+          ...agent,
+          skillTree: {
+            ...agent.skillTree,
+            skillPoints: skillPoints - 1,
+            skillLevels: {
+              ...agent.skillTree?.skillLevels,
+              [skillId]: newLevel
+            }
+          }
+        }
+      }
+      return agent
+    })
+
+    useDataSourceStore.getState().updateAgentsCache(updatedAgents)
+    console.log(`技能 ${skillId} 升级到 Lv.${newLevel}`)
   }
 
   const handleStartBattle = (opponentId: string) => {
     console.log('开始战斗 vs:', opponentId)
-    // TODO: 创建真实的战斗实例
-    // 暂时使用模拟数据
+
+    // 获取对手Agent数据
+    const agents = useDataSourceStore.getState().agentsCache
+    const opponent = agents.find(a => a.id === opponentId)
+
+    if (!firstAgent || !opponent) {
+      console.error('无法找到战斗双方的Agent数据')
+      return
+    }
+
+    // 创建真实的战斗实例
     const battle: Battle = {
       id: `battle-${Date.now()}`,
       type: 'pvp',

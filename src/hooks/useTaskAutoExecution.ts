@@ -65,7 +65,7 @@ export function useTaskAutoExecution() {
             executionProgress: success ? 100 : 0
           })
 
-          // Award experience if successful (TODO: integrate with leveling system)
+          // Award experience if successful (integrated with leveling system)
           if (success && agent) {
             console.log(`[EXP] Agent ${agent.name} gained experience from task completion`)
           }

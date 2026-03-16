@@ -211,8 +211,22 @@ export const RankDetailModal: React.FC<RankDetailModalProps> = ({
           <button
             className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors"
             onClick={() => {
-              // TODO: Implement challenge/PvP functionality
-              alert('发起挑战功能即将推出！')
+              // Implement challenge/PvP functionality
+              if (selectedRank) {
+                // 切换到战斗面板并发起挑战
+                const battleTab = document.querySelector('[data-tab="battle"]') as HTMLElement
+                if (battleTab) {
+                  battleTab.click()
+                  // 传递挑战对手ID
+                  setTimeout(() => {
+                    const event = new CustomEvent('pvp-challenge', {
+                      detail: { opponentId: selectedRank.agentId }
+                    })
+                    window.dispatchEvent(event)
+                  }, 100)
+                }
+              }
+              alert('切换到战斗面板发起挑战！')
             }}
           >
             ⚔️ 发起挑战

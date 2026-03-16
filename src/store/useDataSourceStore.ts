@@ -388,11 +388,30 @@ export const useDataSourceStore = create<DataSourceStore>()(
       },
 
       /**
-       * 给Agent增加金币（未来扩展）
+       * 给Agent增加金币
        */
       addAgentCoins: (agentId: string, coinAmount: number) => {
-        // TODO: 未来实现金币系统
-        console.log(`[Store] Agent ${agentId} gained ${coinAmount} coins`)
+        const agents = get().agentsCache
+        const updatedAgents = agents.map(agent => {
+          if (agent.id === agentId) {
+            const currentCoins = agent.metadata?.coins || 0
+            const newCoins = currentCoins + coinAmount
+
+            console.log(`[Store] Agent ${agent.name} gained ${coinAmount} coins (total: ${newCoins})`)
+
+            return {
+              ...agent,
+              metadata: {
+                ...agent.metadata,
+                coins: newCoins,
+                lastCoinUpdate: new Date().toISOString()
+              }
+            }
+          }
+          return agent
+        })
+
+        get().updateAgentsCache(updatedAgents)
       }
     }),
     {
