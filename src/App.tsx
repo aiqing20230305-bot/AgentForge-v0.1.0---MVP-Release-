@@ -27,6 +27,7 @@ import { HotkeyHelp } from './components/HotkeyHelp'
 import { GlobalHotkeyProvider } from './components/GlobalHotkeyProvider'
 import { VoiceControlButton } from './components/VoiceControlButton'
 import { useVoiceCommands } from './hooks/useVoiceCommands'
+import './i18n/config' // 🌍 Initialize i18n
 
 function App() {
   const { loadSettings, scanForItems, settingsOpen, setSettingsOpen } = useBuildStore()

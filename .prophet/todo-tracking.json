@@ -1,76 +1,52 @@
 {
-  "timestamp": "2026-03-16T17:55:31.966Z",
-  "total": 63,
+  "timestamp": "2026-03-16T18:25:32.004Z",
+  "total": 59,
   "byType": {
-    "TODO": 50,
-    "FIXME": 13
+    "TODO": 49,
+    "FIXME": 10
   },
   "items": [
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 6,
-      "content": "const todoCount = content.match(/TODO/g)?.length || 0;",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 7,
-      "content": "const fixmeCount = content.match(/FIXME/g)?.length || 0;",
+      "line": 10,
+      "content": "const fixmeCount = (typeof content === 'string' && content.match(/FIXME/g)?.length) ?? 0;",
       "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 13,
+      "line": 11,
+      "content": "const todoCount = (typeof content === 'string' && content.match(/TODO/g)?.length) ?? 0;",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 16,
+      "content": "fixmeCount,",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 17,
       "content": "todoCount,",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 14,
-      "content": "fixmeCount",
+      "line": 19,
+      "content": "totalIssues: fixmeCount + todoCount + hackCount",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 47,
-      "content": "totalTodos: results.reduce((sum, r) => sum + r.todoCount, 0),",
+      "line": 25,
+      "content": "fixmeCount: 0,",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 48,
-      "content": "totalFixmes: results.reduce((sum, r) => sum + r.fixmeCount, 0),",
+      "line": 26,
+      "content": "todoCount: 0,",
       "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 49,
-      "content": "files: results.filter(r => r.todoCount > 0 || r.fixmeCount > 0)",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 61,
-      "content": "console.log(`Total TODOs: ${analysis.totalTodos}`);",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 62,
-      "content": "console.log(`Total FIXMEs: ${analysis.totalFixmes}`);",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 65,
-      "content": "console.log('\\n=== Files with TODOs/FIXMEs ===');",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 67,
-      "content": "console.log(`${f.file}: ${f.todoCount} TODOs, ${f.fixmeCount} FIXMEs`);",
-      "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-auto-dev.js",
@@ -314,7 +290,7 @@
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/App.tsx",
-      "line": 42,
+      "line": 43,
       "content": "// TODO: 实现创建任务对话框",
       "type": "TODO"
     },
