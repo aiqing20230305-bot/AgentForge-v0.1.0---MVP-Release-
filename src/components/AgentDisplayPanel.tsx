@@ -9,6 +9,7 @@ import { HeartbeatIndicator } from './HeartbeatIndicator'
 import { EvolutionTimeline } from './EvolutionTimeline'
 import { VitalityDashboard } from './VitalityDashboard'
 import { AdvancedFeaturesPanel } from './AdvancedFeaturesPanel'
+import { CollapsibleCard } from './CollapsibleCard'
 import { getEvolutionEngine } from '../services/evolution/evolutionEngine'
 
 export default function AgentDisplayPanel() {
@@ -490,11 +491,12 @@ export default function AgentDisplayPanel() {
 
           {/* 进化历程 - Evolution Timeline */}
           {selectedAgent.coreEvolution && (
-            <div className="bg-white/5 backdrop-blur-xl border border-white/20 rounded-xl p-3 flex-shrink-0 hover:bg-white/10 hover:border-white/30 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 shadow-lg module-init-delay-5">
-              <div className="text-[9px] text-white/50 mb-2 uppercase tracking-wider flex items-center gap-1">
-                <span>🧬</span>
-                <span>Evolution History</span>
-              </div>
+            <CollapsibleCard
+              title="Evolution History"
+              icon="🧬"
+              defaultExpanded={true}
+              className="module-init-delay-5"
+            >
               <EvolutionTimeline
                 agentId={selectedAgent.id}
                 evolutionHistory={getEvolutionEngine().getEvolutionHistory(selectedAgent.id)}
@@ -517,27 +519,29 @@ export default function AgentDisplayPanel() {
                   }
                 }}
               />
-            </div>
+            </CollapsibleCard>
           )}
 
           {/* 生命力仪表盘 - Vitality Dashboard */}
           {selectedAgent.coreEvolution && (
-            <div className="bg-white/5 backdrop-blur-xl border border-white/20 rounded-xl p-3 flex-shrink-0 hover:bg-white/10 hover:border-white/30 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 shadow-lg module-init-delay-6">
-              <div className="text-[9px] text-white/50 mb-3 uppercase tracking-wider flex items-center gap-1">
-                <span>🫀</span>
-                <span>Vitality Dashboard</span>
-              </div>
+            <CollapsibleCard
+              title="Vitality Dashboard"
+              icon="🫀"
+              defaultExpanded={true}
+              className="module-init-delay-6"
+            >
               <VitalityDashboard agent={selectedAgent} />
-            </div>
+            </CollapsibleCard>
           )}
 
           {/* 高级功能面板 - Advanced Features */}
           {selectedAgent.coreEvolution && (
-            <div className="bg-white/5 backdrop-blur-xl border border-white/20 rounded-xl p-3 flex-shrink-0 hover:bg-white/10 hover:border-white/30 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 shadow-lg module-init-delay-7">
-              <div className="text-[9px] text-white/50 mb-3 uppercase tracking-wider flex items-center gap-1">
-                <span>🚀</span>
-                <span>Advanced Features</span>
-              </div>
+            <CollapsibleCard
+              title="Advanced Features"
+              icon="🚀"
+              defaultExpanded={false}
+              className="module-init-delay-7"
+            >
               <AdvancedFeaturesPanel
                 agent={selectedAgent}
                 agents={agents}
@@ -546,7 +550,7 @@ export default function AgentDisplayPanel() {
                   if (agent) handleSelectAgent(agent)
                 }}
               />
-            </div>
+            </CollapsibleCard>
           )}
         </div>
       </div>
