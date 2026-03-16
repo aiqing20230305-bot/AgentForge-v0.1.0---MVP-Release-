@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-16T19:55:32.013Z",
+  "timestamp": "2026-03-16T20:25:32.022Z",
   "total": 55,
   "byType": {
     "TODO": 44,
@@ -8,21 +8,21 @@
   "items": [
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 3,
-      "content": "// Code analysis script for detecting FIXME, TODO, and HACK comments",
+      "line": 7,
+      "content": "* - FIXME: Issues that need to be fixed",
       "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 12,
-      "content": "{ type: 'FIXME', priority: 'high', regex: /\\/\\/\\s*FIXME:?\\s*(.+)|#\\s*FIXME:?\\s*(.+)|<!--\\s*FIXME:?\\s*(.+)\\s*-->/gi },",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 13,
-      "content": "{ type: 'TODO', priority: 'medium', regex: /\\/\\/\\s*TODO:?\\s*(.+)|#\\s*TODO:?\\s*(.+)|<!--\\s*TODO:?\\s*(.+)\\s*-->/gi },",
+      "line": 8,
+      "content": "* - TODO: Features or improvements to be implemented",
       "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 18,
+      "content": "const MARKERS = ['FIXME', 'TODO', 'HACK'];",
+      "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-auto-dev.js",
