@@ -7,7 +7,6 @@ import SkillSelector from './SkillSelector'
 import AgentTaskHistory from './AgentTaskHistory'
 import AgentChat from './AgentChat'
 import { useRipple } from '../hooks/useRipple'
-import { isValidEmoji } from '../utils/avatarLibrary'
 
 interface AgentPortraitProps {
   agent: OpenClawAgent

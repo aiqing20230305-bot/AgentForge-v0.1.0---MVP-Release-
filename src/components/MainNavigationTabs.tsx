@@ -66,13 +66,19 @@ export const MainNavigationTabs: React.FC = () => {
     const agents = useDataSourceStore.getState().agentsCache
     const updatedAgents = agents.map(agent => {
       if (agent.id === firstAgent.id) {
+        const currentSkillTree = agent.skillTree || {
+          unlockedSkills: [],
+          activeSkills: [],
+          skillPoints: 0,
+          skillLevels: {}
+        }
         return {
           ...agent,
           skillTree: {
-            ...agent.skillTree,
+            ...currentSkillTree,
             skillPoints: skillPoints - 1,
             skillLevels: {
-              ...agent.skillTree?.skillLevels,
+              ...currentSkillTree.skillLevels,
               [skillId]: newLevel
             }
           }

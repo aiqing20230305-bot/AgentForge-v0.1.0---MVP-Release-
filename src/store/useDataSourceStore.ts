@@ -5,7 +5,7 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { getRandomAvatar, getAvatarByRole } from '../utils/avatarLibrary'
+import { getAvatarByRole } from '../utils/avatarLibrary'
 
 // 数据源类型
 export type DataSourceType = 'openclaw' | 'custom-api' | 'local-script' | 'ssh-remote'
