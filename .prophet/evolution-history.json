@@ -51,6 +51,19 @@
       },
       "commitHash": "6999b21888507aa55e0eaf7fe558467e9f758a4c",
       "timestamp": "2026-03-16T08:28:55.529Z"
+    },
+    {
+      "issueKey": "-pm1w8",
+      "issue": {
+        "type": "bug-fix",
+        "title": "修复: const fixmes = todos.items.filter(t => t.type === 'FIXME')",
+        "priority": "high"
+      },
+      "solution": {
+        "approach": "修复已知问题"
+      },
+      "commitHash": "ae5247d35431f710260a80d9d8d1283092615440",
+      "timestamp": "2026-03-16T08:58:55.506Z"
     }
   ]
 }
