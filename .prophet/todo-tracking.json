@@ -1,117 +1,45 @@
 {
-  "timestamp": "2026-03-16T16:23:42.122Z",
-  "total": 70,
+  "timestamp": "2026-03-16T16:55:31.920Z",
+  "total": 58,
   "byType": {
-    "TODO": 51,
-    "FIXME": 19
+    "TODO": 47,
+    "FIXME": 11
   },
   "items": [
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 8,
-      "content": "analysis.quality.fixmeCount = (analysis.quality.fixmeCount || 0) + (content.match(/FIXME/gi) || []).length;",
+      "line": 26,
+      "content": "// 统计 FIXME 注释数量（不区分大小写）",
       "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 11,
-      "content": "// 方案2：增强修复 - 只匹配注释中的FIXME",
+      "line": 27,
+      "content": "const fixmeMatches = content.match(/FIXME/gi) || [];",
       "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 14,
-      "content": "// 匹配单行注释和多行注释中的 FIXME",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 15,
-      "content": "const singleLineComments = content.match(/\\/\\/.*?FIXME.*?$/gim) || [];",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 16,
-      "content": "const multiLineComments = content.match(/\\/\\*[\\s\\S]*?FIXME[\\s\\S]*?\\*\\//gi) || [];",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 17,
-      "content": "analysis.quality.fixmeCount = (analysis.quality.fixmeCount || 0) + singleLineComments.length + multiLineComments.length;",
+      "line": 28,
+      "content": "analysis.quality.fixmeCount = (analysis.quality.fixmeCount || 0) + fixmeMatches.length;",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 23,
-      "content": "console.warn('Invalid content provided for FIXME analysis');",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
       "line": 30,
-      "content": "fixmeCount: 0,",
+      "content": "// 统计 TODO 注释数量（不区分大小写）",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
       "line": 31,
-      "content": "todoCount: 0,",
+      "content": "const todoMatches = content.match(/TODO/gi) || [];",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 36,
-      "content": "// 匹配注释中的 FIXME（支持 //FIXME 和 /* FIXME */）",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 37,
-      "content": "const fixmePattern = /(?:\\/\\/.*?FIXME.*?$|\\/\\*[\\s\\S]*?FIXME[\\s\\S]*?\\*\\/)/gim;",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 38,
-      "content": "const matches = content.match(fixmePattern) || [];",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 40,
-      "content": "analysis.quality.fixmeCount = (analysis.quality.fixmeCount || 0) + matches.length;",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 42,
-      "content": "// 可选：记录FIXME的具体位置和内容",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 44,
-      "content": "analysis.quality.fixmeDetails = analysis.quality.fixmeDetails || [];",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 46,
-      "content": "analysis.quality.fixmeDetails.push({",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 54,
-      "content": "console.error('Error analyzing FIXME comments:', error);",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 59,
-      "content": "analysis.quality.fixmeCount = 0;",
+      "line": 32,
+      "content": "analysis.quality.todoCount = (analysis.quality.todoCount || 0) + todoMatches.length;",
       "type": "TODO"
     },
     {
