@@ -1,66 +1,150 @@
-// Prophet Analyze Script
-// This script analyzes code for FIXME comments
+#!/usr/bin/env node
+// This script analyzes code for FIXME comments and generates a report
+// Usage: node prophet-analyze.js [directory]
 
 const fs = require('fs');
 const path = require('path');
 
-// Function to count FIXME comments in content
-function countFixme(content) {
-  const fixmeCount = (typeof content === 'string' && content.match(/FIXME/g)?.length) || 0;
-  return fixmeCount;
-}
+// Configuration
+const COMMENT_PATTERNS = [
+  /\/\/\s*(FIXME|TODO|BUG|HACK):?\s*(.+)/gi,
+  /\/\*\s*(FIXME|TODO|BUG|HACK):?\s*([\s\S]*?)\*\//gi
+];
 
-// Function to analyze a single file
-function analyzeFile(filePath) {
-  try {
-    const content = fs.readFileSync(filePath, 'utf8');
-    const fixmeCount = countFixme(content);
-    
-    if (fixmeCount > 0) {
-      console.log(`${filePath}: Found ${fixmeCount} FIXME comment(s)`);
-    }
-    
-    return fixmeCount;
-  } catch (error) {
-    console.error(`Error analyzing file ${filePath}:`, error.message);
-    return 0;
-  }
-}
+const EXCLUDED_DIRS = ['node_modules', 'dist', 'build', '.git', 'coverage'];
+const INCLUDED_EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.json'];
 
-// Function to analyze directory recursively
-function analyzeDirectory(dirPath) {
-  let totalFixme = 0;
-  
+/**
+ * Recursively scans directory for files
+ * @param {string} dir - Directory path
+ * @param {Array} fileList - Accumulated file list
+ * @returns {Array} List of file paths
+ */
+function scanDirectory(dir, fileList = []) {
   try {
-    const items = fs.readdirSync(dirPath);
+    const files = fs.readdirSync(dir);
     
-    items.forEach(item => {
-      const fullPath = path.join(dirPath, item);
-      const stat = fs.statSync(fullPath);
+    files.forEach(file => {
+      const filePath = path.join(dir, file);
       
-      if (stat.isDirectory()) {
-        // Skip node_modules and other common directories
-        if (!['node_modules', '.git', 'dist', 'build'].includes(item)) {
-          totalFixme += analyzeDirectory(fullPath);
+      try {
+        const stat = fs.statSync(filePath);
+        
+        if (stat.isDirectory()) {
+          if (!EXCLUDED_DIRS.includes(file)) {
+            scanDirectory(filePath, fileList);
+          }
+        } else if (INCLUDED_EXTENSIONS.includes(path.extname(file))) {
+          fileList.push(filePath);
         }
-      } else if (stat.isFile()) {
-        // Only analyze relevant file types
-        if (/\.(js|jsx|ts|tsx|css|scss|html)$/.test(item)) {
-          totalFixme += analyzeFile(fullPath);
-        }
+      } catch (err) {
+        console.warn(`Warning: Cannot access ${filePath}:`, err.message);
       }
     });
-  } catch (error) {
-    console.error(`Error analyzing directory ${dirPath}:`, error.message);
+  } catch (err) {
+    console.error(`Error scanning directory ${dir}:`, err.message);
   }
   
-  return totalFixme;
+  return fileList;
 }
 
-// Main execution
-const targetPath = process.argv[2] || '.';
-const totalFixme = analyzeDirectory(targetPath);
+/**
+ * Analyzes file content for FIXME and TODO comments
+ * @param {string} filePath - File path
+ * @returns {Array} List of found comments
+ */
+function analyzeFile(filePath) {
+  const findings = [];
+  
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const lines = content.split('\n');
+    
+    lines.forEach((line, index) => {
+      COMMENT_PATTERNS.forEach(pattern => {
+        const matches = [...line.matchAll(pattern)];
+        
+        matches.forEach(match => {
+          findings.push({
+            file: filePath,
+            line: index + 1,
+            type: match[1].toUpperCase(),
+            message: match[2].trim(),
+            code: line.trim()
+          });
+        });
+      });
+    });
+  } catch (err) {
+    console.error(`Error analyzing file ${filePath}:`, err.message);
+  }
+  
+  return findings;
+}
 
-console.log(`\nTotal FIXME comments found: ${totalFixme}`);
+/**
+ * Main execution function
+ */
+function main() {
+  const targetDir = process.argv[2] || process.cwd();
+  
+  console.log(`🔍 Analyzing directory: ${targetDir}\n`);
+  
+  if (!fs.existsSync(targetDir)) {
+    console.error(`Error: Directory ${targetDir} does not exist`);
+    process.exit(1);
+  }
+  
+  const files = scanDirectory(targetDir);
+  console.log(`Found ${files.length} files to analyze\n`);
+  
+  const allFindings = [];
+  
+  files.forEach(file => {
+    const findings = analyzeFile(file);
+    allFindings.push(...findings);
+  });
+  
+  // Generate report
+  if (allFindings.length === 0) {
+    console.log('✅ No FIXME/TODO comments found!');
+    return;
+  }
+  
+  console.log(`📋 Found ${allFindings.length} items:\n`);
+  
+  // Group by type
+  const grouped = allFindings.reduce((acc, item) => {
+    acc[item.type] = acc[item.type] || [];
+    acc[item.type].push(item);
+    return acc;
+  }, {});
+  
+  // Display results
+  Object.keys(grouped).sort().forEach(type => {
+    console.log(`\n${type} (${grouped[type].length}):`);
+    console.log('─'.repeat(50));
+    
+    grouped[type].forEach(item => {
+      console.log(`📍 ${item.file}:${item.line}`);
+      console.log(`   ${item.message}`);
+      console.log(`   Code: ${item.code}`);
+      console.log();
+    });
+  });
+  
+  // Summary
+  console.log('\n' + '='.repeat(50));
+  console.log('Summary:');
+  Object.keys(grouped).forEach(type => {
+    console.log(`  ${type}: ${grouped[type].length}`);
+  });
+  console.log('='.repeat(50));
+}
 
-module.exports = { countFixme, analyzeFile, analyzeDirectory };
+// Run the script
+if (require.main === module) {
+  main();
+}
+
+module.exports = { scanDirectory, analyzeFile };

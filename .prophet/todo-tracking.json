@@ -1,51 +1,105 @@
 {
-  "timestamp": "2026-03-16T18:25:32.004Z",
-  "total": 59,
+  "timestamp": "2026-03-16T18:55:32.027Z",
+  "total": 68,
   "byType": {
-    "TODO": 49,
-    "FIXME": 10
+    "TODO": 54,
+    "FIXME": 14
   },
   "items": [
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 10,
-      "content": "const fixmeCount = (typeof content === 'string' && content.match(/FIXME/g)?.length) ?? 0;",
+      "line": 2,
+      "content": "// This script analyzes code for FIXME comments",
       "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 11,
-      "content": "const todoCount = (typeof content === 'string' && content.match(/TODO/g)?.length) ?? 0;",
+      "line": 7,
+      "content": "// Function to count FIXME comments in content",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 8,
+      "content": "function countFixme(content) {",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 16,
-      "content": "fixmeCount,",
+      "line": 9,
+      "content": "const fixmeCount = (typeof content === 'string' && content.match(/FIXME/g)?.length) || 0;",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 10,
+      "content": "return fixmeCount;",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
       "line": 17,
-      "content": "todoCount,",
+      "content": "const fixmeCount = countFixme(content);",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
       "line": 19,
-      "content": "totalIssues: fixmeCount + todoCount + hackCount",
+      "content": "if (fixmeCount > 0) {",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 25,
-      "content": "fixmeCount: 0,",
+      "line": 20,
+      "content": "console.log(`${filePath}: Found ${fixmeCount} FIXME comment(s)`);",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 23,
+      "content": "return fixmeCount;",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 26,
-      "content": "todoCount: 0,",
+      "line": 32,
+      "content": "let totalFixme = 0;",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 44,
+      "content": "totalFixme += analyzeDirectory(fullPath);",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 49,
+      "content": "totalFixme += analyzeFile(fullPath);",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 57,
+      "content": "return totalFixme;",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 62,
+      "content": "const totalFixme = analyzeDirectory(targetPath);",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 64,
+      "content": "console.log(`\\nTotal FIXME comments found: ${totalFixme}`);",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
+      "line": 66,
+      "content": "module.exports = { countFixme, analyzeFile, analyzeDirectory };",
       "type": "TODO"
     },
     {
