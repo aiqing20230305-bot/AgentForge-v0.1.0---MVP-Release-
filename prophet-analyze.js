@@ -1,203 +1,141 @@
 #!/usr/bin/env node
 
-// Code analysis script for detecting FIXME, TODO, and HACK comments
-// Generates comprehensive reports with file locations and priorities
+/**
+ * Code Quality Analysis Script
+ * 
+ * Scans the codebase to detect and report special comment markers:
+ * - FIXME: Issues that need to be fixed
+ * - TODO: Features or improvements to be implemented
+ * - HACK: Temporary workarounds that need proper solutions
+ * 
+ * Usage: node prophet-analyze.js [directory]
+ */
 
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const CONFIG = {
-  patterns: [
-    { type: 'FIXME', priority: 'high', regex: /\/\/\s*FIXME:?\s*(.+)|#\s*FIXME:?\s*(.+)|<!--\s*FIXME:?\s*(.+)\s*-->/gi },
-    { type: 'TODO', priority: 'medium', regex: /\/\/\s*TODO:?\s*(.+)|#\s*TODO:?\s*(.+)|<!--\s*TODO:?\s*(.+)\s*-->/gi },
-    { type: 'HACK', priority: 'high', regex: /\/\/\s*HACK:?\s*(.+)|#\s*HACK:?\s*(.+)|<!--\s*HACK:?\s*(.+)\s*-->/gi },
-    { type: 'BUG', priority: 'critical', regex: /\/\/\s*BUG:?\s*(.+)|#\s*BUG:?\s*(.+)|<!--\s*BUG:?\s*(.+)\s*-->/gi }
-  ],
-  extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.css', '.scss', '.html', '.md'],
-  excludeDirs: ['node_modules', '.git', 'dist', 'build', 'coverage', '.next', 'out'],
-  maxFileSize: 5 * 1024 * 1024 // 5MB
-};
+const MARKERS = ['FIXME', 'TODO', 'HACK'];
+const EXCLUDED_DIRS = ['node_modules', '.git', 'dist', 'build', '.next', 'coverage'];
+const INCLUDED_EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.mjs'];
 
 /**
  * Recursively scan directory for files
- * @param {string} dir - Directory to scan
- * @param {string[]} fileList - Accumulated file list
- * @returns {Promise<string[]>} List of file paths
  */
-async function getFiles(dir, fileList = []) {
+const scanDirectory = (dir, results = []) => {
   try {
-    const entries = await fs.readdir(dir, { withFileTypes: true });
+    const files = fs.readdirSync(dir);
     
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
+    for (const file of files) {
+      const filePath = path.join(dir, file);
+      const stat = fs.statSync(filePath);
       
-      if (entry.isDirectory()) {
-        if (!CONFIG.excludeDirs.includes(entry.name)) {
-          await getFiles(fullPath, fileList);
+      if (stat.isDirectory()) {
+        if (!EXCLUDED_DIRS.includes(file)) {
+          scanDirectory(filePath, results);
         }
-      } else if (entry.isFile()) {
-        const ext = path.extname(entry.name);
-        if (CONFIG.extensions.includes(ext)) {
-          fileList.push(fullPath);
+      } else {
+        const ext = path.extname(file);
+        if (INCLUDED_EXTENSIONS.includes(ext)) {
+          results.push(filePath);
         }
       }
     }
   } catch (error) {
-    console.warn(`Warning: Cannot access ${dir}: ${error.message}`);
-  }
-  
-  return fileList;
-}
-
-/**
- * Analyze a single file for comments
- * @param {string} filePath - Path to the file
- * @returns {Promise<Object[]>} Array of found comments
- */
-async function analyzeFile(filePath) {
-  const results = [];
-  
-  try {
-    const stats = await fs.stat(filePath);
-    
-    // Skip large files
-    if (stats.size > CONFIG.maxFileSize) {
-      console.warn(`Skipping large file: ${filePath}`);
-      return results;
-    }
-    
-    const content = await fs.readFile(filePath, 'utf-8');
-    const lines = content.split('\n');
-    
-    lines.forEach((line, index) => {
-      CONFIG.patterns.forEach(({ type, priority, regex }) => {
-        const matches = [...line.matchAll(regex)];
-        
-        matches.forEach(match => {
-          const description = (match[1] || match[2] || match[3] || '').trim();
-          
-          results.push({
-            file: filePath,
-            line: index + 1,
-            type,
-            priority,
-            description,
-            snippet: line.trim()
-          });
-        });
-      });
-    });
-  } catch (error) {
-    console.warn(`Warning: Cannot read ${filePath}: ${error.message}`);
+    console.error(`Error scanning directory ${dir}:`, error.message);
   }
   
   return results;
-}
+};
 
 /**
- * Generate report from analysis results
- * @param {Object[]} results - Analysis results
- * @returns {string} Formatted report
+ * Analyze file for marker comments
  */
-function generateReport(results) {
-  if (results.length === 0) {
-    return '✅ No issues found! Code is clean.\n';
+const analyzeFile = (filePath) => {
+  const findings = [];
+  
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const lines = content.split('\n');
+    
+    lines.forEach((line, index) => {
+      MARKERS.forEach(marker => {
+        const regex = new RegExp(`\/\/\\s*${marker}[:\\s]`, 'i');
+        if (regex.test(line)) {
+          findings.push({
+            file: filePath,
+            line: index + 1,
+            marker,
+            content: line.trim()
+          });
+        }
+      });
+    });
+  } catch (error) {
+    console.error(`Error analyzing file ${filePath}:`, error.message);
   }
   
-  const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
-  const sorted = results.sort((a, b) => 
-    priorityOrder[a.priority] - priorityOrder[b.priority]
-  );
+  return findings;
+};
+
+/**
+ * Format and display results
+ */
+const displayResults = (findings) => {
+  if (findings.length === 0) {
+    console.log('✅ No issues found!');
+    return;
+  }
   
-  let report = '\n📊 Code Analysis Report\n';
-  report += '='.repeat(60) + '\n\n';
+  console.log(`\n🔍 Found ${findings.length} marker(s):\n`);
   
-  // Summary
-  const summary = results.reduce((acc, item) => {
-    acc[item.type] = (acc[item.type] || 0) + 1;
+  const grouped = findings.reduce((acc, finding) => {
+    if (!acc[finding.marker]) {
+      acc[finding.marker] = [];
+    }
+    acc[finding.marker].push(finding);
     return acc;
   }, {});
   
-  report += '📈 Summary:\n';
-  Object.entries(summary).forEach(([type, count]) => {
-    report += `  ${type}: ${count}\n`;
+  Object.keys(grouped).forEach(marker => {
+    console.log(`\n${marker} (${grouped[marker].length})`);
+    console.log('='.repeat(50));
+    grouped[marker].forEach(item => {
+      console.log(`📍 ${item.file}:${item.line}`);
+      console.log(`   ${item.content}\n`);
+    });
   });
-  report += `\n  Total Issues: ${results.length}\n\n`;
-  report += '='.repeat(60) + '\n\n';
-  
-  // Detailed issues
-  sorted.forEach((item, idx) => {
-    const emoji = {
-      critical: '🔴',
-      high: '🟠',
-      medium: '🟡',
-      low: '🟢'
-    }[item.priority] || '⚪';
-    
-    report += `${idx + 1}. ${emoji} [${item.type}] ${item.priority.toUpperCase()}\n`;
-    report += `   📁 File: ${item.file}:${item.line}\n`;
-    report += `   💬 Description: ${item.description || 'No description'}\n`;
-    report += `   📝 Code: ${item.snippet}\n\n`;
-  });
-  
-  return report;
-}
+};
 
 /**
- * Main execution function
+ * Main execution
  */
-async function main() {
-  try {
-    const startTime = Date.now();
-    const rootDir = process.argv[2] || process.cwd();
-    
-    console.log(`🔍 Analyzing code in: ${rootDir}\n`);
-    console.log('Scanning files...');
-    
-    const files = await getFiles(rootDir);
-    console.log(`Found ${files.length} files to analyze\n`);
-    
-    const allResults = [];
-    
-    // Analyze files with progress indication
-    for (let i = 0; i < files.length; i++) {
-      const results = await analyzeFile(files[i]);
-      allResults.push(...results);
-      
-      if ((i + 1) % 50 === 0) {
-        console.log(`Progress: ${i + 1}/${files.length} files`);
-      }
-    }
-    
-    const report = generateReport(allResults);
-    console.log(report);
-    
-    // Save report to file
-    const reportPath = path.join(rootDir, 'code-analysis-report.txt');
-    await fs.writeFile(reportPath, report);
-    console.log(`📄 Report saved to: ${reportPath}`);
-    
-    const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-    console.log(`\n⏱️  Analysis completed in ${elapsed}s`);
-    
-    // Exit with error code if critical/high priority issues found
-    const hasCriticalIssues = allResults.some(r => 
-      ['critical', 'high'].includes(r.priority)
-    );
-    
-    process.exit(hasCriticalIssues ? 1 : 0);
-    
-  } catch (error) {
-    console.error('❌ Error during analysis:', error.message);
-    console.error(error.stack);
-    process.exit(1);
+const main = async () => {
+  const targetDir = process.argv[2] || process.cwd();
+  
+  console.log(`🚀 Analyzing code in: ${targetDir}\n`);
+  
+  const files = scanDirectory(targetDir);
+  console.log(`📂 Scanning ${files.length} file(s)...\n`);
+  
+  const allFindings = [];
+  
+  for (const file of files) {
+    const findings = analyzeFile(file);
+    allFindings.push(...findings);
   }
-}
+  
+  displayResults(allFindings);
+  
+  process.exit(allFindings.length > 0 ? 1 : 0);
+};
 
-// Run if executed directly
+// Run the script
 if (require.main === module) {
-  main();
+  main().catch(error => {
+    console.error('❌ Script failed:', error);
+    process.exit(1);
+  });
 }
 
-module.exports = { analyzeFile, getFiles, generateReport };
+module.exports = { scanDirectory, analyzeFile };

@@ -1,40 +1,28 @@
 {
-  "timestamp": "2026-03-16T19:25:31.979Z",
-  "total": 57,
+  "timestamp": "2026-03-16T19:55:32.013Z",
+  "total": 55,
   "byType": {
-    "TODO": 43,
-    "FIXME": 14
+    "TODO": 44,
+    "FIXME": 11
   },
   "items": [
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 2,
-      "content": "// This script analyzes code for FIXME comments and generates a report",
+      "line": 3,
+      "content": "// Code analysis script for detecting FIXME, TODO, and HACK comments",
       "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 10,
-      "content": "/\\/\\/\\s*(FIXME|TODO|BUG|HACK):?\\s*(.+)/gi,",
+      "line": 12,
+      "content": "{ type: 'FIXME', priority: 'high', regex: /\\/\\/\\s*FIXME:?\\s*(.+)|#\\s*FIXME:?\\s*(.+)|<!--\\s*FIXME:?\\s*(.+)\\s*-->/gi },",
       "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 11,
-      "content": "/\\/\\*\\s*(FIXME|TODO|BUG|HACK):?\\s*([\\s\\S]*?)\\*\\//gi",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 52,
-      "content": "* Analyzes file content for FIXME and TODO comments",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 110,
-      "content": "console.log('✅ No FIXME/TODO comments found!');",
-      "type": "FIXME"
+      "line": 13,
+      "content": "{ type: 'TODO', priority: 'medium', regex: /\\/\\/\\s*TODO:?\\s*(.+)|#\\s*TODO:?\\s*(.+)|<!--\\s*TODO:?\\s*(.+)\\s*-->/gi },",
+      "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-auto-dev.js",
