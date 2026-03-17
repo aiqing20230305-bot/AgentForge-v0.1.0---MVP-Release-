@@ -90,6 +90,12 @@ class ProphetOrchestrator {
         })
 
         this.logEvolution('heart-monitor', 'Heart beat completed')
+
+        // 更新最后运行时间
+        const processInfo = this.processes.get('heart-monitor')
+        if (processInfo) {
+          processInfo.lastRun = new Date()
+        }
       } catch (error) {
         console.error('   Heart beat error:', error.message)
       }
@@ -129,10 +135,11 @@ class ProphetOrchestrator {
 
         // 运行开发迭代
         const { stdout } = await execAsync(
-          `node "${join(this.projectPath, 'prophet-developer.js')}"`,
+          `node "${join(this.projectPath, 'prophet-developer.js')}" "${this.projectPath}" --once`,
           {
             cwd: this.projectPath,
-            timeout: 5 * 60 * 1000 // 5分钟超时
+            timeout: 5 * 60 * 1000, // 5分钟超时
+            env: process.env // 传递环境变量（包括API key）
           }
         )
 
@@ -140,10 +147,10 @@ class ProphetOrchestrator {
 
         this.logEvolution('developer', 'Development iteration completed')
 
-        const process = this.processes.get('developer')
-        if (process) {
-          process.lastRun = new Date()
-          process.iterations = (process.iterations || 0) + 1
+        const processInfo = this.processes.get('developer')
+        if (processInfo) {
+          processInfo.lastRun = new Date()
+          processInfo.iterations = (processInfo.iterations || 0) + 1
         }
       } catch (error) {
         console.error('   Developer error:', error.message)
@@ -195,10 +202,10 @@ class ProphetOrchestrator {
 
         this.logEvolution('analyzer', 'Deep analysis completed')
 
-        const process = this.processes.get('analyzer')
-        if (process) {
-          process.lastRun = new Date()
-          process.iterations = (process.iterations || 0) + 1
+        const processInfo = this.processes.get('analyzer')
+        if (processInfo) {
+          processInfo.lastRun = new Date()
+          processInfo.iterations = (processInfo.iterations || 0) + 1
         }
       } catch (error) {
         console.error('   Analyzer error:', error.message)
@@ -260,10 +267,10 @@ class ProphetOrchestrator {
 
         this.logEvolution('memory-consolidator', `Consolidated ${insights.length} memories`)
 
-        const process = this.processes.get('memory-consolidator')
-        if (process) {
-          process.lastRun = new Date()
-          process.memoriesProcessed = (process.memoriesProcessed || 0) + insights.length
+        const processInfo = this.processes.get('memory-consolidator')
+        if (processInfo) {
+          processInfo.lastRun = new Date()
+          processInfo.memoriesProcessed = (processInfo.memoriesProcessed || 0) + insights.length
         }
       } catch (error) {
         console.error('   Memory consolidator error:', error.message)
@@ -312,6 +319,12 @@ class ProphetOrchestrator {
           optimizations: this.evolutionLog.filter(e => e.type === 'optimization')
             .length
         })
+
+        // 更新最后运行时间
+        const processInfo = this.processes.get('evolution-tracker')
+        if (processInfo) {
+          processInfo.lastRun = new Date()
+        }
       } catch (error) {
         console.error('   Evolution tracker error:', error.message)
       }

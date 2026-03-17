@@ -1,89 +1,11 @@
 {
-  "timestamp": "2026-03-15T13:30:42.243Z",
-  "total": 71,
+  "timestamp": "2026-03-17T09:10:47.738Z",
+  "total": 40,
   "byType": {
-    "TODO": 60,
-    "FIXME": 11
+    "TODO": 34,
+    "FIXME": 6
   },
   "items": [
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 20,
-      "content": "todoCount: 0,",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 21,
-      "content": "fixmeCount: 0,",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 111,
-      "content": "analysis.quality.todoCount += (content.match(/TODO/gi) || []).length",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 112,
-      "content": "analysis.quality.fixmeCount += (content.match(/FIXME/gi) || []).length",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 155,
-      "content": "// 1. TODO/FIXME 检查",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 156,
-      "content": "if (analysis.quality.todoCount > 50) {",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 160,
-      "content": "title: '大量 TODO 标记',",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 161,
-      "content": "description: `发现 ${analysis.quality.todoCount} 个 TODO 标记。这些可能是未完成的功能或技术债务。`,",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 163,
-      "content": "'梳理所有 TODO，创建 GitHub issues',",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 164,
-      "content": "'优先处理关键路径的 TODO',",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 165,
-      "content": "'设置 TODO 清理的 sprint 目标'",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 331,
-      "content": "console.log(`   TODO 标记：${analysis.quality.todoCount}`)",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-analyze.js",
-      "line": 332,
-      "content": "console.log(`   FIXME 标记：${analysis.quality.fixmeCount}`)",
-      "type": "FIXME"
-    },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-auto-dev.js",
       "line": 129,
@@ -100,108 +22,6 @@
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-auto-dev.js",
       "line": 155,
       "content": "// TODO: 从数据库或配置中获取上次轮换时间",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 97,
-      "content": "// 1. 从 TODO 跟踪中获取问题",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 98,
-      "content": "const todos = await this.loadTodoTracking()",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 99,
-      "content": "if (todos && todos.items) {",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 100,
-      "content": "// 优先处理 FIXME",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 101,
-      "content": "const fixmes = todos.items.filter(t => t.type === 'FIXME')",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 102,
-      "content": "for (const fixme of fixmes.slice(0, 5)) {",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 105,
-      "content": "title: `修复: ${fixme.content}`,",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 107,
-      "content": "location: { file: fixme.file, line: fixme.line },",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 113,
-      "content": "// 处理高优先级 TODO",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 114,
-      "content": "const highPriorityTodos = todos.items",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 115,
-      "content": ".filter(t => t.type === 'TODO')",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 122,
-      "content": "for (const todo of highPriorityTodos.slice(0, 3)) {",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 125,
-      "content": "title: `实现: ${todo.content}`,",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 127,
-      "content": "location: { file: todo.file, line: todo.line },",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 414,
-      "content": "* 加载 TODO 跟踪",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 416,
-      "content": "async loadTodoTracking() {",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 419,
-      "content": "join(this.projectPath, '.prophet', 'todo-tracking.json'),",
       "type": "TODO"
     },
     {
@@ -313,87 +133,57 @@
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/BattleResult.tsx",
-      "line": 27,
-      "content": "// TODO: 播放胜利/失败音效",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/App.tsx",
+      "line": 43,
+      "content": "// TODO: 实现创建任务对话框",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/DailyQuestPanel.tsx",
-      "line": 131,
-      "content": "// TODO: 其他任务的进度追踪",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/GlobalSearch.tsx",
+      "line": 174,
+      "content": "// TODO: 实现导航逻辑",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ErrorBoundary.tsx",
-      "line": 46,
-      "content": "// TODO: Send error to error tracking service (e.g., Sentry)",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/TaskRecommendations.tsx",
+      "line": 43,
+      "content": "t => t.status === 'pending' || t.status === 'todo'",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/GlobalExpBar.tsx",
-      "line": 136,
-      "content": "// TODO: 打开经验详情面板",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
+      "line": 9,
+      "content": "import { ThemeMode, ContrastMode, applyThemeToDOM } from '../config/themeColors'",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/GlobalExpBar.tsx",
-      "line": 146,
-      "content": "// TODO: 打开成就面板",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
+      "line": 32,
+      "content": "applyThemeToDOM(savedMode || 'auto', savedContrast || 'normal')",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/GlobalSocketEventHandler.tsx",
-      "line": 116,
-      "content": "// TODO: Could add the task to local store if needed",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
+      "line": 41,
+      "content": "applyThemeToDOM('auto', contrastMode)",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/MainNavigationTabs.tsx",
-      "line": 51,
-      "content": "// TODO: 实现技能升级逻辑",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
+      "line": 76,
+      "content": "applyThemeToDOM(mode, contrastMode)",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/MainNavigationTabs.tsx",
-      "line": 56,
-      "content": "// TODO: 创建真实的战斗实例",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
+      "line": 82,
+      "content": "applyThemeToDOM(currentMode, contrast)",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/RankDetailModal.tsx",
-      "line": 214,
-      "content": "// TODO: Implement challenge/PvP functionality",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/hooks/useTaskAutoExecution.ts",
-      "line": 68,
-      "content": "// Award experience if successful (TODO: integrate with leveling system)",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/evolution/evolutionEngine.ts",
-      "line": 503,
-      "content": "// TODO: 集成通知系统",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/evolution/heartbeatService.ts",
-      "line": 375,
-      "content": "// TODO: 集成通知系统",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/expCalculator.ts",
-      "line": 37,
-      "content": "// TODO: Track if task type is completed for first time",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/store/useDataSourceStore.ts",
-      "line": 394,
-      "content": "// TODO: 未来实现金币系统",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/config/themeColors.ts",
+      "line": 188,
+      "content": "export function applyThemeToDOM(",
       "type": "TODO"
     },
     {
@@ -430,6 +220,30 @@
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/store/useSettingsStore.ts",
       "line": 225,
       "content": "applySettingsToDOM(settings)",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/store/useThemeStore.ts",
+      "line": 41,
+      "content": "applyThemeToDOM(theme)",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/store/useThemeStore.ts",
+      "line": 58,
+      "content": "applyThemeToDOM(defaultTheme)",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/store/useThemeStore.ts",
+      "line": 72,
+      "content": "function applyThemeToDOM(theme: Theme) {",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/store/useThemeStore.ts",
+      "line": 107,
+      "content": "applyThemeToDOM(currentTheme)",
       "type": "TODO"
     }
   ]

@@ -8,6 +8,9 @@ import ConnectionDiagnostics from './ConnectionDiagnostics'
 import { getLocalOpenClawConfig, type OpenClawConfig } from '../services/openclawApi'
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import { CloudSyncToggle } from './CloudSyncToggle'
+import { OpenClawStatusBadge } from './OpenClawStatusBadge'
+import { ThemeSwitcherCompact } from './ThemeSwitcher'
+import { LanguageSwitcher } from './LanguageSwitcher'
 
 export default function TopBar() {
   const { setSettingsOpen } = useBuildStore()
@@ -124,6 +127,15 @@ export default function TopBar() {
 
         {/* Cloud Sync Toggle */}
         <CloudSyncToggle />
+
+        {/* OpenClaw Status Badge (New Quick Connect) */}
+        <OpenClawStatusBadge />
+
+        {/* Theme Switcher */}
+        <ThemeSwitcherCompact />
+
+        {/* Language Switcher */}
+        <LanguageSwitcher variant="compact" />
 
         {/* Settings */}
         <button

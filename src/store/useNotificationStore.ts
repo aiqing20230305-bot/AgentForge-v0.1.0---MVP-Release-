@@ -1,135 +1,82 @@
 /**
- * 通知系统 Store
- * 管理桌面通知、浏览器通知和历史记录
- * 集成 notificationService 提供统一的通知接口
+ * 通知状态管理 Store
+ * Notification Store - Zustand state management for notifications
  */
 
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { notificationService } from '../services/notificationService'
-
-export type NotificationType = 'task_complete' | 'task_failed' | 'agent_idle' | 'level_up' | 'achievement_unlock' | 'battle_result' | 'system' | 'achievement'
-
-export interface Notification {
-  id: string
-  type: NotificationType
-  title: string
-  message: string
-  agentId?: string
-  taskId?: string
-  timestamp: string
-  read: boolean
-  actionUrl?: string
-  icon?: string
-}
-
-export interface NotificationSettings {
-  desktopEnabled: boolean
-  browserEnabled: boolean
-  soundEnabled: boolean
-  volume: number // 0-100
-}
+import {
+  getNotificationManager,
+  Notification,
+  NotificationType,
+} from '../services/notificationManager'
 
 interface NotificationStore {
-  // 通知列表
   notifications: Notification[]
-
-  // 设置
-  settings: NotificationSettings
+  unreadCount: number
+  isOpen: boolean // 通知中心是否打开
 
   // Actions
   addNotification: (notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) => void
+  removeNotification: (id: string) => void
   markAsRead: (id: string) => void
   markAllAsRead: () => void
-  clearNotification: (id: string) => void
   clearAll: () => void
-  updateSettings: (settings: Partial<NotificationSettings>) => void
-
-  // Getters
-  getUnreadCount: () => number
-  getRecentNotifications: (limit?: number) => Notification[]
+  refresh: () => void
+  setOpen: (open: boolean) => void
+  getByType: (type: NotificationType) => Notification[]
 }
 
-export const useNotificationStore = create<NotificationStore>()(
-  persist(
-    (set, get) => ({
-      notifications: [],
+export const useNotificationStore = create<NotificationStore>((set, get) => {
+  const manager = getNotificationManager()
 
-      settings: {
-        desktopEnabled: true,
-        browserEnabled: true,
-        soundEnabled: true,
-        volume: 50
-      },
+  // 监听通知管理器变化
+  manager.addListener(() => {
+    set({
+      notifications: manager.getAll(),
+      unreadCount: manager.getUnreadCount(),
+    })
+  })
 
-      addNotification: (notificationData) => {
-        const notification: Notification = {
-          ...notificationData,
-          id: `notif_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          timestamp: new Date().toISOString(),
-          read: false
-        }
+  return {
+    notifications: manager.getAll(),
+    unreadCount: manager.getUnreadCount(),
+    isOpen: false,
 
-        set(state => ({
-          notifications: [notification, ...state.notifications].slice(0, 100) // 保留最近100条
-        }))
+    addNotification: (notification) => {
+      manager.add(notification)
+    },
 
-        // 使用新的 notificationService 处理所有通知
-        notificationService.show({
-          type: notification.type as any,
-          title: notification.title,
-          message: notification.message,
-          agentId: notification.agentId,
-          taskId: notification.taskId,
-          actionUrl: notification.actionUrl,
-          icon: notification.icon
-        }).catch(err => {
-          console.warn('Failed to show notification:', err)
-        })
-      },
+    removeNotification: (id) => {
+      manager.remove(id)
+    },
 
-      markAsRead: (id) => {
-        set(state => ({
-          notifications: state.notifications.map(n =>
-            n.id === id ? { ...n, read: true } : n
-          )
-        }))
-      },
+    markAsRead: (id) => {
+      manager.markAsRead(id)
+    },
 
-      markAllAsRead: () => {
-        set(state => ({
-          notifications: state.notifications.map(n => ({ ...n, read: true }))
-        }))
-      },
+    markAllAsRead: () => {
+      manager.markAllAsRead()
+    },
 
-      clearNotification: (id) => {
-        set(state => ({
-          notifications: state.notifications.filter(n => n.id !== id)
-        }))
-      },
+    clearAll: () => {
+      manager.clearAll()
+    },
 
-      clearAll: () => {
-        set({ notifications: [] })
-      },
+    refresh: () => {
+      set({
+        notifications: manager.getAll(),
+        unreadCount: manager.getUnreadCount(),
+      })
+    },
 
-      updateSettings: (newSettings) => {
-        set(state => ({
-          settings: { ...state.settings, ...newSettings }
-        }))
-      },
+    setOpen: (open) => {
+      set({ isOpen: open })
+    },
 
-      getUnreadCount: () => {
-        return get().notifications.filter(n => !n.read).length
-      },
+    getByType: (type) => {
+      return manager.getByType(type)
+    },
+  }
+})
 
-      getRecentNotifications: (limit = 10) => {
-        return get().notifications.slice(0, limit)
-      }
-    }),
-    {
-      name: 'notification-store'
-    }
-  )
-)
-
-// 旧的音效播放逻辑已迁移到 notificationService 中
+export default useNotificationStore

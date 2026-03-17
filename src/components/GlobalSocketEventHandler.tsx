@@ -113,8 +113,11 @@ export const GlobalSocketEventHandler = () => {
     // Task Created Event (from other devices/users)
     const handleTaskCreated = (data: { task: any; createdBy: string; timestamp: Date }) => {
       console.log('✨ Task created:', data)
-      // TODO: Could add the task to local store if needed
-      // For now, just log it - user can pull from cloud to see new tasks
+      // Add the task to local store for immediate visibility
+      if (data.task) {
+        const taskStore = useTaskStore.getState()
+        taskStore.addTask(data.task)
+      }
     }
 
     // Register event handlers

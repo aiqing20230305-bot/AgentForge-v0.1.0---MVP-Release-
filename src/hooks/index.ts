@@ -61,6 +61,19 @@ export {
 
 export type { KeyPressOptions } from './useEventListener'
 
+// Hotkey Hooks
+export {
+  useHotkey,
+  useHotkeys,
+  useGetAllHotkeys,
+  useCheckHotkeyConflict,
+  getPlatformModifierKey,
+  formatHotkey,
+  hotkeyManager
+} from './useHotkeys'
+
+export type { HotkeyConfig, HotkeyHandler } from './useHotkeys'
+
 // Timer Hooks
 export {
   useTimeout,
@@ -147,3 +160,21 @@ export {
   useDelayedToggle,
   useGroupedToggle
 } from './useToggle'
+
+// Touch Gesture Hooks
+export {
+  useSwipe,
+  useLongPress as useTouchLongPress,
+  useDoubleTap,
+  usePinchZoom,
+  usePan,
+  useTouchGestures,
+  useScrollDirection as useTouchScrollDirection
+} from './useTouchGestures'
+
+export type {
+  SwipeDirection,
+  PinchState,
+  TouchPosition,
+  UseTouchGesturesOptions
+} from './useTouchGestures'

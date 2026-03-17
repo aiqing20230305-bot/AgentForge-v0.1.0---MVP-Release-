@@ -34,8 +34,15 @@ export class ExpCalculator {
     }
 
     // First-time completion bonus
-    // TODO: Track if task type is completed for first time
-    // baseExp *= 1.5
+    // Track if task type is completed for first time using localStorage
+    const firstTimeKey = `first_time_${task.tags?.[0] || 'default'}_${task.agentId}`
+    const isFirstTime = !localStorage.getItem(firstTimeKey)
+
+    if (isFirstTime) {
+      baseExp *= 1.5
+      localStorage.setItem(firstTimeKey, new Date().toISOString())
+      console.log(`[ExpCalculator] First-time bonus! +50% exp for task type: ${task.tags?.[0]}`)
+    }
 
     return Math.round(baseExp)
   }

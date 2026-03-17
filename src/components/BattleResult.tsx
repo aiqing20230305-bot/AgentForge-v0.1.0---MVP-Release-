@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import type { Battle } from '../types/battle'
 import { Trophy, Skull, Coins, Star, TrendingUp, Award } from 'lucide-react'
 import { fadeVariants, scaleVariants, slideUpVariants, bounceVariants, transitions } from '../utils/animations'
+import { audioSystem } from '../services/audioSystem'
 
 interface BattleResultProps {
   battle: Battle
@@ -22,9 +23,13 @@ export const BattleResult: React.FC<BattleResultProps> = ({
   onClose,
   onRematch
 }) => {
-  // 播放音效（可选）
+  // 播放音效
   useEffect(() => {
-    // TODO: 播放胜利/失败音效
+    if (isVictory) {
+      audioSystem.play('battle_win').catch(err => console.warn('Failed to play victory sound:', err))
+    } else {
+      audioSystem.play('battle_lose').catch(err => console.warn('Failed to play defeat sound:', err))
+    }
   }, [isVictory])
 
   const rewards = battle.rewards

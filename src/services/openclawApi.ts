@@ -253,7 +253,7 @@ export function getLocalOpenClawConfig(): OpenClawConfig {
 
   // 默认配置（OpenClaw API 桥接服务 - 上海小龙虾🦞）
   return {
-    gatewayUrl: 'http://localhost:18790', // 使用桥接服务端口
+    gatewayUrl: 'http://localhost:18789', // 修正端口：实际监听18789
     authToken: 'e4d645acd59df43f1032fa5bcee1540238c01e9796296266',
     enabled: true // 默认启用，连接真实 OpenClaw Agent
   }

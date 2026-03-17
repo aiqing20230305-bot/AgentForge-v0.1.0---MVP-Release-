@@ -1,0 +1,83 @@
+{
+  "app_name": "AgentForge",
+  "welcome": "ようこそ、{{name}}さん！",
+  "common": {
+    "create": "作成",
+    "delete": "削除",
+    "edit": "編集",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "close": "閉じる",
+    "search": "検索",
+    "filter": "フィルター",
+    "refresh": "更新",
+    "export": "エクスポート",
+    "import": "インポート",
+    "settings": "設定",
+    "help": "ヘルプ",
+    "logout": "ログアウト",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "warning": "警告",
+    "info": "情報"
+  },
+  "agent": {
+    "title": "エージェント",
+    "create": "エージェントを作成",
+    "list": "エージェント一覧",
+    "detail": "エージェント詳細",
+    "name": "名前",
+    "avatar": "アバター",
+    "level": "レベル",
+    "experience": "経験値",
+    "vitality": "活力",
+    "skills": "スキル",
+    "status": {
+      "active": "アクティブ",
+      "idle": "アイドル",
+      "working": "作業中",
+      "offline": "オフライン"
+    }
+  },
+  "task": {
+    "title": "タスク",
+    "create": "タスクを作成",
+    "list": "タスク一覧",
+    "detail": "タスク詳細",
+    "name": "タスク名",
+    "description": "説明",
+    "priority": {
+      "high": "高優先度",
+      "medium": "中優先度",
+      "low": "低優先度"
+    },
+    "status": {
+      "pending": "保留中",
+      "in_progress": "進行中",
+      "completed": "完了",
+      "failed": "失敗"
+    },
+    "assign": "タスクを割り当て",
+    "start": "タスクを開始",
+    "complete": "タスクを完了"
+  },
+  "subscription": {
+    "free": "無料版",
+    "pro": "Pro版",
+    "upgrade": "Proにアップグレード",
+    "manage": "サブスクリプション管理",
+    "usage": "使用量",
+    "limit_reached": "制限に達しました",
+    "unlimited": "無制限"
+  },
+  "features": {
+    "ai_recommendation": "AI推奨",
+    "performance_optimization": "パフォーマンス最適化",
+    "custom_theme": "カスタムテーマ",
+    "advanced_analytics": "高度な分析",
+    "team_collaboration": "チームコラボレーション",
+    "priority_support": "優先サポート"
+  }
+}

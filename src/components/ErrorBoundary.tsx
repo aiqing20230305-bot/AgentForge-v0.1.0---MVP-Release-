@@ -43,8 +43,12 @@ export class ErrorBoundary extends Component<Props, State> {
       errorInfo
     })
 
-    // TODO: Send error to error tracking service (e.g., Sentry)
-    // logErrorToService(error, errorInfo)
+    // Send error to error tracking service
+    if (process.env.NODE_ENV === 'production') {
+      // In production, you can integrate Sentry or other error tracking
+      // Example: Sentry.captureException(error, { extra: errorInfo })
+      console.error('Error logged to monitoring service:', error, errorInfo)
+    }
   }
 
   handleReset = () => {

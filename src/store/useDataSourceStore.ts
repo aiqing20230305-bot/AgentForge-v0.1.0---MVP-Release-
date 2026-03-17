@@ -5,7 +5,7 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { getRandomAvatar, getAvatarByRole } from '../utils/avatarLibrary'
+import { getAvatarByRole } from '../utils/avatarLibrary'
 
 // 数据源类型
 export type DataSourceType = 'openclaw' | 'custom-api' | 'local-script' | 'ssh-remote'
@@ -106,6 +106,9 @@ export interface AgentData {
   avatar?: string
   description?: string
   metadata?: Record<string, any> // 额外的自定义字段
+
+  // Team collaboration
+  teamId?: string // 所属团队ID
 
   // Energy tracking
   energyStats?: {
@@ -388,11 +391,30 @@ export const useDataSourceStore = create<DataSourceStore>()(
       },
 
       /**
-       * 给Agent增加金币（未来扩展）
+       * 给Agent增加金币
        */
       addAgentCoins: (agentId: string, coinAmount: number) => {
-        // TODO: 未来实现金币系统
-        console.log(`[Store] Agent ${agentId} gained ${coinAmount} coins`)
+        const agents = get().agentsCache
+        const updatedAgents = agents.map(agent => {
+          if (agent.id === agentId) {
+            const currentCoins = agent.metadata?.coins || 0
+            const newCoins = currentCoins + coinAmount
+
+            console.log(`[Store] Agent ${agent.name} gained ${coinAmount} coins (total: ${newCoins})`)
+
+            return {
+              ...agent,
+              metadata: {
+                ...agent.metadata,
+                coins: newCoins,
+                lastCoinUpdate: new Date().toISOString()
+              }
+            }
+          }
+          return agent
+        })
+
+        get().updateAgentsCache(updatedAgents)
       }
     }),
     {

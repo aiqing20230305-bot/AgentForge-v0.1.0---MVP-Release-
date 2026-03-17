@@ -3,6 +3,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useBuildStore } from './stores/buildStore'
 import { initializeDefaultDataSources } from './store/useDataSourceStore'
+import { initializeTheme } from './store/useThemeStore'
 import TopBar from './components/TopBar'
 import AgentDisplayPanel from './components/AgentDisplayPanel'
 import { MainNavigationTabs } from './components/MainNavigationTabs'
@@ -20,11 +21,37 @@ import { OfflineIndicator } from './components/OfflineIndicator'
 import { getHeartbeatService } from './services/evolution/heartbeatService'
 import { getEvolutionEngine } from './services/evolution/evolutionEngine'
 import { ErrorBoundary } from './components/ErrorBoundary'
+import { autoLoadTestAgentInDev } from './utils/testAgentLoader'
+import { GlobalSearch, useGlobalSearchHotkey } from './components/GlobalSearch'
+import { HotkeyHelp } from './components/HotkeyHelp'
+import { GlobalHotkeyProvider } from './components/GlobalHotkeyProvider'
+import { VoiceControlButton } from './components/VoiceControlButton'
+import { useVoiceCommands } from './hooks/useVoiceCommands'
+import './i18n/config' // 🌍 Initialize i18n
 
 function App() {
-  const { loadSettings, scanForItems, settingsOpen } = useBuildStore()
+  const { loadSettings, scanForItems, settingsOpen, setSettingsOpen } = useBuildStore()
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [showLoading, setShowLoading] = useState(true)
+  const globalSearch = useGlobalSearchHotkey()
+
+  // 语音命令集成
+  useVoiceCommands({
+    onOpenSettings: () => setSettingsOpen(true),
+    onCreateTask: () => {
+      console.log('[App] Voice: Create task')
+      // TODO: 实现创建任务对话框
+    },
+    onPauseAll: () => {
+      console.log('[App] Voice: Pause all tasks')
+    },
+    onShowStats: () => {
+      console.log('[App] Voice: Show stats')
+    },
+    onShowTasks: () => {
+      console.log('[App] Voice: Show tasks')
+    }
+  })
 
   useEffect(() => {
     // Check if onboarding has been completed
@@ -36,6 +63,10 @@ function App() {
     // Initialize default data sources (only once on first run)
     console.log('[App] Initializing default data sources...')
     initializeDefaultDataSources()
+
+    // Initialize theme system
+    console.log('[App] Initializing theme system...')
+    initializeTheme()
 
     // Load settings and scan for items on mount
     loadSettings()
@@ -49,6 +80,9 @@ function App() {
     const evolutionEngine = getEvolutionEngine()
     evolutionEngine.start()
     console.log('[App] 🧬 Evolution engine started')
+
+    // 🎭 开发环境：测试Agent加载（已禁用，使用window.loadLinaJie()手动加载）
+    autoLoadTestAgentInDev()
 
     // Cleanup on unmount
     return () => {
@@ -68,6 +102,7 @@ function App() {
       <AuthProvider>
         <SocketProvider autoConnect={false}>
           <GlobalSocketEventHandler />
+          <GlobalHotkeyProvider />
           <DndProvider backend={HTML5Backend}>
             {/* 驾驶舱启动Loading */}
             {showLoading && <CockpitLoading onComplete={() => setShowLoading(false)} />}
@@ -105,6 +140,15 @@ function App() {
 
               {/* 每日任务面板 */}
               <DailyQuestPanel />
+
+              {/* 全局搜索 */}
+              <GlobalSearch isOpen={globalSearch.isOpen} onClose={globalSearch.close} />
+
+              {/* 快捷键帮助 */}
+              <HotkeyHelp />
+
+              {/* 语音控制按钮 */}
+              <VoiceControlButton onOpenSettings={() => setSettingsOpen(true)} />
             </div>
           </DndProvider>
         </SocketProvider>
