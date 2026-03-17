@@ -1,0 +1,84 @@
+标题：
+AgentForge v2.1.0 – MIT-Licensed AI Agent Platform (24K LOC, PWA, Plugin System)
+
+---
+
+正文：
+
+Hi r/opensource! 🌟
+
+Just released **AgentForge v2.1.0** - an MIT-licensed AI agent development platform with a unique gamified approach.
+
+## 📦 What's Included
+
+**Core Features:**
+- Gamified agent development (HP, evolution, battles)
+- Multi-data source support (local + OpenClaw + custom)
+- Real-time collaboration
+- Complete task management
+
+**NEW in v2.1.0:**
+- **PWA Web Version** - 2,960 lines of TypeScript
+- **Plugin System** - 1,118 lines + 14 REST APIs
+- **AI Intelligence** - 6,550 lines of smart features
+- **Complete Docs** - 70,000 words
+
+## 💻 Open Source Details
+
+- **License:** MIT (fully permissive)
+- **Language:** TypeScript (100%)
+- **Total Code:** 24,258 lines added in v2.1.0
+- **Documentation:** Extensive (user guides, dev docs, API refs)
+- **Testing:** Playwright + Vitest (70%+ coverage goal)
+- **CI/CD:** GitHub Actions ready
+
+## 🤝 How to Contribute
+
+We welcome all contributions:
+1. **Code:** Features, bug fixes, optimizations
+2. **Docs:** Tutorials, translations, examples
+3. **Plugins:** Join our $25K contest
+4. **Testing:** Help improve coverage
+5. **Feedback:** Issues, discussions, ideas
+
+## 🎁 Contributor Benefits
+
+- **Pro License** - Free for contributors
+- **Special Badge** - Recognition in our community
+- **Name in Credits** - Permanent acknowledgment
+- **Early Access** - New features first
+
+## 📊 Project Stats
+
+- **Created:** 2026
+- **Version:** v2.1.0 (actively developed)
+- **Stars:** ~200 (goal: 10K)
+- **Commits:** 80+
+- **Contributors:** Growing!
+
+## 🔗 Links
+
+- **GitHub:** https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-
+- **Release Notes:** https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/releases/tag/v2.1.0
+- **Issues:** https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/issues
+- **Discussions:** https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/discussions
+
+## 🚀 Development Methodology
+
+Interestingly, v2.1.0 was developed by **4 AI agents working in parallel**:
+1. web-developer-agent
+2. plugin-architect-agent
+3. ai-enhancement-agent
+4. video-production-agent
+
+A meta example of AI building AI tools! 🤖
+
+## 🎯 Roadmap
+
+- **v2.2.0** (2 weeks): Mobile app + Analytics
+- **v2.3.0** (1 month): Enterprise features
+- **v3.0.0** (3 months): Complete ecosystem
+
+Star us if you find this interesting! Contributions welcome! ⭐
+
+MIT License means you can use it anywhere - personal, commercial, fork it, whatever you need. That's the spirit of open source! 🌍

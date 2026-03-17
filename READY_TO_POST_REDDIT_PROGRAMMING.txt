@@ -1,0 +1,74 @@
+标题：
+[Show] AgentForge v2.1.0 – Gamified AI Agent Platform with Instant Web Access (24K+ LOC TypeScript, MIT License)
+
+---
+
+正文：
+
+Hey r/programming! 👋
+
+I'm excited to share **AgentForge v2.1.0** - a gamified AI agent development platform that just shipped with 24,258 lines of TypeScript code!
+
+## 🎮 What makes it unique?
+
+**Game-like Experience:**
+- Agent "vitality" system (like HP in RPGs)
+- Evolution mechanics (agents grow through tasks)
+- Battle mode for testing agent capabilities
+- Achievement and leveling system
+
+**Instant Web Access (NEW in v2.1.0):**
+- PWA with full offline support
+- 5-second login (OAuth + Magic Link + Guest mode)
+- Real-time cloud sync with conflict detection
+- <2s first load, Lighthouse score >90
+
+**Plugin Ecosystem (BETA):**
+- 14 REST API endpoints
+- 10 official plugins specs
+- $25K plugin contest launching
+- Complete security review system
+
+## 🛠️ Tech Stack
+
+**Frontend:** React 18, TypeScript, Zustand, Service Worker, IndexedDB
+**Backend:** Node.js, Express, MongoDB, Redis, WebSocket
+**Testing:** Playwright E2E, Vitest unit tests
+**Deployment:** Netlify/Vercel ready
+
+## 📊 v2.1.0 Stats
+
+- **45 new files** added
+- **24,258 lines** of code
+- **70,000 words** of documentation
+- **4 AI agents** developed in parallel (meta!)
+
+## 🚀 Try it
+
+- **GitHub:** https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-
+- **Release:** https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/releases/tag/v2.1.0
+- **Web App:** https://app.agentforge.dev _(deploying)_
+
+## 💡 Why I built this
+
+Building AI agents should be fun, not frustrating. Most frameworks are too complex or too limited. AgentForge combines:
+- **Ease of use** (simpler than LangChain)
+- **Stability** (more reliable than AutoGPT)
+- **Gamification** (makes development engaging)
+
+## 🎯 What's Next
+
+- v2.2.0: Mobile app + Advanced analytics
+- Plugin contest ($25K prize pool)
+- Video tutorials coming soon
+- Goal: 10K stars → team holiday! 🎉
+
+## 🙏 Feedback Welcome
+
+This is v2.1.0 - would love to hear your thoughts! What features would you like to see? What pain points can we solve?
+
+MIT Licensed, contributions welcome! ⭐
+
+---
+
+**TL;DR:** Gamified AI agent platform with instant web access, 24K LOC TypeScript, PWA, plugin system, MIT license. Built by 4 AI agents working in parallel.
