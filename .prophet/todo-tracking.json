@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-03-17T14:57:49.159Z",
-  "total": 63,
+  "timestamp": "2026-03-17T16:07:49.172Z",
+  "total": 71,
   "byType": {
-    "TODO": 56,
+    "TODO": 64,
     "FIXME": 7
   },
   "items": [
@@ -235,6 +235,36 @@
       "type": "TODO"
     },
     {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/auth/quickAuth.ts",
+      "line": 153,
+      "content": "// TODO: Implement backend API call",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/auth/quickAuth.ts",
+      "line": 175,
+      "content": "// TODO: Implement backend API call",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/auth/quickAuth.ts",
+      "line": 265,
+      "content": "// TODO: Exchange code for token via backend",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/auth/quickAuth.ts",
+      "line": 375,
+      "content": "// TODO: Migrate guest data to new account",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/auth/quickAuth.ts",
+      "line": 424,
+      "content": "// TODO: Implement token refresh",
+      "type": "TODO"
+    },
+    {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/discord/DiscordCommands.ts",
       "line": 598,
       "content": "// TODO: Implement",
@@ -322,6 +352,24 @@
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/offline/syncManager.ts",
       "line": 324,
       "content": "// TODO: Implement actual API call",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/sync/cloudSync.ts",
+      "line": 331,
+      "content": "// TODO: Update local store with merged data",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/sync/cloudSync.ts",
+      "line": 341,
+      "content": "// TODO: Update local store based on change type",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/sync/cloudSync.ts",
+      "line": 489,
+      "content": "userId: 'current_user', // TODO: Get from auth",
       "type": "TODO"
     },
     {
