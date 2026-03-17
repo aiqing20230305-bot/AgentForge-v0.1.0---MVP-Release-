@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-03-17T04:22:48.017Z",
-  "total": 38,
+  "timestamp": "2026-03-17T09:10:47.738Z",
+  "total": 40,
   "byType": {
-    "TODO": 27,
-    "FIXME": 11
+    "TODO": 34,
+    "FIXME": 6
   },
   "items": [
     {
@@ -23,36 +23,6 @@
       "line": 155,
       "content": "// TODO: 从数据库或配置中获取上次轮换时间",
       "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 1,
-      "content": "// 注意：由于未提供完整源代码，以下是基于常见 FIXME 场景的修复示例",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 2,
-      "content": "// 请根据实际的 FIXME 注释内容调整修复方案",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 4,
-      "content": "// 示例场景 1: 如果 FIXME 涉及错误处理",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 29,
-      "content": "// 示例场景 2: 如果 FIXME 涉及异步操作优化",
-      "type": "FIXME"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 48,
-      "content": "// 示例场景 3: 如果 FIXME 涉及配置或常量优化",
-      "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-heart.js",
@@ -172,6 +142,48 @@
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/GlobalSearch.tsx",
       "line": 174,
       "content": "// TODO: 实现导航逻辑",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/TaskRecommendations.tsx",
+      "line": 43,
+      "content": "t => t.status === 'pending' || t.status === 'todo'",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
+      "line": 9,
+      "content": "import { ThemeMode, ContrastMode, applyThemeToDOM } from '../config/themeColors'",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
+      "line": 32,
+      "content": "applyThemeToDOM(savedMode || 'auto', savedContrast || 'normal')",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
+      "line": 41,
+      "content": "applyThemeToDOM('auto', contrastMode)",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
+      "line": 76,
+      "content": "applyThemeToDOM(mode, contrastMode)",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
+      "line": 82,
+      "content": "applyThemeToDOM(currentMode, contrast)",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/config/themeColors.ts",
+      "line": 188,
+      "content": "export function applyThemeToDOM(",
       "type": "TODO"
     },
     {

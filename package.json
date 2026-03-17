@@ -1,6 +1,6 @@
 {
   "name": "agentforge",
-  "version": "1.3.0-alpha.1",
+  "version": "1.3.0",
   "description": "Forge your AI agents like legendary heroes - RPG-style builder for Claude agents | 像锻造传奇英雄一样打造你的 AI Agent",
   "main": "dist-electron/main.js",
   "scripts": {
