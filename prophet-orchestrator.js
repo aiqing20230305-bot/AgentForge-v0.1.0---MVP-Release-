@@ -161,20 +161,20 @@ class ProphetOrchestrator {
     setImmediate(develop)
 
 
-    // 每30分钟执行
-    const interval = setInterval(develop, 30 * 60 * 1000)
+    // 每10分钟执行 🚀 加速模式
+    const interval = setInterval(develop, 10 * 60 * 1000)
 
     this.processes.set('developer', {
       name: 'Developer',
       type: 'interval',
       interval,
-      frequency: '30分钟',
+      frequency: '10分钟',
       status: 'running',
-      nextRun: new Date(Date.now() + 30 * 60 * 1000),
+      nextRun: new Date(Date.now() + 10 * 60 * 1000),
       iterations: 0
     })
 
-    console.log('   ✓ Developer 已启动 (每30分钟)')
+    console.log('   ✓ Developer 已启动 (每10分钟) 🚀 加速模式')
   }
 
   /**
