@@ -168,6 +168,19 @@
       },
       "commitHash": "0c26e3b33c2727bfb1a4fc377bda15b0fd13c29a",
       "timestamp": "2026-03-17T22:08:17.024Z"
+    },
+    {
+      "issueKey": "-ycvt6f",
+      "issue": {
+        "type": "bug-fix",
+        "title": "修复: if (content.match(/BUG|错误|问题|修复|FIXME/i)) score += 40",
+        "priority": "high"
+      },
+      "solution": {
+        "approach": "使用 AI 分析并修复已知问题"
+      },
+      "commitHash": "4fcd076cf48a8eb23190367bbef7c96410737650",
+      "timestamp": "2026-03-17T22:38:18.491Z"
     }
   ]
 }
