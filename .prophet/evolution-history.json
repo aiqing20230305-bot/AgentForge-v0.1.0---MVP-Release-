@@ -1,1 +1,17 @@
-{"fixes":[]}
+{
+  "fixes": [
+    {
+      "issueKey": "-ddarz1",
+      "issue": {
+        "type": "refactor",
+        "title": "提取重复代码为工具函数",
+        "priority": "medium"
+      },
+      "solution": {
+        "approach": "提取公共逻辑，创建工具函数"
+      },
+      "commitHash": "897a755797c4964c50ad3a49b403406911e59a60",
+      "timestamp": "2026-03-17T16:34:02.058Z"
+    }
+  ]
+}

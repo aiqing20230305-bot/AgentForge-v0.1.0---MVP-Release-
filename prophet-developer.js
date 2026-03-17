@@ -616,6 +616,7 @@ ${fileContent.length > 1000 ? fileContent.slice(0, 1000) + '\n// ... (已截断)
             continue
           }
 
+
           await writeFile(change.file, change.content)
           console.log(`      → 更新: ${change.file}`)
         }
