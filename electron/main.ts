@@ -1,11 +1,23 @@
-import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog, shell, clipboard } from 'electron'
 import path from 'path'
 import fs from 'fs'
 import Store from 'electron-store'
+import { TrayManager } from './tray'
+import { ShortcutManager } from './shortcut'
+import { UpdaterManager } from './updater'
+import { WindowManager } from './windowManager'
 
 const store = new Store()
 
 let mainWindow: BrowserWindow | null = null
+let trayManager: TrayManager | null = null
+let shortcutManager: ShortcutManager | null = null
+let updaterManager: UpdaterManager | null = null
+let windowManager: WindowManager | null = null
+
+// Clipboard monitoring
+let clipboardWatcher: NodeJS.Timeout | null = null
+let lastClipboardText = ''
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -34,9 +46,42 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  // Initialize managers
+  initializeManagers()
 }
 
-app.whenReady().then(createWindow)
+/**
+ * Initialize all managers
+ * 初始化所有管理器
+ */
+function initializeManagers() {
+  if (!mainWindow) return
+
+  // System Tray
+  trayManager = new TrayManager(mainWindow)
+  trayManager.create()
+
+  // Global Shortcuts
+  shortcutManager = new ShortcutManager(mainWindow)
+  shortcutManager.registerAll()
+
+  // Auto Updater
+  updaterManager = new UpdaterManager(mainWindow)
+
+  // Window Manager
+  windowManager = new WindowManager()
+  windowManager.setMainWindow(mainWindow)
+
+  console.log('[Main] All managers initialized')
+}
+
+app.whenReady().then(() => {
+  createWindow()
+
+  // Enable auto-launch (optional)
+  setupAutoLaunch()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -47,6 +92,19 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
+  }
+})
+
+app.on('before-quit', () => {
+  // Cleanup
+  if (clipboardWatcher) {
+    clearInterval(clipboardWatcher)
+  }
+  if (shortcutManager) {
+    shortcutManager.unregisterAll()
+  }
+  if (trayManager) {
+    trayManager.destroy()
   }
 })
 
@@ -233,4 +291,173 @@ ipcMain.handle('show-notification', (_, options: {
     console.error('Notification error:', error)
     return { success: false, error: String(error) }
   }
+})
+
+// ==================== Desktop Enhancement Features ====================
+
+/**
+ * Setup auto launch
+ * 设置开机自启动
+ */
+function setupAutoLaunch() {
+  const autoLaunchEnabled = store.get('autoLaunch', false) as boolean
+
+  if (autoLaunchEnabled) {
+    app.setLoginItemSettings({
+      openAtLogin: true,
+      openAsHidden: false,
+    })
+    console.log('[Main] Auto launch enabled')
+  }
+}
+
+// Auto launch control
+ipcMain.handle('auto-launch:get', () => {
+  return app.getLoginItemSettings().openAtLogin
+})
+
+ipcMain.handle('auto-launch:set', (_, enabled: boolean) => {
+  app.setLoginItemSettings({
+    openAtLogin: enabled,
+    openAsHidden: false,
+  })
+  store.set('autoLaunch', enabled)
+  return enabled
+})
+
+// Clipboard operations
+ipcMain.handle('clipboard:read-text', () => {
+  return clipboard.readText()
+})
+
+ipcMain.handle('clipboard:write-text', (_, text: string) => {
+  clipboard.writeText(text)
+  return true
+})
+
+ipcMain.handle('clipboard:start-watch', () => {
+  if (clipboardWatcher) {
+    return false // Already watching
+  }
+
+  lastClipboardText = clipboard.readText()
+
+  clipboardWatcher = setInterval(() => {
+    const currentText = clipboard.readText()
+    if (currentText && currentText !== lastClipboardText) {
+      lastClipboardText = currentText
+      mainWindow?.webContents.send('clipboard-changed', currentText)
+    }
+  }, 1000)
+
+  console.log('[Main] Clipboard watching started')
+  return true
+})
+
+ipcMain.handle('clipboard:stop-watch', () => {
+  if (clipboardWatcher) {
+    clearInterval(clipboardWatcher)
+    clipboardWatcher = null
+    console.log('[Main] Clipboard watching stopped')
+    return true
+  }
+  return false
+})
+
+// Screenshot capture
+ipcMain.handle('screenshot:capture', async () => {
+  try {
+    if (!mainWindow) return null
+
+    // Hide main window temporarily
+    const wasVisible = mainWindow.isVisible()
+    if (wasVisible) {
+      mainWindow.hide()
+    }
+
+    // Wait for window to hide
+    await new Promise((resolve) => setTimeout(resolve, 200))
+
+    // Create screenshot window
+    if (windowManager) {
+      windowManager.createScreenshotWindow()
+    }
+
+    return { success: true }
+  } catch (error: any) {
+    console.error('[Main] Screenshot error:', error)
+    return { success: false, error: error.message }
+  }
+})
+
+// File drag & drop support
+ipcMain.handle('file:drag-start', (_, filePath: string) => {
+  try {
+    if (!fs.existsSync(filePath)) {
+      return { success: false, error: 'File not found' }
+    }
+
+    // This is handled by the renderer process with HTML5 drag/drop
+    return { success: true }
+  } catch (error: any) {
+    return { success: false, error: error.message }
+  }
+})
+
+// System info
+ipcMain.handle('system:get-info', () => {
+  return {
+    platform: process.platform,
+    arch: process.arch,
+    version: app.getVersion(),
+    electronVersion: process.versions.electron,
+    nodeVersion: process.versions.node,
+    chromiumVersion: process.versions.chrome,
+  }
+})
+
+// Power monitor
+ipcMain.handle('power:get-status', () => {
+  const { powerMonitor } = require('electron')
+  return {
+    onBattery: powerMonitor.isOnBatteryPower(),
+    charging: !powerMonitor.isOnBatteryPower(),
+  }
+})
+
+// Network status
+ipcMain.handle('network:is-online', () => {
+  const { net } = require('electron')
+  return net.isOnline()
+})
+
+// GPU acceleration control
+ipcMain.handle('gpu:get-info', () => {
+  return app.getGPUInfo('complete')
+})
+
+ipcMain.handle('gpu:disable-hardware-acceleration', () => {
+  app.disableHardwareAcceleration()
+  return true
+})
+
+// Memory info
+ipcMain.handle('process:get-memory-info', async () => {
+  if (!mainWindow) return null
+  return await mainWindow.webContents.getProcessMemoryInfo()
+})
+
+// Deep linking support
+app.setAsDefaultProtocolClient('agentforge')
+
+ipcMain.handle('deep-link:register', (_, protocol: string) => {
+  if (app.isDefaultProtocolClient(protocol)) {
+    return { success: true, message: 'Already registered' }
+  }
+
+  if (app.setAsDefaultProtocolClient(protocol)) {
+    return { success: true }
+  }
+
+  return { success: false, error: 'Failed to register protocol' }
 })

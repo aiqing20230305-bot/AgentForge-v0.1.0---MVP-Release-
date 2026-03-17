@@ -1,0 +1,395 @@
+{
+  "alertRules": [
+    {
+      "name": "High CPU Usage",
+      "description": "Triggers when CPU usage exceeds 80% for more than 1 minute",
+      "enabled": true,
+      "metric": "system.cpu.usage",
+      "condition": {
+        "type": "threshold",
+        "operator": ">",
+        "threshold": 80,
+        "duration": 60
+      },
+      "level": "warning",
+      "channels": ["desktop", "email"],
+      "cooldown": 300,
+      "tags": {
+        "category": "system",
+        "priority": "high"
+      }
+    },
+    {
+      "name": "Critical CPU Usage",
+      "description": "Triggers when CPU usage exceeds 95% for more than 30 seconds",
+      "enabled": true,
+      "metric": "system.cpu.usage",
+      "condition": {
+        "type": "threshold",
+        "operator": ">",
+        "threshold": 95,
+        "duration": 30
+      },
+      "level": "critical",
+      "channels": ["desktop", "email", "slack"],
+      "cooldown": 180,
+      "tags": {
+        "category": "system",
+        "priority": "critical"
+      }
+    },
+    {
+      "name": "High Memory Usage",
+      "description": "Triggers when memory usage exceeds 85% for more than 2 minutes",
+      "enabled": true,
+      "metric": "system.memory.usage",
+      "condition": {
+        "type": "threshold",
+        "operator": ">",
+        "threshold": 85,
+        "duration": 120
+      },
+      "level": "warning",
+      "channels": ["desktop", "email"],
+      "cooldown": 300,
+      "tags": {
+        "category": "system",
+        "priority": "high"
+      }
+    },
+    {
+      "name": "Disk Space Low",
+      "description": "Triggers when disk usage exceeds 90%",
+      "enabled": true,
+      "metric": "system.disk.usage",
+      "condition": {
+        "type": "threshold",
+        "operator": ">",
+        "threshold": 90,
+        "duration": 60
+      },
+      "level": "error",
+      "channels": ["desktop", "email", "slack"],
+      "cooldown": 600,
+      "tags": {
+        "category": "system",
+        "priority": "critical"
+      }
+    },
+    {
+      "name": "High Error Rate",
+      "description": "Triggers when error rate exceeds 5%",
+      "enabled": true,
+      "metric": "app.errors.rate",
+      "condition": {
+        "type": "threshold",
+        "operator": ">",
+        "threshold": 5,
+        "duration": 30
+      },
+      "level": "error",
+      "channels": ["desktop", "email"],
+      "cooldown": 300,
+      "tags": {
+        "category": "application",
+        "priority": "high"
+      }
+    },
+    {
+      "name": "Slow Response Time",
+      "description": "Triggers when average response time exceeds 2 seconds",
+      "enabled": true,
+      "metric": "app.response.time",
+      "condition": {
+        "type": "threshold",
+        "operator": ">",
+        "threshold": 2000,
+        "duration": 60
+      },
+      "level": "warning",
+      "channels": ["desktop"],
+      "cooldown": 300,
+      "tags": {
+        "category": "application",
+        "priority": "medium"
+      }
+    },
+    {
+      "name": "Request Rate Spike",
+      "description": "Triggers when request rate increases by more than 50%",
+      "enabled": true,
+      "metric": "app.requests.rate",
+      "condition": {
+        "type": "trend",
+        "percentage": 50,
+        "duration": 60
+      },
+      "level": "info",
+      "channels": ["desktop"],
+      "cooldown": 600,
+      "tags": {
+        "category": "application",
+        "priority": "low"
+      }
+    },
+    {
+      "name": "Cache Hit Rate Low",
+      "description": "Triggers when cache hit rate drops below 70%",
+      "enabled": true,
+      "metric": "app.cache.hitRate",
+      "condition": {
+        "type": "threshold",
+        "operator": "<",
+        "threshold": 70,
+        "duration": 120
+      },
+      "level": "warning",
+      "channels": ["desktop"],
+      "cooldown": 600,
+      "tags": {
+        "category": "application",
+        "priority": "medium"
+      }
+    },
+    {
+      "name": "Database Connection Pool Exhausted",
+      "description": "Triggers when active database connections exceed 90% of pool size",
+      "enabled": true,
+      "metric": "app.database.connections",
+      "condition": {
+        "type": "threshold",
+        "operator": ">",
+        "threshold": 90,
+        "duration": 30
+      },
+      "level": "critical",
+      "channels": ["desktop", "email", "slack"],
+      "cooldown": 300,
+      "tags": {
+        "category": "database",
+        "priority": "critical"
+      }
+    },
+    {
+      "name": "Slow Queries Detected",
+      "description": "Triggers when slow query count exceeds 10 per minute",
+      "enabled": true,
+      "metric": "app.database.slowQueries",
+      "condition": {
+        "type": "threshold",
+        "operator": ">",
+        "threshold": 10,
+        "duration": 60
+      },
+      "level": "warning",
+      "channels": ["desktop", "email"],
+      "cooldown": 300,
+      "tags": {
+        "category": "database",
+        "priority": "high"
+      }
+    },
+    {
+      "name": "Anomaly Detection",
+      "description": "Triggers when CPU usage shows anomalous behavior",
+      "enabled": true,
+      "metric": "system.cpu.usage",
+      "condition": {
+        "type": "anomaly"
+      },
+      "level": "warning",
+      "channels": ["desktop"],
+      "cooldown": 600,
+      "tags": {
+        "category": "system",
+        "priority": "medium"
+      }
+    },
+    {
+      "name": "Network Error Rate High",
+      "description": "Triggers when network error rate exceeds 2%",
+      "enabled": true,
+      "metric": "system.network.errorRate",
+      "condition": {
+        "type": "threshold",
+        "operator": ">",
+        "threshold": 2,
+        "duration": 60
+      },
+      "level": "error",
+      "channels": ["desktop", "email"],
+      "cooldown": 300,
+      "tags": {
+        "category": "network",
+        "priority": "high"
+      }
+    },
+    {
+      "name": "User Activity Drop",
+      "description": "Triggers when active users decrease by more than 30%",
+      "enabled": true,
+      "metric": "business.users.active",
+      "condition": {
+        "type": "trend",
+        "percentage": -30,
+        "duration": 300
+      },
+      "level": "warning",
+      "channels": ["desktop", "email"],
+      "cooldown": 1800,
+      "tags": {
+        "category": "business",
+        "priority": "medium"
+      }
+    },
+    {
+      "name": "Task Failure Rate High",
+      "description": "Triggers when task failure rate exceeds 10%",
+      "enabled": true,
+      "metric": "business.tasks.failureRate",
+      "condition": {
+        "type": "threshold",
+        "operator": ">",
+        "threshold": 10,
+        "duration": 60
+      },
+      "level": "error",
+      "channels": ["desktop", "email"],
+      "cooldown": 300,
+      "tags": {
+        "category": "business",
+        "priority": "high"
+      }
+    },
+    {
+      "name": "Health Score Degraded",
+      "description": "Triggers when overall health score drops below 70",
+      "enabled": true,
+      "metric": "health.score",
+      "condition": {
+        "type": "threshold",
+        "operator": "<",
+        "threshold": 70,
+        "duration": 60
+      },
+      "level": "warning",
+      "channels": ["desktop", "email"],
+      "cooldown": 300,
+      "tags": {
+        "category": "health",
+        "priority": "high"
+      }
+    }
+  ],
+  "notificationChannels": {
+    "email": {
+      "enabled": true,
+      "recipients": ["admin@example.com", "ops@example.com"],
+      "smtp": {
+        "host": "smtp.example.com",
+        "port": 587,
+        "secure": true,
+        "auth": {
+          "user": "alerts@example.com",
+          "pass": "your-password"
+        }
+      }
+    },
+    "slack": {
+      "enabled": true,
+      "webhookUrl": "https://hooks.slack.com/services/YOUR/WEBHOOK/URL",
+      "channel": "#alerts",
+      "username": "Monitoring Bot"
+    },
+    "webhook": {
+      "enabled": true,
+      "url": "https://your-webhook-endpoint.com/alerts",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer your-token",
+        "Content-Type": "application/json"
+      }
+    },
+    "sms": {
+      "enabled": false,
+      "provider": "twilio",
+      "accountSid": "your-account-sid",
+      "authToken": "your-auth-token",
+      "from": "+1234567890",
+      "to": ["+1234567891", "+1234567892"]
+    },
+    "desktop": {
+      "enabled": true,
+      "sound": true,
+      "badge": true
+    }
+  },
+  "escalationPolicies": [
+    {
+      "name": "Critical Incidents",
+      "description": "Escalation for critical alerts",
+      "levels": [
+        {
+          "delay": 0,
+          "channels": ["desktop", "slack"]
+        },
+        {
+          "delay": 300,
+          "channels": ["email", "sms"]
+        },
+        {
+          "delay": 900,
+          "channels": ["webhook"]
+        }
+      ],
+      "appliesTo": {
+        "levels": ["critical"]
+      }
+    },
+    {
+      "name": "Standard Escalation",
+      "description": "Standard escalation for warnings and errors",
+      "levels": [
+        {
+          "delay": 0,
+          "channels": ["desktop"]
+        },
+        {
+          "delay": 600,
+          "channels": ["email"]
+        }
+      ],
+      "appliesTo": {
+        "levels": ["warning", "error"]
+      }
+    }
+  ],
+  "maintenanceWindows": [
+    {
+      "name": "Weekly Maintenance",
+      "description": "Regular weekly maintenance window",
+      "schedule": {
+        "dayOfWeek": "Sunday",
+        "startTime": "02:00",
+        "duration": 120
+      },
+      "silenceAlerts": true,
+      "affectedRules": ["*"]
+    }
+  ],
+  "alertGrouping": {
+    "enabled": true,
+    "groupBy": ["category", "priority"],
+    "timeWindow": 300,
+    "maxGroupSize": 10
+  },
+  "retention": {
+    "alertEvents": {
+      "resolved": 30,
+      "pending": 90
+    },
+    "metrics": 7,
+    "logs": 14,
+    "traces": 7
+  }
+}
