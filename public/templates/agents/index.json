@@ -1,0 +1,175 @@
+{
+  "version": "1.0.0",
+  "templates": [
+    {
+      "id": "chatbot-basic",
+      "name": "基础聊天机器人",
+      "description": "简单友好的对话助手，适合信息查询、引导流程",
+      "difficulty": 1,
+      "category": "communication",
+      "icon": "🤖",
+      "tags": ["聊天", "客服", "问答", "新手友好"],
+      "file": "chatbot-basic.json",
+      "popular": true,
+      "recommended": true
+    },
+    {
+      "id": "writing-assistant",
+      "name": "写作助手",
+      "description": "专业的内容创作助手，博客、文案、技术文档",
+      "difficulty": 2,
+      "category": "content",
+      "icon": "📝",
+      "tags": ["写作", "文案", "博客", "创作"],
+      "file": "writing-assistant.json",
+      "popular": true,
+      "recommended": true
+    },
+    {
+      "id": "code-reviewer",
+      "name": "代码审查专家",
+      "description": "自动化代码审查，检查质量、安全漏洞、最佳实践",
+      "difficulty": 4,
+      "category": "development",
+      "icon": "🔍",
+      "tags": ["代码审查", "质量", "安全", "最佳实践"],
+      "file": "code-reviewer.json",
+      "popular": true,
+      "recommended": false
+    },
+    {
+      "id": "customer-support",
+      "name": "智能客服",
+      "description": "专业的客户支持助手，处理咨询、投诉、技术支持",
+      "difficulty": 2,
+      "category": "communication",
+      "icon": "💼",
+      "tags": ["客服", "支持", "问题解决", "用户体验"],
+      "file": "customer-support.json",
+      "popular": true,
+      "recommended": true
+    },
+    {
+      "id": "data-analyst",
+      "name": "数据分析师",
+      "description": "专业数据分析助手，清洗、分析、可视化、洞察报告",
+      "difficulty": 3,
+      "category": "analytics",
+      "icon": "📊",
+      "tags": ["数据分析", "可视化", "洞察", "报告"],
+      "file": "data-analyst.json",
+      "popular": false,
+      "recommended": false
+    },
+    {
+      "id": "content-creator",
+      "name": "内容创作大师",
+      "description": "全能内容创作助手，社交媒体、短视频脚本、营销文案",
+      "difficulty": 3,
+      "category": "content",
+      "icon": "🎨",
+      "tags": ["创作", "社交媒体", "脚本", "创意"],
+      "file": "content-creator.json",
+      "popular": false,
+      "recommended": false
+    },
+    {
+      "id": "research-assistant",
+      "name": "研究助手",
+      "description": "学术和商业研究助手，信息检索、数据整合、报告撰写",
+      "difficulty": 4,
+      "category": "research",
+      "icon": "🔬",
+      "tags": ["研究", "调研", "报告", "学术"],
+      "file": "research-assistant.json",
+      "popular": false,
+      "recommended": false
+    },
+    {
+      "id": "translator",
+      "name": "翻译专家",
+      "description": "专业多语言翻译助手，文档翻译、本地化适配",
+      "difficulty": 3,
+      "category": "language",
+      "icon": "🌐",
+      "tags": ["翻译", "本地化", "多语言"],
+      "file": "translator.json",
+      "popular": false,
+      "recommended": false
+    },
+    {
+      "id": "coding-buddy",
+      "name": "编程伙伴",
+      "description": "全能编程助手，代码生成、Bug调试、算法优化",
+      "difficulty": 4,
+      "category": "development",
+      "icon": "💻",
+      "tags": ["编程", "调试", "算法", "技术"],
+      "file": "coding-buddy.json",
+      "popular": true,
+      "recommended": false
+    },
+    {
+      "id": "business-advisor",
+      "name": "商业顾问",
+      "description": "资深商业战略顾问，市场分析、战略规划、决策支持",
+      "difficulty": 5,
+      "category": "business",
+      "icon": "💼",
+      "tags": ["商业", "战略", "分析", "决策"],
+      "file": "business-advisor.json",
+      "popular": false,
+      "recommended": false
+    }
+  ],
+  "categories": [
+    {
+      "id": "communication",
+      "name": "沟通交流",
+      "description": "对话、客服、支持类 Agent",
+      "icon": "💬"
+    },
+    {
+      "id": "content",
+      "name": "内容创作",
+      "description": "写作、文案、创意类 Agent",
+      "icon": "✍️"
+    },
+    {
+      "id": "development",
+      "name": "软件开发",
+      "description": "代码、审查、开发类 Agent",
+      "icon": "💻"
+    },
+    {
+      "id": "analytics",
+      "name": "数据分析",
+      "description": "数据处理、分析、可视化类 Agent",
+      "icon": "📊"
+    },
+    {
+      "id": "research",
+      "name": "研究调研",
+      "description": "信息检索、研究、报告类 Agent",
+      "icon": "🔬"
+    },
+    {
+      "id": "language",
+      "name": "语言处理",
+      "description": "翻译、本地化类 Agent",
+      "icon": "🌐"
+    },
+    {
+      "id": "business",
+      "name": "商业咨询",
+      "description": "战略、分析、决策类 Agent",
+      "icon": "💼"
+    }
+  ],
+  "metadata": {
+    "totalTemplates": 10,
+    "lastUpdated": "2026-03-17",
+    "version": "1.0.0",
+    "author": "AgentForge Team"
+  }
+}
