@@ -13,7 +13,7 @@
  */
 
 const { readFile, writeFile, readdir, mkdir } = require('fs/promises')
-const { join } = require('path')
+const { join, basename } = require('path')
 const { exec } = require('child_process')
 const { promisify } = require('util')
 const Anthropic = require('@anthropic-ai/sdk')
@@ -609,6 +609,13 @@ ${fileContent.length > 1000 ? fileContent.slice(0, 1000) + '\n// ... (已截断)
       // 2. 应用代码更改
       if (solution.code) {
         for (const change of solution.code) {
+          // 🔒 安全检查：禁止修改 Prophet 核心文件
+          const fileName = basename(change.file)
+          if (fileName.startsWith('prophet-')) {
+            console.log(`      ⚠️  跳过核心文件: ${change.file} (受保护)`)
+            continue
+          }
+
           await writeFile(change.file, change.content)
           console.log(`      → 更新: ${change.file}`)
         }
