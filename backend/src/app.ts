@@ -16,6 +16,7 @@ import agentRoutes from './routes/agents'
 import taskRoutes from './routes/tasks'
 import teamRoutes from './routes/teams'
 import socketRoutes from './routes/socket'
+import batchRoutes from './routes/batch'
 
 const app: Application = express()
 
@@ -55,6 +56,7 @@ app.use('/api/v1/agents', agentRoutes)
 app.use('/api/v1/tasks', taskRoutes)
 app.use('/api/v1/teams', teamRoutes)
 app.use('/api/v1/socket', socketRoutes)
+app.use('/api/batch', batchRoutes)
 
 // 404 handler
 app.use(notFound)

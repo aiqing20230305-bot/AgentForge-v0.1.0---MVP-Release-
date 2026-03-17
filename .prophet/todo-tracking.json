@@ -1,11 +1,53 @@
 {
-  "timestamp": "2026-03-17T09:10:47.738Z",
-  "total": 40,
+  "timestamp": "2026-03-17T11:16:13.005Z",
+  "total": 56,
   "byType": {
-    "TODO": 34,
-    "FIXME": 6
+    "TODO": 49,
+    "FIXME": 7
   },
   "items": [
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/backend/src/integrations/jira/jiraService.ts",
+      "line": 218,
+      "content": "// TODO: 实现 webhook 签名验证",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/electron/updater.ts",
+      "line": 12,
+      "content": "autoDownload: boolean",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/electron/updater.ts",
+      "line": 34,
+      "content": "autoDownload: true,",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/electron/updater.ts",
+      "line": 57,
+      "content": "autoUpdater.autoDownload = config.autoDownload",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/electron/updater.ts",
+      "line": 64,
+      "content": "autoUpdater.autoDownload = false",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/electron/updater.ts",
+      "line": 157,
+      "content": "if (config.autoDownload !== undefined) {",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/electron/updater.ts",
+      "line": 158,
+      "content": "autoUpdater.autoDownload = config.autoDownload",
+      "type": "TODO"
+    },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-auto-dev.js",
       "line": 129,
@@ -23,6 +65,12 @@
       "line": 155,
       "content": "// TODO: 从数据库或配置中获取上次轮换时间",
       "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 21,
+      "content": "// 原 FIXME 位置 - 现已修复",
+      "type": "FIXME"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-heart.js",
@@ -145,45 +193,93 @@
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/TaskRecommendations.tsx",
-      "line": 43,
-      "content": "t => t.status === 'pending' || t.status === 'todo'",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/discord/DiscordCommands.ts",
+      "line": 598,
+      "content": "// TODO: Implement",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
-      "line": 9,
-      "content": "import { ThemeMode, ContrastMode, applyThemeToDOM } from '../config/themeColors'",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/jira/jiraStatusMapper.ts",
+      "line": 21,
+      "content": "{ local: 'todo', jira: 'To Do', description: '待处理' },",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
-      "line": 32,
-      "content": "applyThemeToDOM(savedMode || 'auto', savedContrast || 'normal')",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/jira/jiraStatusMapper.ts",
+      "line": 28,
+      "content": "defaultLocalStatus: 'todo',",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
-      "line": 41,
-      "content": "applyThemeToDOM('auto', contrastMode)",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/jira/jiraStatusMapper.ts",
+      "line": 142,
+      "content": "{ local: 'todo', jira: 'To Do', description: '待处理' },",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
-      "line": 76,
-      "content": "applyThemeToDOM(mode, contrastMode)",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/jira/jiraStatusMapper.ts",
+      "line": 190,
+      "content": "todo: ['to do', 'open', 'backlog', 'new'],",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
-      "line": 82,
-      "content": "applyThemeToDOM(currentMode, contrast)",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/jira/jiraWebhookHandler.ts",
+      "line": 151,
+      "content": "// TODO: 实现签名验证",
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/config/themeColors.ts",
-      "line": 188,
-      "content": "export function applyThemeToDOM(",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
+      "line": 424,
+      "content": "// TODO: Integrate with agent store",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
+      "line": 429,
+      "content": "// TODO: Integrate with agent store",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
+      "line": 434,
+      "content": "// TODO: Integrate with task store",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
+      "line": 439,
+      "content": "// TODO: Integrate with task store",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
+      "line": 444,
+      "content": "// TODO: Integrate with task creation",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
+      "line": 449,
+      "content": "// TODO: Integrate with task cancellation",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
+      "line": 453,
+      "content": "// TODO: Integrate with stats system",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/offline/syncManager.ts",
+      "line": 208,
+      "content": "// TODO: Implement actual API call",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/offline/syncManager.ts",
+      "line": 324,
+      "content": "// TODO: Implement actual API call",
       "type": "TODO"
     },
     {

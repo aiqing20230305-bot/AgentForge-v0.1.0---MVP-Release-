@@ -1,0 +1,6 @@
+email,username,password,avatar
+"john.doe@example.com","johndoe","SecurePass123!","https://api.dicebear.com/7.x/avataaars/svg?seed=john"
+"jane.smith@example.com","janesmith","SecurePass456!","https://api.dicebear.com/7.x/avataaars/svg?seed=jane"
+"bob.wilson@example.com","bobwilson","SecurePass789!","https://api.dicebear.com/7.x/avataaars/svg?seed=bob"
+"alice.brown@example.com","alicebrown","SecurePass012!","https://api.dicebear.com/7.x/avataaars/svg?seed=alice"
+"charlie.davis@example.com","charliedavis","SecurePass345!","https://api.dicebear.com/7.x/avataaars/svg?seed=charlie"

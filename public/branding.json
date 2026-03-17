@@ -1,0 +1,74 @@
+{
+  "$schema": "./branding-schema.json",
+  "version": "1.0.0",
+  "productName": "AgentForge",
+  "slogan": "Forge your AI agents like legendary heroes",
+  "companyName": "AgentForge",
+  "logo": {
+    "primary": "/logo.svg",
+    "favicon": "/favicon.ico",
+    "splashScreen": null
+  },
+  "colors": {
+    "primary": "#6366f1",
+    "secondary": "#8b5cf6",
+    "accent": "#ec4899",
+    "background": "#0a0a0f",
+    "text": "#f8fafc",
+    "success": "#10b981",
+    "warning": "#f59e0b",
+    "error": "#ef4444"
+  },
+  "fonts": {
+    "heading": "Inter",
+    "body": "Inter",
+    "code": "JetBrains Mono"
+  },
+  "contact": {
+    "email": "hello@agentforge.dev",
+    "website": "https://agentforge.dev",
+    "support": "https://agentforge.dev/support",
+    "documentation": "https://docs.agentforge.dev"
+  },
+  "features": {
+    "showPoweredBy": true,
+    "allowThemeSwitch": true,
+    "enableAnalytics": false,
+    "modules": [
+      "agents",
+      "tasks",
+      "teams",
+      "analytics",
+      "settings",
+      "plugins"
+    ]
+  },
+  "customCSS": "",
+  "_comments": {
+    "productName": "您的产品名称",
+    "slogan": "产品口号或标语",
+    "logo.primary": "主Logo路径或Base64",
+    "logo.favicon": "浏览器标签页图标",
+    "logo.splashScreen": "启动画面图片（可选）",
+    "colors": "使用十六进制颜色代码",
+    "fonts": "Google Fonts字体名称",
+    "features.showPoweredBy": "是否显示 'Powered by AgentForge' 标识",
+    "features.allowThemeSwitch": "允许用户切换主题",
+    "features.enableAnalytics": "启用内置分析统计",
+    "features.modules": "启用的功能模块列表",
+    "customCSS": "可在此添加自定义CSS代码"
+  },
+  "_examples": {
+    "productName": "MyAI Platform",
+    "colors": {
+      "primary": "#3b82f6",
+      "secondary": "#10b981",
+      "accent": "#f59e0b"
+    },
+    "fonts": {
+      "heading": "Poppins",
+      "body": "Open Sans",
+      "code": "Fira Code"
+    }
+  }
+}

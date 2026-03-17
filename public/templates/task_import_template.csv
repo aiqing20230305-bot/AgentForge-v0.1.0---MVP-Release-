@@ -1,0 +1,6 @@
+title,agentId,description,priority,status,tags,estimatedDuration
+"Analyze Q4 Sales Data","agent_id_here","Analyze the Q4 sales data and provide insights on trends and patterns","high","pending","analytics,sales,q4","3600"
+"Review Pull Request #123","agent_id_here","Review the code changes in pull request #123 and provide feedback","urgent","pending","code,review,pr","1800"
+"Write Blog Post: AI Trends","agent_id_here","Write a blog post about the latest trends in AI and machine learning","medium","pending","content,writing,ai","7200"
+"Customer Inquiry #456","agent_id_here","Respond to customer inquiry about product features and pricing","high","pending","support,customer,inquiry","1200"
+"Research Paper Summary","agent_id_here","Read and summarize the key findings from the research paper on neural networks","medium","pending","research,summary,ai","5400"
