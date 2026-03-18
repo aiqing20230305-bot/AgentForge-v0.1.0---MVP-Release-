@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-03-18T05:21:02.468Z",
-  "total": 93,
+  "timestamp": "2026-03-18T05:26:02.469Z",
+  "total": 91,
   "byType": {
-    "TODO": 84,
+    "TODO": 82,
     "FIXME": 9
   },
   "items": [
@@ -298,18 +298,6 @@
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/Analytics/CustomReports.tsx",
       "line": 25,
       "content": "{/* TODO: 实现React DnD */}",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/Analytics/DeepAnalysis.tsx",
-      "line": 20,
-      "content": "{/* TODO: 实现分析模块 */}",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/Analytics/RealtimeDashboard.tsx",
-      "line": 41,
-      "content": "{/* TODO: 集成ECharts实时图表 */}",
       "type": "TODO"
     },
     {
