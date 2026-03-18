@@ -1,0 +1,151 @@
+{
+  "gamification": {
+    "level": "المستوى",
+    "xp": "نقاط الخبرة",
+    "rank": "الرتبة",
+    "achievements": "الإنجازات",
+    "leaderboard": "لوحة المتصدرين",
+    "dailyChallenge": "التحدي اليومي",
+    "rewards": "المكافآت",
+    "currency": "العملة",
+
+    "stats": {
+      "total": "المجموع",
+      "unlocked": "مفتوح",
+      "locked": "مقفل",
+      "completion": "نسبة الإنجاز",
+      "progress": "التقدم",
+      "agents": "الوكلاء",
+      "tasks": "المهام",
+      "teams": "الفرق",
+      "streak": "سلسلة الانتصارات"
+    },
+
+    "achievements": {
+      "title": "الإنجازات",
+      "all": "الكل",
+      "unlocked": "مفتوح",
+      "locked": "مقفل",
+      "searchPlaceholder": "البحث عن إنجاز...",
+      "noResults": "لم يتم العثور على إنجازات مطابقة",
+      "unlockedAt": "تم فتحه في",
+      "categories": {
+        "all": "جميع الفئات",
+        "agent": "الوكيل",
+        "task": "المهمة",
+        "team": "الفريق",
+        "social": "الاجتماعي",
+        "milestone": "معلم بارز",
+        "speed": "السرعة",
+        "quality": "الجودة",
+        "creativity": "الإبداع",
+        "contribution": "المساهمة",
+        "loyalty": "الولاء"
+      },
+      "tiers": {
+        "bronze": "برونزي",
+        "silver": "فضي",
+        "gold": "ذهبي",
+        "platinum": "بلاتيني",
+        "diamond": "ماسي"
+      },
+      "rare": "نادر"
+    },
+
+    "dailyChallenge": {
+      "title": "التحدي اليومي",
+      "noChallenge": "لا يوجد تحدي يومي",
+      "totalProgress": "التقدم الإجمالي",
+      "completed": "اكتمل",
+      "tasks": "مهام",
+      "difficulty": {
+        "easy": "سهل",
+        "medium": "متوسط",
+        "hard": "صعب",
+        "expert": "خبير"
+      },
+      "rewardsPreview": "أكمل جميع المهام للحصول على:",
+      "congratulations": "🎉 تهانينا على إكمال جميع التحديات اليوم!",
+      "comeTomorrow": "عد غدًا لإكمال تحديات جديدة!"
+    },
+
+    "leaderboard": {
+      "title": "لوحة المتصدرين",
+      "participants": "مشاركين",
+      "myRank": "ترتيبي",
+      "types": {
+        "global": "عالمي",
+        "team": "الفريق",
+        "friends": "الأصدقاء",
+        "region": "المنطقة"
+      },
+      "metrics": {
+        "xp": "نقاط الخبرة",
+        "agents": "عدد الوكلاء",
+        "tasks": "إكمال المهام",
+        "achievements": "عدد الإنجازات",
+        "streak": "أيام السلسلة"
+      },
+      "periods": {
+        "daily": "اليوم",
+        "weekly": "هذا الأسبوع",
+        "monthly": "هذا الشهر",
+        "all-time": "الكل"
+      }
+    },
+
+    "currency": {
+      "coins": "عملات معدنية",
+      "gems": "أحجار كريمة",
+      "tokens": "رموز"
+    },
+
+    "rewards": {
+      "title": "المكافآت",
+      "congratulations": "🎉 تهانينا على الحصول على مكافأة!",
+      "clickToClose": "انقر في أي مكان للإغلاق",
+      "types": {
+        "xp": "نقاط الخبرة",
+        "coins": "العملات",
+        "gems": "الأحجار الكريمة",
+        "tokens": "الرموز",
+        "achievement": "الإنجاز"
+      }
+    },
+
+    "progress": {
+      "goals": "الأهداف",
+      "total": "إجمالي الأهداف",
+      "completed": "مكتمل",
+      "inProgress": "قيد التقدم",
+      "avgProgress": "متوسط التقدم",
+      "allCompleted": "تم إكمال جميع الأهداف!",
+      "milestones": "معالم بارزة",
+      "target": "الهدف",
+      "completedAt": "اكتمل في",
+      "priority": {
+        "low": "منخفض",
+        "medium": "متوسط",
+        "high": "عالي",
+        "urgent": "عاجل"
+      }
+    },
+
+    "gameStats": {
+      "title": "إحصائيات اللعبة",
+      "loading": "جاري تحميل البيانات الإحصائية...",
+      "nextLevel": "إلى المستوى التالي",
+      "overview": "نظرة عامة على العملة",
+      "activityHeatmap": "خريطة حرارية للنشاط",
+      "activityIntensity": "كثافة النشاط",
+      "low": "منخفض",
+      "high": "عالي",
+      "leaderboardPosition": "موقع لوحة المتصدرين",
+      "global": "عالمي",
+      "region": "المنطقة",
+      "percentile": "أعلى {{percent}}%",
+      "achievementCollection": "مجموعة الإنجازات",
+      "remainingAchievements": "لا يزال هناك {{count}} إنجاز في انتظار الفتح"
+    }
+  }
+}

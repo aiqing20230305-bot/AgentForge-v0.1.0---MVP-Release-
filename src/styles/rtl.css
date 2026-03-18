@@ -1,0 +1,279 @@
+/**
+ * RTL（Right-to-Left）布局样式
+ *
+ * 支持阿拉伯语、希伯来语等RTL语言的布局
+ */
+
+/* ========== 基础RTL样式 ========== */
+
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="ltr"] {
+  text-align: left;
+}
+
+/* ========== 侧边栏镜像 ========== */
+
+[dir="rtl"] .sidebar {
+  left: auto;
+  right: 0;
+  border-left: none;
+  border-right: 1px solid var(--border-color, #e5e7eb);
+}
+
+[dir="ltr"] .sidebar {
+  left: 0;
+  right: auto;
+  border-right: 1px solid var(--border-color, #e5e7eb);
+  border-left: none;
+}
+
+/* ========== 图标镜像 ========== */
+
+/* 箭头和方向性图标需要镜像 */
+[dir="rtl"] .icon-arrow-right::before,
+[dir="rtl"] .icon-chevron-right::before,
+[dir="rtl"] .icon-arrow-left::before,
+[dir="rtl"] .icon-chevron-left::before {
+  transform: scaleX(-1);
+}
+
+/* ========== CSS逻辑属性 ========== */
+
+/* 使用CSS逻辑属性自动适应方向 */
+.container {
+  padding-inline-start: 20px;
+  padding-inline-end: 20px;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+}
+
+.card {
+  border-inline-start: 2px solid var(--primary, #3b82f6);
+  padding-inline: 16px;
+  margin-inline: 8px;
+}
+
+.button {
+  padding-inline: 12px;
+  padding-block: 8px;
+}
+
+.input {
+  padding-inline-start: 12px;
+  padding-inline-end: 12px;
+}
+
+/* ========== 浮动元素 ========== */
+
+[dir="rtl"] .float-left {
+  float: right;
+}
+
+[dir="rtl"] .float-right {
+  float: left;
+}
+
+[dir="ltr"] .float-left {
+  float: left;
+}
+
+[dir="ltr"] .float-right {
+  float: right;
+}
+
+/* ========== 文本对齐 ========== */
+
+.text-start {
+  text-align: start; /* 自动适应方向 */
+}
+
+.text-end {
+  text-align: end;
+}
+
+/* ========== Flexbox方向 ========== */
+
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .flex-row-reverse {
+  flex-direction: row;
+}
+
+/* ========== 定位 ========== */
+
+[dir="rtl"] .left-0 {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .right-0 {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] .left-4 {
+  left: auto;
+  right: 1rem;
+}
+
+[dir="rtl"] .right-4 {
+  right: auto;
+  left: 1rem;
+}
+
+/* ========== Tailwind工具类覆盖 ========== */
+
+/* Margin */
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* Padding */
+[dir="rtl"] .pl-4 {
+  padding-left: 0;
+  padding-right: 1rem;
+}
+
+[dir="rtl"] .pr-4 {
+  padding-right: 0;
+  padding-left: 1rem;
+}
+
+/* Border */
+[dir="rtl"] .border-l {
+  border-left: none;
+  border-right: 1px solid;
+}
+
+[dir="rtl"] .border-r {
+  border-right: none;
+  border-left: 1px solid;
+}
+
+/* ========== 表单元素 ========== */
+
+[dir="rtl"] input[type="checkbox"],
+[dir="rtl"] input[type="radio"] {
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+
+[dir="ltr"] input[type="checkbox"],
+[dir="ltr"] input[type="radio"] {
+  margin-right: 0.5rem;
+  margin-left: 0;
+}
+
+/* ========== 下拉菜单 ========== */
+
+[dir="rtl"] .dropdown {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .dropdown-left {
+  left: 0;
+  right: auto;
+}
+
+/* ========== Modal和Dialog ========== */
+
+[dir="rtl"] .modal-close {
+  left: 1rem;
+  right: auto;
+}
+
+[dir="ltr"] .modal-close {
+  right: 1rem;
+  left: auto;
+}
+
+/* ========== 进度条 ========== */
+
+[dir="rtl"] .progress-bar {
+  direction: ltr; /* 进度条始终从左到右 */
+}
+
+/* ========== 表格 ========== */
+
+[dir="rtl"] table {
+  direction: rtl;
+}
+
+[dir="rtl"] thead th:first-child {
+  text-align: right;
+}
+
+[dir="rtl"] thead th:last-child {
+  text-align: left;
+}
+
+/* ========== 面包屑导航 ========== */
+
+[dir="rtl"] .breadcrumb {
+  direction: rtl;
+}
+
+[dir="rtl"] .breadcrumb-separator {
+  transform: scaleX(-1);
+}
+
+/* ========== 轮播和滑动 ========== */
+
+[dir="rtl"] .carousel {
+  direction: ltr; /* 轮播保持LTR以避免动画问题 */
+}
+
+[dir="rtl"] .carousel-inner {
+  direction: rtl;
+}
+
+/* ========== 图标按钮 ========== */
+
+[dir="rtl"] .icon-button svg {
+  /* 大多数图标不需要镜像 */
+  /* 只有方向性图标需要镜像（已在上面处理） */
+}
+
+/* ========== 自定义滚动条 ========== */
+
+[dir="rtl"] ::-webkit-scrollbar {
+  left: 0;
+  right: auto;
+}
+
+/* ========== 响应式RTL ========== */
+
+@media (max-width: 768px) {
+  [dir="rtl"] .mobile-menu {
+    left: auto;
+    right: 0;
+    transform-origin: top right;
+  }
+
+  [dir="ltr"] .mobile-menu {
+    right: auto;
+    left: 0;
+    transform-origin: top left;
+  }
+}
+
+/* ========== 打印样式 ========== */
+
+@media print {
+  [dir="rtl"] * {
+    direction: rtl;
+    text-align: right;
+  }
+}
