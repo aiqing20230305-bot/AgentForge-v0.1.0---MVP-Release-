@@ -65,3 +65,7 @@ test-*.json
 release/mac-*
 release/win-*
 release/linux-*
+
+# Build outputs
+.output/
+.logs/
