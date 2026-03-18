@@ -1,8 +1,9 @@
 import React from 'react';
+import i18n from '../../i18n';
 
 /**
  * 语言切换器组件
- * v2.2.0 - 国际化支持
+ * v2.2.0 - 国际化支持 - 完全集成i18next
  */
 
 interface Language {
@@ -20,13 +21,29 @@ const SUPPORTED_LANGUAGES: Language[] = [
 ];
 
 export function LanguageSwitcher() {
-  const [currentLanguage, setCurrentLanguage] = React.useState('en-US');
+  const [currentLanguage, setCurrentLanguage] = React.useState(i18n.language || 'en-US');
 
-  const handleLanguageChange = (languageCode: string) => {
-    setCurrentLanguage(languageCode);
-    // TODO: 集成i18next
-    // i18n.changeLanguage(languageCode);
-    localStorage.setItem('preferred-language', languageCode);
+  // 同步i18n当前语言
+  React.useEffect(() => {
+    const handleLanguageChanged = (lng: string) => {
+      setCurrentLanguage(lng);
+    };
+
+    // 监听i18n语言变化事件
+    i18n.on('languageChanged', handleLanguageChanged);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChanged);
+    };
+  }, []);
+
+  const handleLanguageChange = async (languageCode: string) => {
+    try {
+      await i18n.changeLanguage(languageCode);
+      setCurrentLanguage(languageCode);
+    } catch (error) {
+      console.error('Failed to change language:', error);
+    }
   };
 
   return (

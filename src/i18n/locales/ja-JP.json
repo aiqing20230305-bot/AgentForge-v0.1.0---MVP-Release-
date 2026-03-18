@@ -1,0 +1,68 @@
+{
+  "common": {
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "create": "作成",
+    "search": "検索",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "confirm": "確認",
+    "close": "閉じる"
+  },
+  "navigation": {
+    "dashboard": "ダッシュボード",
+    "agents": "エージェント",
+    "tasks": "タスク",
+    "analytics": "分析",
+    "settings": "設定",
+    "marketplace": "マーケットプレイス"
+  },
+  "agent": {
+    "title": "エージェント",
+    "create": "エージェント作成",
+    "edit": "エージェント編集",
+    "delete": "エージェント削除",
+    "name": "エージェント名",
+    "description": "説明",
+    "status": {
+      "idle": "アイドル",
+      "running": "実行中",
+      "paused": "一時停止",
+      "error": "エラー"
+    }
+  },
+  "task": {
+    "title": "タスク",
+    "create": "タスク作成",
+    "edit": "タスク編集",
+    "delete": "タスク削除",
+    "assign": "割り当て",
+    "status": {
+      "pending": "保留中",
+      "running": "実行中",
+      "completed": "完了",
+      "failed": "失敗"
+    }
+  },
+  "auth": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "register": "登録",
+    "email": "メール",
+    "password": "パスワード",
+    "forgotPassword": "パスワードを忘れた？",
+    "magicLink": "マジックリンクを送信",
+    "loginAsGuest": "ゲストとして続ける"
+  },
+  "settings": {
+    "title": "設定",
+    "general": "一般",
+    "notifications": "通知",
+    "privacy": "プライバシー",
+    "language": "言語",
+    "theme": "テーマ"
+  }
+}

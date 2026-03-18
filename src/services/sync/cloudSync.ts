@@ -14,6 +14,8 @@
 import { getSyncService, type SyncResult } from './syncService'
 import type { AgentData } from '../../store/useDataSourceStore'
 import type { Task } from '../../types/task'
+import { useDataSourceStore } from '../../store/useDataSourceStore'
+import { useTaskStore } from '../../stores/taskStore'
 
 /**
  * Sync Status Types
@@ -328,7 +330,28 @@ export class CloudSyncService {
    * Apply merged data
    */
   private async applyMergedData(entityId: string, entity: 'agent' | 'task', data: any): Promise<void> {
-    // TODO: Update local store with merged data
+    console.log('[CloudSync] Applying merged data:', entityId, entity)
+
+    if (entity === 'agent') {
+      const dataSourceStore = useDataSourceStore.getState()
+      const existingAgent = dataSourceStore.getAgentById(entityId)
+
+      if (existingAgent) {
+        dataSourceStore.updateAgent(entityId, data)
+      } else {
+        dataSourceStore.addAgent({ ...data, id: entityId })
+      }
+    } else if (entity === 'task') {
+      const taskStore = useTaskStore.getState()
+      const existingTask = taskStore.tasks.find(t => t.id === entityId)
+
+      if (existingTask) {
+        taskStore.updateTask(entityId, data)
+      } else {
+        taskStore.addTask({ ...data, id: entityId })
+      }
+    }
+
     console.log('[CloudSync] Applied merged data:', entityId)
   }
 
@@ -338,8 +361,43 @@ export class CloudSyncService {
   private async applyRemoteChange(change: DataChange): Promise<void> {
     console.log('[CloudSync] Applying remote change:', change.entity, change.type)
 
-    // TODO: Update local store based on change type
-    // This should update Zustand stores (useDataSourceStore, useTaskStore)
+    if (change.entity === 'agent') {
+      const dataSourceStore = useDataSourceStore.getState()
+
+      switch (change.type) {
+        case 'create':
+        case 'update':
+          const existingAgent = dataSourceStore.getAgentById(change.entityId)
+          if (existingAgent) {
+            dataSourceStore.updateAgent(change.entityId, change.data)
+          } else {
+            dataSourceStore.addAgent({ ...change.data, id: change.entityId })
+          }
+          break
+        case 'delete':
+          dataSourceStore.deleteAgent(change.entityId)
+          break
+      }
+    } else if (change.entity === 'task') {
+      const taskStore = useTaskStore.getState()
+
+      switch (change.type) {
+        case 'create':
+        case 'update':
+          const existingTask = taskStore.tasks.find(t => t.id === change.entityId)
+          if (existingTask) {
+            taskStore.updateTask(change.entityId, change.data)
+          } else {
+            taskStore.addTask({ ...change.data, id: change.entityId })
+          }
+          break
+        case 'delete':
+          taskStore.deleteTask(change.entityId)
+          break
+      }
+    }
+
+    console.log('[CloudSync] Applied remote change:', change.entityId, change.type)
   }
 
   /**

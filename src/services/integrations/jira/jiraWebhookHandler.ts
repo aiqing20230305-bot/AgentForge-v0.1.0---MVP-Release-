@@ -3,6 +3,8 @@
  * 处理来自 Jira 的 Webhook 事件
  */
 
+import { createHmac } from 'crypto'
+
 export interface JiraWebhookEvent {
   webhookEvent: string;
   issue?: {
@@ -143,12 +145,54 @@ class JiraWebhookHandler {
   }
 
   /**
+   * 验证 Webhook 签名
+   */
+  private verifySignature(payload: string, signature: string): boolean {
+    if (!this.webhookSecret) {
+      return true // 如果没有配置密钥，跳过验证
+    }
+
+    try {
+      const hmac = createHmac('sha256', this.webhookSecret)
+      hmac.update(payload)
+      const computedSignature = `sha256=${hmac.digest('hex')}`
+
+      // 使用时序安全的比较避免时序攻击
+      return this.timingSafeEqual(computedSignature, signature)
+    } catch (error) {
+      console.error('[JiraWebhook] Signature verification failed:', error)
+      return false
+    }
+  }
+
+  /**
+   * 时序安全的字符串比较
+   */
+  private timingSafeEqual(a: string, b: string): boolean {
+    if (a.length !== b.length) {
+      return false
+    }
+
+    let result = 0
+    for (let i = 0; i < a.length; i++) {
+      result |= a.charCodeAt(i) ^ b.charCodeAt(i)
+    }
+
+    return result === 0
+  }
+
+  /**
    * 处理 Webhook 事件
    */
-  async handleWebhook(event: JiraWebhookEvent): Promise<void> {
+  async handleWebhook(event: JiraWebhookEvent, signature?: string): Promise<void> {
     // 验证签名（如果配置了密钥）
-    if (this.webhookSecret) {
-      // TODO: 实现签名验证
+    if (this.webhookSecret && signature) {
+      const payload = JSON.stringify(event)
+      if (!this.verifySignature(payload, signature)) {
+        console.error('[JiraWebhook] Invalid signature - rejecting webhook')
+        throw new Error('Invalid webhook signature')
+      }
+      console.log('[JiraWebhook] Signature verified successfully')
     }
 
     // 添加到队列

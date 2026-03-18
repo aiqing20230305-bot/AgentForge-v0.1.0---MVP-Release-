@@ -4,6 +4,8 @@
  */
 
 import { DiscordClient, DiscordInteraction, DiscordEmbed } from './DiscordClient'
+import { useBuildStore } from '../../../stores/buildStore'
+import { useTaskStore } from '../../../stores/taskStore'
 
 export type CommandHandler = (interaction: DiscordInteraction) => Promise<CommandResponse>
 
@@ -572,40 +574,105 @@ export class DiscordCommandsHandler {
   }
 
   /**
-   * Placeholder methods - integrate with your actual data layer
+   * Data integration methods - integrated with Zustand stores
    */
   private async fetchAgents(): Promise<any[]> {
-    return []
+    const buildStore = useBuildStore.getState()
+    const agents = buildStore.inventoryItems.filter(item => item.category === 'agents')
+    return agents.map(agent => ({
+      id: agent.id,
+      name: agent.name,
+      description: agent.description,
+      status: 'active',
+      category: agent.category
+    }))
   }
 
   private async fetchAgent(id: string): Promise<any | null> {
-    return null
+    const buildStore = useBuildStore.getState()
+    const agent = buildStore.inventoryItems.find(item => item.id === id)
+    if (!agent) return null
+
+    return {
+      id: agent.id,
+      name: agent.name,
+      description: agent.description,
+      category: agent.category,
+      status: 'active'
+    }
   }
 
   private async fetchTasks(): Promise<any[]> {
-    return []
+    const taskStore = useTaskStore.getState()
+    return taskStore.tasks.map(task => ({
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      priority: task.priority,
+      agentId: task.agentId,
+      agentName: task.agentName,
+      createdAt: task.createdAt
+    }))
   }
 
   private async fetchTask(id: string): Promise<any | null> {
-    return null
+    const taskStore = useTaskStore.getState()
+    const task = taskStore.tasks.find(t => t.id === id)
+    if (!task) return null
+
+    return {
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      priority: task.priority,
+      agentId: task.agentId,
+      agentName: task.agentName,
+      createdAt: task.createdAt,
+      completedAt: task.completedAt,
+      result: task.result
+    }
   }
 
   private async createTask(description: string): Promise<string> {
-    return 'task_' + Date.now()
+    const taskStore = useTaskStore.getState()
+    const taskId = 'task_' + Date.now()
+
+    taskStore.addTask({
+      title: description,
+      description: description,
+      status: 'pending',
+      priority: 'medium',
+      agentId: null,
+      agentName: 'Unassigned',
+      tags: ['discord-created']
+    })
+
+    return taskId
   }
 
   private async cancelTask(id: string): Promise<void> {
-    // TODO: Implement
+    const taskStore = useTaskStore.getState()
+    taskStore.updateTask(id, { status: 'failed' })
   }
 
   private async fetchStats(period: string): Promise<any> {
+    const taskStore = useTaskStore.getState()
+    const buildStore = useBuildStore.getState()
+
+    const stats = taskStore.getTaskStats()
+    const agents = buildStore.inventoryItems.filter(item => item.category === 'agents')
+
     return {
-      totalTasks: 0,
-      completedTasks: 0,
-      failedTasks: 0,
-      successRate: 0,
-      activeAgents: 0,
-      totalAgents: 0
+      totalTasks: stats.total,
+      completedTasks: stats.completed,
+      failedTasks: stats.failed,
+      successRate: stats.total > 0 ? (stats.completed / stats.total * 100).toFixed(1) + '%' : '0%',
+      activeAgents: agents.length,
+      totalAgents: agents.length,
+      pendingTasks: stats.pending,
+      inProgressTasks: stats.in_progress
     }
   }
 }

@@ -224,7 +224,7 @@ export default function TaskManagementPanel() {
 }
 
 // 新增任务模态框组件
-function NewTaskModal({ onClose }: { onClose: () => void }) {
+export function NewTaskModal({ onClose }: { onClose: () => void }) {
   const { addTask, selectedAgentId } = useTaskStore()
   const [formData, setFormData] = useState({
     title: '',

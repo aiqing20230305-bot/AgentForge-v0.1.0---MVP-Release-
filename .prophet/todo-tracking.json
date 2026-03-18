@@ -1,27 +1,15 @@
 {
-  "timestamp": "2026-03-18T09:52:52.664Z",
-  "total": 93,
+  "timestamp": "2026-03-18T09:57:52.637Z",
+  "total": 91,
   "byType": {
-    "TODO": 84,
+    "TODO": 82,
     "FIXME": 9
   },
   "items": [
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/backend/src/controllers/profileController.ts",
-      "line": 26,
-      "content": "// TODO: 如果是好友关系，可以查看",
-      "type": "TODO"
-    },
-    {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/backend/src/integrations/jira/jiraService.ts",
       "line": 218,
       "content": "// TODO: 实现 webhook 签名验证",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/backend/src/services/referral/referralService.ts",
-      "line": 282,
-      "content": "// TODO: 发送通知给用户",
       "type": "TODO"
     },
     {
@@ -302,7 +290,7 @@
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/App.tsx",
-      "line": 44,
+      "line": 43,
       "content": "// TODO: 实现创建任务对话框",
       "type": "TODO"
     },
@@ -313,9 +301,15 @@
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/GlobalSearch.tsx",
-      "line": 174,
-      "content": "// TODO: 实现导航逻辑",
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/Analytics/DeepAnalysis.tsx",
+      "line": 20,
+      "content": "{/* TODO: 实现分析模块 */}",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/Analytics/RealtimeDashboard.tsx",
+      "line": 41,
+      "content": "{/* TODO: 集成ECharts实时图表 */}",
       "type": "TODO"
     },
     {
@@ -352,12 +346,6 @@
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
       "line": 82,
       "content": "applyThemeToDOM(currentMode, contrast)",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/i18n/LanguageSwitcher.tsx",
-      "line": 27,
-      "content": "// TODO: 集成i18next",
       "type": "TODO"
     },
     {
@@ -434,43 +422,43 @@
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 424,
+      "line": 426,
       "content": "// TODO: Integrate with agent store",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 429,
+      "line": 431,
       "content": "// TODO: Integrate with agent store",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 434,
+      "line": 436,
       "content": "// TODO: Integrate with task store",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 439,
+      "line": 441,
       "content": "// TODO: Integrate with task store",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 444,
+      "line": 446,
       "content": "// TODO: Integrate with task creation",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 449,
+      "line": 451,
       "content": "// TODO: Integrate with task cancellation",
       "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 453,
+      "line": 455,
       "content": "// TODO: Integrate with stats system",
       "type": "TODO"
     },
