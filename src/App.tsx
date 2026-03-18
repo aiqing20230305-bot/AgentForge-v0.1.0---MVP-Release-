@@ -12,6 +12,7 @@ import SettingsModal from './components/SettingsModal'
 import SpaceBackground from './components/SpaceBackground'
 import CockpitLoading from './components/CockpitLoading'
 import OnboardingWizard from './components/OnboardingWizard'
+import { QuickDemo } from './components/QuickDemo'
 import { GlobalExpBar } from './components/GlobalExpBar'
 import { DailyQuestPanel } from './components/DailyQuestPanel'
 import { AuthProvider } from './contexts/AuthContext'
@@ -22,6 +23,7 @@ import { getHeartbeatService } from './services/evolution/heartbeatService'
 import { getEvolutionEngine } from './services/evolution/evolutionEngine'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { autoLoadTestAgentInDev } from './utils/testAgentLoader'
+import { loadDemoAgentsIfNeeded } from './utils/demoAgentLoader'
 import { GlobalSearch, useGlobalSearchHotkey } from './components/GlobalSearch'
 import { HotkeyHelp } from './components/HotkeyHelp'
 import { GlobalHotkeyProvider } from './components/GlobalHotkeyProvider'
@@ -33,6 +35,7 @@ import './i18n/config' // 🌍 Initialize i18n
 function App() {
   const { loadSettings, scanForItems, settingsOpen, setSettingsOpen } = useBuildStore()
   const [showOnboarding, setShowOnboarding] = useState(false)
+  const [showQuickDemo, setShowQuickDemo] = useState(false)
   const [showLoading, setShowLoading] = useState(true)
   const [showTaskDialog, setShowTaskDialog] = useState(false)
   const globalSearch = useGlobalSearchHotkey()
@@ -58,13 +61,24 @@ function App() {
   useEffect(() => {
     // Check if onboarding has been completed
     const completed = localStorage.getItem('onboarding-completed')
+    const quickDemoSeen = localStorage.getItem('quick-demo-seen')
+
     if (!completed) {
       setShowOnboarding(true)
+    }
+
+    // 显示快速体验（可以与onboarding一起，或者单独显示）
+    if (!quickDemoSeen) {
+      setShowQuickDemo(true)
     }
 
     // Initialize default data sources (only once on first run)
     console.log('[App] Initializing default data sources...')
     initializeDefaultDataSources()
+
+    // 📦 加载演示Agent (仅首次启动)
+    console.log('[App] Loading demo agents if needed...')
+    loadDemoAgentsIfNeeded()
 
     // Initialize theme system
     console.log('[App] Initializing theme system...')
@@ -149,6 +163,20 @@ function App() {
 
               {/* Onboarding Wizard */}
               {showOnboarding && <OnboardingWizard onComplete={() => setShowOnboarding(false)} />}
+
+              {/* 快速体验模式 */}
+              {showQuickDemo && (
+                <QuickDemo
+                  onComplete={() => {
+                    setShowQuickDemo(false);
+                    localStorage.setItem('quick-demo-seen', 'true');
+                  }}
+                  onSkip={() => {
+                    setShowQuickDemo(false);
+                    localStorage.setItem('quick-demo-seen', 'true');
+                  }}
+                />
+              )}
 
               {/* 每日任务面板 */}
               <DailyQuestPanel />
