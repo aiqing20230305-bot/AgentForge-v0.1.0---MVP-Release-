@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-03-18T09:57:52.637Z",
-  "total": 91,
+  "timestamp": "2026-03-18T10:02:52.710Z",
+  "total": 79,
   "byType": {
-    "TODO": 82,
+    "TODO": 70,
     "FIXME": 9
   },
   "items": [
@@ -289,12 +289,6 @@
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/App.tsx",
-      "line": 43,
-      "content": "// TODO: 实现创建任务对话框",
-      "type": "TODO"
-    },
-    {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/Analytics/CustomReports.tsx",
       "line": 25,
       "content": "{/* TODO: 实现React DnD */}",
@@ -385,12 +379,6 @@
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/discord/DiscordCommands.ts",
-      "line": 598,
-      "content": "// TODO: Implement",
-      "type": "TODO"
-    },
-    {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/jira/jiraStatusMapper.ts",
       "line": 21,
       "content": "{ local: 'todo', jira: 'To Do', description: '待处理' },",
@@ -415,54 +403,6 @@
       "type": "TODO"
     },
     {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/jira/jiraWebhookHandler.ts",
-      "line": 151,
-      "content": "// TODO: 实现签名验证",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 426,
-      "content": "// TODO: Integrate with agent store",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 431,
-      "content": "// TODO: Integrate with agent store",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 436,
-      "content": "// TODO: Integrate with task store",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 441,
-      "content": "// TODO: Integrate with task store",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 446,
-      "content": "// TODO: Integrate with task creation",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 451,
-      "content": "// TODO: Integrate with task cancellation",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/integrations/slack/SlackCommands.ts",
-      "line": 455,
-      "content": "// TODO: Integrate with stats system",
-      "type": "TODO"
-    },
-    {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/offline/syncManager.ts",
       "line": 208,
       "content": "// TODO: Implement actual API call",
@@ -476,19 +416,7 @@
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/sync/cloudSync.ts",
-      "line": 331,
-      "content": "// TODO: Update local store with merged data",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/sync/cloudSync.ts",
-      "line": 341,
-      "content": "// TODO: Update local store based on change type",
-      "type": "TODO"
-    },
-    {
-      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/services/sync/cloudSync.ts",
-      "line": 489,
+      "line": 547,
       "content": "userId: 'current_user', // TODO: Get from auth",
       "type": "TODO"
     },
