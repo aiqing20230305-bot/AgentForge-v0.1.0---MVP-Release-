@@ -1,1 +1,17 @@
-{"fixes":[]}
+{
+  "fixes": [
+    {
+      "issueKey": "-lvnqfy",
+      "issue": {
+        "type": "bug-fix",
+        "title": "修复: // 原 FIXME 位置 - 现已修复",
+        "priority": "high"
+      },
+      "solution": {
+        "approach": "使用 AI 分析并修复已知问题"
+      },
+      "commitHash": "051f7b19c75fb163f860b69a5c1fb01dbe641e22",
+      "timestamp": "2026-03-18T05:11:18.997Z"
+    }
+  ]
+}
