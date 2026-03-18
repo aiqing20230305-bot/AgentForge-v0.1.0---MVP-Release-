@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-03-17T16:29:29.184Z",
-  "total": 71,
+  "timestamp": "2026-03-18T05:11:02.580Z",
+  "total": 89,
   "byType": {
-    "TODO": 64,
-    "FIXME": 7
+    "TODO": 80,
+    "FIXME": 9
   },
   "items": [
     {
@@ -68,9 +68,117 @@
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
-      "line": 21,
-      "content": "// 原 FIXME 位置 - 现已修复",
+      "line": 151,
+      "content": "// 1. 从 TODO 跟踪中获取问题",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 152,
+      "content": "const todos = await this.loadTodoTracking()",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 153,
+      "content": "if (todos && todos.items) {",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 154,
+      "content": "// 优先处理 FIXME",
       "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 155,
+      "content": "const fixmes = todos.items.filter(t => t.type === 'FIXME')",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 156,
+      "content": "for (const fixme of fixmes.slice(0, 5)) {",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 159,
+      "content": "title: `修复: ${fixme.content}`,",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 161,
+      "content": "location: { file: fixme.file, line: fixme.line },",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 167,
+      "content": "// 处理高优先级 TODO",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 168,
+      "content": "const highPriorityTodos = todos.items",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 169,
+      "content": ".filter(t => t.type === 'TODO')",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 176,
+      "content": "for (const todo of highPriorityTodos.slice(0, 3)) {",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 179,
+      "content": "title: `实现: ${todo.content}`,",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 181,
+      "content": "location: { file: todo.file, line: todo.line },",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 281,
+      "content": "'fixme': 30,",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 295,
+      "content": "if (content.match(/BUG|错误|问题|修复|FIXME/i)) score += 40",
+      "type": "FIXME"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 771,
+      "content": "* 加载 TODO 跟踪",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 773,
+      "content": "async loadTodoTracking() {",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-developer.js",
+      "line": 776,
+      "content": "join(this.projectPath, '.prophet', 'todo-tracking.json'),",
+      "type": "TODO"
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/prophet-heart.js",
