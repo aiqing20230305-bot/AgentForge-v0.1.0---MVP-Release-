@@ -8,6 +8,9 @@ import './styles/cockpit-animation.css'
 import './styles/instant-feedback.css'
 import './styles/mobile.css'
 
+// i18n国际化
+import './i18n/config'
+
 // Web版特性检测
 const isElectron = typeof window !== 'undefined' && (window as any).electron
 const isWeb = !isElectron

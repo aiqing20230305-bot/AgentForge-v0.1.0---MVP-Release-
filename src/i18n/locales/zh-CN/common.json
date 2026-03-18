@@ -79,5 +79,71 @@
     "advanced_analytics": "高级分析",
     "team_collaboration": "团队协作",
     "priority_support": "优先支持"
+  },
+  "analytics": {
+    "title": "数据分析",
+    "realtime_dashboard": "实时监控",
+    "deep_analysis": "深度分析",
+    "custom_reports": "自定义报表",
+    "metrics": {
+      "success_rate": "成功率",
+      "cpu_usage": "CPU使用率",
+      "avg_response": "平均响应时间",
+      "active_users": "活跃用户",
+      "tasks_completed": "完成任务数"
+    },
+    "charts": {
+      "performance_trend": "性能趋势",
+      "response_time": "响应时间分布",
+      "user_funnel": "用户转化漏斗",
+      "retention_rate": "用户留存率",
+      "activity_heatmap": "活跃度热力图"
+    },
+    "insights": {
+      "title": "关键洞察",
+      "conversion_rate": "从注册到活跃用户的转化率：{{rate}}%",
+      "retention": "第{{day}}天留存率：{{rate}}% ({{comparison}})",
+      "peak_activity": "活跃高峰：{{time}}",
+      "churn_risk": "流失风险：{{description}}"
+    }
+  },
+  "team": {
+    "title": "团队",
+    "create": "创建团队",
+    "list": "团队列表",
+    "detail": "团队详情",
+    "members": "成员",
+    "add_member": "添加成员",
+    "remove_member": "移除成员",
+    "owner": "所有者",
+    "admin": "管理员",
+    "developer": "开发者",
+    "analyst": "分析师",
+    "viewer": "查看者",
+    "roles": {
+      "owner": "所有者",
+      "admin": "管理员",
+      "developer": "开发者",
+      "analyst": "分析师",
+      "viewer": "查看者",
+      "member": "成员"
+    },
+    "permissions": {
+      "all": "所有权限",
+      "team_manage": "管理团队",
+      "agent_manage": "管理Agent",
+      "analytics_view": "查看分析",
+      "read_only": "只读"
+    }
+  },
+  "mobile": {
+    "title": "移动应用",
+    "download": "下载应用",
+    "features": {
+      "manage_agents": "随时随地管理agents",
+      "real_time_updates": "实时更新",
+      "offline_support": "离线支持",
+      "push_notifications": "推送通知"
+    }
   }
 }

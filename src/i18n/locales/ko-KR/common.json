@@ -79,5 +79,71 @@
     "advanced_analytics": "고급 분석",
     "team_collaboration": "팀 협업",
     "priority_support": "우선 지원"
+  },
+  "analytics": {
+    "title": "분석",
+    "realtime_dashboard": "실시간 대시보드",
+    "deep_analysis": "심층 분석",
+    "custom_reports": "맞춤 보고서",
+    "metrics": {
+      "success_rate": "성공률",
+      "cpu_usage": "CPU 사용률",
+      "avg_response": "평균 응답 시간",
+      "active_users": "활성 사용자",
+      "tasks_completed": "완료된 작업"
+    },
+    "charts": {
+      "performance_trend": "성능 추세",
+      "response_time": "응답 시간 분포",
+      "user_funnel": "사용자 전환 퍼널",
+      "retention_rate": "유지율",
+      "activity_heatmap": "활동 히트맵"
+    },
+    "insights": {
+      "title": "주요 인사이트",
+      "conversion_rate": "가입에서 활성 사용자로의 전환율: {{rate}}%",
+      "retention": "{{day}}일 차 유지율: {{rate}}% ({{comparison}})",
+      "peak_activity": "피크 활동: {{time}}",
+      "churn_risk": "이탈 위험: {{description}}"
+    }
+  },
+  "team": {
+    "title": "팀",
+    "create": "팀 생성",
+    "list": "팀 목록",
+    "detail": "팀 상세",
+    "members": "멤버",
+    "add_member": "멤버 추가",
+    "remove_member": "멤버 제거",
+    "owner": "소유자",
+    "admin": "관리자",
+    "developer": "개발자",
+    "analyst": "분석가",
+    "viewer": "뷰어",
+    "roles": {
+      "owner": "소유자",
+      "admin": "관리자",
+      "developer": "개발자",
+      "analyst": "분석가",
+      "viewer": "뷰어",
+      "member": "멤버"
+    },
+    "permissions": {
+      "all": "모든 권한",
+      "team_manage": "팀 관리",
+      "agent_manage": "Agent 관리",
+      "analytics_view": "분석 보기",
+      "read_only": "읽기 전용"
+    }
+  },
+  "mobile": {
+    "title": "모바일 앱",
+    "download": "앱 다운로드",
+    "features": {
+      "manage_agents": "이동 중에도 Agent 관리",
+      "real_time_updates": "실시간 업데이트",
+      "offline_support": "오프라인 지원",
+      "push_notifications": "푸시 알림"
+    }
   }
 }

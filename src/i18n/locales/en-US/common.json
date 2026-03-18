@@ -79,5 +79,71 @@
     "advanced_analytics": "Advanced Analytics",
     "team_collaboration": "Team Collaboration",
     "priority_support": "Priority Support"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "realtime_dashboard": "Real-time Dashboard",
+    "deep_analysis": "Deep Analysis",
+    "custom_reports": "Custom Reports",
+    "metrics": {
+      "success_rate": "Success Rate",
+      "cpu_usage": "CPU Usage",
+      "avg_response": "Average Response Time",
+      "active_users": "Active Users",
+      "tasks_completed": "Tasks Completed"
+    },
+    "charts": {
+      "performance_trend": "Performance Trend",
+      "response_time": "Response Time Distribution",
+      "user_funnel": "User Conversion Funnel",
+      "retention_rate": "Retention Rate",
+      "activity_heatmap": "Activity Heatmap"
+    },
+    "insights": {
+      "title": "Key Insights",
+      "conversion_rate": "Conversion rate from signup to active user: {{rate}}%",
+      "retention": "Day {{day}} retention rate: {{rate}}% ({{comparison}})",
+      "peak_activity": "Peak activity: {{time}}",
+      "churn_risk": "Churn risk: {{description}}"
+    }
+  },
+  "team": {
+    "title": "Team",
+    "create": "Create Team",
+    "list": "Team List",
+    "detail": "Team Details",
+    "members": "Members",
+    "add_member": "Add Member",
+    "remove_member": "Remove Member",
+    "owner": "Owner",
+    "admin": "Admin",
+    "developer": "Developer",
+    "analyst": "Analyst",
+    "viewer": "Viewer",
+    "roles": {
+      "owner": "Owner",
+      "admin": "Administrator",
+      "developer": "Developer",
+      "analyst": "Analyst",
+      "viewer": "Viewer",
+      "member": "Member"
+    },
+    "permissions": {
+      "all": "All Permissions",
+      "team_manage": "Manage Team",
+      "agent_manage": "Manage Agents",
+      "analytics_view": "View Analytics",
+      "read_only": "Read Only"
+    }
+  },
+  "mobile": {
+    "title": "Mobile App",
+    "download": "Download App",
+    "features": {
+      "manage_agents": "Manage agents on the go",
+      "real_time_updates": "Real-time updates",
+      "offline_support": "Offline support",
+      "push_notifications": "Push notifications"
+    }
   }
 }

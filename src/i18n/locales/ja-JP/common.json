@@ -79,5 +79,71 @@
     "advanced_analytics": "高度な分析",
     "team_collaboration": "チームコラボレーション",
     "priority_support": "優先サポート"
+  },
+  "analytics": {
+    "title": "分析",
+    "realtime_dashboard": "リアルタイムダッシュボード",
+    "deep_analysis": "詳細分析",
+    "custom_reports": "カスタムレポート",
+    "metrics": {
+      "success_rate": "成功率",
+      "cpu_usage": "CPU使用率",
+      "avg_response": "平均応答時間",
+      "active_users": "アクティブユーザー",
+      "tasks_completed": "完了タスク数"
+    },
+    "charts": {
+      "performance_trend": "パフォーマンストレンド",
+      "response_time": "応答時間分布",
+      "user_funnel": "ユーザー転換ファネル",
+      "retention_rate": "リテンション率",
+      "activity_heatmap": "アクティビティヒートマップ"
+    },
+    "insights": {
+      "title": "重要な洞察",
+      "conversion_rate": "サインアップからアクティブユーザーへの転換率：{{rate}}%",
+      "retention": "{{day}}日目のリテンション率：{{rate}}% ({{comparison}})",
+      "peak_activity": "ピーク時間：{{time}}",
+      "churn_risk": "チャーンリスク：{{description}}"
+    }
+  },
+  "team": {
+    "title": "チーム",
+    "create": "チーム作成",
+    "list": "チームリスト",
+    "detail": "チーム詳細",
+    "members": "メンバー",
+    "add_member": "メンバー追加",
+    "remove_member": "メンバー削除",
+    "owner": "オーナー",
+    "admin": "管理者",
+    "developer": "開発者",
+    "analyst": "アナリスト",
+    "viewer": "閲覧者",
+    "roles": {
+      "owner": "オーナー",
+      "admin": "管理者",
+      "developer": "開発者",
+      "analyst": "アナリスト",
+      "viewer": "閲覧者",
+      "member": "メンバー"
+    },
+    "permissions": {
+      "all": "全権限",
+      "team_manage": "チーム管理",
+      "agent_manage": "Agent管理",
+      "analytics_view": "分析閲覧",
+      "read_only": "読み取り専用"
+    }
+  },
+  "mobile": {
+    "title": "モバイルアプリ",
+    "download": "アプリダウンロード",
+    "features": {
+      "manage_agents": "外出先でAgentを管理",
+      "real_time_updates": "リアルタイム更新",
+      "offline_support": "オフラインサポート",
+      "push_notifications": "プッシュ通知"
+    }
   }
 }
