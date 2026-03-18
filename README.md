@@ -4,6 +4,20 @@
 
 <div align="center">
 
+## 🔥 **24小时冲刺1000⭐ - 正在进行中！** 🔥
+
+### 🎁 **[大奖抽奖进行中！点击参与 →](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/issues/3)**
+
+**奖品总价值 $2000+ | 14个获奖名额 | 中奖率1.4%**
+
+🥇 终身Pro License + $100 AWS + 限量T恤
+🥈 1年Pro License + $50 AWS (3名)
+🥉 3月Pro License (10名)
+
+**⭐ 现在Star本仓库即可参与！**
+
+---
+
 [![GitHub Release](https://img.shields.io/github/v/release/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-?style=for-the-badge)](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/releases)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-?style=for-the-badge)](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/stargazers)
