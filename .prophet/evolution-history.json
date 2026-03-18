@@ -272,6 +272,19 @@
       },
       "commitHash": "6e5f52b2277b28f0213451c89474dddeff64583d",
       "timestamp": "2026-03-18T01:54:18.045Z"
+    },
+    {
+      "issueKey": "-ddarz1",
+      "issue": {
+        "type": "refactor",
+        "title": "提取重复代码为工具函数",
+        "priority": "medium"
+      },
+      "solution": {
+        "approach": "提取公共逻辑，创建工具函数"
+      },
+      "commitHash": "2006e999288f573770a5879cd58f706289658cad",
+      "timestamp": "2026-03-18T01:59:12.330Z"
     }
   ]
 }
