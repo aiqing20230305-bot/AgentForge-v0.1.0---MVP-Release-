@@ -1,0 +1,43 @@
+name: ✨ Feature Request
+description: Suggest a new feature for AgentForge
+title: "[Feature] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a feature! 🎉
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / 问题描述
+      description: What problem would this feature solve?
+      placeholder: I'm frustrated when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution / 建议方案
+      description: How would you like this feature to work?
+      placeholder: I think it would be great if...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives / 替代方案
+      description: Have you considered any alternative solutions?
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched for similar feature requests
+          required: true
+        - label: I'm willing to contribute this feature (optional)
+          required: false

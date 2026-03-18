@@ -278,7 +278,7 @@ export function generateDiagnosticReport(result: TestResult): string {
 export async function quickTest(): Promise<TestResult> {
   const defaultConfig: OpenClawConfig = {
     url: 'ws://127.0.0.1:18789',
-    token: '5190ffb21bb024bc145dacc982ef6773b35648fa83ccba77', // 从配置文件读取
+    token: import.meta.env.VITE_OPENCLAW_TOKEN || '', // 从环境变量读取，不硬编码
   }
 
   console.log('[OpenClawTester] 🚀 Quick test with default config')
