@@ -1,329 +1,213 @@
-/**
- * Team Controller
- * Handle CRUD operations for teams
- */
-
-import { Request, Response, NextFunction } from 'express'
-import { Team } from '../models/Team'
-import { Agent } from '../models/Agent'
-import { createError } from '../middleware/errorHandler'
+import { Request, Response } from 'express';
+import { Team } from '../models/Team';
+import { hasPermission, getUserPermissions } from '../services/permissions/rbac';
 
 /**
- * Get all teams for current user
- * GET /api/v1/teams
+ * Team CRUD Controller
+ * v2.2.0 - 团队管理API
  */
-export const getTeams = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+
+// 创建团队
+export async function createTeam(req: Request, res: Response) {
   try {
-    if (!req.user) {
-      throw createError('User not authenticated', 401)
-    }
-
-    const { isPublic, sortBy = 'createdAt', order = 'desc' } = req.query
-
-    const filter: any = { userId: req.user.userId }
-    if (isPublic !== undefined) filter.isPublic = isPublic === 'true'
-
-    const sortOrder = order === 'asc' ? 1 : -1
-    const teams = await Team.find(filter).sort({ [sortBy as string]: sortOrder })
-
-    res.status(200).json({
-      success: true,
-      count: teams.length,
-      data: teams
-    })
-  } catch (error) {
-    next(error)
-  }
-}
-
-/**
- * Get single team by ID
- * GET /api/v1/teams/:id
- */
-export const getTeam = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    if (!req.user) {
-      throw createError('User not authenticated', 401)
-    }
-
-    const team = await Team.findOne({
-      _id: req.params.id,
-      userId: req.user.userId
-    })
-
-    if (!team) {
-      throw createError('Team not found', 404)
-    }
-
-    res.status(200).json({
-      success: true,
-      data: team
-    })
-  } catch (error) {
-    next(error)
-  }
-}
-
-/**
- * Create new team
- * POST /api/v1/teams
- */
-export const createTeam = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    if (!req.user) {
-      throw createError('User not authenticated', 401)
-    }
-
-    const { name, description, isPublic, maxMembers, tags } = req.body
+    const { name, description } = req.body;
+    const userId = req.user?.id; // 来自认证中间件
 
     if (!name) {
-      throw createError('Team name is required', 400)
+      return res.status(400).json({ error: 'Team name is required' });
     }
 
     const team = await Team.create({
-      userId: req.user.userId,
       name,
       description,
-      isPublic: isPublic || false,
-      maxMembers: maxMembers || 5,
-      tags: tags || []
-    })
+      owner: userId,
+      members: [{
+        userId,
+        roleId: 'owner',
+        joinedAt: new Date(),
+        invitedBy: userId
+      }],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
 
-    res.status(201).json({
-      success: true,
-      message: 'Team created successfully',
-      data: team
-    })
+    res.status(201).json({ team });
   } catch (error) {
-    next(error)
+    console.error('Create team error:', error);
+    res.status(500).json({ error: 'Failed to create team' });
   }
 }
 
-/**
- * Update team
- * PUT /api/v1/teams/:id
- */
-export const updateTeam = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+// 获取团队详情
+export async function getTeam(req: Request, res: Response) {
   try {
-    if (!req.user) {
-      throw createError('User not authenticated', 401)
+    const { id } = req.params;
+    const team = await Team.findById(id);
+
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
     }
 
-    const { name, description, isPublic, maxMembers, tags } = req.body
+    // 检查权限
+    const userPermissions = getUserPermissions(req.user?.roles || []);
+    if (!hasPermission(userPermissions, 'team:read')) {
+      return res.status(403).json({ error: 'No permission to view team' });
+    }
 
-    const team = await Team.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user.userId },
-      {
-        ...(name && { name }),
-        ...(description !== undefined && { description }),
-        ...(isPublic !== undefined && { isPublic }),
-        ...(maxMembers && { maxMembers }),
-        ...(tags && { tags })
+    res.json({ team });
+  } catch (error) {
+    console.error('Get team error:', error);
+    res.status(500).json({ error: 'Failed to get team' });
+  }
+}
+
+// 更新团队
+export async function updateTeam(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const { name, description } = req.body;
+    
+    const team = await Team.findById(id);
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+
+    // 检查权限
+    const userPermissions = getUserPermissions(req.user?.roles || []);
+    if (!hasPermission(userPermissions, 'team:write')) {
+      return res.status(403).json({ error: 'No permission to update team' });
+    }
+
+    const updatedTeam = await Team.findByIdAndUpdate(
+      id,
+      { 
+        name: name || team.name,
+        description: description || team.description,
+        updatedAt: new Date()
       },
-      { new: true, runValidators: true }
-    )
+      { new: true }
+    );
 
-    if (!team) {
-      throw createError('Team not found', 404)
-    }
-
-    res.status(200).json({
-      success: true,
-      message: 'Team updated successfully',
-      data: team
-    })
+    res.json({ team: updatedTeam });
   } catch (error) {
-    next(error)
+    console.error('Update team error:', error);
+    res.status(500).json({ error: 'Failed to update team' });
   }
 }
 
-/**
- * Delete team
- * DELETE /api/v1/teams/:id
- */
-export const deleteTeam = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+// 删除团队
+export async function deleteTeam(req: Request, res: Response) {
   try {
-    if (!req.user) {
-      throw createError('User not authenticated', 401)
-    }
-
-    const team = await Team.findOneAndDelete({
-      _id: req.params.id,
-      userId: req.user.userId
-    })
-
+    const { id } = req.params;
+    
+    const team = await Team.findById(id);
     if (!team) {
-      throw createError('Team not found', 404)
+      return res.status(404).json({ error: 'Team not found' });
     }
 
-    res.status(200).json({
-      success: true,
-      message: 'Team deleted successfully'
-    })
+    // 检查权限（只有owner可以删除）
+    const userPermissions = getUserPermissions(req.user?.roles || []);
+    if (!hasPermission(userPermissions, 'team:delete') && team.owner !== req.user?.id) {
+      return res.status(403).json({ error: 'Only team owner can delete team' });
+    }
+
+    await Team.findByIdAndDelete(id);
+    res.json({ message: 'Team deleted successfully' });
   } catch (error) {
-    next(error)
+    console.error('Delete team error:', error);
+    res.status(500).json({ error: 'Failed to delete team' });
   }
 }
 
-/**
- * Add member to team
- * POST /api/v1/teams/:id/members
- */
-export const addTeamMember = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+// 添加团队成员
+export async function addTeamMember(req: Request, res: Response) {
   try {
-    if (!req.user) {
-      throw createError('User not authenticated', 401)
-    }
+    const { id } = req.params;
+    const { userId, roleId } = req.body;
 
-    const { agentId, role } = req.body
-
-    if (!agentId) {
-      throw createError('Agent ID is required', 400)
-    }
-
-    // Verify agent exists and belongs to user
-    const agent = await Agent.findOne({
-      _id: agentId,
-      userId: req.user.userId
-    })
-
-    if (!agent) {
-      throw createError('Agent not found', 404)
-    }
-
-    const team = await Team.findOne({
-      _id: req.params.id,
-      userId: req.user.userId
-    })
-
+    const team = await Team.findById(id);
     if (!team) {
-      throw createError('Team not found', 404)
+      return res.status(404).json({ error: 'Team not found' });
     }
 
-    // Check if agent already in team
-    const existingMember = team.members.find((m: { agentId: string }) => m.agentId === agentId)
+    // 检查权限
+    const userPermissions = getUserPermissions(req.user?.roles || []);
+    if (!hasPermission(userPermissions, 'team:write')) {
+      return res.status(403).json({ error: 'No permission to add members' });
+    }
+
+    // 检查成员是否已存在
+    const existingMember = team.members.find(m => m.userId === userId);
     if (existingMember) {
-      throw createError('Agent is already a member of this team', 409)
-    }
-
-    // Check if team is full
-    if (team.members.length >= team.maxMembers) {
-      throw createError('Team is full', 400)
+      return res.status(400).json({ error: 'User is already a team member' });
     }
 
     team.members.push({
-      agentId,
-      agentName: agent.name,
-      role: role || 'member',
-      joinedAt: new Date()
-    })
+      userId,
+      roleId: roleId || 'member',
+      joinedAt: new Date(),
+      invitedBy: req.user?.id || ''
+    });
+    team.updatedAt = new Date();
+    
+    await team.save();
 
-    await team.save()
-
-    res.status(200).json({
-      success: true,
-      message: 'Member added to team successfully',
-      data: team
-    })
+    res.json({ team });
   } catch (error) {
-    next(error)
+    console.error('Add team member error:', error);
+    res.status(500).json({ error: 'Failed to add team member' });
   }
 }
 
-/**
- * Remove member from team
- * DELETE /api/v1/teams/:id/members/:agentId
- */
-export const removeTeamMember = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+// 移除团队成员
+export async function removeTeamMember(req: Request, res: Response) {
   try {
-    if (!req.user) {
-      throw createError('User not authenticated', 401)
-    }
+    const { id, userId } = req.params;
 
-    const team = await Team.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user.userId },
-      { $pull: { members: { agentId: req.params.agentId } } },
-      { new: true }
-    )
-
+    const team = await Team.findById(id);
     if (!team) {
-      throw createError('Team not found', 404)
+      return res.status(404).json({ error: 'Team not found' });
     }
 
-    res.status(200).json({
-      success: true,
-      message: 'Member removed from team successfully',
-      data: team
-    })
+    // 检查权限
+    const userPermissions = getUserPermissions(req.user?.roles || []);
+    if (!hasPermission(userPermissions, 'team:write')) {
+      return res.status(403).json({ error: 'No permission to remove members' });
+    }
+
+    // 不能移除owner
+    if (team.owner === userId) {
+      return res.status(400).json({ error: 'Cannot remove team owner' });
+    }
+
+    team.members = team.members.filter(m => m.userId !== userId);
+    team.updatedAt = new Date();
+    
+    await team.save();
+
+    res.json({ team });
   } catch (error) {
-    next(error)
+    console.error('Remove team member error:', error);
+    res.status(500).json({ error: 'Failed to remove team member' });
   }
 }
 
-/**
- * Update team statistics
- * PATCH /api/v1/teams/:id/stats
- */
-export const updateTeamStats = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+// 获取团队列表
+export async function listTeams(req: Request, res: Response) {
   try {
-    if (!req.user) {
-      throw createError('User not authenticated', 401)
-    }
+    const userId = req.user?.id;
+    
+    // 获取用户所属的所有团队
+    const teams = await Team.find({
+      $or: [
+        { owner: userId },
+        { 'members.userId': userId }
+      ]
+    });
 
-    const { tasksCompleted, totalTokensUsed } = req.body
-
-    const team = await Team.findOne({
-      _id: req.params.id,
-      userId: req.user.userId
-    })
-
-    if (!team) {
-      throw createError('Team not found', 404)
-    }
-
-    if (tasksCompleted !== undefined) team.tasksCompleted += tasksCompleted
-    if (totalTokensUsed !== undefined) team.totalTokensUsed += totalTokensUsed
-
-    await team.save()
-
-    res.status(200).json({
-      success: true,
-      message: 'Team statistics updated successfully',
-      data: team
-    })
+    res.json({ teams });
   } catch (error) {
-    next(error)
+    console.error('List teams error:', error);
+    res.status(500).json({ error: 'Failed to list teams' });
   }
 }
