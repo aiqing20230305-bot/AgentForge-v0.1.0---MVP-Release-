@@ -21,8 +21,6 @@ export default defineConfig({
     outDir: 'dist',
     // 代码分割优化
     rollupOptions: {
-      // 使用Web专用HTML入口
-      input: path.resolve(__dirname, 'index.web.html'),
       output: {
         manualChunks: {
           // 核心依赖

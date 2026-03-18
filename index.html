@@ -36,9 +36,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- 错误捕获 -->
+    <script>
+      window.addEventListener('error', function(e) {
+        console.error('❌ Global Error:', e.error)
+        console.error('File:', e.filename, 'Line:', e.lineno)
+      })
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('❌ Unhandled Promise Rejection:', e.reason)
+      })
+    </script>
   </head>
   <body class="bg-bg-primary text-text-primary">
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/main.web.tsx"></script>
   </body>
 </html>
