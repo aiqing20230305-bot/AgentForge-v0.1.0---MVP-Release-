@@ -22,6 +22,14 @@ if (typeof window === 'undefined') {
 (window as any).electron = undefined;
 console.log('✅ Electron APIs disabled')
 
+// 🔧 Web版：禁用OpenClaw后端连接（避免CORS错误）
+localStorage.setItem('openclaw-config', JSON.stringify({
+  gatewayUrl: 'http://localhost:18789',
+  authToken: '',
+  enabled: false  // Web版禁用
+}))
+console.log('✅ OpenClaw backend disabled for Web version')
+
 // 渲染应用
 try {
   const rootElement = document.getElementById('root')
