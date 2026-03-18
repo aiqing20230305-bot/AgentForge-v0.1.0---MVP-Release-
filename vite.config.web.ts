@@ -7,7 +7,15 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
-    }
+    },
+    // 确保不尝试引入Node.js模块
+    mainFields: ['browser', 'module', 'main']
+  },
+  define: {
+    // 明确定义为生产环境
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    // 禁用Electron标志
+    'process.env.IS_ELECTRON': JSON.stringify('false')
   },
   build: {
     outDir: 'dist',
