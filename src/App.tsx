@@ -138,15 +138,17 @@ function App() {
               {/* 星空背景 */}
               <SpaceBackground />
 
-              {/* 离线指示器 */}
-              <OfflineIndicator />
+              {/* 主内容 - 确保在背景之上 */}
+              <div className="relative z-10 h-full flex flex-col">
+                {/* 离线指示器 */}
+                <OfflineIndicator />
 
-              {/* 全局经验条 */}
-              <GlobalExpBar />
+                {/* 全局经验条 */}
+                <GlobalExpBar />
 
-              <TopBar />
+                <TopBar />
 
-              <div className="flex-1 flex min-h-0 h-full mt-12">
+                <div className="flex-1 flex min-h-0 h-full mt-12">
                 {/* Agent Display Panel - Full Width */}
                 <div className="flex-1 min-w-0 overflow-hidden h-full">
                   <AgentDisplayPanel />
@@ -193,6 +195,8 @@ function App() {
 
               {/* 任务创建对话框 */}
               {showTaskDialog && <NewTaskModal onClose={() => setShowTaskDialog(false)} />}
+              </div>
+              {/* 主内容容器结束 */}
             </div>
           </DndProvider>
         </SocketProvider>
