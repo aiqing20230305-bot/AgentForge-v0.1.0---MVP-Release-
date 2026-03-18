@@ -1,15 +1,27 @@
 {
-  "timestamp": "2026-03-18T05:16:02.463Z",
-  "total": 89,
+  "timestamp": "2026-03-18T09:52:52.664Z",
+  "total": 93,
   "byType": {
-    "TODO": 80,
+    "TODO": 84,
     "FIXME": 9
   },
   "items": [
     {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/backend/src/controllers/profileController.ts",
+      "line": 26,
+      "content": "// TODO: 如果是好友关系，可以查看",
+      "type": "TODO"
+    },
+    {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/backend/src/integrations/jira/jiraService.ts",
       "line": 218,
       "content": "// TODO: 实现 webhook 签名验证",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/backend/src/services/referral/referralService.ts",
+      "line": 282,
+      "content": "// TODO: 发送通知给用户",
       "type": "TODO"
     },
     {
@@ -290,8 +302,14 @@
     },
     {
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/App.tsx",
-      "line": 43,
+      "line": 44,
       "content": "// TODO: 实现创建任务对话框",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/Analytics/CustomReports.tsx",
+      "line": 25,
+      "content": "{/* TODO: 实现React DnD */}",
       "type": "TODO"
     },
     {
@@ -334,6 +352,12 @@
       "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/ThemeSwitcherV2.tsx",
       "line": 82,
       "content": "applyThemeToDOM(currentMode, contrast)",
+      "type": "TODO"
+    },
+    {
+      "file": "/Users/zhangjingwei/Desktop/AgentForge/src/components/i18n/LanguageSwitcher.tsx",
+      "line": 27,
+      "content": "// TODO: 集成i18next",
       "type": "TODO"
     },
     {

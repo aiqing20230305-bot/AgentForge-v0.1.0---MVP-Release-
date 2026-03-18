@@ -168,23 +168,59 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) =
       setSearchHistory([searchQuery, ...searchHistory].slice(0, 10))
     }
 
-    // 根据类型执行不同操作
+    // ✅ 根据类型执行导航操作
     console.log('Selected:', result)
 
-    // TODO: 实现导航逻辑
-    switch (result.type) {
-      case 'agent':
-        // 导航到 Agent 详情
-        console.log('Navigate to agent:', result.data)
-        break
-      case 'task':
-        // 导航到任务详情
-        console.log('Navigate to task:', result.data)
-        break
-      case 'feature':
-        // 导航到功能页面
-        console.log('Navigate to feature:', result.data)
-        break
+    try {
+      switch (result.type) {
+        case 'agent':
+          // ✅ 导航到 Agent 详情 - 选中Agent
+          if (result.data && result.data.id) {
+            const buildStore = useBuildStore.getState()
+            // 选中该Agent
+            buildStore.selectAgent(result.data.id)
+
+            // 如果有详情面板，打开它
+            const event = new CustomEvent('agentforge:showDetails', {
+              detail: { agentId: result.data.id, type: 'agent' }
+            })
+            window.dispatchEvent(event)
+
+            console.log('✅ Navigated to agent:', result.data.name || result.data.id)
+          }
+          break
+
+        case 'task':
+          // ✅ 导航到任务详情 - 选中Task
+          if (result.data && result.data.id) {
+            const taskStore = useTaskStore.getState()
+            // 高亮显示该任务
+            const event = new CustomEvent('agentforge:showTask', {
+              detail: { taskId: result.data.id }
+            })
+            window.dispatchEvent(event)
+
+            console.log('✅ Navigated to task:', result.data.title || result.data.id)
+          }
+          break
+
+        case 'feature':
+          // ✅ 导航到功能页面 - 根据feature.route导航
+          if (result.data && result.data.route) {
+            const event = new CustomEvent('agentforge:navigate', {
+              detail: { route: result.data.route, feature: result.data.name }
+            })
+            window.dispatchEvent(event)
+
+            console.log('✅ Navigated to feature:', result.data.name)
+          }
+          break
+
+        default:
+          console.warn('Unknown result type:', result.type)
+      }
+    } catch (error) {
+      console.error('Navigation failed:', error)
     }
 
     onClose()
