@@ -36,7 +36,8 @@ function App() {
   const { loadSettings, scanForItems, settingsOpen, setSettingsOpen } = useBuildStore()
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [showQuickDemo, setShowQuickDemo] = useState(false)
-  const [showLoading, setShowLoading] = useState(true)
+  // Web版跳过CockpitLoading动画（避免useEffect依赖问题）
+  const [showLoading, setShowLoading] = useState(false)
   const [showTaskDialog, setShowTaskDialog] = useState(false)
   const globalSearch = useGlobalSearchHotkey()
 
