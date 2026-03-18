@@ -298,6 +298,19 @@
       },
       "commitHash": "d677f63e8559603638ca4b2ba58538b9690da8c8",
       "timestamp": "2026-03-18T02:04:13.168Z"
+    },
+    {
+      "issueKey": "xuampf",
+      "issue": {
+        "type": "refactor",
+        "title": "重构长函数（1 个）",
+        "priority": "medium"
+      },
+      "solution": {
+        "approach": "提取公共逻辑，创建工具函数"
+      },
+      "commitHash": "9cb0f0eb1e521f4f6b0d1b5942d6311213652e8e",
+      "timestamp": "2026-03-18T02:09:12.337Z"
     }
   ]
 }
