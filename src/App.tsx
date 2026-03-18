@@ -27,12 +27,14 @@ import { HotkeyHelp } from './components/HotkeyHelp'
 import { GlobalHotkeyProvider } from './components/GlobalHotkeyProvider'
 import { VoiceControlButton } from './components/VoiceControlButton'
 import { useVoiceCommands } from './hooks/useVoiceCommands'
+import { NewTaskModal } from './components/TaskManagementPanel'
 import './i18n/config' // 🌍 Initialize i18n
 
 function App() {
   const { loadSettings, scanForItems, settingsOpen, setSettingsOpen } = useBuildStore()
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [showLoading, setShowLoading] = useState(true)
+  const [showTaskDialog, setShowTaskDialog] = useState(false)
   const globalSearch = useGlobalSearchHotkey()
 
   // 语音命令集成
@@ -40,7 +42,7 @@ function App() {
     onOpenSettings: () => setSettingsOpen(true),
     onCreateTask: () => {
       console.log('[App] Voice: Create task')
-      // TODO: 实现创建任务对话框
+      setShowTaskDialog(true)
     },
     onPauseAll: () => {
       console.log('[App] Voice: Pause all tasks')
@@ -97,6 +99,16 @@ function App() {
     scanForItems()
   }, [scanForItems])
 
+  useEffect(() => {
+    // Listen for task creation events
+    const handleCreateTask = () => setShowTaskDialog(true)
+    window.addEventListener('agentforge:createTask', handleCreateTask)
+
+    return () => {
+      window.removeEventListener('agentforge:createTask', handleCreateTask)
+    }
+  }, [])
+
   return (
     <ErrorBoundary>
       <AuthProvider>
@@ -149,6 +161,9 @@ function App() {
 
               {/* 语音控制按钮 */}
               <VoiceControlButton onOpenSettings={() => setSettingsOpen(true)} />
+
+              {/* 任务创建对话框 */}
+              {showTaskDialog && <NewTaskModal onClose={() => setShowTaskDialog(false)} />}
             </div>
           </DndProvider>
         </SocketProvider>
