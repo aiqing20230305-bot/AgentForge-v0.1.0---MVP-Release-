@@ -65,3 +65,4 @@ test-*.json
 release/mac-*
 release/win-*
 release/linux-*
+.output/
