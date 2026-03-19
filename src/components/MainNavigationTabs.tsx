@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react'
-import { Activity, Zap, Trophy, Swords, BarChart3, TrendingUp, Gift, Settings, Gauge, BookOpen, User, Brain, ShoppingCart } from 'lucide-react'
+import { Activity, Zap, Trophy, Swords, BarChart3, TrendingUp, Gift, Settings, Gauge, BookOpen, User, Brain, ShoppingCart, Sparkles } from 'lucide-react'
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import TaskManagementPanel from './TaskManagementPanel'
 import { EnergyDashboard } from './EnergyDashboard'
@@ -21,9 +21,10 @@ import ComponentShowcase from './ComponentShowcase'
 import AgentDetailPage from './AgentDetailPage'
 import { AIAssistantPanel } from './AIAssistantPanel'
 import { GameShop } from './GameShop'
+import { ProphetDemoPanel } from './ProphetDemoPanel'
 import type { Battle } from '../types/battle'
 
-type TabType = 'tasks' | 'energy' | 'skills' | 'achievements' | 'shop' | 'battle' | 'leaderboard' | 'invite' | 'performance' | 'showcase' | 'settings' | 'agent-detail' | 'ai-assistant'
+type TabType = 'tasks' | 'energy' | 'skills' | 'achievements' | 'shop' | 'battle' | 'leaderboard' | 'invite' | 'performance' | 'showcase' | 'settings' | 'agent-detail' | 'ai-assistant' | 'prophet-demo'
 
 export const MainNavigationTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('tasks')
@@ -84,6 +85,7 @@ export const MainNavigationTabs: React.FC = () => {
 
   const tabs = [
     { id: 'tasks' as TabType, label: '任务', icon: Activity },
+    { id: 'prophet-demo' as TabType, label: 'Prophet', icon: Sparkles },
     { id: 'ai-assistant' as TabType, label: 'AI助手', icon: Brain },
     { id: 'energy' as TabType, label: '能耗', icon: Zap },
     { id: 'skills' as TabType, label: '技能', icon: BarChart3 },
@@ -241,6 +243,7 @@ export const MainNavigationTabs: React.FC = () => {
       {/* 标签页内容 */}
       <div className="flex-1 overflow-auto">
         {activeTab === 'tasks' && <TaskManagementPanel />}
+        {activeTab === 'prophet-demo' && <ProphetDemoPanel />}
         {activeTab === 'ai-assistant' && <AIAssistantPanel />}
         {activeTab === 'energy' && <EnergyDashboard />}
         {activeTab === 'skills' && firstAgent && (
