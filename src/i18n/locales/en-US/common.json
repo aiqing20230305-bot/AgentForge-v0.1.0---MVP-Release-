@@ -21,7 +21,23 @@
     "error": "Error",
     "success": "Success",
     "warning": "Warning",
-    "info": "Info"
+    "info": "Info",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "finish": "Finish",
+    "skip": "Skip",
+    "retry": "Retry"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "agents": "Agents",
+    "tasks": "Tasks",
+    "analytics": "Analytics",
+    "marketplace": "Marketplace",
+    "leaderboard": "Leaderboard",
+    "evolution": "Evolution",
+    "home": "Home"
   },
   "agent": {
     "title": "Agent",
@@ -38,7 +54,17 @@
       "active": "Active",
       "idle": "Idle",
       "working": "Working",
-      "offline": "Offline"
+      "offline": "Offline",
+      "running": "Running",
+      "paused": "Paused",
+      "error": "Error"
+    },
+    "actions": {
+      "upgrade": "Upgrade",
+      "deploy": "Deploy",
+      "train": "Train",
+      "battle": "Battle",
+      "share": "Share"
     }
   },
   "task": {
@@ -57,11 +83,77 @@
       "pending": "Pending",
       "in_progress": "In Progress",
       "completed": "Completed",
-      "failed": "Failed"
+      "failed": "Failed",
+      "running": "Running"
     },
     "assign": "Assign Task",
     "start": "Start Task",
     "complete": "Complete Task"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "magicLink": "Send Magic Link",
+    "loginAsGuest": "Continue as Guest",
+    "loginWith": "Login with {{provider}}"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "auto": "Auto"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "byLevel": "By Level",
+    "byTasks": "By Tasks",
+    "byBattles": "By Battles",
+    "overall": "Overall",
+    "rank": "Rank",
+    "player": "Player",
+    "score": "Score",
+    "myRank": "My Rank"
+  },
+  "social": {
+    "like": "Like",
+    "comment": "Comment",
+    "share": "Share",
+    "follow": "Follow",
+    "following": "Following",
+    "followers": "Followers",
+    "shareOn": "Share on {{platform}}",
+    "copyLink": "Copy Link",
+    "downloadImage": "Download Image"
+  },
+  "mobile": {
+    "install": "Install App",
+    "installPrompt": "Add AgentForge to your home screen for a better experience",
+    "installSteps": {
+      "ios": "Tap the share button, then select 'Add to Home Screen'",
+      "android": "Tap the 'Install' button to add the app to your home screen"
+    }
+  },
+  "performance": {
+    "loading": "Loading...",
+    "optimizing": "Optimizing performance...",
+    "lowEndDevice": "Low-end device detected, performance optimization enabled",
+    "metrics": {
+      "fcp": "First Contentful Paint",
+      "lcp": "Largest Contentful Paint",
+      "fps": "Frame Rate"
+    }
+  },
+  "analytics": {
+    "pageView": "Page View",
+    "event": "Event Tracking",
+    "userBehavior": "User Behavior"
+  },
+  "security": {
+    "warning": "Security Warning",
+    "xssDetected": "Suspicious input detected and blocked",
+    "rateLimitExceeded": "Too many requests, please try again later"
   },
   "subscription": {
     "free": "Free",
