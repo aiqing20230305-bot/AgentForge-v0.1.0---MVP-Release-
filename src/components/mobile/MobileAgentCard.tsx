@@ -5,6 +5,7 @@
 import React from 'react'
 import { OpenClawAgent } from '../../utils/openclawLoader'
 import { Zap, Target, TrendingUp } from 'lucide-react'
+import { ShareButton } from '../share/ShareButton'
 
 interface MobileAgentCardProps {
   agent: OpenClawAgent
@@ -33,6 +34,14 @@ export function MobileAgentCard({ agent, onClick }: MobileAgentCardProps) {
         WebkitTapHighlightColor: 'transparent'
       }}
     >
+      {/* 分享按钮 */}
+      <div
+        className="absolute top-3 right-3 z-10"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <ShareButton agent={agent} variant="icon" size="sm" />
+      </div>
+
       {/* 头部 */}
       <div className="p-4">
         <div className="flex items-center gap-3">

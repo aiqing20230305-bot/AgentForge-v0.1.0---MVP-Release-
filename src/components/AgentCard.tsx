@@ -23,8 +23,10 @@ import {
   Copy,
   Eye,
   MoreVertical,
-  GripVertical
+  GripVertical,
+  Share2
 } from 'lucide-react'
+import { ShareButton } from './share/ShareButton'
 import '../styles/agent-card.css'
 
 interface AgentCardProps {
@@ -103,6 +105,15 @@ const AgentCard = memo(({
       label: '查看详情',
       onClick: () => {
         onViewDetails?.(agent)
+        setShowContextMenu(false)
+      }
+    },
+    {
+      icon: <Share2 className="w-4 h-4" />,
+      label: '分享 Agent',
+      onClick: () => {
+        // Share button will handle this via its own menu
+        console.log('Share agent:', agent.name)
         setShowContextMenu(false)
       }
     },
@@ -265,6 +276,14 @@ const AgentCard = memo(({
               <span>{currentStatus.icon}</span>
               <span className="hidden sm:inline">{currentStatus.label}</span>
             </motion.div>
+          </div>
+
+          {/* Share button (visible on hover) */}
+          <div
+            className="absolute top-2 right-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ShareButton agent={agent} variant="icon" size="sm" />
           </div>
 
           {/* Experience bar */}
