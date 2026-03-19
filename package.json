@@ -1,67 +1,36 @@
 {
   "name": "agentforge",
-  "version": "1.5.0",
+  "version": "1.2.0",
   "description": "Forge your AI agents like legendary heroes - RPG-style builder for Claude agents | 像锻造传奇英雄一样打造你的 AI Agent",
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
-    "build:web": "vite build --config vite.config.web.ts",
-    "build:web:performance": "vite build --config vite.config.performance.ts",
     "preview": "vite preview",
-    "preview:web": "vite preview --config vite.config.web.ts",
     "electron:dev": "concurrently \"vite\" \"electron .\"",
     "typecheck": "tsc --noEmit",
     "screenshots": "node scripts/take-screenshots.mjs",
     "screenshots:setup": "npx playwright install chromium",
-    "lighthouse": "npm run build:web && npm run preview:web & sleep 5 && npx lighthouse http://localhost:4173 --view --preset=desktop",
-    "lighthouse:ci": "lhci autorun",
-    "analyze": "npx vite-bundle-visualizer"
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:run": "vitest run"
   },
-  "keywords": [
-    "ai",
-    "agent",
-    "ai-agent",
-    "langchain",
-    "autogpt",
-    "gamification",
-    "rpg",
-    "machine-learning",
-    "automation",
-    "no-code",
-    "low-code",
-    "electron",
-    "react",
-    "typescript",
-    "desktop-app",
-    "agent-orchestration",
-    "claude",
-    "openai",
-    "llm",
-    "ai-development",
-    "developer-tools"
-  ],
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.78.0",
     "axios": "^1.13.6",
-    "better-sqlite3": "^11.8.1",
     "date-fns": "^4.1.0",
-    "electron-log": "^5.2.4",
     "electron-store": "^8.1.0",
-    "electron-updater": "^6.3.9",
     "framer-motion": "^12.36.0",
     "gpt-tokenizer": "^2.1.2",
     "html2canvas": "^1.4.1",
-    "i18next": "^25.8.18",
-    "i18next-browser-languagedetector": "^8.2.1",
+    "jspdf": "^4.2.1",
     "lucide-react": "^0.563.0",
     "qrcode": "^1.5.4",
     "react": "^18.2.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
-    "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^18.2.0",
-    "react-i18next": "^16.5.8",
     "react-window": "^2.2.7",
     "recharts": "^3.8.0",
     "socket.io-client": "^4.8.3",
@@ -72,25 +41,30 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
-    "@types/better-sqlite3": "^7.6.12",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20.19.37",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
     "@types/react-window": "^1.8.8",
     "@vitejs/plugin-react": "^4.3.0",
+    "@vitest/coverage-v8": "^4.1.0",
+    "@vitest/ui": "^4.1.0",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.1.0",
     "electron": "^41.0.2",
     "electron-builder": "^26.4.0",
+    "jsdom": "^29.0.0",
     "postcss": "^8.5.0",
     "prettier": "^3.8.1",
     "tailwindcss": "^3.4.0",
-    "terser": "^5.46.1",
     "typescript": "^5.7.0",
     "vite": "^6.2.0",
     "vite-plugin-electron": "^0.28.0",
-    "vite-plugin-electron-renderer": "^0.14.6"
+    "vite-plugin-electron-renderer": "^0.14.6",
+    "vitest": "^4.1.0"
   },
   "build": {
     "appId": "com.agentforge.app",
@@ -102,66 +76,14 @@
       "dist/**/*",
       "dist-electron/**/*"
     ],
-    "extraResources": [
-      {
-        "from": "public/icon-tray.png",
-        "to": "icon-tray.png"
-      },
-      {
-        "from": "public/icon-tray-template.png",
-        "to": "icon-tray-template.png"
-      }
-    ],
     "mac": {
-      "target": [
-        {
-          "target": "dmg",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        },
-        {
-          "target": "zip",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        }
-      ],
-      "category": "public.app-category.developer-tools",
-      "hardenedRuntime": true,
-      "gatekeeperAssess": false,
-      "entitlements": "build/entitlements.mac.plist",
-      "entitlementsInherit": "build/entitlements.mac.plist"
+      "target": "dmg"
     },
     "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        },
-        {
-          "target": "portable"
-        }
-      ],
-      "icon": "public/icon.ico"
+      "target": "nsis"
     },
     "linux": {
-      "target": [
-        "AppImage",
-        "deb",
-        "rpm"
-      ],
-      "category": "Development"
-    },
-    "publish": {
-      "provider": "github",
-      "owner": "your-github-username",
-      "repo": "agentforge"
+      "target": "AppImage"
     }
   }
 }
