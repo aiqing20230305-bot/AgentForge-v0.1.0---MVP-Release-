@@ -3,16 +3,9 @@
  */
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-// 临时使用SimpleApp进行调试
-import SimpleApp from './SimpleApp'
+// 使用MinimalApp逐步恢复功能
+import MinimalApp from './MinimalApp'
 // import App from './App'
-// import './index.css'
-// import './styles/animations.css'
-// import './styles/macos-glass.css'
-// import './styles/cockpit-animation.css'
-// import './styles/instant-feedback.css'
-// import './styles/mobile.css'
-// import './styles/web-debug.css'
 
 console.log('✅ main.web.tsx loaded')
 
@@ -43,7 +36,7 @@ try {
 
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <SimpleApp />
+      <MinimalApp />
     </React.StrictMode>
   )
   console.log('✅ React app rendered')
