@@ -1,13 +1,16 @@
 /**
- * Web版优化App - 完整功能
+ * Web版优化App - 完整功能 + 移动端支持
  */
 import React, { useEffect, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { TouchBackend } from 'react-dnd-touch-backend'
 import { useBuildStore } from './stores/buildStore'
 import { initializeDefaultDataSources } from './store/useDataSourceStore'
 import { initializeTheme } from './store/useThemeStore'
 import { loadDemoAgentsIfNeeded } from './utils/demoAgentLoader'
+import { useIsMobile, useIsTouchDevice } from './hooks/useIsMobile'
+import { loadOpenClawAgents } from './utils/openclawLoader'
 import TopBar from './components/TopBar'
 import AgentDisplayPanel from './components/AgentDisplayPanel'
 import { MainNavigationTabs } from './components/MainNavigationTabs'
@@ -19,6 +22,9 @@ import { QuickDemo } from './components/QuickDemo'
 import { GlobalExpBar } from './components/GlobalExpBar'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { GlobalSearch, useGlobalSearchHotkey } from './components/GlobalSearch'
+import { MobileLayout } from './components/mobile/MobileLayout'
+import { MobileAgentGrid } from './components/mobile/MobileAgentGrid'
+import { PWAInstallPrompt } from './components/mobile/PWAInstallPrompt'
 import './index.css'
 import './styles/animations.css'
 
@@ -26,7 +32,15 @@ export default function WebApp() {
   const { loadSettings, scanForItems, settingsOpen, setSettingsOpen } = useBuildStore()
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [showQuickDemo, setShowQuickDemo] = useState(false)
+  const [agents, setAgents] = useState<any[]>([])
   const globalSearch = useGlobalSearchHotkey()
+
+  // 设备检测
+  const isMobile = useIsMobile()
+  const isTouch = useIsTouchDevice()
+
+  // 选择DnD后端（触摸设备用TouchBackend）
+  const dndBackend = isTouch ? TouchBackend : HTML5Backend
 
   useEffect(() => {
     // 初始化
@@ -46,6 +60,9 @@ export default function WebApp() {
     loadDemoAgentsIfNeeded()
     initializeTheme()
     loadSettings()
+
+    // 加载Agent数据（用于移动端）
+    loadOpenClawAgents().then(setAgents)
   }, [loadSettings])
 
   useEffect(() => {
@@ -54,42 +71,71 @@ export default function WebApp() {
 
   return (
     <ErrorBoundary>
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={dndBackend}>
         <div className="h-screen flex flex-col bg-[#0a0a0a] overflow-hidden relative">
           {/* 星空背景 - z-index: 0 */}
           <SpaceBackground />
 
           {/* 主UI容器 - z-index: 10 确保在背景之上 */}
           <div className="relative z-10 h-full flex flex-col">
-            {/* 全局经验条 */}
-            <GlobalExpBar />
+            {isMobile ? (
+              // ==================== 移动端布局 ====================
+              <MobileLayout>
+                <div className="h-full flex flex-col">
+                  {/* 移动端TopBar（简化版） */}
+                  <div className="sticky top-0 z-20 bg-[#0a0a0a]/95 backdrop-blur-lg border-b border-white/10 px-4 py-3">
+                    <h1 className="text-xl font-bold text-white">AgentForge</h1>
+                  </div>
 
-            {/* TopBar */}
-            <TopBar />
+                  {/* Agent网格 */}
+                  <MobileAgentGrid
+                    agents={agents}
+                    onAgentClick={(agent) => {
+                      console.log('[Mobile] Agent clicked:', agent)
+                      // TODO: 打开Agent详情
+                    }}
+                    onCreateAgent={() => {
+                      console.log('[Mobile] Create agent')
+                      // TODO: 打开创建Agent
+                    }}
+                  />
+                </div>
 
-            {/* 主内容区 */}
-            <div className="flex-1 flex min-h-0 h-full mt-12">
-              {/* Agent Display Panel */}
-              <div className="flex-1 min-w-0 overflow-hidden h-full">
-                <AgentDisplayPanel />
-              </div>
+                {/* PWA安装提示 */}
+                <PWAInstallPrompt />
+              </MobileLayout>
+            ) : (
+              // ==================== 桌面端布局 ====================
+              <>
+                {/* 全局经验条 */}
+                <GlobalExpBar />
 
-              {/* 右侧导航 */}
-              <MainNavigationTabs />
-            </div>
+                {/* TopBar */}
+                <TopBar />
 
-            {/* Preview Panel */}
-            <PreviewPanel />
+                {/* 主内容区 */}
+                <div className="flex-1 flex min-h-0 h-full mt-12">
+                  {/* Agent Display Panel */}
+                  <div className="flex-1 min-w-0 overflow-hidden h-full">
+                    <AgentDisplayPanel />
+                  </div>
 
-            {/* Settings Modal */}
+                  {/* 右侧导航 */}
+                  <MainNavigationTabs />
+                </div>
+
+                {/* Preview Panel */}
+                <PreviewPanel />
+              </>
+            )}
+
+            {/* 通用弹窗和Modal */}
             {settingsOpen && <SettingsModal />}
 
-            {/* Onboarding */}
             {showOnboarding && (
               <OnboardingWizard onComplete={() => setShowOnboarding(false)} />
             )}
 
-            {/* Quick Demo */}
             {showQuickDemo && (
               <QuickDemo
                 onComplete={() => {
@@ -103,7 +149,6 @@ export default function WebApp() {
               />
             )}
 
-            {/* 全局搜索 */}
             <GlobalSearch isOpen={globalSearch.isOpen} onClose={globalSearch.close} />
           </div>
         </div>
