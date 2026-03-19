@@ -18,6 +18,7 @@ import teamRoutes from './routes/teams'
 import socketRoutes from './routes/socket'
 import batchRoutes from './routes/batch'
 import pluginRoutes from './routes/plugins'
+import analyticsRoutes from './routes/analytics'
 
 const app: Application = express()
 
@@ -59,6 +60,7 @@ app.use('/api/v1/teams', teamRoutes)
 app.use('/api/v1/socket', socketRoutes)
 app.use('/api/batch', batchRoutes)
 app.use('/api/v1/plugins', pluginRoutes)
+app.use('/api/analytics', analyticsRoutes)
 
 // 404 handler
 app.use(notFound)
