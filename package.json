@@ -7,11 +7,16 @@
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
     "build:web": "vite build --config vite.config.web.ts",
+    "build:web:performance": "vite build --config vite.config.performance.ts",
     "preview": "vite preview",
+    "preview:web": "vite preview --config vite.config.web.ts",
     "electron:dev": "concurrently \"vite\" \"electron .\"",
     "typecheck": "tsc --noEmit",
     "screenshots": "node scripts/take-screenshots.mjs",
-    "screenshots:setup": "npx playwright install chromium"
+    "screenshots:setup": "npx playwright install chromium",
+    "lighthouse": "npm run build:web && npm run preview:web & sleep 5 && npx lighthouse http://localhost:4173 --view --preset=desktop",
+    "lighthouse:ci": "lhci autorun",
+    "analyze": "npx vite-bundle-visualizer"
   },
   "keywords": [
     "ai",
