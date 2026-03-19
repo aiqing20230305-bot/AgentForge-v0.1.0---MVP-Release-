@@ -26,6 +26,7 @@ import { MobileLayout } from './components/mobile/MobileLayout'
 import { MobileAgentGrid } from './components/mobile/MobileAgentGrid'
 import { PWAInstallPrompt } from './components/mobile/PWAInstallPrompt'
 import { LeaderboardModal } from './components/leaderboard/LeaderboardModal'
+import { initPerformanceMonitoring } from './utils/performance'
 import './index.css'
 import './styles/animations.css'
 
@@ -66,6 +67,9 @@ export default function WebApp() {
 
     // 加载Agent数据（用于移动端）
     loadOpenClawAgents().then(setAgents)
+
+    // Phase 3: 性能监控
+    initPerformanceMonitoring()
   }, [loadSettings])
 
   useEffect(() => {
