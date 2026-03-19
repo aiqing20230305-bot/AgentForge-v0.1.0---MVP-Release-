@@ -3,9 +3,8 @@
  */
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-// 使用MinimalApp逐步恢复功能
-import MinimalApp from './MinimalApp'
-// import App from './App'
+// 使用WebApp - Web版优化完整功能
+import WebApp from './WebApp'
 
 console.log('✅ main.web.tsx loaded')
 
@@ -36,7 +35,7 @@ try {
 
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <MinimalApp />
+      <WebApp />
     </React.StrictMode>
   )
   console.log('✅ React app rendered')
