@@ -27,6 +27,7 @@ import { MobileAgentGrid } from './components/mobile/MobileAgentGrid'
 import { PWAInstallPrompt } from './components/mobile/PWAInstallPrompt'
 import { LeaderboardModal } from './components/leaderboard/LeaderboardModal'
 import { initPerformanceMonitoring } from './utils/performance'
+import { initAccessibility } from './utils/accessibility'
 import './index.css'
 import './styles/animations.css'
 
@@ -70,6 +71,9 @@ export default function WebApp() {
 
     // Phase 3: 性能监控
     initPerformanceMonitoring()
+
+    // Phase 4.3: 可访问性
+    initAccessibility()
   }, [loadSettings])
 
   useEffect(() => {
