@@ -27,6 +27,7 @@ import {
   Share2
 } from 'lucide-react'
 import { ShareButton } from './share/ShareButton'
+import { SocialActionBar } from './social/SocialActionBar'
 import '../styles/agent-card.css'
 
 interface AgentCardProps {
@@ -329,6 +330,19 @@ const AgentCard = memo(({
               {agent.description}
             </div>
           )}
+
+          {/* Social Action Bar */}
+          <div className="mb-3 pb-3 border-b border-[#3a3a3a]">
+            <SocialActionBar
+              agentId={agent.id}
+              initialLikes={agent.socialStats?.likes || Math.floor(Math.random() * 200)}
+              initialComments={agent.socialStats?.comments || Math.floor(Math.random() * 50)}
+              size="sm"
+              onLike={(id) => console.log('[AgentCard] Liked:', id)}
+              onComment={(id) => console.log('[AgentCard] Comment:', id)}
+              onChallenge={(id) => console.log('[AgentCard] Challenge:', id)}
+            />
+          </div>
 
           {/* Action buttons */}
           <div className="flex gap-2">

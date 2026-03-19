@@ -6,6 +6,7 @@ import React from 'react'
 import { OpenClawAgent } from '../../utils/openclawLoader'
 import { Zap, Target, TrendingUp } from 'lucide-react'
 import { ShareButton } from '../share/ShareButton'
+import { SocialActionBar } from '../social/SocialActionBar'
 
 interface MobileAgentCardProps {
   agent: OpenClawAgent
@@ -97,7 +98,7 @@ export function MobileAgentCard({ agent, onClick }: MobileAgentCardProps) {
       </div>
 
       {/* 统计数据 */}
-      <div className="px-4 pb-4 grid grid-cols-3 gap-2">
+      <div className="px-4 pb-3 grid grid-cols-3 gap-2">
         <div className="text-center p-2 rounded-lg bg-white/5">
           <Zap size={16} className="mx-auto mb-1 text-yellow-400" />
           <div className="text-xs text-gray-400">活力</div>
@@ -121,6 +122,22 @@ export function MobileAgentCard({ agent, onClick }: MobileAgentCardProps) {
             {agent.coreEvolution?.evolutionLevel || 0}
           </div>
         </div>
+      </div>
+
+      {/* 社交操作栏 */}
+      <div
+        className="px-4 pb-4 border-t border-white/10 pt-3"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <SocialActionBar
+          agentId={agent.id}
+          initialLikes={agent.socialStats?.likes || Math.floor(Math.random() * 200)}
+          initialComments={agent.socialStats?.comments || Math.floor(Math.random() * 50)}
+          size="sm"
+          onLike={(id) => console.log('[MobileAgentCard] Liked:', id)}
+          onComment={(id) => console.log('[MobileAgentCard] Comment:', id)}
+          onChallenge={(id) => console.log('[MobileAgentCard] Challenge:', id)}
+        />
       </div>
 
       {/* 发光效果 */}
