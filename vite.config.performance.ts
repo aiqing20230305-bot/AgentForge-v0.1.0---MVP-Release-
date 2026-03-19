@@ -27,8 +27,8 @@ export default defineConfig({
           // React核心
           'react-core': ['react', 'react-dom', 'react-dom/client'],
 
-          // 路由和状态管理
-          'state-management': ['zustand', 'react-router-dom'],
+          // 状态管理
+          'state-management': ['zustand'],
 
           // UI框架（按需拆分）
           'framer-motion': ['framer-motion'],
