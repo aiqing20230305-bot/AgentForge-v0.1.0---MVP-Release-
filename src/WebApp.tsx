@@ -25,6 +25,7 @@ import { GlobalSearch, useGlobalSearchHotkey } from './components/GlobalSearch'
 import { MobileLayout } from './components/mobile/MobileLayout'
 import { MobileAgentGrid } from './components/mobile/MobileAgentGrid'
 import { PWAInstallPrompt } from './components/mobile/PWAInstallPrompt'
+import { LeaderboardModal } from './components/leaderboard/LeaderboardModal'
 import './index.css'
 import './styles/animations.css'
 
@@ -33,6 +34,8 @@ export default function WebApp() {
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [showQuickDemo, setShowQuickDemo] = useState(false)
   const [agents, setAgents] = useState<any[]>([])
+  const [showLeaderboard, setShowLeaderboard] = useState(false)
+  const [activeTab, setActiveTab] = useState<'agents' | 'tasks' | 'leaderboard' | 'evolution' | 'settings'>('agents')
   const globalSearch = useGlobalSearchHotkey()
 
   // 设备检测
@@ -69,6 +72,18 @@ export default function WebApp() {
     scanForItems()
   }, [scanForItems])
 
+  // Handle mobile tab changes
+  const handleTabChange = (tabId: typeof activeTab) => {
+    setActiveTab(tabId)
+
+    if (tabId === 'leaderboard') {
+      setShowLeaderboard(true)
+    } else if (tabId === 'settings') {
+      setSettingsOpen(true)
+    }
+    // TODO: Handle other tabs (tasks, evolution)
+  }
+
   return (
     <ErrorBoundary>
       <DndProvider backend={dndBackend}>
@@ -80,7 +95,7 @@ export default function WebApp() {
           <div className="relative z-10 h-full flex flex-col">
             {isMobile ? (
               // ==================== 移动端布局 ====================
-              <MobileLayout>
+              <MobileLayout activeTab={activeTab} onTabChange={handleTabChange}>
                 <div className="h-full flex flex-col">
                   {/* 移动端TopBar（简化版） */}
                   <div className="sticky top-0 z-20 bg-[#0a0a0a]/95 backdrop-blur-lg border-b border-white/10 px-4 py-3">
@@ -103,6 +118,17 @@ export default function WebApp() {
 
                 {/* PWA安装提示 */}
                 <PWAInstallPrompt />
+
+                {/* 排行榜弹窗 */}
+                <LeaderboardModal
+                  isOpen={showLeaderboard}
+                  onClose={() => {
+                    setShowLeaderboard(false)
+                    setActiveTab('agents')
+                  }}
+                  agents={agents}
+                  currentUserId="current-user-id" // TODO: 从auth获取实际用户ID
+                />
               </MobileLayout>
             ) : (
               // ==================== 桌面端布局 ====================

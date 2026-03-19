@@ -13,6 +13,11 @@ interface Tab {
   icon: React.ReactNode
 }
 
+interface BottomTabBarProps {
+  activeTab?: TabId
+  onTabChange?: (tabId: TabId) => void
+}
+
 const tabs: Tab[] = [
   {
     id: 'agents',
@@ -41,12 +46,18 @@ const tabs: Tab[] = [
   }
 ]
 
-export function BottomTabBar() {
-  const [activeTab, setActiveTab] = useState<TabId>('agents')
+export function BottomTabBar({ activeTab: controlledActiveTab, onTabChange }: BottomTabBarProps = {}) {
+  const [internalActiveTab, setInternalActiveTab] = useState<TabId>('agents')
+
+  // 使用受控或非受控模式
+  const activeTab = controlledActiveTab !== undefined ? controlledActiveTab : internalActiveTab
 
   const handleTabClick = (tabId: TabId) => {
-    setActiveTab(tabId)
-    // TODO: 触发对应的导航事件
+    if (controlledActiveTab === undefined) {
+      setInternalActiveTab(tabId)
+    }
+
+    onTabChange?.(tabId)
     console.log(`[BottomTabBar] Switch to tab: ${tabId}`)
   }
 

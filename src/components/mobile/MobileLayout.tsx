@@ -5,12 +5,16 @@
 import React, { ReactNode } from 'react'
 import { BottomTabBar } from './BottomTabBar'
 
+type TabId = 'agents' | 'tasks' | 'leaderboard' | 'evolution' | 'settings'
+
 interface MobileLayoutProps {
   children: ReactNode
   hideTabBar?: boolean
+  activeTab?: TabId
+  onTabChange?: (tabId: TabId) => void
 }
 
-export function MobileLayout({ children, hideTabBar = false }: MobileLayoutProps) {
+export function MobileLayout({ children, hideTabBar = false, activeTab, onTabChange }: MobileLayoutProps) {
   return (
     <div className="mobile-layout h-screen flex flex-col bg-[#0a0a0a] overflow-hidden">
       {/* 主内容区 - 自动填充剩余空间 */}
@@ -21,7 +25,7 @@ export function MobileLayout({ children, hideTabBar = false }: MobileLayoutProps
       {/* 底部Tab栏 - 仅移动端显示 */}
       {!hideTabBar && (
         <div className="md:hidden">
-          <BottomTabBar />
+          <BottomTabBar activeTab={activeTab} onTabChange={onTabChange} />
         </div>
       )}
     </div>
