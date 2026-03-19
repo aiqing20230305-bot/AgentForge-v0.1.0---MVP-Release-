@@ -10,6 +10,7 @@ import { useDataSourceStore } from '../store/useDataSourceStore'
 import { CloudSyncToggle } from './CloudSyncToggle'
 import { OpenClawStatusBadge } from './OpenClawStatusBadge'
 import { ThemeSwitcherCompact } from './ThemeSwitcher'
+import { ThemeToggle } from './theme/ThemeToggle'
 import { LanguageSwitcher } from './LanguageSwitcher'
 
 export default function TopBar() {
@@ -131,8 +132,8 @@ export default function TopBar() {
         {/* OpenClaw Status Badge (New Quick Connect) */}
         <OpenClawStatusBadge />
 
-        {/* Theme Switcher */}
-        <ThemeSwitcherCompact />
+        {/* Theme Toggle - New improved version */}
+        <ThemeToggle />
 
         {/* Language Switcher */}
         <LanguageSwitcher variant="compact" />
