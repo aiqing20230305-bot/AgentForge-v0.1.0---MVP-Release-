@@ -1,0 +1,34 @@
+/**
+ * Web版调试样式 - 确保内容可见
+ */
+
+/* 强制所有主要容器可见 */
+body {
+  background: #0a0a0a !important;
+}
+
+#root {
+  background: #0a0a0a !important;
+  min-height: 100vh !important;
+}
+
+/* 确保TopBar可见 */
+nav {
+  background: rgba(10, 10, 10, 0.95) !important;
+  position: relative !important;
+  z-index: 100 !important;
+}
+
+/* 确保主内容可见 */
+.h-screen {
+  background: #0a0a0a !important;
+  position: relative !important;
+}
+
+/* 强制Agent卡片可见 */
+[class*="agent-card"],
+[class*="AgentCard"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}

@@ -135,11 +135,29 @@ function App() {
             {showLoading && <CockpitLoading onComplete={() => setShowLoading(false)} />}
 
             <div className="h-screen flex flex-col bg-[#0a0a0a] overflow-hidden relative">
-              {/* 星空背景 */}
-              <SpaceBackground />
+              {/* 星空背景 - Web版暂时禁用，避免渲染问题 */}
+              {false && <SpaceBackground />}
 
-              {/* 主内容 - 确保在背景之上 */}
-              <div className="relative z-10 h-full flex flex-col">
+              {/* 主内容 */}
+              <div className="h-full flex flex-col">
+                {/* Web版测试：确保有可见内容 */}
+                <div style={{
+                  position: 'fixed',
+                  top: '20px',
+                  left: '20px',
+                  background: 'rgba(6, 182, 212, 0.95)',
+                  color: 'white',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  zIndex: 9999,
+                  fontFamily: 'sans-serif'
+                }}>
+                  <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
+                    ✅ AgentForge Web 版
+                  </h1>
+                  <p>如果你能看到这个，说明React已经渲染了！</p>
+                </div>
+
                 {/* 离线指示器 */}
                 <OfflineIndicator />
 

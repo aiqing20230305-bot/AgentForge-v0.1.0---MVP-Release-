@@ -10,6 +10,7 @@ import './styles/macos-glass.css'
 import './styles/cockpit-animation.css'
 import './styles/instant-feedback.css'
 import './styles/mobile.css'
+import './styles/web-debug.css'
 
 console.log('✅ main.web.tsx loaded')
 
