@@ -1,0 +1,46 @@
+name: Welcome New Contributors
+
+on:
+  star:
+    types: [created]
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Welcome new star
+        if: github.event_name == 'star'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log('🌟 Thank you for starring AgentForge!');
+
+      - name: Welcome new issue
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 感谢提交Issue！我们会尽快回复。\n\nThank you for opening an issue! We will respond as soon as possible.\n\n如果你喜欢AgentForge，别忘了给我们一个⭐！\nIf you like AgentForge, don\'t forget to give us a ⭐!'
+            });
+
+      - name: Welcome new PR
+        if: github.event_name == 'pull_request_target'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🎉 感谢你的贡献！\n\nThank you for your contribution!\n\n我们会尽快审查你的PR。\nWe will review your PR as soon as possible.\n\n---\n\n**贡献者福利 Contributor Benefits:**\n- 1+ PR → Badge徽章\n- 10+ PR → Pro License (1年)\n- 50+ PR → Pro License (永久) + 收益分成'
+            });

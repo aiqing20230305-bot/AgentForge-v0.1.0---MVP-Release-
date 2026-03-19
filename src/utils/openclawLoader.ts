@@ -1,5 +1,5 @@
 // OpenClaw Agents 加载器
-import { getRandomAvatar, getAvatarByRole, getAvatarDisplay } from './avatarLibrary'
+import { getAvatarByRole, getAvatarDisplay } from './avatarLibrary'
 
 export interface OpenClawAgent {
   id: string

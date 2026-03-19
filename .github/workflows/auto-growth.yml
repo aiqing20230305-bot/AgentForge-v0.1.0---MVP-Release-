@@ -1,0 +1,176 @@
+name: 🚀 Automated Growth Actions
+
+on:
+  schedule:
+    # 每6小时运行一次
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # 允许手动触发
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  auto-growth:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup GitHub CLI
+        run: |
+          type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt update
+          sudo apt install gh -y
+
+      - name: Authenticate GitHub CLI
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+      - name: Update README with Real-time Stats
+        run: |
+          # 获取当前统计
+          STARS=$(gh repo view ${{ github.repository }} --json stargazerCount --jq '.stargazerCount')
+          FORKS=$(gh repo view ${{ github.repository }} --json forkCount --jq '.forkCount')
+          WATCHERS=$(gh repo view ${{ github.repository }} --json watchers --jq '.watchers.totalCount')
+
+          echo "📊 Current Stats: ⭐$STARS 🍴$FORKS 👀$WATCHERS"
+
+          # 更新README（如果有变化）
+          # 这里可以添加更新README的逻辑
+
+      - name: Auto-respond to New Issues
+        run: |
+          # 获取最近24小时的新Issues
+          gh issue list \
+            --repo ${{ github.repository }} \
+            --state open \
+            --limit 10 \
+            --json number,title,createdAt \
+            --jq '.[] | select(.createdAt > (now - 86400 | todate))' | \
+          while read issue; do
+            ISSUE_NUM=$(echo "$issue" | jq -r '.number')
+
+            # 自动添加感谢评论
+            gh issue comment $ISSUE_NUM \
+              --repo ${{ github.repository }} \
+              --body "Thanks for opening this issue! 🙏 We'll review it soon. In the meantime, check out our [documentation](https://docs.agentforge.dev) or join our [Discord](https://discord.gg/agentforge)!"
+          done
+
+      - name: Welcome New Stargazers
+        run: |
+          # 获取最近的stargazers
+          gh api repos/${{ github.repository }}/stargazers \
+            --jq '.[0:5] | .[] | .login' | \
+          while read username; do
+            echo "🌟 New stargazer: @$username"
+            # 可以在这里添加感谢推文等
+          done
+
+      - name: Check for Trending Status
+        run: |
+          # 检查是否上了GitHub Trending
+          curl -s "https://api.gitterapp.com/repositories?language=typescript&since=daily" | \
+          grep -q "${{ github.repository }}" && \
+          echo "🔥 We're trending!" || \
+          echo "📈 Not trending yet, keep pushing!"
+
+      - name: Auto-close Stale Issues
+        uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-issue-message: 'This issue is stale because it has been open 30 days with no activity. Remove stale label or comment or this will be closed in 7 days.'
+          days-before-stale: 30
+          days-before-close: 7
+
+      - name: Generate Growth Report
+        run: |
+          # 生成每日增长报告
+          REPORT_DATE=$(date +%Y-%m-%d)
+          STARS=$(gh repo view ${{ github.repository }} --json stargazerCount --jq '.stargazerCount')
+
+          mkdir -p growth-reports
+          echo "Date: $REPORT_DATE" > growth-reports/$REPORT_DATE.md
+          echo "Stars: $STARS" >> growth-reports/$REPORT_DATE.md
+
+          # 计算增长率
+          if [ -f growth-reports/latest.txt ]; then
+            PREV_STARS=$(cat growth-reports/latest.txt)
+            GROWTH=$((STARS - PREV_STARS))
+            echo "Growth: +$GROWTH" >> growth-reports/$REPORT_DATE.md
+          fi
+
+          echo "$STARS" > growth-reports/latest.txt
+
+      - name: Commit Growth Report
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add growth-reports/
+          git diff --quiet && git diff --staged --quiet || \
+          (git commit -m "📊 Auto-update growth report [skip ci]" && git push)
+
+  celebrate-milestones:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub CLI
+        run: |
+          sudo apt update
+          sudo apt install gh -y
+
+      - name: Authenticate
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+      - name: Check Milestones
+        run: |
+          STARS=$(gh repo view ${{ github.repository }} --json stargazerCount --jq '.stargazerCount')
+
+          # 检查里程碑
+          if [ $STARS -ge 100 ] && [ ! -f .milestone-100 ]; then
+            gh issue create \
+              --repo ${{ github.repository }} \
+              --title "🎉 100 Stars Milestone Reached!" \
+              --body "We just hit 100 stars! Thank you all! 🙏⭐" \
+              --label "milestone"
+            touch .milestone-100
+            git add .milestone-100
+            git commit -m "🎉 100 stars milestone"
+            git push
+          fi
+
+          if [ $STARS -ge 500 ] && [ ! -f .milestone-500 ]; then
+            gh issue create \
+              --repo ${{ github.repository }} \
+              --title "🎉 500 Stars Milestone!" \
+              --body "500 stars! This community is amazing! 🚀⭐" \
+              --label "milestone"
+            touch .milestone-500
+            git add .milestone-500
+            git commit -m "🎉 500 stars milestone"
+            git push
+          fi
+
+          if [ $STARS -ge 1000 ] && [ ! -f .milestone-1000 ]; then
+            gh issue create \
+              --repo ${{ github.repository }} \
+              --title "🎊 1000 STARS! GIVEAWAY TIME!" \
+              --body "WE DID IT! 1000 stars! Giveaway winners will be announced soon! 🎁⭐" \
+              --label "milestone,giveaway"
+            touch .milestone-1000
+            git add .milestone-1000
+            git commit -m "🎊 1000 stars milestone - GIVEAWAY!"
+            git push
+          fi

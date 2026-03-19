@@ -1,0 +1,162 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "finish": "Finish",
+    "skip": "Skip",
+    "retry": "Retry",
+    "refresh": "Refresh"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "agents": "Agents",
+    "tasks": "Tasks",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "marketplace": "Marketplace",
+    "leaderboard": "Leaderboard",
+    "evolution": "Evolution",
+    "home": "Home"
+  },
+  "agent": {
+    "title": "Agents",
+    "create": "Create Agent",
+    "edit": "Edit Agent",
+    "delete": "Delete Agent",
+    "name": "Agent Name",
+    "description": "Description",
+    "level": "Level",
+    "exp": "Experience",
+    "health": "Health",
+    "energy": "Energy",
+    "skills": "Skills",
+    "status": {
+      "idle": "Idle",
+      "running": "Running",
+      "paused": "Paused",
+      "error": "Error"
+    },
+    "actions": {
+      "upgrade": "Upgrade",
+      "deploy": "Deploy",
+      "train": "Train",
+      "battle": "Battle",
+      "share": "Share"
+    }
+  },
+  "task": {
+    "title": "Tasks",
+    "create": "Create Task",
+    "edit": "Edit Task",
+    "delete": "Delete Task",
+    "assign": "Assign",
+    "complete": "Complete Task",
+    "status": {
+      "pending": "Pending",
+      "running": "Running",
+      "completed": "Completed",
+      "failed": "Failed"
+    }
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "magicLink": "Send Magic Link",
+    "loginAsGuest": "Continue as Guest",
+    "loginWith": "Login with {{provider}}"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "language": "Language",
+    "theme": "Theme",
+    "performance": "Performance",
+    "accessibility": "Accessibility",
+    "security": "Security"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "auto": "Auto"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "byLevel": "By Level",
+    "byTasks": "By Tasks",
+    "byBattles": "By Battles",
+    "overall": "Overall",
+    "rank": "Rank",
+    "player": "Player",
+    "score": "Score",
+    "myRank": "My Rank"
+  },
+  "social": {
+    "like": "Like",
+    "comment": "Comment",
+    "share": "Share",
+    "follow": "Follow",
+    "following": "Following",
+    "followers": "Followers",
+    "shareOn": "Share on {{platform}}",
+    "copyLink": "Copy Link",
+    "downloadImage": "Download Image"
+  },
+  "mobile": {
+    "install": "Install App",
+    "installPrompt": "Add AgentForge to your home screen for a better experience",
+    "installSteps": {
+      "ios": "Tap the share button, then select 'Add to Home Screen'",
+      "android": "Tap the 'Install' button to add the app to your home screen"
+    }
+  },
+  "performance": {
+    "loading": "Loading...",
+    "optimizing": "Optimizing performance...",
+    "lowEndDevice": "Low-end device detected, performance optimization enabled",
+    "metrics": {
+      "fcp": "First Contentful Paint",
+      "lcp": "Largest Contentful Paint",
+      "fps": "Frame Rate"
+    }
+  },
+  "analytics": {
+    "pageView": "Page View",
+    "event": "Event Tracking",
+    "userBehavior": "User Behavior"
+  },
+  "security": {
+    "warning": "Security Warning",
+    "xssDetected": "Suspicious input detected and blocked",
+    "rateLimitExceeded": "Too many requests, please try again later"
+  },
+  "error": {
+    "notFound": "Page Not Found",
+    "serverError": "Server Error",
+    "networkError": "Network Connection Failed",
+    "tryAgain": "Try Again"
+  },
+  "success": {
+    "saved": "Saved Successfully",
+    "deleted": "Deleted Successfully",
+    "created": "Created Successfully",
+    "updated": "Updated Successfully"
+  }
+}

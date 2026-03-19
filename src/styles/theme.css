@@ -1,0 +1,209 @@
+/**
+ * 浅色主题CSS变量
+ * 为AgentForge添加Light Mode支持
+ */
+
+/* 浅色主题 */
+.light {
+  /* 背景色 */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #f1f3f5;
+  --bg-card: #ffffff;
+  --bg-hover: #f8f9fa;
+
+  /* 文字色 */
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b7280;
+  --text-tertiary: #9ca3af;
+  --text-muted: #d1d5db;
+
+  /* 边框色 */
+  --border-primary: rgba(0, 0, 0, 0.1);
+  --border-secondary: rgba(0, 0, 0, 0.05);
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+  /* 品牌色（保持不变） */
+  --color-primary: #06b6d4;
+  --color-secondary: #3b82f6;
+  --color-accent: #8b5cf6;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  /* 覆盖深色背景 */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* 深色主题（现有，保持不变） */
+.dark {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2a2a2a;
+  --bg-card: #1a1a1a;
+  --bg-hover: #2a2a2a;
+
+  --text-primary: #ffffff;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --text-muted: #6b7280;
+
+  --border-primary: rgba(255, 255, 255, 0.1);
+  --border-secondary: rgba(255, 255, 255, 0.05);
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+
+  --color-primary: #06b6d4;
+  --color-secondary: #3b82f6;
+  --color-accent: #8b5cf6;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* 浅色主题特定组件样式 */
+.light .bg-[#0a0a0a] {
+  background-color: #ffffff !important;
+}
+
+.light .bg-[#1a1a1a] {
+  background-color: #f8f9fa !important;
+}
+
+.light .bg-[#2a2a2a] {
+  background-color: #f1f3f5 !important;
+}
+
+.light .text-white {
+  color: #1a1a1a !important;
+}
+
+.light .text-gray-100,
+.light .text-gray-200,
+.light .text-gray-300 {
+  color: #6b7280 !important;
+}
+
+.light .text-gray-400,
+.light .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+.light .text-gray-600,
+.light .text-gray-700 {
+  color: #6b7280 !important;
+}
+
+.light .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.light .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 浅色主题卡片 */
+.light .mobile-agent-card,
+.light .share-card {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 浅色主题按钮 */
+.light .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+.light .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.light .hover\:bg-white\/20:hover {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* 浅色主题输入框 */
+.light input,
+.light textarea,
+.light select {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #1a1a1a !important;
+}
+
+.light input::placeholder,
+.light textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* 浅色主题滚动条 */
+.light ::-webkit-scrollbar {
+  background-color: #f1f3f5;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
+
+/* 浅色主题对话框/弹窗 */
+.light .backdrop-blur-xl {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 浅色主题阴影增强 */
+.light .shadow-lg,
+.light .shadow-xl,
+.light .shadow-2xl {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 浅色主题Tooltip */
+.light [role="tooltip"] {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+/* 浅色主题加载指示器 */
+.light .loading-spinner {
+  border-color: rgba(6, 182, 212, 0.3) !important;
+  border-top-color: #06b6d4 !important;
+}
+
+/* 浅色主题星空背景（降低不透明度） */
+.light #space-background {
+  opacity: 0.3;
+}
+
+/* 平滑主题切换动画 */
+:root {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+* {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* 移除动画的元素（性能优化） */
+.no-transition,
+.no-transition * {
+  transition: none !important;
+}

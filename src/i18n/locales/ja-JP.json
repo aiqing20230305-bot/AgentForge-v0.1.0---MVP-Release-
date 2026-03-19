@@ -1,0 +1,162 @@
+{
+  "common": {
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "create": "作成",
+    "search": "検索",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "confirm": "確認",
+    "close": "閉じる",
+    "back": "戻る",
+    "next": "次へ",
+    "previous": "前へ",
+    "finish": "完了",
+    "skip": "スキップ",
+    "retry": "再試行",
+    "refresh": "更新"
+  },
+  "navigation": {
+    "dashboard": "ダッシュボード",
+    "agents": "エージェント",
+    "tasks": "タスク",
+    "analytics": "分析",
+    "settings": "設定",
+    "marketplace": "マーケットプレイス",
+    "leaderboard": "ランキング",
+    "evolution": "進化",
+    "home": "ホーム"
+  },
+  "agent": {
+    "title": "エージェント",
+    "create": "エージェント作成",
+    "edit": "エージェント編集",
+    "delete": "エージェント削除",
+    "name": "エージェント名",
+    "description": "説明",
+    "level": "レベル",
+    "exp": "経験値",
+    "health": "体力",
+    "energy": "エネルギー",
+    "skills": "スキル",
+    "status": {
+      "idle": "アイドル",
+      "running": "実行中",
+      "paused": "一時停止",
+      "error": "エラー"
+    },
+    "actions": {
+      "upgrade": "アップグレード",
+      "deploy": "デプロイ",
+      "train": "トレーニング",
+      "battle": "バトル",
+      "share": "共有"
+    }
+  },
+  "task": {
+    "title": "タスク",
+    "create": "タスク作成",
+    "edit": "タスク編集",
+    "delete": "タスク削除",
+    "assign": "割り当て",
+    "complete": "タスク完了",
+    "status": {
+      "pending": "保留中",
+      "running": "実行中",
+      "completed": "完了",
+      "failed": "失敗"
+    }
+  },
+  "auth": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "register": "登録",
+    "email": "メール",
+    "password": "パスワード",
+    "forgotPassword": "パスワードを忘れた？",
+    "magicLink": "マジックリンクを送信",
+    "loginAsGuest": "ゲストとして続ける",
+    "loginWith": "{{provider}}でログイン"
+  },
+  "settings": {
+    "title": "設定",
+    "general": "一般",
+    "notifications": "通知",
+    "privacy": "プライバシー",
+    "language": "言語",
+    "theme": "テーマ",
+    "performance": "パフォーマンス",
+    "accessibility": "アクセシビリティ",
+    "security": "セキュリティ"
+  },
+  "theme": {
+    "light": "ライト",
+    "dark": "ダーク",
+    "auto": "自動"
+  },
+  "leaderboard": {
+    "title": "ランキング",
+    "byLevel": "レベル別",
+    "byTasks": "タスク別",
+    "byBattles": "バトル別",
+    "overall": "総合",
+    "rank": "順位",
+    "player": "プレイヤー",
+    "score": "スコア",
+    "myRank": "自分の順位"
+  },
+  "social": {
+    "like": "いいね",
+    "comment": "コメント",
+    "share": "共有",
+    "follow": "フォロー",
+    "following": "フォロー中",
+    "followers": "フォロワー",
+    "shareOn": "{{platform}}で共有",
+    "copyLink": "リンクをコピー",
+    "downloadImage": "画像をダウンロード"
+  },
+  "mobile": {
+    "install": "アプリをインストール",
+    "installPrompt": "AgentForgeをホーム画面に追加して、より良い体験を",
+    "installSteps": {
+      "ios": "共有ボタンをタップし、「ホーム画面に追加」を選択してください",
+      "android": "「インストール」ボタンをタップして、アプリをホーム画面に追加してください"
+    }
+  },
+  "performance": {
+    "loading": "読み込み中...",
+    "optimizing": "パフォーマンスを最適化中...",
+    "lowEndDevice": "低スペックデバイスを検出しました。パフォーマンス最適化を有効にしました",
+    "metrics": {
+      "fcp": "初回コンテンツ描画",
+      "lcp": "最大コンテンツ描画",
+      "fps": "フレームレート"
+    }
+  },
+  "analytics": {
+    "pageView": "ページビュー",
+    "event": "イベントトラッキング",
+    "userBehavior": "ユーザー行動"
+  },
+  "security": {
+    "warning": "セキュリティ警告",
+    "xssDetected": "疑わしい入力が検出され、ブロックされました",
+    "rateLimitExceeded": "リクエストが多すぎます。後でもう一度お試しください"
+  },
+  "error": {
+    "notFound": "ページが見つかりません",
+    "serverError": "サーバーエラー",
+    "networkError": "ネットワーク接続に失敗しました",
+    "tryAgain": "再試行"
+  },
+  "success": {
+    "saved": "保存に成功しました",
+    "deleted": "削除に成功しました",
+    "created": "作成に成功しました",
+    "updated": "更新に成功しました"
+  }
+}

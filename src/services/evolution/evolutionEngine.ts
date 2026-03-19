@@ -11,6 +11,7 @@ import {
   getEvolutionRule,
   getAvailableEvolutions
 } from '../../data/evolutionRules'
+import { notificationService } from '../notificationService'
 
 class EvolutionEngine {
   private intervalId: NodeJS.Timeout | null = null
@@ -500,13 +501,14 @@ class EvolutionEngine {
         `${rule.metadata.icon} ${rule.metadata.description}`
     )
 
-    // TODO: 集成通知系统
-    // notificationService.notify({
-    //   title: `${agent.name} 完成进化！`,
-    //   message: `${rule.metadata.icon} ${rule.name}\n${rule.metadata.description}`,
-    //   type: 'success',
-    //   agentId: agent.id
-    // })
+    notificationService.show({
+      type: 'evolution',
+      title: `${agent.name} 完成进化！`,
+      message: `${rule.metadata.icon} ${rule.name}\n${rule.metadata.description}`,
+      agentId: agent.id
+    }).catch(err => {
+      console.warn('[EvolutionEngine] Failed to show notification:', err)
+    })
   }
 
   /**

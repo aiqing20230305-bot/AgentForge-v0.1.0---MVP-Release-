@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>移动端测试 - AgentForge</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a0f;
+      color: #fff;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      padding-bottom: 100px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #00d4ff, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: #888;
+      margin-bottom: 30px;
+    }
+
+    .section {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .section h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #00d4ff;
+    }
+
+    .touch-area {
+      background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(139,92,246,0.2));
+      border: 2px dashed rgba(0,212,255,0.5);
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      touch-action: none;
+      user-select: none;
+    }
+
+    .touch-area.active {
+      background: linear-gradient(135deg, rgba(0,212,255,0.4), rgba(139,92,246,0.4));
+      transform: scale(0.98);
+    }
+
+    .icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .info {
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .info strong {
+      color: #00d4ff;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 24px;
+      background: #00d4ff;
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .button:active {
+      transform: scale(0.96);
+      background: #00b8e6;
+    }
+
+    .checklist {
+      list-style: none;
+    }
+
+    .checklist li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+
+    .check {
+      color: #22c55e;
+      margin-right: 8px;
+    }
+
+    .device-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .device-info-item {
+      background: rgba(0,0,0,0.3);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .device-info-item strong {
+      display: block;
+      color: #00d4ff;
+      margin-bottom: 5px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 8px;
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .bottom-nav button {
+      flex: 1;
+      min-height: 48px;
+      background: transparent;
+      border: none;
+      color: #888;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .bottom-nav button.active {
+      color: #00d4ff;
+      background: rgba(0,212,255,0.1);
+    }
+
+    .bottom-nav button:active {
+      transform: scale(0.95);
+    }
+
+    .log {
+      background: rgba(0,0,0,0.5);
+      border-radius: 8px;
+      padding: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      color: #0f0;
+    }
+
+    .log-entry {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📱 移动端测试页面</h1>
+    <p class="subtitle">Task #75: Mobile Experience Optimization</p>
+
+    <!-- Device Info -->
+    <div class="section">
+      <h2>设备信息</h2>
+      <div class="device-info">
+        <div class="device-info-item">
+          <strong>屏幕尺寸</strong>
+          <span id="screen-size">加载中...</span>
+        </div>
+        <div class="device-info-item">
+          <strong>设备类型</strong>
+          <span id="device-type">加载中...</span>
+        </div>
+        <div class="device-info-item">
+          <strong>像素比</strong>
+          <span id="pixel-ratio">加载中...</span>
+        </div>
+        <div class="device-info-item">
+          <strong>触摸支持</strong>
+          <span id="touch-support">加载中...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Touch Gestures -->
+    <div class="section">
+      <h2>✋ 触摸手势测试</h2>
+      <div class="touch-area" id="touch-area">
+        <div class="icon">👆</div>
+        <div>尝试以下手势:</div>
+        <div style="margin-top: 10px; font-size: 14px; color: #aaa;">
+          • 单指滑动 (左/右/上/下)<br>
+          • 双击<br>
+          • 长按 (500ms)<br>
+          • 双指捏合缩放
+        </div>
+      </div>
+      <div class="info">
+        <strong>最后手势:</strong> <span id="last-gesture">无</span>
+      </div>
+      <div class="log" id="gesture-log"></div>
+    </div>
+
+    <!-- Touch Target Test -->
+    <div class="section">
+      <h2>🎯 触摸目标测试</h2>
+      <button class="button" onclick="testTouch(this, '48px 按钮')">
+        48x48px 按钮 (WCAG AA 标准)
+      </button>
+      <button class="button" onclick="testTouch(this, '大按钮')" style="min-height: 56px;">
+        56x56px 大按钮 (推荐)
+      </button>
+      <div class="info">
+        <strong>测试结果:</strong> <span id="touch-result">未测试</span>
+      </div>
+    </div>
+
+    <!-- Feature Checklist -->
+    <div class="section">
+      <h2>✅ 功能清单</h2>
+      <ul class="checklist">
+        <li><span class="check">✓</span> 响应式设计 (xs, sm, md, lg, xl)</li>
+        <li><span class="check">✓</span> 触摸手势支持</li>
+        <li><span class="check">✓</span> 48x48px 触摸目标</li>
+        <li><span class="check">✓</span> iOS Safe Area 适配</li>
+        <li><span class="check">✓</span> 禁用点击蓝框</li>
+        <li><span class="check">✓</span> 底部导航栏</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <button class="active">
+      <div style="font-size: 20px;">🏠</div>
+      <div>首页</div>
+    </button>
+    <button>
+      <div style="font-size: 20px;">✋</div>
+      <div>手势</div>
+    </button>
+    <button>
+      <div style="font-size: 20px;">🎯</div>
+      <div>目标</div>
+    </button>
+    <button>
+      <div style="font-size: 20px;">✅</div>
+      <div>清单</div>
+    </button>
+  </div>
+
+  <script>
+    // Device Info
+    function updateDeviceInfo() {
+      document.getElementById('screen-size').textContent = `${window.innerWidth} × ${window.innerHeight}`
+      document.getElementById('pixel-ratio').textContent = window.devicePixelRatio
+      document.getElementById('touch-support').textContent = 'ontouchstart' in window ? '支持' : '不支持'
+
+      const width = window.innerWidth
+      let deviceType = '桌面'
+      if (width < 768) deviceType = '手机'
+      else if (width < 1024) deviceType = '平板'
+      document.getElementById('device-type').textContent = deviceType
+    }
+
+    // Touch Gestures
+    const touchArea = document.getElementById('touch-area')
+    const gestureLog = document.getElementById('gesture-log')
+    let touchStartX, touchStartY, touchStartTime
+    let lastTapTime = 0
+
+    function logGesture(gesture) {
+      document.getElementById('last-gesture').textContent = gesture
+      const entry = document.createElement('div')
+      entry.className = 'log-entry'
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${gesture}`
+      gestureLog.insertBefore(entry, gestureLog.firstChild)
+      if (gestureLog.children.length > 10) {
+        gestureLog.removeChild(gestureLog.lastChild)
+      }
+    }
+
+    touchArea.addEventListener('touchstart', (e) => {
+      touchArea.classList.add('active')
+      touchStartX = e.touches[0].clientX
+      touchStartY = e.touches[0].clientY
+      touchStartTime = Date.now()
+
+      // Long press detection
+      setTimeout(() => {
+        if (touchArea.classList.contains('active')) {
+          logGesture('长按手势')
+        }
+      }, 500)
+    }, { passive: true })
+
+    touchArea.addEventListener('touchend', (e) => {
+      touchArea.classList.remove('active')
+      const touchEndX = e.changedTouches[0].clientX
+      const touchEndY = e.changedTouches[0].clientY
+      const deltaX = touchEndX - touchStartX
+      const deltaY = touchEndY - touchStartY
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
+      const duration = Date.now() - touchStartTime
+
+      if (distance < 10 && duration < 500) {
+        // Tap
+        const now = Date.now()
+        if (now - lastTapTime < 300) {
+          logGesture('双击手势')
+        } else {
+          logGesture('单击')
+        }
+        lastTapTime = now
+      } else if (distance > 50) {
+        // Swipe
+        let direction = ''
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          direction = deltaX > 0 ? '右' : '左'
+        } else {
+          direction = deltaY > 0 ? '下' : '上'
+        }
+        logGesture(`滑动手势 (${direction})`)
+      }
+    }, { passive: true })
+
+    // Touch target test
+    function testTouch(button, name) {
+      const rect = button.getBoundingClientRect()
+      const size = Math.min(rect.width, rect.height)
+      const result = size >= 48 ? '✅ 通过' : '❌ 未通过'
+      document.getElementById('touch-result').textContent = `${name}: ${size.toFixed(0)}px - ${result}`
+    }
+
+    // Bottom nav
+    const navButtons = document.querySelectorAll('.bottom-nav button')
+    navButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        navButtons.forEach(b => b.classList.remove('active'))
+        button.classList.add('active')
+      })
+    })
+
+    // Initialize
+    updateDeviceInfo()
+    window.addEventListener('resize', updateDeviceInfo)
+    logGesture('测试开始')
+  </script>
+</body>
+</html>

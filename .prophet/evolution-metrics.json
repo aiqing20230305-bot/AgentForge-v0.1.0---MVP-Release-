@@ -259,28 +259,1330 @@
     "optimizations": 0
   },
   {
-    "timestamp": "2026-03-15T13:40:42.068Z",
+    "timestamp": "2026-03-16T04:40:37.059Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T04:50:37.060Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T05:00:37.061Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T05:10:37.063Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T05:20:37.065Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T05:30:37.064Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T05:40:37.066Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T05:50:37.068Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T06:00:37.069Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T06:10:37.070Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T06:20:37.071Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T06:28:55.402Z",
     "understanding": 30,
     "quality": 73,
     "commits": 0,
     "optimizations": 0
   },
   {
-    "timestamp": "2026-03-15T13:50:42.067Z",
+    "timestamp": "2026-03-16T06:38:55.401Z",
     "understanding": 30,
     "quality": 73,
     "commits": 0,
     "optimizations": 0
   },
   {
-    "timestamp": "2026-03-15T13:51:25.172Z",
+    "timestamp": "2026-03-16T06:48:55.400Z",
     "understanding": 30,
     "quality": 73,
     "commits": 0,
     "optimizations": 0
   },
   {
-    "timestamp": "2026-03-15T14:01:25.168Z",
+    "timestamp": "2026-03-16T06:58:55.404Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T07:08:55.405Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T07:18:55.404Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T07:28:55.405Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T07:38:55.409Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T07:48:55.411Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T07:58:55.410Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T08:08:55.410Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T08:18:55.411Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T08:28:55.411Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T08:38:55.411Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T08:48:55.412Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T08:58:55.412Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T09:08:55.415Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T09:18:55.416Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T09:28:55.416Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T09:38:55.417Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T09:48:55.421Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T09:58:55.420Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T10:08:55.422Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T10:18:55.424Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T10:28:55.423Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T10:38:55.424Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T10:48:55.426Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T10:58:55.427Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T11:08:55.428Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T11:18:55.450Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T11:28:55.453Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T11:38:55.457Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T11:57:22.511Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T12:07:22.516Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T12:17:22.520Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T12:23:41.937Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T12:33:41.937Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T12:43:41.940Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T13:26:51.733Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T13:38:17.304Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T13:48:17.291Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T13:50:15.917Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T14:00:15.915Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T14:10:15.916Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T14:20:15.918Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T14:30:15.920Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T14:40:15.922Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T14:50:15.919Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T15:00:15.913Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T15:10:15.914Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T15:20:15.912Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T15:30:15.911Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T15:40:15.912Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T15:50:15.911Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T15:53:41.803Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T16:03:41.802Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T16:13:41.801Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T16:23:41.805Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T16:28:12.603Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T16:38:12.606Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T16:48:12.604Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T16:58:12.611Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T17:08:12.612Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T17:18:12.612Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T17:28:12.612Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T17:38:12.612Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T17:48:12.613Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T17:58:12.613Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T18:08:12.618Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T18:18:12.620Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T18:28:12.620Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T18:38:12.621Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T18:48:12.623Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T18:58:12.623Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T19:08:12.623Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T19:18:12.625Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T19:28:12.624Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T19:38:12.625Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T19:48:12.625Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T19:58:12.625Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T20:08:12.626Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T20:18:12.626Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T20:28:12.627Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T20:38:12.630Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T20:48:12.630Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T20:58:12.631Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T21:08:12.632Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T21:18:12.632Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-16T21:28:12.632Z",
+    "understanding": 35,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T09:20:47.548Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T09:30:47.548Z",
+    "understanding": 45,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T09:40:47.562Z",
+    "understanding": 50,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T09:50:47.562Z",
+    "understanding": 50,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T10:26:12.708Z",
+    "understanding": 50,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T10:36:12.709Z",
+    "understanding": 50,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T10:46:12.710Z",
+    "understanding": 50,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T10:56:12.711Z",
+    "understanding": 50,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T11:06:12.714Z",
+    "understanding": 50,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T11:16:12.715Z",
+    "understanding": 50,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T11:26:12.717Z",
+    "understanding": 50,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T11:36:12.719Z",
+    "understanding": 50,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T11:46:12.722Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T11:56:12.722Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T12:06:12.727Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T12:58:58.619Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T13:18:33.555Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T13:36:00.154Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T13:52:48.926Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T14:02:48.925Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T14:12:48.927Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T14:22:48.928Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T14:32:48.918Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T14:42:48.915Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T14:52:48.913Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T15:02:48.912Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T15:12:48.912Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T15:22:48.911Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T15:32:48.911Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T15:42:48.910Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T15:52:48.908Z",
+    "understanding": 60,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T16:02:48.908Z",
+    "understanding": 65,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T16:12:48.907Z",
+    "understanding": 65,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T16:14:00.358Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T16:24:00.356Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-17T16:29:28.968Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T05:16:02.199Z",
+    "understanding": 40,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T09:57:52.355Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T10:07:52.358Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T10:17:52.360Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T10:27:52.363Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T10:37:52.363Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T10:47:52.371Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T10:57:52.371Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T11:07:52.371Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T11:17:52.373Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T11:27:52.383Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T11:37:52.383Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T11:47:52.386Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T11:57:52.387Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T13:07:23.649Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T13:56:53.368Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T14:06:53.372Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T14:41:30.427Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-18T14:51:30.425Z",
+    "understanding": 55,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T06:39:01.184Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T06:49:01.185Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T06:59:01.184Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T07:09:01.185Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T07:19:01.183Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T07:29:01.182Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T07:39:01.185Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T07:49:01.184Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T07:59:01.184Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T08:09:01.184Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T08:19:01.183Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T08:29:01.182Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T08:39:01.182Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T08:49:01.181Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T08:59:01.181Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T09:09:01.181Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T09:19:01.180Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T09:29:01.183Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T09:39:01.181Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T09:49:01.179Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T09:59:01.191Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T10:09:01.192Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T10:19:01.194Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T10:29:01.193Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T10:39:01.192Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T10:49:01.193Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T10:59:01.198Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T11:09:01.194Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T11:19:01.237Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T11:29:01.246Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T11:39:01.304Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T11:49:01.291Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T11:59:01.299Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T12:09:01.310Z",
+    "understanding": 30,
+    "quality": 73,
+    "commits": 0,
+    "optimizations": 0
+  },
+  {
+    "timestamp": "2026-03-19T12:19:01.307Z",
     "understanding": 30,
     "quality": 73,
     "commits": 0,

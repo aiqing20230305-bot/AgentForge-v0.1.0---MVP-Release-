@@ -133,7 +133,11 @@ export const GlobalExpBar: React.FC = () => {
             <button
               onClick={(e) => {
                 feedback.onClick(e)
-                // TODO: 打开经验详情面板
+                // 打开任务面板查看经验来源
+                const mainNav = document.querySelector('[data-tab="tasks"]') as HTMLElement
+                if (mainNav) {
+                  mainNav.click()
+                }
               }}
               className="p-1.5 rounded-lg hover:bg-white/10 transition-colors feedback-button-scale"
               title="经验详情"
@@ -143,7 +147,13 @@ export const GlobalExpBar: React.FC = () => {
             <button
               onClick={(e) => {
                 feedback.onClick(e)
-                // TODO: 打开成就面板
+                // 打开成就面板
+                const achievementsTab = document.querySelector('[data-tab="achievements"]') as HTMLElement
+                if (achievementsTab) {
+                  achievementsTab.click()
+                } else {
+                  console.info('成就系统即将上线')
+                }
               }}
               className="p-1.5 rounded-lg hover:bg-white/10 transition-colors feedback-button-scale"
               title="成就"

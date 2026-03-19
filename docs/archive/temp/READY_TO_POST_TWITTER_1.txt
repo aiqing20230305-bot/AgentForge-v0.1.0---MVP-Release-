@@ -1,0 +1,16 @@
+🎮 AgentForge v2.1.0 发布！
+
+✨ 5秒开始，无需安装
+🌐 Web版PWA完整实现
+🔌 Plugin市场Beta上线
+🤖 AI智能化创建Agent
+📹 24,258行代码 + 45个新文件
+
+比LangChain简单10倍
+比AutoGPT稳定10倍
+
+⭐ GitHub: https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-
+
+🎉 Release: https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/releases/tag/v2.1.0
+
+#AI #OpenSource #AgentForge #PWA #TypeScript

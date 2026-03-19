@@ -1,18 +1,43 @@
 /**
  * 宇宙星空背景组件
  * 营造宇宙飞船控制台氛围
+ * Phase 4.2: 添加性能优化（低端设备降级）
  */
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { detectDevicePerformance, getAnimationConfig } from '../utils/performanceDetection'
 
 export default function SpaceBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [performanceConfig, setPerformanceConfig] = useState(getAnimationConfig('medium'))
 
   useEffect(() => {
+    // 检测性能
+    detectDevicePerformance().then(perf => {
+      const config = getAnimationConfig(perf.tier)
+      setPerformanceConfig(config)
+
+      // 低端设备：完全禁用星空背景
+      if (perf.tier === 'low') {
+        console.log('[SpaceBackground] Disabled for low-end device')
+        return
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    // 低端设备跳过渲染
+    if (!performanceConfig.enableStarBackground) {
+      return
+    }
+
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', {
+      alpha: true,
+      desynchronized: true // 性能优化：独立渲染线程
+    })
     if (!ctx) return
 
     // 设置canvas尺寸
@@ -33,7 +58,7 @@ export default function SpaceBackground() {
       color: string
     }> = []
 
-    // 生成星星 - 减少数量和颜色
+    // 生成星星 - 根据性能动态调整数量
     const generateStars = (count: number) => {
       for (let i = 0; i < count; i++) {
         const rand = Math.random()
@@ -48,7 +73,8 @@ export default function SpaceBackground() {
       }
     }
 
-    generateStars(120) // 减少数量
+    // 使用性能配置的星星数量
+    generateStars(performanceConfig.starCount)
 
     // 星云效果 - 精简为2-3个，颜色统一
     const nebulas: Array<{
@@ -70,9 +96,22 @@ export default function SpaceBackground() {
       })
     }
 
-    // 动画循环
+    // 动画循环 - 使用requestAnimationFrame
     let animationId: number
-    const animate = () => {
+    let lastFrameTime = performance.now()
+    const targetFPS = performanceConfig.animationFPS
+    const frameInterval = 1000 / targetFPS
+
+    const animate = (currentTime: number) => {
+      // FPS限制（性能优化）
+      const elapsed = currentTime - lastFrameTime
+
+      if (elapsed < frameInterval) {
+        animationId = requestAnimationFrame(animate)
+        return
+      }
+
+      lastFrameTime = currentTime - (elapsed % frameInterval)
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -118,13 +157,27 @@ export default function SpaceBackground() {
       animationId = requestAnimationFrame(animate)
     }
 
-    animate()
+    animate(performance.now())
 
     return () => {
       window.removeEventListener('resize', resize)
       cancelAnimationFrame(animationId)
     }
-  }, [])
+  }, [performanceConfig]) // 依赖性能配置
+
+  // 低端设备：渲染静态渐变背景
+  if (!performanceConfig.enableStarBackground) {
+    return (
+      <div
+        id="space-background"
+        className="fixed inset-0"
+        style={{
+          background: 'linear-gradient(135deg, #0a0a0f 0%, #1a1a24 100%)',
+          zIndex: 0
+        }}
+      />
+    )
+  }
 
   return (
     <>

@@ -65,4 +65,53 @@ test-*.json
 release/mac-*
 release/win-*
 release/linux-*
+
+# Build outputs
 .output/
+.logs/
+.dist/
+
+# Security - Credentials and Secrets
+**/credentials.json
+**/auth.json
+**/config.secret.*
+**/*_secret.*
+**/*-secret.*
+**/private-key*
+**/privatekey*
+**/*.p12
+**/*.pfx
+**/*.cer
+**/*.crt
+**/*.der
+
+# Security - Database backups
+*.sql
+*.sqlite
+*.db
+*.dump
+
+# Security - User data
+**/user-data/
+**/uploads/
+**/temp-uploads/
+**/.user/
+
+# Security - API keys and tokens
+**/*apikey*
+**/*api-key*
+**/oauth-token*
+**/access-token*
+**/refresh-token*
+
+# Security - Personal information
+**/personal/
+**/private/
+**/*personal*.json
+**/*private*.json
+
+# Monitoring and logs
+**/*.log
+**/logs/
+**/monitoring/*.json
+**/monitoring/*.txt

@@ -19,19 +19,21 @@ import {
   RotateCcw,
   Check,
   Sparkles,
-  Cloud
+  Cloud,
+  Mic
 } from 'lucide-react'
 import { useSettingsStore } from '../store/useSettingsStore'
 import { audioSystem } from '../services/audioSystem'
 import type { UserSettings } from '../store/useSettingsStore'
 import { slideUpVariants, transitions } from '../utils/animations'
 import { CloudSyncSettings } from './CloudSyncSettings'
+import { VoiceSettingsPanel } from './VoiceSettingsPanel'
 
 export const SettingsPanel: React.FC = () => {
   const { settings, updateSettings, resetSettings, exportSettings, importSettings } =
     useSettingsStore()
 
-  const [activeTab, setActiveTab] = useState<'general' | 'audio' | 'ui' | 'performance' | 'cloud'>('general')
+  const [activeTab, setActiveTab] = useState<'general' | 'audio' | 'ui' | 'performance' | 'cloud' | 'voice'>('general')
   const [showResetConfirm, setShowResetConfirm] = useState(false)
 
   // 更新单个设置
@@ -98,6 +100,7 @@ export const SettingsPanel: React.FC = () => {
   const tabs = [
     { id: 'general' as const, label: '通用', icon: Settings },
     { id: 'audio' as const, label: '音效', icon: Volume2 },
+    { id: 'voice' as const, label: '语音', icon: Mic },
     { id: 'ui' as const, label: 'UI', icon: Eye },
     { id: 'performance' as const, label: '性能', icon: Zap },
     { id: 'cloud' as const, label: '云同步', icon: Cloud }
@@ -498,6 +501,18 @@ export const SettingsPanel: React.FC = () => {
             transition={transitions.fast}
           >
             <CloudSyncSettings />
+          </motion.div>
+        )}
+
+        {/* Voice Settings */}
+        {activeTab === 'voice' && (
+          <motion.div
+            variants={slideUpVariants}
+            initial="hidden"
+            animate="visible"
+            transition={transitions.fast}
+          >
+            <VoiceSettingsPanel />
           </motion.div>
         )}
       </div>
