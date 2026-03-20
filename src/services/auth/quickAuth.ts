@@ -150,7 +150,7 @@ export class QuickAuthService {
     console.log('[QuickAuth] Requesting magic link for:', email)
 
     try {
-      // TODO: Implement backend API call
+      // TODO v2.5.0: Implement backend API call (Phase 1.1)
       // await fetch('/api/auth/magic-link', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
@@ -172,7 +172,7 @@ export class QuickAuthService {
     console.log('[QuickAuth] Verifying magic link token')
 
     try {
-      // TODO: Implement backend API call
+      // TODO v2.5.0: Implement backend API call (Phase 1.1)
       // const response = await fetch('/api/auth/magic-link/verify', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
@@ -262,7 +262,7 @@ export class QuickAuthService {
     }
 
     try {
-      // TODO: Exchange code for token via backend
+      // TODO v2.5.0: Exchange code for token via backend (Phase 1.2 OAuth)
       // const response = await fetch('/api/auth/oauth/callback', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
@@ -372,7 +372,7 @@ export class QuickAuthService {
       // Register new account
       const user = await this.register(email, password, (currentState.user as GuestUser).username)
 
-      // TODO: Migrate guest data to new account
+      // TODO v2.5.0: Migrate guest data to new account (Phase 1.1)
       // await this.migrateGuestData(currentState.user.id, user.id)
 
       console.log('[QuickAuth] Guest account upgraded successfully')
@@ -421,7 +421,7 @@ export class QuickAuthService {
     }
 
     try {
-      // TODO: Implement token refresh
+      // TODO v2.5.0: Implement token refresh (Phase 1.3)
       // const response = await authApi.refreshToken(currentState.token)
       // const newToken = response.accessToken
 

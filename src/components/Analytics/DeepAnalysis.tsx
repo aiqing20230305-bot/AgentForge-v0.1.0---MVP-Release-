@@ -17,7 +17,7 @@ export function DeepAnalysis() {
       </div>
 
       <div className="analysis-content">
-        {/* TODO: 实现分析模块 */}
+        {/* TODO v2.6.0: 实现深度分析模块 (Phase 4.2) */}
         <p>深度分析功能开发中...</p>
         <ul>
           <li>✅ 用户行为追踪</li>
