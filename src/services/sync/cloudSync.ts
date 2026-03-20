@@ -544,7 +544,7 @@ export class CloudSyncService {
   trackChange(change: Omit<DataChange, 'userId' | 'timestamp'>): void {
     const dataChange: DataChange = {
       ...change,
-      userId: 'current_user', // TODO: Get from auth
+      userId: 'current_user', // TODO v2.5.0: Get from auth context (Phase 1.1)
       timestamp: new Date().toISOString()
     }
 

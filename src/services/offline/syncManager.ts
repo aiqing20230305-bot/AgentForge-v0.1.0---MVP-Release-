@@ -205,7 +205,7 @@ export class SyncManager {
    * 同步创建操作
    */
   private async syncCreate(agent: Agent): Promise<void> {
-    // TODO: Implement actual API call
+    // TODO v2.5.0: Implement sync API call (Phase 2.3)
     console.log('[SyncManager] Sync create:', agent.id)
 
     // Mock API call
@@ -321,7 +321,7 @@ export class SyncManager {
    */
   private async fetchRemoteAgent(agentId: string): Promise<any> {
     try {
-      // TODO: Implement actual API call
+      // TODO v2.5.0: Implement sync API call (Phase 2.3)
       // const response = await axios.get(`/api/agents/${agentId}`)
       // return response.data
 

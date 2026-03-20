@@ -22,7 +22,7 @@ export function CustomReports() {
 
         <div className="builder-canvas">
           <p>拖拽组件到此处构建报表</p>
-          {/* TODO: 实现React DnD */}
+          {/* TODO v2.6.0: 实现React DnD (Phase 4.1) */}
         </div>
       </div>
 
