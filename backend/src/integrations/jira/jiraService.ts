@@ -212,11 +212,46 @@ export class JiraService {
   }
 
   /**
-   * Webhook 验证
+   * Webhook 签名验证
+   * 使用HMAC-SHA256验证Jira webhook签名
+   * @param payload - Webhook请求体（字符串形式）
+   * @param signature - Jira发送的签名（x-hub-signature或x-jira-signature头）
+   * @returns 签名是否有效
    */
-  verifyWebhook(payload: any, signature: string): boolean {
-    // TODO: 实现 webhook 签名验证
-    return true;
+  verifyWebhook(payload: string, signature: string): boolean {
+    const secret = process.env.JIRA_WEBHOOK_SECRET;
+
+    if (!secret) {
+      console.error('JIRA_WEBHOOK_SECRET not configured');
+      return false;
+    }
+
+    if (!signature) {
+      console.error('No signature provided');
+      return false;
+    }
+
+    try {
+      const crypto = require('crypto');
+
+      // 移除签名前缀（如 "sha256="）
+      const providedSignature = signature.startsWith('sha256=')
+        ? signature.substring(7)
+        : signature;
+
+      // 生成期望的签名
+      const hmac = crypto.createHmac('sha256', secret);
+      const expectedSignature = hmac.update(payload).digest('hex');
+
+      // 使用时间安全的比较函数，防止时序攻击
+      return crypto.timingSafeEqual(
+        Buffer.from(providedSignature),
+        Buffer.from(expectedSignature)
+      );
+    } catch (error) {
+      console.error('Webhook signature verification failed:', error);
+      return false;
+    }
   }
 
   /**
