@@ -439,7 +439,7 @@ npm run dist:all     # 打包所有平台
 - [x] 后台同步API - Service Worker集成（已完成 - Phase 2.3）
 - [x] 完整认证系统 - OAuth社交登录（已完成 - Phase 1.2）
 - [x] API速率限制 - 防暴力破解（已完成 - Phase 3.2）
-- [ ] Token自动刷新 - 无缝体验（Phase 1.3）
+- [x] Token自动刷新 - 无缝体验（已完成 - Phase 1.3）
 
 [查看v2.5.0路线图 →](docs/ROADMAP_v2.5.0.md)
 
