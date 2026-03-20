@@ -433,11 +433,13 @@ npm run dist:all     # 打包所有平台
 [查看v2.4.0发布说明 →](https://github.com/aiqing20230305-bot/AgentForge-v0.1.0---MVP-Release-/releases/tag/v2.4.0)
 
 ### 🚧 v2.5.0 (开发中 - 2026-04-01)
-- [x] Webhook签名验证（已完成）
-- [ ] 完整认证系统 - OAuth社交登录
-- [ ] 离线优先架构 - IndexedDB同步
-- [ ] API速率限制 - 防暴力破解
-- [ ] Token自动刷新 - 无缝体验
+- [x] Webhook签名验证（已完成 - Phase 3.1）
+- [x] 离线优先架构 - IndexedDB同步（已完成 - Phase 2.1）
+- [x] 冲突解决机制 - 版本合并策略（已完成 - Phase 2.2）
+- [x] 后台同步API - Service Worker集成（已完成 - Phase 2.3）
+- [ ] 完整认证系统 - OAuth社交登录（Phase 1.2）
+- [ ] API速率限制 - 防暴力破解（Phase 3.2）
+- [ ] Token自动刷新 - 无缝体验（Phase 1.3）
 
 [查看v2.5.0路线图 →](docs/ROADMAP_v2.5.0.md)
 
