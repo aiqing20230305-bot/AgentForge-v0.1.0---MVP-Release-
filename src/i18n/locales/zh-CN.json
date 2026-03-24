@@ -123,8 +123,8 @@
     "install": "安装应用",
     "installPrompt": "将AgentForge添加到主屏幕，获得更好的体验",
     "installSteps": {
-      "ios": "点击分享按钮，然后选择"添加到主屏幕"",
-      "android": "点击"安装"按钮将应用添加到主屏幕"
+      "ios": "点击分享按钮，然后选择'添加到主屏幕'",
+      "android": "点击'安装'按钮将应用添加到主屏幕"
     }
   },
   "performance": {
