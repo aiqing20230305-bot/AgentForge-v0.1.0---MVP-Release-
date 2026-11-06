@@ -2,6 +2,7 @@
  * StateHistory 单元测试
  */
 
+import { vi } from 'vitest'
 import { StateHistory, StateSnapshot } from '../stateHistory'
 
 describe('StateHistory', () => {
@@ -110,10 +111,20 @@ describe('StateHistory', () => {
     })
 
     it('should jump to timestamp', () => {
-      const snapshots = history.getAllSnapshots()
-      const targetTimestamp = snapshots[2].timestamp
-      const snapshot = history.jumpToTimestamp(targetTimestamp)
-      expect(snapshot!.state).toEqual({ count: 2 })
+      vi.useFakeTimers()
+      const timed = new StateHistory({ maxSnapshots: 10 })
+      try {
+        for (let i = 0; i < 5; i++) {
+          vi.setSystemTime(1_700_000_000_000 + i * 1000)
+          timed.recordSnapshot({ count: i }, { type: 'INCREMENT' })
+        }
+        const snapshots = timed.getAllSnapshots()
+        const snapshot = timed.jumpToTimestamp(snapshots[2].timestamp)
+        expect(snapshot!.state).toEqual({ count: 2 })
+      } finally {
+        timed.destroy()
+        vi.useRealTimers()
+      }
     })
   })
 

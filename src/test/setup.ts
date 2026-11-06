@@ -2,6 +2,9 @@ import '@testing-library/jest-dom'
 import { cleanup } from '@testing-library/react'
 import { afterEach, vi } from 'vitest'
 
+// Several existing tests were written against Jest's global.
+Object.assign(globalThis, { jest: vi })
+
 // Cleanup after each test
 afterEach(() => {
   cleanup()

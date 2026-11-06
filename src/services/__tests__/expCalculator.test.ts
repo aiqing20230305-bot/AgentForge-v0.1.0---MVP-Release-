@@ -1,6 +1,12 @@
-import { describe, it, expect } from 'vitest'
+import { beforeEach, describe, it, expect } from 'vitest'
 import { ExpCalculator } from '../expCalculator'
 import type { Task, TaskPriority } from '../../types/task'
+
+beforeEach(() => {
+  // calculateTaskExp applies a one-time localStorage bonus. Seed it so each
+  // case asserts the base formula instead of depending on test order.
+  localStorage.setItem('first_time_default_undefined', 'seeded-for-tests')
+})
 
 describe('ExpCalculator', () => {
   describe('calculateTaskExp', () => {
