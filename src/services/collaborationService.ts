@@ -32,7 +32,7 @@ export interface OnlineUser {
  */
 export interface CursorPosition {
   resourceId: string
-  resourceType: 'task' | 'agent' | 'document' | 'chat'
+  resourceType: string
   x: number
   y: number
   timestamp: Date

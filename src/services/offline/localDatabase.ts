@@ -18,6 +18,7 @@ export interface Agent {
   syncStatus: 'synced' | 'pending' | 'conflict'
   localVersion: number
   remoteVersion?: number
+  version?: number
 }
 
 export interface SyncQueue {

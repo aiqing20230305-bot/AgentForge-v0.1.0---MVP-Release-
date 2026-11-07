@@ -4,9 +4,49 @@
  */
 
 export * from './slack'
-export * from './discord'
+
+export {
+  DiscordClient,
+  DiscordNotifier,
+  DiscordCommandsHandler
+} from './discord'
+export type {
+  DiscordConfig,
+  DiscordEmbed,
+  DiscordMessage,
+  DiscordComponent,
+  DiscordUser,
+  DiscordChannel,
+  DiscordGuild,
+  DiscordInteraction,
+  CommandOption,
+  AgentStatus as DiscordAgentStatus,
+  TaskInfo as DiscordTaskInfo,
+  SystemAlert as DiscordSystemAlert,
+  CommandHandler as DiscordCommandHandler,
+  CommandResponse as DiscordCommandResponse,
+  CommandDefinition as DiscordCommandDefinition
+} from './discord'
+
 export * from './jira'
-export * from './github'
+
+export {
+  githubClient,
+  githubSyncService,
+  githubWebhookHandler
+} from './github'
+export type {
+  GitHubConfig,
+  GitHubIssue,
+  GitHubPullRequest,
+  GitHubBranch,
+  GitHubSyncConfig,
+  TaskGitHubMapping,
+  GitHubWebhookEvent,
+  SyncResult as GitHubSyncResult,
+  WebhookEventType as GitHubWebhookEventType
+} from './github'
+
 export * from './IntegrationManager'
 export { getIntegrationManager, resetIntegrationManager } from './IntegrationManager'
 

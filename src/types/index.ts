@@ -34,6 +34,7 @@ export interface AgentItem {
   tokens: number
   rarity: Rarity
   modifiedAt: string
+  description?: string
 }
 
 export interface EquipmentSlot {
@@ -222,3 +223,80 @@ export interface DragItem {
 }
 
 export const DRAG_TYPE = 'AGENT_ITEM'
+
+/**
+ * Fixture types used by src/test/mocks.ts.
+ * These describe the test data shape and are separate from store AgentData.
+ */
+export type TaskStatus = 'pending' | 'in-progress' | 'completed' | 'failed'
+
+export interface Skill {
+  id: string
+  name: string
+  description: string
+  category: string
+  level: number
+  maxLevel: number
+  cost: number
+  requiredLevel: number
+  dependencies: string[]
+  effects: {
+    tokenCostMultiplier?: number
+    [key: string]: number | undefined
+  }
+}
+
+export interface TaskData {
+  id: string
+  title: string
+  description: string
+  status: TaskStatus
+  priority: string
+  createdAt: string
+  updatedAt: string
+  assignedTo?: string
+  tags?: string[]
+  estimatedDuration?: number
+}
+
+export interface AgentData {
+  id: string
+  name: string
+  avatar?: string
+  skills: Skill[]
+  level: number
+  exp: number
+  completedTasks: number
+  createdAt: string
+  updatedAt: string
+  status: string
+  description?: string
+  currentTask: string | null
+  energyStats: {
+    totalTokensUsed: number
+    totalCostUSD: number
+    averageTokensPerTask: number
+    lastUpdated: string
+  }
+  energyBudget: {
+    dailyLimit: number
+    monthlyLimit: number
+    alertThreshold: number
+    autoPauseOnLimit: boolean
+  }
+  levelSystem: {
+    level: number
+    currentExp: number
+    expToNextLevel: number
+    totalExp: number
+    skillPoints: number
+  }
+  achievements: unknown[]
+  pvpStats: {
+    wins: number
+    losses: number
+    draws: number
+    rating: number
+    rank: string
+  }
+}

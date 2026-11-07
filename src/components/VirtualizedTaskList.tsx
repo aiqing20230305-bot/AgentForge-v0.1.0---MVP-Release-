@@ -34,7 +34,7 @@ export const VirtualizedTaskList: React.FC<VirtualizedTaskListProps> = ({
   // Memoize row renderer for performance
   const Row = useMemo(
     () =>
-      ({ index, style }: { index: number; style: React.CSSProperties }) => {
+      ({ index, style }: { index: number; style: React.CSSProperties; ariaAttributes?: object }) => {
         const task = tasks[index]
         if (!task) return null
 
@@ -77,14 +77,13 @@ export const VirtualizedTaskList: React.FC<VirtualizedTaskListProps> = ({
   }
 
   return (
-    <List
-      height={height}
-      itemCount={tasks.length}
-      itemSize={ITEM_HEIGHT}
-      width="100%"
+    <List<Record<string, never>>
+      rowCount={tasks.length}
+      rowHeight={ITEM_HEIGHT}
+      rowComponent={Row}
+      rowProps={{}}
+      style={{ height, width: '100%' }}
       className="scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent"
-    >
-      {Row}
-    </List>
+    />
   )
 }

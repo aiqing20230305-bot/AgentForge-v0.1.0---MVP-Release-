@@ -520,7 +520,7 @@ export const AgentDetailPage: React.FC<AgentDetailPageProps> = ({ agentId, onClo
                         className="bg-black/30 border border-yellow-500/30 rounded-lg p-2 text-center"
                       >
                         <div className="text-2xl mb-1">{achievement.icon}</div>
-                        <div className="text-xs text-gray-300 truncate">{achievement.title}</div>
+                        <div className="text-xs text-gray-300 truncate">{achievement.name}</div>
                       </div>
                     )
                   })}

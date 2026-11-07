@@ -193,7 +193,7 @@ describe('StateHistory', () => {
 
   describe('subscription', () => {
     it('should notify listeners on state change', () => {
-      const listener = jest.fn()
+      const listener = vi.fn()
       history.subscribe(listener)
 
       history.recordSnapshot({ count: 0 })
@@ -204,7 +204,7 @@ describe('StateHistory', () => {
     })
 
     it('should unsubscribe', () => {
-      const listener = jest.fn()
+      const listener = vi.fn()
       const unsubscribe = history.subscribe(listener)
 
       history.recordSnapshot({ count: 0 })
@@ -216,7 +216,7 @@ describe('StateHistory', () => {
     })
 
     it('should pass timeline state to listeners', () => {
-      const listener = jest.fn()
+      const listener = vi.fn()
       history.subscribe(listener)
 
       history.recordSnapshot({ count: 0 })

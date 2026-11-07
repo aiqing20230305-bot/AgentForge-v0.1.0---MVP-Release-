@@ -45,7 +45,13 @@ export type ConflictStrategy =
 /**
  * Change Type
  */
-export type ChangeType = 'created' | 'updated' | 'deleted'
+export type ChangeType =
+  | 'created'
+  | 'updated'
+  | 'deleted'
+  | 'create'
+  | 'update'
+  | 'delete'
 
 /**
  * Data Change Record
@@ -54,6 +60,7 @@ export interface DataChange {
   id: string
   type: ChangeType
   entity: 'agent' | 'task'
+  entityId: string
   data: any
   timestamp: string
   userId: string
@@ -281,6 +288,7 @@ export class CloudSyncService {
         // Accept remote changes, discard local
         await this.applyRemoteChange({
           id: conflict.entityId,
+          entityId: conflict.entityId,
           type: 'updated',
           entity: conflict.entity,
           data: conflict.remoteData,

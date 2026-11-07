@@ -60,34 +60,6 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
     setIsOpen(false)
   }
 
-  if (variant === 'icon') {
-    return (
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
-        title="导出报表"
-      >
-        <Download size={20} className="text-cyan-400" />
-        {isOpen && <ExportMenu />}
-      </button>
-    )
-  }
-
-  if (variant === 'minimal') {
-    return (
-      <div className="relative">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          disabled={isExporting}
-          className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors disabled:opacity-50"
-        >
-          {isExporting ? '导出中...' : '导出'}
-        </button>
-        {isOpen && <ExportMenu />}
-      </div>
-    )
-  }
-
   const ExportMenu = () => (
     <div className="absolute right-0 mt-2 w-48 bg-[#1a1a1a] border border-white/10 rounded-lg shadow-xl z-50">
       <div className="py-2">
@@ -131,6 +103,34 @@ export const ExportButton: React.FC<ExportButtonProps> = ({
       </div>
     </div>
   )
+
+  if (variant === 'icon') {
+    return (
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="relative p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+        title="导出报表"
+      >
+        <Download size={20} className="text-cyan-400" />
+        {isOpen && <ExportMenu />}
+      </button>
+    )
+  }
+
+  if (variant === 'minimal') {
+    return (
+      <div className="relative">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          disabled={isExporting}
+          className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors disabled:opacity-50"
+        >
+          {isExporting ? '导出中...' : '导出'}
+        </button>
+        {isOpen && <ExportMenu />}
+      </div>
+    )
+  }
 
   return (
     <div className="relative">

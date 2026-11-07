@@ -10,7 +10,7 @@
 
 /// <reference lib="WebWorker" />
 
-declare const self: ServiceWorkerGlobalScope
+const sw = self as unknown as ServiceWorkerGlobalScope
 
 const CACHE_VERSION = 'agentforge-v1.5.0'
 const STATIC_CACHE = `${CACHE_VERSION}-static`
@@ -57,7 +57,7 @@ const MAX_CACHE_SIZE = {
  * Install Event
  * Cache static assets
  */
-self.addEventListener('install', (event: ExtendableEvent) => {
+sw.addEventListener('install', (event: ExtendableEvent) => {
   console.log('[SW] Installing Service Worker v' + CACHE_VERSION)
 
   event.waitUntil(
@@ -68,7 +68,7 @@ self.addEventListener('install', (event: ExtendableEvent) => {
       })
       .then(() => {
         console.log('[SW] Static assets cached')
-        return self.skipWaiting()
+        return sw.skipWaiting()
       })
       .catch(error => {
         console.error('[SW] Install failed:', error)
@@ -80,7 +80,7 @@ self.addEventListener('install', (event: ExtendableEvent) => {
  * Activate Event
  * Clean up old caches
  */
-self.addEventListener('activate', (event: ExtendableEvent) => {
+sw.addEventListener('activate', (event: ExtendableEvent) => {
   console.log('[SW] Activating Service Worker v' + CACHE_VERSION)
 
   event.waitUntil(
@@ -97,7 +97,7 @@ self.addEventListener('activate', (event: ExtendableEvent) => {
       })
       .then(() => {
         console.log('[SW] Old caches cleaned')
-        return self.clients.claim()
+        return sw.clients.claim()
       })
   )
 })
@@ -106,7 +106,7 @@ self.addEventListener('activate', (event: ExtendableEvent) => {
  * Fetch Event
  * Implement caching strategies
  */
-self.addEventListener('fetch', (event: FetchEvent) => {
+sw.addEventListener('fetch', (event: FetchEvent) => {
   const { request } = event
   const url = new URL(request.url)
 
@@ -236,7 +236,7 @@ async function limitCacheSize(cacheName: string, maxSize: number): Promise<void>
  * Background Sync Event
  * Sync data when connection is restored
  */
-self.addEventListener('sync', (event: any) => {
+sw.addEventListener('sync', (event: any) => {
   console.log('[SW] Background sync triggered:', event.tag)
 
   if (event.tag === 'sync-data') {
@@ -252,7 +252,7 @@ async function syncData(): Promise<void> {
     console.log('[SW] Syncing data with backend')
 
     // Notify clients to trigger sync
-    const clients = await self.clients.matchAll()
+    const clients = await sw.clients.matchAll()
     clients.forEach(client => {
       client.postMessage({
         type: 'SYNC_REQUEST',
@@ -270,11 +270,11 @@ async function syncData(): Promise<void> {
  * Message Event
  * Handle messages from clients
  */
-self.addEventListener('message', (event: ExtendableMessageEvent) => {
+sw.addEventListener('message', (event: ExtendableMessageEvent) => {
   console.log('[SW] Message received:', event.data)
 
   if (event.data?.type === 'SKIP_WAITING') {
-    self.skipWaiting()
+    sw.skipWaiting()
   }
 
   if (event.data?.type === 'CACHE_URLS') {
@@ -295,21 +295,21 @@ self.addEventListener('message', (event: ExtendableMessageEvent) => {
  * Push Notification Event
  * Handle push notifications
  */
-self.addEventListener('push', (event: PushEvent) => {
+sw.addEventListener('push', (event: PushEvent) => {
   console.log('[SW] Push notification received')
 
   const data = event.data?.json() || {}
   const title = data.title || 'AgentForge'
-  const options: NotificationOptions = {
+  const options = {
     body: data.body || 'You have a new notification',
     icon: '/icon-192.png',
     badge: '/icon-192.png',
     data: data,
     actions: data.actions || []
-  }
+  } as NotificationOptions & { actions?: Array<{ action: string; title: string }> }
 
   event.waitUntil(
-    self.registration.showNotification(title, options)
+    sw.registration.showNotification(title, options)
   )
 })
 
@@ -317,13 +317,13 @@ self.addEventListener('push', (event: PushEvent) => {
  * Notification Click Event
  * Handle notification clicks
  */
-self.addEventListener('notificationclick', (event: NotificationEvent) => {
+sw.addEventListener('notificationclick', (event: NotificationEvent) => {
   console.log('[SW] Notification clicked:', event.notification.data)
 
   event.notification.close()
 
   event.waitUntil(
-    self.clients.openWindow(event.notification.data?.url || '/')
+    sw.clients.openWindow(event.notification.data?.url || '/')
   )
 })
 

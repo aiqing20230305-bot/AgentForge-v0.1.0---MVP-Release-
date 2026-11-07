@@ -9,6 +9,7 @@ export interface SimulationResult {
   success: boolean
   duration: number // seconds
   tokensUsed: number
+  expGained?: number
   log: string[]
   result?: string
   error?: string

@@ -29,6 +29,7 @@ export interface CommandOption {
   description: string
   required?: boolean
   choices?: Array<{ name: string; value: string | number }>
+  options?: CommandOption[]
 }
 
 // Discord interaction response types
@@ -578,7 +579,7 @@ export class DiscordCommandsHandler {
    */
   private async fetchAgents(): Promise<any[]> {
     const buildStore = useBuildStore.getState()
-    const agents = buildStore.inventoryItems.filter(item => item.category === 'agents')
+    const agents = buildStore.inventoryItems.filter(item => (item.category as string) === 'agents')
     return agents.map(agent => ({
       id: agent.id,
       name: agent.name,
@@ -662,7 +663,7 @@ export class DiscordCommandsHandler {
     const buildStore = useBuildStore.getState()
 
     const stats = taskStore.getTaskStats()
-    const agents = buildStore.inventoryItems.filter(item => item.category === 'agents')
+    const agents = buildStore.inventoryItems.filter(item => (item.category as string) === 'agents')
 
     return {
       totalTasks: stats.total,

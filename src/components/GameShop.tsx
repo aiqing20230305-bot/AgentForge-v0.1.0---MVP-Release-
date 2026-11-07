@@ -45,7 +45,7 @@ export const GameShop: React.FC<GameShopProps> = ({ agentId }) => {
     getActiveEffects
   } = useShopStore()
 
-  const agents = useDataSourceStore(state => state.agents)
+  const agents = useDataSourceStore(state => state.agentsCache)
   const currentAgent = agentId ? agents.find(a => a.id === agentId) : agents[0]
   const agentLevel = currentAgent?.level || 1
 

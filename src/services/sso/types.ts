@@ -26,12 +26,14 @@ export enum UserRole {
   GUEST = 'guest',
 }
 
-export enum SessionStatus {
-  ACTIVE = 'active',
-  EXPIRED = 'expired',
-  LOGGED_OUT = 'logged_out',
-  INVALID = 'invalid',
-}
+export const SessionStatus = {
+  ACTIVE: 'active',
+  EXPIRED: 'expired',
+  LOGGED_OUT: 'logged_out',
+  INVALID: 'invalid',
+} as const
+
+export type SessionStatus = (typeof SessionStatus)[keyof typeof SessionStatus]
 
 export interface SSOConfig {
   id: string;

@@ -78,7 +78,7 @@ export function ChatHistoryDebugger() {
           <div>
             <span className="text-gray-400">未读消息:</span>
             <span className="text-white ml-2">
-              {Object.values(state.unreadCount).reduce((a: number, b: number) => a + b, 0)}
+              {Object.values(state.unreadCount as Record<string, number>).reduce((sum, count) => sum + count, 0)}
             </span>
           </div>
           <div className="space-y-1">

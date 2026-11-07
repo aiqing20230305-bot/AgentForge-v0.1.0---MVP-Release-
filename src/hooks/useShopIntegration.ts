@@ -10,7 +10,7 @@ import { ACHIEVEMENTS } from '../data/achievements'
 
 export const useShopIntegration = (agentId?: string) => {
   const addCoins = useShopStore(state => state.addCoins)
-  const agents = useDataSourceStore(state => state.agents)
+  const agents = useDataSourceStore(state => state.agentsCache)
   const currentAgent = agentId ? agents.find(a => a.id === agentId) : agents[0]
 
   /**

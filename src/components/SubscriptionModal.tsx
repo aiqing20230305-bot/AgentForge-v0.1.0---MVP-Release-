@@ -6,7 +6,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Crown, Check, Zap, Sparkles } from 'lucide-react'
-import { SubscriptionPlan } from '../utils/featureGate'
 
 export interface SubscriptionPlan {
   id: 'monthly' | 'yearly'

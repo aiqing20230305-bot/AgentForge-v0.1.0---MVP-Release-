@@ -75,7 +75,7 @@ export function onDailyLogin() {
  */
 export function canAffordItem(itemId: string): boolean {
   const { coins, getShopItems, canPurchase } = useShopStore.getState()
-  const agents = useDataSourceStore.getState().agents
+  const agents = useDataSourceStore.getState().agentsCache
   const agentLevel = agents[0]?.level || 1
 
   const item = getShopItems().find(i => i.id === itemId)

@@ -18,6 +18,10 @@ export interface DailyQuest {
   progress: number
   target: number
   completed: boolean
+  requirement?: {
+    type: string
+    target: number
+  }
   reward: {
     exp: number
     coins: number
@@ -130,15 +134,15 @@ export const DailyQuestPanel: React.FC = () => {
         }
 
         // 其他任务类型的进度追踪
-        if (q.id === 'daily_earn_coins' && q.requirement.type === 'earn_coins') {
+        if (q.id === 'daily_earn_coins' && q.requirement?.type === 'earn_coins') {
           // 金币获取追踪
-          const totalCoins = agents.reduce((sum, a) => sum + (a.metadata?.coins || 0), 0)
+          const totalCoins = agentsCache.reduce((sum, a) => sum + (a.metadata?.coins || 0), 0)
           q.progress = Math.min(totalCoins, q.requirement.target)
         }
 
-        if (q.id === 'daily_level_up' && q.requirement.type === 'level_up') {
+        if (q.id === 'daily_level_up' && q.requirement?.type === 'level_up') {
           // 升级追踪
-          const todayLevelUps = agents.filter(a => {
+          const todayLevelUps = agentsCache.filter(a => {
             const lastLevelUp = a.levelSystem?.lastLevelUp
             if (!lastLevelUp) return false
             const diff = Date.now() - new Date(lastLevelUp).getTime()

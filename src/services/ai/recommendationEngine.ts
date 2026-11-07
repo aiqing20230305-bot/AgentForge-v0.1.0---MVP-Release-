@@ -153,7 +153,7 @@ export class RecommendationEngine {
 
     // TF-IDF相似度计算
     const taskKeywords = this.extractKeywords(task.title + ' ' + task.description)
-    const agentSkills = agent.skills.map(s => s.name.toLowerCase())
+    const agentSkills = agent.skills.map(s => (typeof s === 'string' ? s : s.name).toLowerCase())
 
     let matchCount = 0
     for (const keyword of taskKeywords) {

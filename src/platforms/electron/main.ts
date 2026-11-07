@@ -444,7 +444,7 @@ ipcMain.handle('gpu:disable-hardware-acceleration', () => {
 // Memory info
 ipcMain.handle('process:get-memory-info', async () => {
   if (!mainWindow) return null
-  return await mainWindow.webContents.getProcessMemoryInfo()
+  return await process.getProcessMemoryInfo()
 })
 
 // Deep linking support

@@ -9,6 +9,7 @@ export type AchievementRarity = 'common' | 'rare' | 'epic' | 'legendary'
 export interface Achievement {
   id: string
   name: string
+  title?: string
   description: string
   icon: string
   category: AchievementCategory

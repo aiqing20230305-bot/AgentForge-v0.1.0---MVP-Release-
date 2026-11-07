@@ -5,7 +5,7 @@
 
 import { demoAgents, shouldLoadDemoAgents, markDataLoaded, DemoAgent } from '../data/demoAgents';
 import { useDataSourceStore } from '../store/useDataSourceStore';
-import type { AgentData } from '../adapters/index';
+import type { AgentData } from '../store/useDataSourceStore';
 
 /**
  * 将DemoAgent转换为AgentData格式
@@ -14,23 +14,29 @@ function convertDemoAgentToAgentData(demo: DemoAgent): AgentData {
   return {
     id: demo.id,
     name: demo.name,
+    displayName: demo.name,
+    sourceId: 'demo',
+    sourceName: 'Demo',
     avatar: demo.avatar,
     skills: demo.skills,
-    createdAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(), // 随机过去7天内
-    status: 'active',
+    status: 'online',
     description: demo.description,
-    // 可选字段
     level: demo.level,
-    vitality: demo.vitality,
-    rarity: demo.evolution,
-    stats: {
-      totalTasks: demo.metrics?.totalTasks || 0,
-      completedTasks: demo.tasks.filter(t => t.status === 'completed').length,
-      successRate: demo.metrics?.successRate || 0,
-      avgResponseTime: demo.metrics?.avgResponseTime || 'N/A'
-    },
-    tags: demo.tags || []
-  } as AgentData;
+    exp: 0,
+    maxExp: Math.max(100, demo.level * 100),
+    metadata: {
+      createdAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
+      vitality: demo.vitality,
+      rarity: demo.evolution,
+      tags: demo.tags || [],
+      stats: {
+        totalTasks: demo.metrics?.totalTasks || 0,
+        completedTasks: demo.tasks.filter(t => t.status === 'completed').length,
+        successRate: demo.metrics?.successRate || 0,
+        avgResponseTime: demo.metrics?.avgResponseTime || 'N/A'
+      }
+    }
+  }
 }
 
 /**

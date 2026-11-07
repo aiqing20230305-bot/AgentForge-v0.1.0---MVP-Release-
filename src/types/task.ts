@@ -40,9 +40,9 @@ export interface Task {
   tokenMetrics?: {
     estimatedTokens: number
     actualTokens: number
-    inputTokens: number
-    outputTokens: number
-    model: string
+    inputTokens?: number
+    outputTokens?: number
+    model?: string
     costUSD: number
   }
 }

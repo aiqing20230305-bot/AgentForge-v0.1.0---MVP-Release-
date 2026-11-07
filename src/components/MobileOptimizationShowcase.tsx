@@ -9,7 +9,7 @@ import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import {
   Smartphone,
-  Touch,
+  Hand,
   Maximize2,
   Trash2,
   Archive,
@@ -62,7 +62,7 @@ export const MobileOptimizationShowcase: React.FC = () => {
 
   const tabs: TabItem[] = [
     { id: 'demo', label: '演示', icon: Smartphone },
-    { id: 'gestures', label: '手势', icon: Touch },
+    { id: 'gestures', label: '手势', icon: Hand },
     { id: 'components', label: '组件', icon: CheckCircle }
   ]
 
@@ -102,7 +102,7 @@ export const MobileOptimizationShowcase: React.FC = () => {
                      min-h-[200px] flex flex-col items-center justify-center"
             style={{ transform: `scale(${pinchScale})`, transition: 'transform 0.1s' }}
           >
-            <Touch className="w-12 h-12 text-cyan-400 mb-4" />
+            <Hand className="w-12 h-12 text-cyan-400 mb-4" />
             <h3 className="text-lg font-bold mb-2">触摸测试区域</h3>
             <div className="text-sm text-gray-300 space-y-1">
               <p>👆 单击滑动 - 左/右/上/下</p>

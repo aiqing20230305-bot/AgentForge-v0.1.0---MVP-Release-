@@ -42,6 +42,10 @@ export const transitions = {
     duration: DURATION.normal,
     ease: EASING.easeInOut
   },
+  medium: {
+    duration: 0.4,
+    ease: EASING.easeInOut
+  },
   slow: {
     duration: DURATION.slow,
     ease: EASING.easeOut

@@ -10,6 +10,8 @@ import {
   NotificationType,
 } from '../services/notificationManager'
 
+export type { Notification, NotificationType }
+
 interface NotificationStore {
   notifications: Notification[]
   unreadCount: number
