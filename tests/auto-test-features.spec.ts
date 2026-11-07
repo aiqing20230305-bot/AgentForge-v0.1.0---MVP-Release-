@@ -13,6 +13,7 @@ test.describe('阶段2功能自动化测试', () => {
     // 跳过Onboarding向导（设置localStorage标记）
     await page.evaluate(() => {
       localStorage.setItem('onboarding-completed', 'true')
+      localStorage.setItem('quick-demo-seen', 'true')
     })
 
     // 刷新页面使设置生效
@@ -119,8 +120,7 @@ test.describe('阶段2功能自动化测试', () => {
 
   test('4. 技能树面板交互', async ({ page }) => {
     // 打开技能树标签
-    const navButtons = page.locator('.w-\\[480px\\] button').filter({ has: page.locator('svg') })
-    await navButtons.nth(2).click() // 第3个标签
+    await page.getByTestId('nav-tab-skills').click()
     await page.waitForTimeout(1000)
 
     // 检查技能树标题
@@ -142,8 +142,7 @@ test.describe('阶段2功能自动化测试', () => {
 
   test('5. 成就面板显示', async ({ page }) => {
     // 打开成就标签
-    const navButtons = page.locator('.w-\\[480px\\] button').filter({ has: page.locator('svg') })
-    await navButtons.nth(3).click() // 第4个标签
+    await page.getByTestId('nav-tab-achievements').click()
     await page.waitForTimeout(1000)
 
     // 检查成就系统标题
@@ -164,8 +163,7 @@ test.describe('阶段2功能自动化测试', () => {
 
   test('6. PvP战斗准备界面', async ({ page }) => {
     // 打开PvP标签
-    const navButtons = page.locator('.w-\\[480px\\] button').filter({ has: page.locator('svg') })
-    await navButtons.nth(4).click() // 第5个标签
+    await page.getByRole('button', { name: 'PvP对战', exact: true }).click()
     await page.waitForTimeout(1000)
 
     // 检查VS文字（可能需要先选择对手）

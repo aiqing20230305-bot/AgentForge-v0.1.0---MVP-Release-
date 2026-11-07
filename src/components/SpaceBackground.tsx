@@ -76,60 +76,11 @@ export default function SpaceBackground() {
     // 使用性能配置的星星数量
     generateStars(performanceConfig.starCount)
 
-    // 星云效果 - 精简为2-3个，颜色统一
-    const nebulas: Array<{
-      x: number
-      y: number
-      radius: number
-      color: string
-      opacity: number
-    }> = []
-
-    // 只使用蓝紫渐变
-    for (let i = 0; i < 3; i++) {
-      nebulas.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 250 + 150,
-        color: i % 2 === 0 ? 'rgba(0, 212, 255, 0.08)' : 'rgba(167, 139, 250, 0.06)',
-        opacity: 0.15
-      })
-    }
-
-    // 动画循环 - 使用requestAnimationFrame
-    let animationId: number
-    let lastFrameTime = performance.now()
-    const targetFPS = performanceConfig.animationFPS
-    const frameInterval = 1000 / targetFPS
-
-    const animate = (currentTime: number) => {
-      // FPS限制（性能优化）
-      const elapsed = currentTime - lastFrameTime
-
-      if (elapsed < frameInterval) {
-        animationId = requestAnimationFrame(animate)
-        return
-      }
-
-      lastFrameTime = currentTime - (elapsed % frameInterval)
+    // 背景用定时器绘制，避免和界面动画抢同一条 requestAnimationFrame
+    let animationId: ReturnType<typeof setInterval>
+    const animate = () => {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-      // 绘制星云
-      nebulas.forEach(nebula => {
-        const gradient = ctx.createRadialGradient(
-          nebula.x,
-          nebula.y,
-          0,
-          nebula.x,
-          nebula.y,
-          nebula.radius
-        )
-        gradient.addColorStop(0, nebula.color.replace('0.1', String(nebula.opacity)))
-        gradient.addColorStop(1, 'transparent')
-        ctx.fillStyle = gradient
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-      })
 
       // 绘制星星
       stars.forEach(star => {
@@ -154,14 +105,13 @@ export default function SpaceBackground() {
         }
       })
 
-      animationId = requestAnimationFrame(animate)
     }
 
-    animate(performance.now())
+    animationId = setInterval(animate, 100)
 
     return () => {
       window.removeEventListener('resize', resize)
-      cancelAnimationFrame(animationId)
+      clearInterval(animationId)
     }
   }, [performanceConfig]) // 依赖性能配置
 

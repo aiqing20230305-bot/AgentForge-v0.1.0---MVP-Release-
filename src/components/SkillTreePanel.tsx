@@ -42,11 +42,11 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
   }
 
   const categoryNames = {
-    efficiency: '⚡ 效率系',
-    combat: '⚔️ 战斗系',
-    learning: '📚 学习系',
-    precision: '🎯 精准系',
-    ultimate: '👑 终极系'
+    efficiency: '⚡ 效率分支',
+    combat: '⚔️ 战斗分支',
+    learning: '📚 学习分支',
+    precision: '🎯 精准分支',
+    ultimate: '👑 终极分支'
   }
 
   const categoryColors = {
@@ -100,7 +100,7 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
           <div className="flex items-center gap-4 text-sm">
             <div className="flex items-center gap-2">
               <Zap className="w-4 h-4 text-yellow-400" />
-              <span className="text-white">可用技能点：</span>
+              <span className="text-white">可用技能点: {agent.skillTree.skillPoints}</span>
               <span className="text-yellow-400 font-bold text-lg">
                 {agent.skillTree.skillPoints}
               </span>
@@ -129,10 +129,12 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
                     const level = getSkillLevel(skill.id)
                     const unlocked = isSkillUnlocked(skill.id)
                     const isMaxLevel = level >= skill.maxLevel
+                    const unlockable = !unlocked && canUnlock(skill)
 
                     return (
                       <motion.div
                         key={skill.id}
+                        data-skill-id={skill.id}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={(e) => {
@@ -141,7 +143,8 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
                           setSelectedSkill(skill)
                         }}
                         className={`
-                          relative cursor-pointer rounded-lg p-4 border-2 transition-all feedback-button-scale
+                          skill-node relative cursor-pointer rounded-lg p-4 border-2 transition-all feedback-button-scale
+                          ${unlocked ? 'unlocked' : unlockable ? '' : 'locked'}
                           ${unlocked
                             ? `bg-gradient-to-br ${colors.bg} ${colors.border} shadow-lg`
                             : 'bg-gray-900/50 border-gray-700 opacity-60'
@@ -206,8 +209,10 @@ export const SkillTreePanel: React.FC<SkillTreePanelProps> = ({ agent, onUpgrade
         <motion.div
           initial={{ x: 300, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
+          role="complementary"
           className="w-80 bg-gray-900 border-l border-gray-700 p-6 overflow-y-auto"
         >
+          <h3 className="text-sm font-bold text-cyan-300 mb-3">技能详情</h3>
           <div className="text-center mb-4">
             <div className="text-6xl mb-3">{selectedSkill.icon}</div>
             <h3 className="text-xl font-bold text-white mb-1">{selectedSkill.name}</h3>

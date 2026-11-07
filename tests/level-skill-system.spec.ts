@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { ACHIEVEMENTS } from '../src/data/achievements'
 
 test.describe('等级系统测试', () => {
   test.beforeEach(async ({ page }) => {
@@ -45,6 +46,7 @@ test.describe('等级系统测试', () => {
       const unlockableSkill = page.locator('.skill-node:not(.unlocked):not(.locked)').first()
 
       if (await unlockableSkill.count() > 0) {
+        const skillId = await unlockableSkill.getAttribute('data-skill-id')
         await unlockableSkill.click()
 
         // 点击"解锁技能"按钮
@@ -55,8 +57,8 @@ test.describe('等级系统测试', () => {
         const newPoints = parseInt(newSkillPointsText?.match(/\d+/)?.[0] || '0')
         expect(newPoints).toBe(currentPoints - 1)
 
-        // 验证技能变为彩色（已解锁）
-        await expect(unlockableSkill).toHaveClass(/unlocked/)
+        // 验证被点击的技能变为已解锁
+        await expect(page.locator(`[data-skill-id="${skillId}"]`)).toHaveClass(/unlocked/)
       }
     }
   })
@@ -92,13 +94,14 @@ test.describe('等级系统测试', () => {
     await page.click('text=成就')
 
     // 验证成就显示
-    await expect(page.locator('[class*="achievement-card"]')).toHaveCount(31, { timeout: 5000 })
+    expect(ACHIEVEMENTS.length).toBe(30)
+    await expect(page.locator('[class*="achievement-card"]')).toHaveCount(ACHIEVEMENTS.length, { timeout: 5000 })
 
     // 切换类别筛选
     const categories = ['全部', '任务', '等级', '技能', 'PvP', '能耗', '特殊']
 
     for (const category of categories) {
-      await page.click(`button:has-text("${category}")`)
+      await page.locator('[data-testid="achievement-filters"]').getByRole('button', { name: category }).click()
       await page.waitForTimeout(300)
 
       // 验证筛选后有成就显示（或者显示"暂无成就"）

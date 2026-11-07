@@ -24,9 +24,9 @@ export const AchievementPanel: React.FC<AchievementPanelProps> = ({ agent }) => 
   // 成就类别
   const categories = [
     { id: 'all', label: '全部', icon: '🏆' },
-    { id: 'task', label: '任务', icon: '📋' },
+    { id: 'tasks', label: '任务', icon: '📋' },
     { id: 'level', label: '等级', icon: '⬆️' },
-    { id: 'skill', label: '技能', icon: '⚡' },
+    { id: 'skills', label: '技能', icon: '⚡' },
     { id: 'pvp', label: 'PvP', icon: '⚔️' },
     { id: 'energy', label: '能耗', icon: '💎' },
     { id: 'special', label: '特殊', icon: '🌟' }
@@ -93,7 +93,7 @@ export const AchievementPanel: React.FC<AchievementPanelProps> = ({ agent }) => 
         </div>
 
         {/* 类别筛选 */}
-        <div className="flex gap-2 overflow-x-auto pb-2">
+        <div data-testid="achievement-filters" className="flex gap-2 overflow-x-auto pb-2">
           {categories.map(cat => (
             <button
               key={cat.id}
@@ -119,6 +119,9 @@ export const AchievementPanel: React.FC<AchievementPanelProps> = ({ agent }) => 
 
       {/* 成就列表 */}
       <div className="flex-1 overflow-y-auto p-6">
+        {filteredAchievements.length === 0 && (
+          <div className="text-center text-gray-400 py-12">暂无成就</div>
+        )}
         <div className="grid grid-cols-3 gap-4">
           {filteredAchievements.map((achievement, index) => {
             const unlocked = isUnlocked(achievement.id)
@@ -142,7 +145,7 @@ export const AchievementPanel: React.FC<AchievementPanelProps> = ({ agent }) => 
                   setSelectedAchievement(achievement)
                 }}
                 className={`
-                  relative cursor-pointer rounded-xl p-4 border-2 transition-all feedback-button-scale
+                  achievement-card relative cursor-pointer rounded-xl p-4 border-2 transition-all feedback-button-scale
                   ${unlocked
                     ? `bg-gradient-to-br ${colors.bg} ${colors.border} shadow-lg ${colors.glow}`
                     : 'bg-gray-900/50 border-gray-700 opacity-60'
@@ -259,6 +262,8 @@ const AchievementDetailModal: React.FC<AchievementDetailModalProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      role="dialog"
+      aria-modal="true"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
       onClick={onClose}
     >

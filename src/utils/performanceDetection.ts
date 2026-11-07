@@ -134,7 +134,7 @@ export function getAnimationConfig(tier: 'high' | 'medium' | 'low') {
     case 'medium':
       return {
         enableStarBackground: true,
-        starCount: 100,
+        starCount: 40,
         enableParticles: false,
         enableBlur: true,
         enableShadows: true,

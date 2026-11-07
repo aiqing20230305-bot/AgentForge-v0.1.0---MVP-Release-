@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "electron:dev": "concurrently \"vite\" \"electron .\"",
     "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test",
     "screenshots": "node scripts/take-screenshots.mjs",
     "screenshots:setup": "npx playwright install chromium",
     "test": "vitest",

@@ -7,6 +7,7 @@ import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Battle, BattleAgent } from '../types/battle'
 import { Heart, Shield, Swords, Zap } from 'lucide-react'
+import { BattleLog } from './BattleLog'
 
 interface BattleArenaProps {
   battle: Battle
@@ -26,7 +27,7 @@ export const BattleArena: React.FC<BattleArenaProps> = ({
   const opponent = battle.player2
 
   return (
-    <div className="fixed inset-0 z-50 bg-gradient-to-b from-purple-900 via-blue-900 to-black overflow-hidden">
+    <div className="battle-arena fixed inset-0 z-50 bg-gradient-to-b from-purple-900 via-blue-900 to-black overflow-hidden">
       {/* 战场背景动画 */}
       <div className="absolute inset-0 opacity-20">
         {[...Array(20)].map((_, i) => (
@@ -74,7 +75,10 @@ export const BattleArena: React.FC<BattleArenaProps> = ({
         />
 
         {/* 中央战斗信息 */}
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex items-center justify-center gap-6">
+          <div className="battle-log w-80 max-h-48 overflow-hidden">
+            <BattleLog logs={battle.battleLog} maxHeight="180px" />
+          </div>
           <div className="text-center">
             {/* 战斗特效提示 */}
             <AnimatePresence>
@@ -180,11 +184,11 @@ const AgentBattleCard: React.FC<AgentBattleCardProps> = ({ agent, isActive, clas
         <div className="flex items-center justify-between text-sm mb-1">
           <div className="flex items-center gap-1 text-red-300">
             <Heart className="w-4 h-4" />
-            <span>HP</span>
+            <span>HP: {agent.hp}</span>
           </div>
           <span className="text-white font-bold">{agent.hp} / {agent.maxHp}</span>
         </div>
-        <div className="w-full bg-gray-800 rounded-full h-3 overflow-hidden border border-gray-700">
+        <div className="hp-bar w-full bg-gray-800 rounded-full h-3 overflow-hidden border border-gray-700" role="progressbar" aria-valuenow={agent.hp} aria-valuemin={0} aria-valuemax={agent.maxHp}>
           <motion.div
             initial={{ width: `${hpPercentage}%` }}
             animate={{ width: `${hpPercentage}%` }}
@@ -197,12 +201,12 @@ const AgentBattleCard: React.FC<AgentBattleCardProps> = ({ agent, isActive, clas
       <div className="grid grid-cols-3 gap-2 text-xs">
         <div className="bg-gray-900/50 border border-gray-700 rounded p-2 text-center">
           <Swords className="w-4 h-4 text-orange-400 mx-auto mb-1" />
-          <div className="text-gray-400">攻击</div>
+          <div className="text-gray-400">攻击: {agent.attack}</div>
           <div className="text-white font-bold">{agent.attack}</div>
         </div>
         <div className="bg-gray-900/50 border border-gray-700 rounded p-2 text-center">
           <Shield className="w-4 h-4 text-blue-400 mx-auto mb-1" />
-          <div className="text-gray-400">防御</div>
+          <div className="text-gray-400">防御: {agent.defense}</div>
           <div className="text-white font-bold">{agent.defense}</div>
         </div>
         <div className="bg-gray-900/50 border border-gray-700 rounded p-2 text-center">
@@ -247,8 +251,8 @@ const SkillButton: React.FC<SkillButtonProps> = ({ skill, onUse, disabled }) => 
       whileTap={!disabled ? { scale: 0.95 } : {}}
       onClick={onUse}
       disabled={disabled}
-      className={`
-        relative p-4 rounded-lg border-2 transition-all
+        className={`
+        skill relative p-4 rounded-lg border-2 transition-all
         ${disabled
           ? 'bg-gray-800 border-gray-700 text-gray-600 cursor-not-allowed'
           : 'bg-gradient-to-br from-purple-900 to-blue-900 border-purple-500 text-white hover:border-purple-300 cursor-pointer'

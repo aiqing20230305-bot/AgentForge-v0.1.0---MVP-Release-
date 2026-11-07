@@ -6,7 +6,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { useBuildStore } from './stores/buildStore'
-import { initializeDefaultDataSources } from './store/useDataSourceStore'
+import { initializeAgentExtendedData, initializeDefaultDataSources } from './store/useDataSourceStore'
 import { initializeTheme } from './store/useThemeStore'
 import { loadDemoAgentsIfNeeded } from './utils/demoAgentLoader'
 import { useIsMobile, useIsTouchDevice } from './hooks/useIsMobile'
@@ -20,7 +20,9 @@ import SpaceBackground from './components/SpaceBackground'
 import OnboardingWizard from './components/OnboardingWizard'
 import { QuickDemo } from './components/QuickDemo'
 import { GlobalExpBar } from './components/GlobalExpBar'
+import { DailyQuestPanel } from './components/DailyQuestPanel'
 import { ErrorBoundary } from './components/ErrorBoundary'
+import { AuthProvider } from './contexts/AuthContext'
 import { GlobalSearch, useGlobalSearchHotkey } from './components/GlobalSearch'
 import { MobileLayout } from './components/mobile/MobileLayout'
 import { MobileAgentGrid } from './components/mobile/MobileAgentGrid'
@@ -63,6 +65,7 @@ export default function WebApp() {
     console.log('[WebApp] Initializing...')
     initializeDefaultDataSources()
     loadDemoAgentsIfNeeded()
+    initializeAgentExtendedData()
     initializeTheme()
     loadSettings()
 
@@ -94,8 +97,9 @@ export default function WebApp() {
 
   return (
     <ErrorBoundary>
+      <AuthProvider>
       <DndProvider backend={dndBackend}>
-        <div className="h-screen flex flex-col bg-[#0a0a0a] overflow-hidden relative">
+        <div data-testid="main-app" className="h-screen flex flex-col bg-[#0a0a0a] overflow-hidden relative">
           {/* 星空背景 - z-index: 0 */}
           <SpaceBackground />
 
@@ -160,6 +164,8 @@ export default function WebApp() {
 
                 {/* Preview Panel */}
                 <PreviewPanel />
+
+                <DailyQuestPanel />
               </>
             )}
 
@@ -167,10 +173,14 @@ export default function WebApp() {
             {settingsOpen && <SettingsModal />}
 
             {showOnboarding && (
-              <OnboardingWizard onComplete={() => setShowOnboarding(false)} />
+              <OnboardingWizard onComplete={() => {
+                setShowOnboarding(false)
+                localStorage.setItem('quick-demo-seen', 'true')
+                setShowQuickDemo(false)
+              }} />
             )}
 
-            {showQuickDemo && (
+            {showQuickDemo && !showOnboarding && (
               <QuickDemo
                 onComplete={() => {
                   setShowQuickDemo(false)
@@ -187,6 +197,7 @@ export default function WebApp() {
           </div>
         </div>
       </DndProvider>
+      </AuthProvider>
     </ErrorBoundary>
   )
 }

@@ -76,6 +76,7 @@ export const EnergyBudgetSettings: React.FC = () => {
               </label>
               <input
                 type="number"
+                aria-label="日预算"
                 value={localBudget.daily}
                 onChange={e => setLocalBudget({ ...localBudget, daily: parseInt(e.target.value) || 0 })}
                 className="w-full px-4 py-2 bg-gray-900 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -94,6 +95,7 @@ export const EnergyBudgetSettings: React.FC = () => {
               </label>
               <input
                 type="number"
+                aria-label="周预算"
                 value={localBudget.weekly}
                 onChange={e => setLocalBudget({ ...localBudget, weekly: parseInt(e.target.value) || 0 })}
                 className="w-full px-4 py-2 bg-gray-900 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -112,6 +114,7 @@ export const EnergyBudgetSettings: React.FC = () => {
               </label>
               <input
                 type="number"
+                aria-label="月预算"
                 value={localBudget.monthly}
                 onChange={e => setLocalBudget({ ...localBudget, monthly: parseInt(e.target.value) || 0 })}
                 className="w-full px-4 py-2 bg-gray-900 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -171,14 +174,14 @@ export const EnergyBudgetSettings: React.FC = () => {
                   当消耗超过预算时自动暂停所有任务执行
                 </div>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
+              <label className="inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
+                  aria-label="自动暂停"
                   checked={localAutoPause}
                   onChange={e => setLocalAutoPause(e.target.checked)}
-                  className="sr-only peer"
+                  className="w-5 h-5 accent-blue-500"
                 />
-                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
               </label>
             </div>
           </div>

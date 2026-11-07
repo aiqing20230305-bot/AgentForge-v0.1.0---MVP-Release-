@@ -170,7 +170,7 @@ export const EnergyChart: React.FC = () => {
       </div>
 
       {/* 图表区域 */}
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-6 min-h-[320px]">
         {chartType === 'trend' && (
           <div className="h-full">
             <h3 className="text-white font-bold mb-4">📈 7天消耗趋势</h3>

@@ -64,7 +64,7 @@ export const BattleResult: React.FC<BattleResultProps> = ({
                 delay: Math.random() * 2,
                 ease: 'easeOut'
               }}
-              className="absolute w-2 h-2 rounded-full"
+              className="particle absolute w-2 h-2 rounded-full"
               style={{
                 backgroundColor: isVictory ? '#FCD34D' : '#EF4444'
               }}

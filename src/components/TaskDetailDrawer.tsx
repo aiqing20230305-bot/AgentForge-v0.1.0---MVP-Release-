@@ -62,13 +62,14 @@ export const TaskDetailDrawer: React.FC<TaskDetailDrawerProps> = ({ taskId, onCl
       <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
 
       {/* 抽屉 */}
-      <div className="fixed top-0 right-0 h-full w-[600px] bg-gray-900 shadow-xl z-50 flex flex-col animate-slide-in-right">
+      <div role="dialog" aria-modal="true" className="fixed top-0 right-0 h-full w-[600px] bg-gray-900 shadow-xl z-50 flex flex-col animate-slide-in-right">
         {/* 头部 */}
         <div className="p-6 border-b border-gray-700">
           <div className="flex items-start justify-between mb-4">
             <h2 className="text-xl font-bold text-white flex-1 pr-4">{task.title}</h2>
             <button
               onClick={onClose}
+              aria-label="关闭"
               className="text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center flex-shrink-0"
             >
               ×
@@ -110,7 +111,7 @@ export const TaskDetailDrawer: React.FC<TaskDetailDrawerProps> = ({ taskId, onCl
                 : 'text-gray-400 hover:text-white'
             }`}
           >
-            📅 时间轴
+            📅 时间轴 Timeline
           </button>
           <button
             onClick={() => setActiveTab('logs')}
@@ -120,7 +121,7 @@ export const TaskDetailDrawer: React.FC<TaskDetailDrawerProps> = ({ taskId, onCl
                 : 'text-gray-400 hover:text-white'
             }`}
           >
-            📝 执行日志
+            📝 执行日志 Logs
           </button>
         </div>
 

@@ -28,9 +28,10 @@ test.describe('任务管理测试', () => {
     await page.click('button:has-text("创建任务")')
 
     // 验证任务出现在列表中
-    await expect(page.locator('text=测试任务1')).toBeVisible()
-    await expect(page.locator('text=待处理')).toBeVisible()
-    await expect(page.locator('text=高')).toBeVisible()
+    const createdTask = page.locator('[class*="task-card"]').filter({ hasText: '测试任务1' })
+    await expect(createdTask).toBeVisible()
+    await expect(createdTask.locator('text=待处理')).toBeVisible()
+    await expect(createdTask.locator('text=高')).toBeVisible()
   })
 
   test('TC-002: 自动执行任务', async ({ page }) => {
@@ -44,14 +45,14 @@ test.describe('任务管理测试', () => {
     await page.locator('button:has-text("执行")').first().click()
 
     // 观察状态变为"进行中"
-    await expect(page.locator('text=进行中')).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('text=进行中').first()).toBeVisible({ timeout: 5000 })
 
     // 等待进度条变化
     const progressBar = page.locator('[role="progressbar"]').first()
     await expect(progressBar).toBeVisible()
 
     // 等待完成（最多 30 秒）
-    await expect(page.locator('text=已完成')).toBeVisible({ timeout: 30000 })
+    await expect(page.locator('text=已完成').first()).toBeVisible({ timeout: 30000 })
   })
 
   test('TC-003: 查看任务详情', async ({ page }) => {
