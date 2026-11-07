@@ -6,6 +6,8 @@ node_modules/
 # Testing
 coverage/
 *.log
+playwright-report/
+test-results/
 
 # Production builds
 dist/

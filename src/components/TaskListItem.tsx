@@ -63,7 +63,7 @@ export const TaskListItem = memo<TaskListItemProps>(({
     <div style={style}>
       <div
         onClick={onSelect}
-        className={`bg-white/10 backdrop-blur-sm border-2 rounded-xl p-4 cursor-pointer transition-all hover:bg-white/15 hover:scale-[1.02] ${
+        className={`task-card bg-white/10 backdrop-blur-sm border-2 rounded-xl p-4 cursor-pointer transition-all hover:bg-white/15 hover:scale-[1.02] ${
           isSelected
             ? 'border-cyan-400 shadow-lg shadow-cyan-500/20'
             : 'border-white/20 hover:border-white/30'
@@ -87,6 +87,7 @@ export const TaskListItem = memo<TaskListItemProps>(({
                 className="w-5 h-5"
                 style={{ color: STATUS_CONFIG[task.status].color }}
               />
+              <span className="text-[10px] font-medium text-white/80">{STATUS_CONFIG[task.status].label}</span>
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 text-base font-bold text-white mb-1.5">
@@ -142,7 +143,7 @@ export const TaskListItem = memo<TaskListItemProps>(({
               <span>执行进度</span>
               <span>{task.executionProgress.toFixed(0)}%</span>
             </div>
-            <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+            <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden" role="progressbar" aria-valuenow={task.executionProgress} aria-valuemin={0} aria-valuemax={100}>
               <div
                 className="bg-gradient-to-r from-blue-600 to-blue-400 h-full transition-all duration-300"
                 style={{ width: `${task.executionProgress}%` }}
@@ -176,10 +177,11 @@ export const TaskListItem = memo<TaskListItemProps>(({
               title="查看详情"
             >
               <Eye className="w-4 h-4 text-purple-300" />
+              <span className="text-xs text-purple-200">详情</span>
             </button>
 
             {/* 执行/取消按钮 */}
-            {task.autoExecution && (
+            {(onExecute || task.autoExecution) ? (
               <>
                 {task.status === 'in_progress' ? (
                   <button
@@ -202,10 +204,11 @@ export const TaskListItem = memo<TaskListItemProps>(({
                     title="开始执行"
                   >
                     <Play className="w-4 h-4 text-green-300" />
+                    <span className="text-xs text-green-200">执行</span>
                   </button>
                 ) : null}
               </>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

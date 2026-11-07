@@ -424,7 +424,7 @@ export class SlackCommandsHandler {
    */
   private async fetchAgents(): Promise<any[]> {
     const buildStore = useBuildStore.getState()
-    const agents = buildStore.inventoryItems.filter(item => item.category === 'agents')
+    const agents = buildStore.inventoryItems.filter(item => (item.category as string) === 'agents')
     return agents.map(agent => ({
       id: agent.id,
       name: agent.name,
@@ -508,7 +508,7 @@ export class SlackCommandsHandler {
     const buildStore = useBuildStore.getState()
 
     const stats = taskStore.getTaskStats()
-    const agents = buildStore.inventoryItems.filter(item => item.category === 'agents')
+    const agents = buildStore.inventoryItems.filter(item => (item.category as string) === 'agents')
 
     return {
       totalTasks: stats.total,

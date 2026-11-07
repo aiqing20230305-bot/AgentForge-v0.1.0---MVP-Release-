@@ -6,6 +6,7 @@
 import { useState, useEffect } from 'react'
 import { Sparkles, TrendingUp, Clock, CheckCircle, XCircle } from 'lucide-react'
 import { useDataSourceStore } from '../store/useDataSourceStore'
+import { useTaskStore } from '../stores/taskStore'
 import { recommendationEngine, TaskRecommendation } from '../services/ai/recommendationEngine'
 import { taskAnalyzer } from '../services/ai/taskAnalyzer'
 import { useTranslation } from '../hooks/useTranslation'
@@ -22,7 +23,8 @@ export function TaskRecommendations({
   limit = 5
 }: TaskRecommendationsProps) {
   const { t } = useTranslation()
-  const { agents, tasks } = useDataSourceStore()
+  const agents = useDataSourceStore(state => state.agentsCache)
+  const { tasks, updateTask } = useTaskStore()
   const [recommendations, setRecommendations] = useState<TaskRecommendation[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -39,9 +41,10 @@ export function TaskRecommendations({
         const agent = agents.find(a => a.id === agentId)
         if (!agent) return
 
-        const availableTasks = tasks.filter(
-          t => t.status === 'pending' || t.status === 'todo'
-        )
+        const availableTasks = tasks.filter(t => {
+          const status = t.status as string
+          return status === 'pending' || status === 'todo'
+        })
 
         const recs = recommendationEngine.recommendTasksForAgent(
           agent,
@@ -55,9 +58,10 @@ export function TaskRecommendations({
         const task = tasks.find(t => t.id === taskId)
         if (!task) return
 
-        const availableAgents = agents.filter(
-          a => a.status === 'idle' || a.status === 'available'
-        )
+        const availableAgents = agents.filter(a => {
+          const status = a.status as string
+          return status === 'idle' || status === 'available'
+        })
 
         const recs = recommendationEngine.recommendAgentsForTask(
           task,
@@ -73,7 +77,6 @@ export function TaskRecommendations({
 
   const handleApplyRecommendation = (rec: TaskRecommendation) => {
     // 应用推荐：分配任务给Agent
-    const { updateTask } = useDataSourceStore.getState()
     updateTask(rec.task.id, { agentId: rec.agent.id, status: 'in_progress' })
 
     // 从推荐列表中移除

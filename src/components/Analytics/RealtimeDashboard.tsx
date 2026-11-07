@@ -20,7 +20,7 @@ export function RealtimeDashboard() {
   // 计算实时指标
   useEffect(() => {
     const stats = getTaskStats();
-    const agents = inventoryItems.filter(item => item.category === 'agents');
+    const agents = inventoryItems.filter(item => (item.category as string) === 'agents');
 
     setMetrics({
       successRate: stats.total > 0 ? (stats.completed / stats.total * 100) : 0,

@@ -9,7 +9,7 @@ import { useNotificationStore } from '../store/useNotificationStore'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface NotificationBellProps {
-  onClick: () => void
+  onClick?: () => void
   className?: string
 }
 

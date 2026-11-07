@@ -3,9 +3,23 @@
  * Test suite for Slack and Discord integrations
  */
 
+import { vi } from 'vitest'
 import { SlackClient, SlackNotifier } from '../slack'
 import { DiscordClient, DiscordNotifier } from '../discord'
 import { IntegrationManager, getIntegrationManager } from '../IntegrationManager'
+
+vi.mock('axios', () => {
+  const post = vi.fn(() => Promise.resolve({ data: { ok: true } }))
+  const create = vi.fn(() => ({
+    post,
+    get: vi.fn(),
+    interceptors: {
+      request: { use: vi.fn() },
+      response: { use: vi.fn() },
+    },
+  }))
+  return { default: Object.assign(vi.fn(), { post, create, get: vi.fn() }) }
+})
 
 describe('Slack Integration', () => {
   describe('SlackClient', () => {
@@ -215,10 +229,6 @@ describe('Integration API Calls (Mocked)', () => {
       webhookUrl: 'https://hooks.slack.com/services/test'
     })
 
-    // Mock axios
-    const axios = require('axios')
-    axios.post = jest.fn().mockResolvedValue({ data: { ok: true } })
-
     await expect(client.sendWebhook({ text: 'Test message' })).resolves.toBeUndefined()
   })
 
@@ -226,10 +236,6 @@ describe('Integration API Calls (Mocked)', () => {
     const client = new DiscordClient({
       webhookUrl: 'https://discord.com/api/webhooks/test'
     })
-
-    // Mock axios
-    const axios = require('axios')
-    axios.post = jest.fn().mockResolvedValue({ data: { id: '123' } })
 
     await expect(client.sendWebhook({ content: 'Test message' })).resolves.toBeUndefined()
   })

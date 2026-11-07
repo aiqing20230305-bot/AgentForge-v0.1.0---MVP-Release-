@@ -8,6 +8,8 @@ import { Activity, Zap, Trophy, Swords, BarChart3, TrendingUp, Gift, Settings, G
 import { useDataSourceStore } from '../store/useDataSourceStore'
 import TaskManagementPanel from './TaskManagementPanel'
 import { EnergyDashboard } from './EnergyDashboard'
+import { EnergyChart } from './EnergyChart'
+import { EnergyBudgetSettings } from './EnergyBudgetSettings'
 import { SkillTreePanel } from './SkillTreePanel'
 import { AchievementPanel } from './AchievementPanel'
 import { BattlePreparation } from './BattlePreparation'
@@ -23,11 +25,13 @@ import { AIAssistantPanel } from './AIAssistantPanel'
 import { GameShop } from './GameShop'
 import { ProphetDemoPanel } from './ProphetDemoPanel'
 import type { Battle } from '../types/battle'
+import { BattleEngine } from '../services/battleEngine'
 
 type TabType = 'tasks' | 'energy' | 'skills' | 'achievements' | 'shop' | 'battle' | 'leaderboard' | 'invite' | 'performance' | 'showcase' | 'settings' | 'agent-detail' | 'ai-assistant' | 'prophet-demo'
 
 export const MainNavigationTabs: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('tasks')
+  const [energyView, setEnergyView] = useState<'dashboard' | 'chart' | 'budget'>('dashboard')
   const [currentBattle, setCurrentBattle] = useState<Battle | null>(null)
   const [showBattleResult, setShowBattleResult] = useState(false)
   const [battleResult, setBattleResult] = useState<{ battle: Battle; isVictory: boolean } | null>(null)
@@ -88,7 +92,7 @@ export const MainNavigationTabs: React.FC = () => {
     { id: 'prophet-demo' as TabType, label: 'Prophet', icon: Sparkles },
     { id: 'ai-assistant' as TabType, label: 'AI助手', icon: Brain },
     { id: 'energy' as TabType, label: '能耗', icon: Zap },
-    { id: 'skills' as TabType, label: '技能', icon: BarChart3 },
+    { id: 'skills' as TabType, label: '技能树', icon: BarChart3 },
     { id: 'achievements' as TabType, label: '成就', icon: Trophy },
     { id: 'shop' as TabType, label: '商店', icon: ShoppingCart },
     { id: 'battle' as TabType, label: '对战', icon: Swords },
@@ -137,10 +141,14 @@ export const MainNavigationTabs: React.FC = () => {
           skillPoints: 0,
           skillLevels: {}
         }
+        const unlockedSkills = currentSkillTree.unlockedSkills.includes(skillId)
+          ? currentSkillTree.unlockedSkills
+          : [...currentSkillTree.unlockedSkills, skillId]
         return {
           ...agent,
           skillTree: {
             ...currentSkillTree,
+            unlockedSkills,
             skillPoints: skillPoints - 1,
             skillLevels: {
               ...currentSkillTree.skillLevels,
@@ -157,54 +165,48 @@ export const MainNavigationTabs: React.FC = () => {
   }
 
   const handleStartBattle = (opponentId: string) => {
-    console.log('开始战斗 vs:', opponentId)
-
-    // 获取对手Agent数据
     const agents = useDataSourceStore.getState().agentsCache
+    const player = agents.find(a => a.id === firstAgent?.id) || firstAgent
     const opponent = agents.find(a => a.id === opponentId)
 
-    if (!firstAgent || !opponent) {
+    if (!player || !opponent) {
       console.error('无法找到战斗双方的Agent数据')
       return
     }
 
-    // 创建真实的战斗实例
-    const battle: Battle = {
-      id: `battle-${Date.now()}`,
-      type: 'pvp',
-      player1: {
-        agentId: firstAgent?.id || 'player',
-        name: firstAgent?.name || 'Player',
-        level: firstAgent?.level || 1,
-        hp: 1000,
-        maxHp: 1000,
-        attack: 100,
-        defense: 50,
-        speed: 75,
-        battleSkills: [],
-        buffs: [],
-        debuffs: []
-      },
-      player2: {
-        agentId: opponentId,
-        name: 'Opponent',
-        level: 1,
-        hp: 1000,
-        maxHp: 1000,
-        attack: 100,
-        defense: 50,
-        speed: 75,
-        battleSkills: [],
-        buffs: [],
-        debuffs: []
-      },
-      currentTurn: 1,
-      currentPlayer: 1,
-      battleLog: [],
-      status: 'in_progress',
-      createdAt: new Date().toISOString()
+    setShowBattleResult(false)
+    setBattleResult(null)
+    setCurrentBattle(BattleEngine.initBattle(player, opponent, 'ranked'))
+  }
+
+  const finishBattle = (battle: Battle) => {
+    setBattleResult({ battle, isVictory: battle.winner === 1 })
+    setShowBattleResult(true)
+    setCurrentBattle(null)
+  }
+
+  useEffect(() => {
+    if (!currentBattle || currentBattle.status !== 'in_progress') return
+
+    const timer = window.setTimeout(() => {
+      const next = BattleEngine.executeTurn(currentBattle, BattleEngine.makeAIDecision(currentBattle))
+      if (next.status === 'finished') {
+        finishBattle(next)
+      } else {
+        setCurrentBattle(next)
+      }
+    }, 900)
+
+    return () => window.clearTimeout(timer)
+  }, [currentBattle])
+
+  const applyBattleAction = (battle: Battle, action: { type: 'attack' | 'skill'; skillId?: string }) => {
+    const next = BattleEngine.executeTurn(battle, action)
+    if (next.status === 'finished') {
+      finishBattle(next)
+    } else {
+      setCurrentBattle(next)
     }
-    setCurrentBattle(battle)
   }
 
   const handleBattleEnd = (battle: Battle, isVictory: boolean) => {
@@ -222,7 +224,11 @@ export const MainNavigationTabs: React.FC = () => {
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              data-testid={`nav-tab-${tab.id}`}
+              onClick={() => {
+                setActiveTab(tab.id)
+                if (tab.id === 'energy') setEnergyView('dashboard')
+              }}
               className={`
                 tab-button
                 flex-1 px-2 py-3 flex items-center justify-center gap-1
@@ -240,12 +246,21 @@ export const MainNavigationTabs: React.FC = () => {
         })}
       </div>
 
+      <div className="flex flex-wrap gap-1 px-2 py-1 border-b border-white/10 bg-black/20">
+        <button type="button" className="px-2 py-1 text-[11px] text-cyan-200 hover:bg-white/10 rounded" onClick={() => { setActiveTab('energy'); setEnergyView('dashboard') }}>能耗仪表盘</button>
+        <button type="button" className="px-2 py-1 text-[11px] text-cyan-200 hover:bg-white/10 rounded" onClick={() => { setActiveTab('energy'); setEnergyView('chart') }}>能耗图表</button>
+        <button type="button" className="px-2 py-1 text-[11px] text-cyan-200 hover:bg-white/10 rounded" onClick={() => { setActiveTab('energy'); setEnergyView('budget') }}>预算设置</button>
+        <button type="button" className="px-2 py-1 text-[11px] text-cyan-200 hover:bg-white/10 rounded" onClick={() => setActiveTab('battle')}>PvP对战</button>
+      </div>
+
       {/* 标签页内容 */}
       <div className="flex-1 overflow-auto">
         {activeTab === 'tasks' && <TaskManagementPanel />}
         {activeTab === 'prophet-demo' && <ProphetDemoPanel />}
         {activeTab === 'ai-assistant' && <AIAssistantPanel />}
-        {activeTab === 'energy' && <EnergyDashboard />}
+        {activeTab === 'energy' && energyView === 'dashboard' && <EnergyDashboard />}
+        {activeTab === 'energy' && energyView === 'chart' && <EnergyChart />}
+        {activeTab === 'energy' && energyView === 'budget' && <EnergyBudgetSettings />}
         {activeTab === 'skills' && firstAgent && (
           <SkillTreePanel agent={firstAgent} onUpgradeSkill={handleUpgradeSkill} />
         )}
@@ -276,8 +291,12 @@ export const MainNavigationTabs: React.FC = () => {
         <div className="fixed inset-0 z-50">
           <BattleArena
             battle={currentBattle}
-            onUseSkill={(skillId) => console.log('使用技能:', skillId)}
-            onEndTurn={() => console.log('结束回合')}
+            onUseSkill={(skillIndex) => {
+              const skill = currentBattle.player1.battleSkills[skillIndex]
+              if (!skill) return
+              applyBattleAction(currentBattle, { type: 'skill', skillId: skill.id })
+            }}
+            onEndTurn={() => applyBattleAction(currentBattle, { type: 'attack' })}
             onSurrender={() => handleBattleEnd(currentBattle, false)}
           />
         </div>

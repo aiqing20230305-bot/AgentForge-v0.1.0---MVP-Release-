@@ -3,7 +3,7 @@
  * Task #85: 创建自定义Dashboard - 拖拽式布局编辑器
  */
 
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import type { OpenClawAgent } from '../../utils/openclawLoader'
 import type { Task } from '../../types/task'
 

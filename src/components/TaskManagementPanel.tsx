@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTaskStore } from '../stores/taskStore'
 import {
   Plus,
@@ -14,6 +14,7 @@ import { TaskDetailDrawer } from './TaskDetailDrawer'
 import { TaskSearchBar } from './TaskSearchBar'
 // import { VirtualizedTaskList } from './VirtualizedTaskList' // Temporarily disabled for v1.1.0 screenshots
 import { TaskListItem } from './TaskListItem'
+import { useTaskAutoExecution } from '../hooks/useTaskAutoExecution'
 
 export default function TaskManagementPanel() {
   const {
@@ -27,6 +28,8 @@ export default function TaskManagementPanel() {
     setSearchTerm
   } = useTaskStore()
   const [showNewTaskModal, setShowNewTaskModal] = useState(false)
+  const [autoExecuteEnabled, setAutoExecuteEnabled] = useState(true)
+  const { executeTask } = useTaskAutoExecution()
   const [chatTask, setChatTask] = useState<Task | null>(null)
   const [detailTaskId, setDetailTaskId] = useState<string | null>(null)
   const [autoExecutionEnabled, setAutoExecutionEnabled] = useState(true)
@@ -69,7 +72,7 @@ export default function TaskManagementPanel() {
               }`}
             >
               {autoExecutionEnabled ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
-              自动执行
+              自动运行
             </button>
             <button
               onClick={e => {
@@ -82,6 +85,15 @@ export default function TaskManagementPanel() {
               <Plus className="w-3 h-3" />
               新增任务
             </button>
+            <label className="flex items-center gap-2 text-xs text-amber-100">
+              <input
+                type="checkbox"
+                aria-label="自动执行"
+                checked={autoExecuteEnabled}
+                onChange={e => setAutoExecuteEnabled(e.target.checked)}
+              />
+              自动执行
+            </label>
           </div>
         </div>
 
@@ -204,6 +216,7 @@ export default function TaskManagementPanel() {
                 onSelect={() => {}}
                 onChat={() => setChatTask(task)}
                 onViewDetail={() => setDetailTaskId(task.id)}
+                onExecute={autoExecuteEnabled && task.status === 'pending' ? () => { void executeTask(task.id) } : undefined}
                 unreadCount={0}
               />
             ))}
@@ -226,6 +239,14 @@ export default function TaskManagementPanel() {
 // 新增任务模态框组件
 export function NewTaskModal({ onClose }: { onClose: () => void }) {
   const { addTask, selectedAgentId } = useTaskStore()
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -262,6 +283,7 @@ export function NewTaskModal({ onClose }: { onClose: () => void }) {
             <label className="block text-xs text-amber-100/80 mb-1">任务标题 *</label>
             <input
               type="text"
+              name="title"
               value={formData.title}
               onChange={e => setFormData({ ...formData, title: e.target.value })}
               required
@@ -274,9 +296,9 @@ export function NewTaskModal({ onClose }: { onClose: () => void }) {
           <div>
             <label className="block text-xs text-amber-100/80 mb-1">任务描述 *</label>
             <textarea
+              name="description"
               value={formData.description}
               onChange={e => setFormData({ ...formData, description: e.target.value })}
-              required
               rows={4}
               className="w-full px-3 py-2 text-sm bg-[#0a0a0a] border border-[#3a3a3a] text-amber-100 rounded resize-none"
               placeholder="详细描述任务内容和要求"
@@ -287,6 +309,7 @@ export function NewTaskModal({ onClose }: { onClose: () => void }) {
           <div>
             <label className="block text-xs text-amber-100/80 mb-1">优先级</label>
             <select
+              name="priority"
               value={formData.priority}
               onChange={e => setFormData({ ...formData, priority: e.target.value as TaskPriority })}
               className="w-full px-3 py-2 text-sm bg-[#0a0a0a] border border-[#3a3a3a] text-amber-100 rounded"

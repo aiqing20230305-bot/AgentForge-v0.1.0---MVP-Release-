@@ -27,6 +27,9 @@ interface BuildState {
   // Settings
   settings: Settings
   settingsOpen: boolean
+  selectedAgentId: string | null
+  toggleSettings: () => void
+  selectAgent: (agentId: string) => void
 
   // Loadouts
   loadouts: Loadout[]
@@ -98,6 +101,9 @@ export const useBuildStore = create<BuildState>((set, get) => ({
   setDraggingItem: item => set({ draggingItem: item }),
   settings: DEFAULT_SETTINGS,
   settingsOpen: false,
+  selectedAgentId: null,
+  toggleSettings: () => set(state => ({ settingsOpen: !state.settingsOpen })),
+  selectAgent: agentId => set({ selectedAgentId: agentId }),
   loadouts: [],
   activeLoadoutId: null,
   previewOpen: false,

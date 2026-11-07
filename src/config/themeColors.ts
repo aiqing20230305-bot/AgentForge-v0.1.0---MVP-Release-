@@ -340,9 +340,3 @@ export function isAccessible(
   const ratio = getContrastRatio(foreground, background)
   return level === 'AA' ? ratio >= 4.5 : ratio >= 7
 }
-
-/**
- * 导出所有颜色用于类型定义
- */
-export type { ColorScheme }
-export { lightColors, darkColors, darkHighContrastColors }

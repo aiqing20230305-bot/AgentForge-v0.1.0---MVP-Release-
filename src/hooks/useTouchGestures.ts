@@ -130,7 +130,7 @@ export function useLongPress(
     touchPositionRef.current = undefined
   }, [])
 
-  const handleTouchMove = useCallback(() => {
+  const handleTouchMove = useCallback((_event?: TouchEvent) => {
     // Cancel long press if finger moves
     if (timerRef.current) {
       clearTimeout(timerRef.current)

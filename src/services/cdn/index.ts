@@ -89,6 +89,8 @@ export function getOptimizedUrl(
     height?: number;
     quality?: number;
     format?: 'webp' | 'avif' | 'jpeg' | 'png' | 'auto';
+    fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside';
+    blur?: number;
   }
 ): string {
   const { imageOptimizer } = require('./imageOptimizer');

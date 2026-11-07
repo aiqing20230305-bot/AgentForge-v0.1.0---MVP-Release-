@@ -22,8 +22,8 @@ test.describe('PvP战斗测试', () => {
 
     // 验证显示玩家和对手属性
     await expect(page.locator('text=/HP:?\\s*\\d+/')).toHaveCount(2) // 玩家和对手各一个
-    await expect(page.locator('text=/攻击:?\\s*\\d+/')).toBeVisible()
-    await expect(page.locator('text=/防御:?\\s*\\d+/')).toBeVisible()
+    await expect(page.locator('text=/攻击:?\\s*\\d+/')).toHaveCount(2)
+    await expect(page.locator('text=/防御:?\\s*\\d+/')).toHaveCount(2)
 
     // 验证 VS 动画显示
     await expect(page.locator('text=VS')).toBeVisible()
@@ -121,7 +121,7 @@ test.describe('PvP战斗测试', () => {
     }
 
     // 验证粒子特效（检查动画元素）
-    const particles = page.locator('[class*="particle"], [class*="absolute"]')
+    const particles = page.locator('[class*="particle"]')
     await expect(particles.first()).toBeVisible()
 
     // 验证"再战一场"按钮

@@ -6,11 +6,11 @@ import React, { lazy, Suspense } from 'react'
 import { Loader2 } from 'lucide-react'
 
 // 懒加载各种图表类型
-const LazyLineChart = lazy(() => import('./charts/LineChartWrapper'))
-const LazyBarChart = lazy(() => import('./charts/BarChartWrapper'))
-const LazyAreaChart = lazy(() => import('./charts/AreaChartWrapper'))
-const LazyPieChart = lazy(() => import('./charts/PieChartWrapper'))
-const LazyRadarChart = lazy(() => import('./charts/RadarChartWrapper'))
+const LazyLineChart = lazy(() => import('./LineChartWrapper'))
+const LazyBarChart = lazy(() => import('./BarChartWrapper'))
+const LazyAreaChart = lazy(() => import('./AreaChartWrapper'))
+const LazyPieChart = lazy(() => import('./PieChartWrapper'))
+const LazyRadarChart = lazy(() => import('./RadarChartWrapper'))
 
 // 加载中占位符
 function ChartSkeleton() {
@@ -66,25 +66,25 @@ export function LazyChart({ type, data, config, className = '' }: LazyChartProps
 export function preloadChart(type: ChartType) {
   switch (type) {
     case 'line':
-      return import('./charts/LineChartWrapper')
+      return import('./LineChartWrapper')
     case 'bar':
-      return import('./charts/BarChartWrapper')
+      return import('./BarChartWrapper')
     case 'area':
-      return import('./charts/AreaChartWrapper')
+      return import('./AreaChartWrapper')
     case 'pie':
-      return import('./charts/PieChartWrapper')
+      return import('./PieChartWrapper')
     case 'radar':
-      return import('./charts/RadarChartWrapper')
+      return import('./RadarChartWrapper')
   }
 }
 
 // 预加载所有图表（在路由即将进入分析页面时调用）
 export function preloadAllCharts() {
   return Promise.all([
-    import('./charts/LineChartWrapper'),
-    import('./charts/BarChartWrapper'),
-    import('./charts/AreaChartWrapper'),
-    import('./charts/PieChartWrapper'),
-    import('./charts/RadarChartWrapper')
+    import('./LineChartWrapper'),
+    import('./BarChartWrapper'),
+    import('./AreaChartWrapper'),
+    import('./PieChartWrapper'),
+    import('./RadarChartWrapper')
   ])
 }

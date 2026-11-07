@@ -118,7 +118,7 @@ export const EnergyDashboard: React.FC = () => {
           <div className="bg-white/5 border border-white/20 rounded-lg p-4">
             <div className="flex items-center gap-2 mb-2">
               <DollarSign className="w-4 h-4 text-green-400" />
-              <h3 className="text-sm font-bold text-white/80">本月成本</h3>
+              <h3 className="text-sm font-bold text-white/80">成本估算</h3>
             </div>
             <div className="text-2xl font-bold text-green-300">
               ${calculateCost(usage.month).toFixed(2)}
@@ -272,10 +272,10 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
  * 根据百分比返回颜色
  */
 function getProgressColor(percent: number, threshold: number): string {
-  if (percent >= 100) return '#EF4444' // 红色
-  if (percent >= threshold) return '#F59E0B' // 橙色
-  if (percent >= 50) return '#FBBF24' // 黄色
-  return '#10B981' // 绿色
+  if (percent >= 100) return '#EF4444'
+  if (percent >= threshold) return '#F97316'
+  if (percent >= 50) return '#FCD34D'
+  return '#22C55E'
 }
 
 /**

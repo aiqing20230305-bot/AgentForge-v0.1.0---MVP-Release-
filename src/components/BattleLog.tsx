@@ -72,7 +72,7 @@ const BattleLogItem: React.FC<BattleLogItemProps> = ({ log, index, showTimestamp
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 20 }}
       transition={{ delay: index * 0.05 }}
-      className={`mb-2 flex items-start gap-2 ${color}`}
+      className={`log-entry mb-2 flex items-start gap-2 ${color}`}
     >
       {/* 图标 */}
       <span className="flex-shrink-0 mt-0.5">{icon}</span>

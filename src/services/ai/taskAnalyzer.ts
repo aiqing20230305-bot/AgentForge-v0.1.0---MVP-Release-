@@ -286,7 +286,7 @@ export class TaskAnalyzer {
     if (!agent.skills || agent.skills.length === 0) return 50
 
     const taskKeywords = this.extractTaskKeywords(task)
-    const agentSkillNames = agent.skills.map(s => s.name.toLowerCase())
+    const agentSkillNames = agent.skills.map(s => (typeof s === 'string' ? s : s.name).toLowerCase())
 
     let matchCount = 0
     for (const keyword of taskKeywords) {

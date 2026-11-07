@@ -3,7 +3,7 @@
  * FOMO机制：今日不做，奖励消失！
  */
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { CheckCircle, Circle, Gift, Clock, Flame, Star, X, Minimize2 } from 'lucide-react'
 import { useInstantFeedback } from '../hooks/useInstantFeedback'
@@ -18,6 +18,10 @@ export interface DailyQuest {
   progress: number
   target: number
   completed: boolean
+  requirement?: {
+    type: string
+    target: number
+  }
   reward: {
     exp: number
     coins: number
@@ -52,7 +56,7 @@ export const DailyQuestPanel: React.FC = () => {
         {
           id: 'quest-1',
           title: '完成5个任务',
-          description: '今日完成5个任何类型的任务',
+          description: '完成5个任何类型的任务',
           progress: 0,
           target: 5,
           completed: false,
@@ -130,15 +134,15 @@ export const DailyQuestPanel: React.FC = () => {
         }
 
         // 其他任务类型的进度追踪
-        if (q.id === 'daily_earn_coins' && q.requirement.type === 'earn_coins') {
+        if (q.id === 'daily_earn_coins' && q.requirement?.type === 'earn_coins') {
           // 金币获取追踪
-          const totalCoins = agents.reduce((sum, a) => sum + (a.metadata?.coins || 0), 0)
+          const totalCoins = agentsCache.reduce((sum, a) => sum + (a.metadata?.coins || 0), 0)
           q.progress = Math.min(totalCoins, q.requirement.target)
         }
 
-        if (q.id === 'daily_level_up' && q.requirement.type === 'level_up') {
+        if (q.id === 'daily_level_up' && q.requirement?.type === 'level_up') {
           // 升级追踪
-          const todayLevelUps = agents.filter(a => {
+          const todayLevelUps = agentsCache.filter(a => {
             const lastLevelUp = a.levelSystem?.lastLevelUp
             if (!lastLevelUp) return false
             const diff = Date.now() - new Date(lastLevelUp).getTime()
@@ -214,7 +218,7 @@ export const DailyQuestPanel: React.FC = () => {
   if (!isVisible) return null
 
   return (
-    <div data-testid="daily-quest-panel" className="fixed bottom-6 right-6 z-40">
+    <div data-testid="daily-quest-panel" className="fixed bottom-6 left-6 z-30">
       <motion.div
         initial={{ x: 400 }}
         animate={{ x: 0 }}
@@ -368,7 +372,7 @@ export const DailyQuestPanel: React.FC = () => {
         {completedCount > 0 && (
           <div className="p-4 bg-gradient-to-r from-green-900/30 to-blue-900/30 border-t border-gray-700">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-300">今日可获得：</span>
+              <span className="text-gray-300">可获得奖励：</span>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1 text-blue-400 font-bold">
                   <Star className="w-4 h-4" />

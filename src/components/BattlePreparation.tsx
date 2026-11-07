@@ -111,7 +111,7 @@ export const BattlePreparation: React.FC<BattlePreparationProps> = ({
 
                 {/* 胜率预测 */}
                 <div className="text-center bg-black/50 border border-gray-700 rounded-lg p-4">
-                  <div className="text-sm text-gray-400 mb-2">胜率预测</div>
+                  <div className="text-sm text-gray-400 mb-2">胜率: {winRate}%</div>
                   <div className="text-3xl font-bold" style={{ color: winRate >= 60 ? '#10B981' : winRate >= 40 ? '#F59E0B' : '#EF4444' }}>
                     {winRate}%
                   </div>
@@ -145,7 +145,7 @@ export const BattlePreparation: React.FC<BattlePreparationProps> = ({
                     setSelectedOpponent(opponent)
                   }}
                   className={`
-                    cursor-pointer rounded-lg p-3 border-2 transition-all feedback-button-scale
+                    opponent-card cursor-pointer rounded-lg p-3 border-2 transition-all feedback-button-scale
                     ${isSelected
                       ? 'bg-red-900/30 border-red-500 shadow-lg shadow-red-500/30'
                       : 'bg-gray-800 border-gray-700 hover:border-gray-500'
@@ -252,7 +252,7 @@ const StatBar: React.FC<StatBarProps> = ({ icon, label, value, max, color }) => 
       <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
         <div className="flex items-center gap-1">
           {icon}
-          <span>{label}</span>
+          <span>{label}: {value}</span>
         </div>
         <span className="font-bold text-white">{value}</span>
       </div>

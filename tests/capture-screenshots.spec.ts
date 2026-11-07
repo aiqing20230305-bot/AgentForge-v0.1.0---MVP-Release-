@@ -54,9 +54,7 @@ test.describe('产品截图生成', () => {
   test('3. 能耗仪表板截图 (screenshot-energy-dashboard.png)', async ({ page }) => {
     console.log('📸 拍摄能耗仪表板...')
 
-    // 使用nth选择第2个导航按钮（索引1）
-    const navButtons = page.locator('.w-\\[480px\\] button').filter({ has: page.locator('svg') })
-    await navButtons.nth(1).click()
+    await page.getByRole('button', { name: '能耗仪表盘', exact: true }).click()
     await page.waitForTimeout(2000)
 
     await page.screenshot({
@@ -70,9 +68,7 @@ test.describe('产品截图生成', () => {
   test('4. 技能树截图 (screenshot-skill-tree.png)', async ({ page }) => {
     console.log('📸 拍摄技能树...')
 
-    // 点击第3个导航按钮（索引2）
-    const navButtons = page.locator('.w-\\[480px\\] button').filter({ has: page.locator('svg') })
-    await navButtons.nth(2).click()
+    await page.getByTestId('nav-tab-skills').click()
     await page.waitForTimeout(2000)
 
     await page.screenshot({
@@ -86,9 +82,7 @@ test.describe('产品截图生成', () => {
   test('5. 成就面板截图 (screenshot-achievements.png)', async ({ page }) => {
     console.log('📸 拍摄成就面板...')
 
-    // 点击第4个导航按钮（索引3）
-    const navButtons = page.locator('.w-\\[480px\\] button').filter({ has: page.locator('svg') })
-    await navButtons.nth(3).click()
+    await page.getByTestId('nav-tab-achievements').click()
     await page.waitForTimeout(2000)
 
     await page.screenshot({
@@ -102,9 +96,7 @@ test.describe('产品截图生成', () => {
   test('6. PvP战斗截图 (screenshot-pvp-battle.png)', async ({ page }) => {
     console.log('📸 拍摄PvP战斗...')
 
-    // 点击第5个导航按钮（索引4）
-    const navButtons = page.locator('.w-\\[480px\\] button').filter({ has: page.locator('svg') })
-    await navButtons.nth(4).click()
+    await page.getByRole('button', { name: 'PvP对战', exact: true }).click()
     await page.waitForTimeout(2000)
 
     await page.screenshot({
@@ -151,11 +143,17 @@ test.describe('功能验证测试', () => {
       { name: 'PvP对战', index: 4 }
     ]
 
-    const navButtons = page.locator('.w-\\[480px\\] button').filter({ has: page.locator('svg') })
+    const tabTargets = [
+      page.getByRole('button', { name: '任务', exact: true }).first(),
+      page.getByRole('button', { name: '能耗仪表盘', exact: true }),
+      page.getByTestId('nav-tab-skills'),
+      page.getByTestId('nav-tab-achievements'),
+      page.getByRole('button', { name: 'PvP对战', exact: true })
+    ]
 
-    for (const tab of tabs) {
+    for (const [index, tab] of tabs.entries()) {
       try {
-        await navButtons.nth(tab.index).click()
+        await tabTargets[index].click()
         await page.waitForTimeout(500)
         console.log(`  ✅ ${tab.name} - 可访问`)
       } catch (error) {
@@ -167,9 +165,7 @@ test.describe('功能验证测试', () => {
   test('验证：Agent数据扩展字段已初始化', async ({ page }) => {
     console.log('🧪 测试Agent数据初始化...')
 
-    // 点击技能树标签
-    const navButtons = page.locator('.w-\\[480px\\] button').filter({ has: page.locator('svg') })
-    await navButtons.nth(2).click()
+    await page.getByTestId('nav-tab-skills').click()
     await page.waitForTimeout(1500)
 
     // 检查是否显示"数据未初始化"错误
@@ -192,9 +188,7 @@ test.describe('功能验证测试', () => {
   test('验证：能耗仪表板正常显示', async ({ page }) => {
     console.log('🧪 测试能耗仪表板...')
 
-    // 点击能耗标签
-    const navButtons = page.locator('.w-\\[480px\\] button').filter({ has: page.locator('svg') })
-    await navButtons.nth(1).click()
+    await page.getByRole('button', { name: '能耗仪表盘', exact: true }).click()
     await page.waitForTimeout(1500)
 
     // 检查关键元素

@@ -148,8 +148,8 @@ class AudioSystem {
   /**
    * 播放音效
    */
-  play(type: SoundType, volume: number = 1) {
-    if (!this.soundEnabled || !this.audioContext) return
+  play(type: SoundType, volume: number = 1): Promise<void> {
+    if (!this.soundEnabled || !this.audioContext) return Promise.resolve()
 
     // 如果音频上下文被挂起，恢复它
     if (this.audioContext.state === 'suspended') {
@@ -161,7 +161,7 @@ class AudioSystem {
     // 如果没有预加载，实时生成
     if (!buffer) {
       buffer = this.generateSound(type) || undefined
-      if (!buffer) return
+      if (!buffer) return Promise.resolve()
       this.sounds.set(type, buffer)
     }
 
@@ -179,6 +179,13 @@ class AudioSystem {
     } catch (error) {
       console.error('[AudioSystem] Failed to play sound:', type, error)
     }
+
+    return Promise.resolve()
+  }
+
+  /** Alias used by UI callers that expect a named sound helper. */
+  playSound(type: SoundType, volume: number = 1): Promise<void> {
+    return this.play(type, volume)
   }
 
   /**

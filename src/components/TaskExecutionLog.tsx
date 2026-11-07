@@ -28,7 +28,7 @@ export const TaskExecutionLog: React.FC<TaskExecutionLogProps> = ({ logs, maxHei
 
   if (logs.length === 0) {
     return (
-      <div className="bg-black/90 rounded-lg p-4 text-center" style={{ maxHeight }}>
+      <div className="bg-black/90 rounded-lg p-4 text-center font-mono" style={{ maxHeight, fontFamily: 'font-mono, ui-monospace, monospace' }}>
         <p className="text-green-500/50 text-sm">暂无执行日志</p>
       </div>
     )
@@ -64,7 +64,7 @@ export const TaskExecutionLog: React.FC<TaskExecutionLogProps> = ({ logs, maxHei
       {/* 日志内容 */}
       <div
         className="bg-black/90 rounded-lg p-4 overflow-y-auto font-mono text-xs pt-10"
-        style={{ maxHeight }}
+        style={{ maxHeight, fontFamily: 'font-mono, ui-monospace, monospace' }}
       >
         <div className="space-y-1">
           {logs.map((log, index) => {

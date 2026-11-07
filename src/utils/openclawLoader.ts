@@ -14,6 +14,19 @@ export interface OpenClawAgent {
   color: string
   avatar?: string
   description?: string
+  ownerId?: string
+  socialStats?: {
+    likes?: number
+    comments?: number
+  }
+  battleStats?: {
+    wins?: number
+    winRate?: number
+  }
+  stats?: {
+    tasksCompleted?: number
+    taskSuccessRate?: number
+  }
   sourceId?: string
   sourceName?: string
   metadata?: {

@@ -21,6 +21,12 @@ test.describe('v0.3.0 Product Screenshots', () => {
 
     // 等待主应用渲染
     await page.waitForSelector('[data-testid="main-app"]', { timeout: 10000 })
+
+    const skipButton = page.locator('button:has-text("跳过向导"), button:has-text("跳过")').first()
+    if (await skipButton.isVisible({ timeout: 3000 }).catch(() => false)) {
+      await skipButton.click()
+    }
+
     await page.waitForTimeout(2000) // 等待动画完成
   })
 

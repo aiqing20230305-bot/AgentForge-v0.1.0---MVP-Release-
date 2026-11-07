@@ -76,6 +76,7 @@ export function BottomTabBar({ activeTab: controlledActiveTab, onTabChange }: Bo
         {tabs.map(tab => (
           <button
             key={tab.id}
+            data-testid={`nav-tab-${tab.id}`}
             onClick={() => handleTabClick(tab.id)}
             className={`
               flex flex-col items-center justify-center

@@ -37,9 +37,9 @@ test.describe('性能测试', () => {
       }
     }
 
-    // 验证所有任务都渲染出来
-    const tasks = page.locator('[class*="task-card"]')
-    await expect(tasks).toHaveCount(createTasksCount, { timeout: 10000 })
+    // 验证本次创建的任务全部渲染；种子任务仍然保留在列表中
+    const createdTasks = page.locator('[class*="task-card"]').filter({ hasText: '性能测试任务' })
+    await expect(createdTasks).toHaveCount(createTasksCount, { timeout: 10000 })
 
     // 测试滚动性能
     const startScroll = Date.now()

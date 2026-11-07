@@ -315,7 +315,10 @@ export const AnalyticsDashboard: React.FC = () => {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ type, percentage }) => `${type}: ${percentage}%`}
+                  label={(entry) => {
+                    const point = entry as { type?: string; percentage?: number }
+                    return `${point.type}: ${point.percentage}%`
+                  }}
                   outerRadius={80}
                   dataKey="count"
                 >

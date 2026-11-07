@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
 import path from 'path'
 
 export default defineConfig({
@@ -17,6 +19,16 @@ export default defineConfig({
     // 禁用Electron标志
     'process.env.IS_ELECTRON': JSON.stringify('false')
   },
+  css: {
+    postcss: {
+      plugins: [
+        tailwindcss({
+          config: path.resolve(__dirname, 'backend/config/tailwind.config.js'),
+        }),
+        autoprefixer(),
+      ],
+    },
+  },
   build: {
     outDir: 'dist',
     // 代码分割优化
@@ -32,7 +44,7 @@ export default defineConfig({
           // 图表库
           'charts-vendor': ['recharts'],
           // 国际化
-          'i18n-vendor': ['i18next', 'react-i18next', 'i18next-browser-languagedetector']
+          'i18n-vendor': ['i18next', 'react-i18next']
         },
         // 文件名模式
         chunkFileNames: 'assets/js/[name]-[hash].js',

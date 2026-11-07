@@ -46,7 +46,7 @@ test.describe('能耗管理测试', () => {
       await page.click(`button:has-text("${type}")`)
 
       // 验证图表正确渲染（Recharts 会生成 SVG）
-      await expect(page.locator('svg.recharts-surface')).toBeVisible({ timeout: 3000 })
+      await expect(page.locator('svg.recharts-surface[role="application"]')).toBeVisible({ timeout: 3000 })
 
       // 等待图表渲染完成
       await page.waitForTimeout(500)

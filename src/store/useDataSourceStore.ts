@@ -98,8 +98,11 @@ export interface AgentData {
   level: number
   exp: number
   maxExp: number
-  role: string
-  skills: string[]
+  role?: string
+  skills?: string[]
+  coins?: number
+  completedTasks?: number
+  levelHistory?: LevelUpRecord[]
   personality?: string
   status: 'online' | 'offline' | 'working' | 'idle' | 'unknown'
   color?: string
@@ -113,11 +116,14 @@ export interface AgentData {
   // Energy tracking
   energyStats?: {
     totalTokensUsed: number
-    tokensUsedToday: number
-    tokensUsedThisWeek: number
-    tokensUsedThisMonth: number
-    averagePerTask: number
-    peakTokensPerHour: number
+    tokensUsedToday?: number
+    tokensUsedThisWeek?: number
+    tokensUsedThisMonth?: number
+    averagePerTask?: number
+    peakTokensPerHour?: number
+    totalCostUSD?: number
+    averageTokensPerTask?: number
+    lastUpdated?: string
   }
   energyBudget?: {
     dailyLimit: number
@@ -135,6 +141,7 @@ export interface AgentData {
     totalExp: number
     prestigeLevel: number
     levelHistory: LevelUpRecord[]
+    lastLevelUp?: string
   }
 
   // Skill tree
@@ -216,6 +223,11 @@ interface DataSourceStore {
   updateAgentsCache: (agents: AgentData[]) => void
   getAgentsBySource: (sourceId: string) => AgentData[]
   clearAgentsCache: () => void
+  getAgentById: (id: string) => AgentData | undefined
+  updateAgent: (id: string, updates: Partial<AgentData>) => void
+  updateAgentInCache: (id: string, updates: Partial<AgentData>) => void
+  addAgent: (agent: AgentData) => void
+  deleteAgent: (id: string) => void
 
   // 游戏化功能
   addAgentExp: (agentId: string, expAmount: number) => void
@@ -343,6 +355,41 @@ export const useDataSourceStore = create<DataSourceStore>()(
 
       clearAgentsCache: () => {
         set({ agentsCache: [] })
+      },
+
+      getAgentById: id => {
+        return get().agentsCache.find(agent => agent.id === id)
+      },
+
+      updateAgent: (id, updates) => {
+        set(state => ({
+          agentsCache: state.agentsCache.map(agent =>
+            agent.id === id ? { ...agent, ...updates } : agent
+          )
+        }))
+      },
+
+      updateAgentInCache: (id, updates) => {
+        get().updateAgent(id, updates)
+      },
+
+      addAgent: agent => {
+        set(state => {
+          const exists = state.agentsCache.some(existing => existing.id === agent.id)
+          return {
+            agentsCache: exists
+              ? state.agentsCache.map(existing =>
+                  existing.id === agent.id ? { ...existing, ...agent } : existing
+                )
+              : [...state.agentsCache, agent]
+          }
+        })
+      },
+
+      deleteAgent: id => {
+        set(state => ({
+          agentsCache: state.agentsCache.filter(agent => agent.id !== id)
+        }))
       },
 
       /**
