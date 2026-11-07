@@ -19,7 +19,10 @@ export default defineConfig({
     trace: 'off',
     screenshot: 'only-on-failure',
     video: 'off',
-    actionTimeout: 15_000
+    actionTimeout: 15_000,
+    launchOptions: {
+      args: ['--disable-frame-rate-limit', '--disable-gpu-vsync']
+    }
   },
   projects: [
     {
