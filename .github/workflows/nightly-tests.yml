@@ -5,6 +5,12 @@ on:
     # Run every night at 2 AM UTC
     - cron: '0 2 * * *'
   workflow_dispatch: # Allow manual trigger
+  # workflow_dispatch from this agent token returns 403. A pull request that
+  # edits this file runs the same jobs, so the branch can be verified in Actions.
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/nightly-tests.yml'
 
 jobs:
   comprehensive-tests:
